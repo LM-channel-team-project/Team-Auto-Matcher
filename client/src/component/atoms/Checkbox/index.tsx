@@ -1,11 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import * as S from './style';
 
 function Checkbox() {
   return (
-    <Fragment>
-      <S.Input type="checkbox" />
-    </Fragment>
+    <S.Input type="checkbox" />
   );
 }
 

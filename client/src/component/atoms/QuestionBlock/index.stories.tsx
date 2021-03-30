@@ -1,16 +1,16 @@
 import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
-import Checkbox from '.';
+import QuestionBlock from '.';
 
 export default {
-  title: 'Atoms/Checkbox',
-  component: Checkbox,
+  title: 'Atoms/QuestionBlock',
+  component: QuestionBlock,
 };
 
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <Checkbox />
+      <QuestionBlock />
     </GlobalThemeProvider>
   );
 }
