@@ -1,9 +1,13 @@
 import React from 'react';
 import * as S from './style';
 
-function Checkbox() {
+interface ICheckbox {
+  className?: string;
+}
+
+function Checkbox({ className }: ICheckbox) {
   return (
-    <S.Input type="checkbox" />
+    <S.Input className={className} type="checkbox" />
   );
 }
 

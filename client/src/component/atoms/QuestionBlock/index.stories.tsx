@@ -10,7 +10,7 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <QuestionBlock />
+      <QuestionBlock text={'hi'} />
     </GlobalThemeProvider>
   );
 }

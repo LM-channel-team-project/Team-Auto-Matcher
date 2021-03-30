@@ -1,9 +1,14 @@
 import React from 'react';
 import * as S from './style';
 
-function QuestionBlock() {
+interface IQuestionBlock {
+  text: string;
+  className?: string;
+}
+
+function QuestionBlock({ text, className }: IQuestionBlock) {
   return (
-    <S.QuestionBlock>text</S.QuestionBlock>
+    <S.QuestionBlock className={className}>{text}</S.QuestionBlock>
   );
 }
 
