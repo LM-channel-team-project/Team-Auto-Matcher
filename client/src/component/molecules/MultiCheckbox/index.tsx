@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import * as S from './style';
 
 interface IMultiCheckbox {
   questionList: string[];
+  bDuplicateSelect?: boolean;
   className?: string;
 }
 
-function MultiCheckbox({ questionList, className }: IMultiCheckbox) {
+function MultiCheckbox({ questionList, bDuplicateSelect = false, className }: IMultiCheckbox) {
+  const checkBoxListElement = useRef<HTMLDivElement>(null);
+
   const CheckboxList = questionList.map((question: string) => (
-    <S.Wrapper>
+    <S.Wrapper key={question} className={'wrapper'}>
       <S.QuestionBlock text={question} />
       <S.Checkbox />
     </S.Wrapper>
   ));
 
+  const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement)?.tagName === 'INPUT') {
+      return;
+    }
+
+    checkBoxListElement?.current?.childNodes.forEach((el: ChildNode) => {
+      const checkboxElement = (el as HTMLDivElement).getElementsByTagName('input')[0];
+      if (!bDuplicateSelect) {
+        checkboxElement.checked = false;
+      }
+    });
+
+    const checkboxElement = (event.target as HTMLElement).closest('.wrapper')?.getElementsByTagName('input')[0];
+    if (checkboxElement) {
+      checkboxElement.checked = !checkboxElement.checked;
+    }
+  };
+
   return (
-    <S.MultiCheckbox className={className}>
+    <S.MultiCheckbox onClick={onClickHandler} ref={checkBoxListElement} className={className}>
       {CheckboxList}
     </S.MultiCheckbox>
   );
