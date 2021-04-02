@@ -5,16 +5,25 @@ import CheckboxComponent from 'component/atoms/Checkbox';
 export const MultiCheckbox = styled.div`
   display: flex;
   justify-content: center;
-  cursor: pointer;
-  user-select: none;
-`;
-
-export const QuestionBlock = styled(QuestionBlockComponent)`
-  padding: 0.2rem 0.6rem;
+;
 `;
 
 export const Checkbox = styled(CheckboxComponent)`
-  margin-right: 0.6rem;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+`;
+
+export const QuestionBlock = styled(QuestionBlockComponent)`
+  width: 100%;
+  height: 100%;
+
+  ${Checkbox}:checked ~ & {
+    background-color: rgba(0,0,0,0.2);
+  }
+  
+  padding: 0.2rem 0.6rem;
 `;
 
 export const Wrapper = styled.div`
@@ -22,4 +31,7 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 0.2rem 0.8rem;
+
+  cursor: pointer;
+  user-select: none;
 `;
