@@ -18,17 +18,21 @@ function MultiCheckbox({ questionList, bDuplicateSelect = false, className }: IM
   ));
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+    const selectCheckboxElement = (event.target as HTMLElement).closest('.wrapper')?.getElementsByTagName('input')[0];
+    if (!selectCheckboxElement) return;
+
+    if (selectCheckboxElement.checked) {
+      selectCheckboxElement.checked = false;
+      return;
+    }
+
     checkBoxListElement?.current?.childNodes.forEach((el: ChildNode) => {
       const checkboxElement = (el as HTMLDivElement).getElementsByTagName('input')[0];
       if (!bDuplicateSelect) {
         checkboxElement.checked = false;
       }
     });
-
-    const checkboxElement = (event.target as HTMLElement).closest('.wrapper')?.getElementsByTagName('input')[0];
-    if (checkboxElement || (event.target as HTMLElement)?.tagName === 'INPUT') {
-      checkboxElement!.checked = true;
-    }
+    selectCheckboxElement.checked = true;
   };
 
   return (

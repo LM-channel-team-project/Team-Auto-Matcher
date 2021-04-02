@@ -5,6 +5,8 @@ import CheckboxComponent from 'component/atoms/Checkbox';
 export const MultiCheckbox = styled.div`
   display: flex;
   justify-content: center;
+  cursor: pointer;
+  user-select: none;
 `;
 
 export const QuestionBlock = styled(QuestionBlockComponent)`
