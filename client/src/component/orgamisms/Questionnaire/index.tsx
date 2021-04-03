@@ -15,6 +15,7 @@ function Questionnaire({
     <S.Questionnaire className={className}>
       <S.QuestionBlock className={`${className}`}>{question}</S.QuestionBlock>
       <S.MultiCheckbox questionList={questionList} bDuplicateSelect={bDuplicateSelect} />
+      <S.ArrowNav />
     </S.Questionnaire>
   );
 }

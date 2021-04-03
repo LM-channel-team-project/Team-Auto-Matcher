@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import QuestionBlockComponent from 'component/atoms/QuestionBlock';
 import MultiCheckboxComponent from 'component/molecules/MultiCheckbox';
+import ArrowNavComponent from 'component/molecules/ArrowNav';
 
 export const Questionnaire = styled.div`
   display: flex;
@@ -21,4 +22,9 @@ export const QuestionBlock = styled(QuestionBlockComponent)`
 `;
 
 export const MultiCheckbox = styled(MultiCheckboxComponent)`
+  margin-bottom: 2rem;
+`;
+
+export const ArrowNav = styled(ArrowNavComponent)`
+  justify-content: center;
 `;

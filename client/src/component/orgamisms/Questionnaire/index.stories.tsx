@@ -3,7 +3,7 @@ import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import Questionnaire from '.';
 
 export default {
-  title: 'Molecules/Questionnaire',
+  title: 'Organisms/Questionnaire',
   component: Questionnaire,
 };
 
