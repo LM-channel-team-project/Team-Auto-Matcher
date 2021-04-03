@@ -8,7 +8,7 @@ export default {
 };
 
 export function Default() {
-  const questionList = ['React', 'Vue', 'Vanila Javascript'];
+  const questionList = ['React', 'Vue', 'Vanila Javascript', 'React', 'Vue', 'Vanila Javascript'];
   return (
     <GlobalThemeProvider>
       <Questionnaire question={'선호하는 기술스택을 고르세요'} questionList={questionList} bDuplicateSelect={false} />

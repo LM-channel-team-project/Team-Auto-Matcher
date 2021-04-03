@@ -13,7 +13,7 @@ function Questionnaire({
 }: IQuestionnaire) {
   return (
     <S.Questionnaire className={className}>
-      <S.QuestionBlock text={question} className={`${className} question`} />
+      <S.QuestionBlock className={`${className}`}>{question}</S.QuestionBlock>
       <S.MultiCheckbox questionList={questionList} bDuplicateSelect={bDuplicateSelect} />
     </S.Questionnaire>
   );
