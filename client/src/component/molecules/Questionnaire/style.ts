@@ -7,15 +7,15 @@ export const Questionnaire = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  padding: 1rem;
+  padding: 1.6rem;
 
-  border: 0.2rem solid black;
+  border: 0.4rem solid black;
 `;
 
 export const QuestionBlock = styled(QuestionBlockComponent)`
   text-align: center; 
 
-  margin-bottom: 1rem;
+  margin-bottom: 1.6rem;
 `;
 
 export const MultiCheckbox = styled(MultiCheckboxComponent)`

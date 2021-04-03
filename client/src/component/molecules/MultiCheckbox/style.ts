@@ -23,11 +23,11 @@ export const QuestionBlock = styled(QuestionBlockComponent)`
     background-color: rgba(0,0,0,0.2);
   }
   
-  padding: 0.2rem 0.6rem;
+  padding: 0.8rem 2rem;
 `;
 
 export const Wrapper = styled.div`
-  border: 0.14rem solid black;
+  border: 0.2rem solid black;
   display: flex;
   align-items: center;
   margin: 0.2rem 0.8rem;
