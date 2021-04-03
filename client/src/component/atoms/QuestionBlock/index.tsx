@@ -2,13 +2,14 @@ import React from 'react';
 import * as S from './style';
 
 interface IQuestionBlock {
-  text: string;
   className?: string;
+  children?: string
+  | React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 }
 
-function QuestionBlock({ text, className }: IQuestionBlock) {
+function QuestionBlock({ className, children }: IQuestionBlock) {
   return (
-    <S.QuestionBlock className={className}>{text}</S.QuestionBlock>
+    <S.QuestionBlock className={className}>{children}</S.QuestionBlock>
   );
 }
 

@@ -10,7 +10,11 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <QuestionBlock text={'hi'} />
+      <QuestionBlock>
+        <span>
+          REACT
+        </span>
+      </QuestionBlock>
     </GlobalThemeProvider>
   );
 }

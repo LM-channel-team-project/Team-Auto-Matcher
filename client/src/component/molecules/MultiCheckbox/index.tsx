@@ -13,8 +13,10 @@ function MultiCheckbox({ questionList, bDuplicateSelect = false, className }: IM
   const CheckboxList = questionList.map((question: string) => (
     <S.Wrapper key={question} className={'wrapper'}>
       <S.Checkbox />
-      <S.QuestionBlock text={question} />
-    </S.Wrapper>
+      <S.QuestionBlock >
+        <span>{question}</span>
+      </S.QuestionBlock>
+    </S.Wrapper >
   ));
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
