@@ -4,12 +4,7 @@ import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import Survey from 'page/Survey';
 import LoginPage from 'page/Login';
 import NotFound from 'page/NotFound';
-
-import Amplify from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
 
 function App() {
   return (

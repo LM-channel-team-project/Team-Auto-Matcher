@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import GoogleLogo from 'image/googlelogo.png';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { Auth, Hub } from 'aws-amplify';
@@ -9,29 +9,26 @@ const googleLoginOnClick = () => Auth.federatedSignIn({
 });
 
 const LoginPage = ({ className }: any) => {
-  const [loginState, setLoginState] = useState<any>({ user: null, customState: null });
-
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
       case 'signIn':
-        setLoginState({ user: data });
         window.location.href = '/';
         break;
       case 'signOut':
-        setLoginState({ user: null });
         break;
       case 'customOAuthState':
-        setLoginState({ customState: data });
         break;
       default:
       }
     });
 
     Auth.currentAuthenticatedUser()
-      .then((user) => setLoginState({ user }))
-      .catch(() => console.log('Not signed in'));
-    return () => setLoginState(null);
+      .then((user) => console.log(user))
+      .catch((e) => {
+        console.log('login error : ', e);
+        console.log('Not signed in');
+      });
   }, []);
 
   return (

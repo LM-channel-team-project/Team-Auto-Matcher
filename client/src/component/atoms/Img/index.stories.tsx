@@ -1,5 +1,5 @@
 import React from 'react';
-import GitHubLogo from 'images/GitHub.png';
+import GoogleLogo from 'image/googlelogo.png';
 import Img from './index';
 
 export default {
@@ -7,4 +7,4 @@ export default {
   component: Img,
 };
 
-export const GitHub = () => <Img src={GitHubLogo} />;
+export const GitHub = () => <Img src={GoogleLogo} />;

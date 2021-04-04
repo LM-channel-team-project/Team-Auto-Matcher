@@ -1,6 +1,6 @@
 import React from 'react';
-import GitHubLogo from 'images/GitHub.png';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
+import GoogleLogo from 'image/googlelogo.png';
 import OAuthLogin from '.';
 
 export default {
@@ -14,7 +14,7 @@ export const GitHubLogin = () => (
       onClick={() => {
         alert('login github');
       }}
-      icon={GitHubLogo}
+      icon={GoogleLogo}
       ButtonTitle={'Login With GitHub'}
     />
   </GlobalThemeProvider>
