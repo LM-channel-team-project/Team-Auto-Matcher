@@ -26,7 +26,6 @@ const LoginPage = ({ className }: any) => {
     Auth.currentAuthenticatedUser()
       .then((user) => console.log(user))
       .catch((e) => {
-        console.log('login error : ', e);
         console.log('Not signed in');
       });
   }, []);
