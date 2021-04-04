@@ -12,10 +12,8 @@ export const getQuestionnaire = /* GraphQL */ `
   }
 `;
 export const listQuestionnaire = /* GraphQL */ `
-  query ListQuestionnaire(
-    $date: AWSDate
-  ) {
-    listQuestionnaire() {
+  query ListQuestionnaire($nextToken: String) {
+    listQuestionnaire(nextToken: $nextToken) {
       items {
         id
         questionTitle
