@@ -11,9 +11,9 @@ export const getQuestionnaire = /* GraphQL */ `
     }
   }
 `;
-export const listQuestionnaire = /* GraphQL */ `
-  query ListQuestionnaire($nextToken: String) {
-    listQuestionnaire(nextToken: $nextToken) {
+export const listQuestionnaires = /* GraphQL */ `
+  query ListQuestionnaires($nextToken: String) {
+    listQuestionnaires(nextToken: $nextToken) {
       items {
         id
         questionTitle
