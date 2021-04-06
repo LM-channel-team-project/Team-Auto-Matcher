@@ -10,7 +10,10 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <ArrowNav />
+      <ArrowNav
+        leftOnClick={() => alert('leftonclick')}
+        rightOnClick={() => alert('rightonclick')}
+      />
     </GlobalThemeProvider>
   );
 }
