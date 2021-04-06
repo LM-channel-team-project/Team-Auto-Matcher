@@ -19,7 +19,7 @@ export const arrowDirection: IArrowDirection = {
   RIGHT: 'RIGHT',
 };
 
-function ArrowBtn({ direction = arrowDirection.LEFT, className }: IArrowBtn) {
+function ArrowBtn({ direction = arrowDirection.LEFT }: IArrowBtn) {
   if (direction === arrowDirection.LEFT) {
     return (
       <svg width="40" height="46" viewBox="0 0 40 46" fill="none" xmlns="http://www.w3.org/2000/svg">
