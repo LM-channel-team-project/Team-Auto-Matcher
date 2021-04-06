@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { listQuestionnaires } from 'graphql/queries';
 import Questionnaire from 'component/orgamisms/Questionnaire';
@@ -9,17 +9,42 @@ function Survey() {
     loading, error, data, refetch,
   } = useQuery(gql`${listQuestionnaires}`);
 
-  const questionnaireList = data.listQuestionnaires.items.map((el: any) => (
-    <Questionnaire
-      key={el.id}
-      question={el.questionTitle}
-      questionList={el.questionList}
-      bDuplicateSelect={el.bDuplicate} />
-  ));
+  const [page, setPage] = useState<number>(0);
+
+  if (loading) {
+    return (<div>loading</div>);
+  }
+
+  const nowQuestionnaire = data.listQuestionnaires.items[page];
+
+  const onIncrease = () => {
+    setPage((prevPage) => {
+      if (prevPage < data.listQuestionnaires.items.length - 1) {
+        return prevPage + 1;
+      }
+      return prevPage;
+    });
+  };
+
+  const onDecrease = () => {
+    setPage((prevPage) => {
+      if (prevPage !== 0) {
+        return prevPage - 1;
+      }
+      return prevPage;
+    });
+  };
 
   return (
     <S.SurveyPage>
-      {questionnaireList}
+      <Questionnaire
+        key={nowQuestionnaire.id}
+        question={nowQuestionnaire.questionTitle}
+        questionList={nowQuestionnaire.questionList}
+        bDuplicateSelect={nowQuestionnaire.bDuplicate}
+        leftOnClick={onDecrease}
+        rightOnClick={onIncrease}
+      />
     </S.SurveyPage>
   );
 }
