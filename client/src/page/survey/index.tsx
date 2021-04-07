@@ -16,10 +16,11 @@ function Survey() {
   }
 
   const nowQuestionnaire = data.listQuestionnaires.items[page];
+  const totalPage = data.listQuestionnaires.items.length;
 
   const onIncrease = () => {
     setPage((prevPage) => {
-      if (prevPage < data.listQuestionnaires.items.length - 1) {
+      if (prevPage < totalPage - 1) {
         return prevPage + 1;
       }
       return prevPage;
@@ -44,6 +45,8 @@ function Survey() {
         bDuplicateSelect={nowQuestionnaire.bDuplicate}
         leftOnClick={onDecrease}
         rightOnClick={onIncrease}
+        currentPage={page + 1}
+        totalPage={totalPage}
       />
     </S.SurveyPage>
   );
