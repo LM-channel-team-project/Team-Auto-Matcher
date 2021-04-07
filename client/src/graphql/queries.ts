@@ -24,3 +24,15 @@ export const listQuestionnaires = /* GraphQL */ `
     }
   }
 `;
+
+export const getUser = /* GraphQL */ `
+  query GetUser {
+    getUser {
+      items {
+        userId 
+        question 
+        owner
+      }
+    }
+  }
+`;
