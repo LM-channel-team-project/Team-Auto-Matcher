@@ -17,6 +17,8 @@ export function Default() {
         bDuplicateSelect={false}
         leftOnClick={() => alert('left')}
         rightOnClick={() => alert('right')}
+        currentPage={3}
+        totalPage={15}
       />
     </GlobalThemeProvider>
   );
