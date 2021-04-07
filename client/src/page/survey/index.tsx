@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { listQuestionnaires } from 'graphql/queries';
+import React, { useState, useRef } from 'react';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import { listQuestionnaires, getUser } from 'graphql/queries';
+import { createUser } from 'graphql/mutations';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
@@ -9,10 +10,28 @@ function Survey() {
     loading, error, data, refetch,
   } = useQuery(gql`${listQuestionnaires}`);
 
+  const {
+    loading: userLoading, error: userError, data: userData, refetch: userRefetch,
+  } = useQuery(gql`${getUser}`);
+
+  const [addUserData] = useMutation(gql`${createUser}`);
+  const bUserUpdating = useRef<boolean>(false);
+
   const [page, setPage] = useState<number>(0);
+
+  if (userError) {
+    console.error('userError', userError);
+  }
+  if (error) {
+    console.error('error : ', error);
+  }
 
   if (loading) {
     return (<div>loading</div>);
+  }
+
+  if (userLoading) {
+    return <>유저로딩중</>;
   }
 
   const nowQuestionnaire = data.listQuestionnaires.items[page];
@@ -35,6 +54,29 @@ function Survey() {
       return prevPage;
     });
   };
+
+  if (!userLoading && !userError) {
+    if (userData) {
+      if (userData.getUser.items.length !== 0) {
+        console.log('userData : ', userData);
+      } else if (bUserUpdating.current === false) {
+        const userId = 'pkiop';
+        const something = [['React', 'Vue.js'], ['부전공']];
+        bUserUpdating.current = true;
+        addUserData({
+          variables: {
+            input: {
+              userId,
+              question: something,
+            },
+          },
+        }).then(() => {
+          bUserUpdating.current = false;
+          userRefetch();
+        });
+      }
+    }
+  }
 
   return (
     <S.SurveyPage>
