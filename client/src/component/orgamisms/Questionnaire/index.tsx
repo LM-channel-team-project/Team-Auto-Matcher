@@ -24,7 +24,6 @@ function Questionnaire({
   totalPage,
   className,
 }: IQuestionnaire) {
-  console.log('selecteddata : ', selectedData);
   return (
     <S.Questionnaire className={className}>
       <div className='header'>
