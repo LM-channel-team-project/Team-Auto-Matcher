@@ -7,6 +7,7 @@ interface IQuestionnaire {
   bDuplicateSelect: boolean;
   leftOnClick: React.MouseEventHandler<HTMLDivElement>;
   rightOnClick: React.MouseEventHandler<HTMLDivElement>;
+  selectedData?: string[],
   currentPage: number;
   totalPage: number;
   className?: string;
@@ -18,17 +19,23 @@ function Questionnaire({
   bDuplicateSelect,
   leftOnClick,
   rightOnClick,
+  selectedData,
   currentPage,
   totalPage,
   className,
 }: IQuestionnaire) {
+  console.log('selecteddata : ', selectedData);
   return (
     <S.Questionnaire className={className}>
       <div className='header'>
         <S.QuestionBlock className={`${className}`}>{question}</S.QuestionBlock>
         <S.PageCnt currentPage={currentPage} totalPage={totalPage} />
       </div>
-      <S.MultiCheckbox questionList={questionList} bDuplicateSelect={bDuplicateSelect} />
+      <S.MultiCheckbox
+        questionList={questionList}
+        selectedData={selectedData}
+        bDuplicateSelect={bDuplicateSelect}
+      />
       <S.ArrowNav leftOnClick={leftOnClick} rightOnClick={rightOnClick}/>
     </S.Questionnaire>
   );

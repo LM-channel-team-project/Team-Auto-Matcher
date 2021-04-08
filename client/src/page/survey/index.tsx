@@ -35,6 +35,7 @@ function Survey() {
   }
 
   const nowQuestionnaire = data.listQuestionnaires.items[page];
+  const nowSelectedData = userData.getUser.items[0].question[page];
   const totalPage = data.listQuestionnaires.items.length;
 
   const onIncrease = () => {
@@ -85,6 +86,7 @@ function Survey() {
         question={nowQuestionnaire.questionTitle}
         questionList={nowQuestionnaire.questionList}
         bDuplicateSelect={nowQuestionnaire.bDuplicate}
+        selectedData={nowSelectedData}
         leftOnClick={onDecrease}
         rightOnClick={onIncrease}
         currentPage={page + 1}

@@ -4,15 +4,18 @@ import * as S from './style';
 interface IMultiCheckbox {
   questionList: string[];
   bDuplicateSelect?: boolean;
+  selectedData?: string[];
   className?: string;
 }
 
-function MultiCheckbox({ questionList, bDuplicateSelect = false, className }: IMultiCheckbox) {
+function MultiCheckbox({
+  questionList, selectedData = [], bDuplicateSelect = false, className,
+}: IMultiCheckbox) {
   const checkBoxListElement = useRef<HTMLDivElement>(null);
 
   const CheckboxList = questionList.map((question: string) => (
     <S.Wrapper key={question} className={'wrapper'}>
-      <S.Checkbox />
+      <S.Checkbox checked={selectedData.includes(question)}/>
       <S.QuestionBlock >
         <span>{question}</span>
       </S.QuestionBlock>
