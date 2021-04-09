@@ -5,11 +5,16 @@ interface IMultiCheckbox {
   questionList: string[];
   bDuplicateSelect?: boolean;
   selectedData?: string[];
+  setSelectedData: React.Dispatch<React.SetStateAction<string[]>>
   className?: string;
 }
 
 function MultiCheckbox({
-  questionList, selectedData = [], bDuplicateSelect = false, className,
+  questionList,
+  bDuplicateSelect = false,
+  selectedData = [],
+  setSelectedData,
+  className,
 }: IMultiCheckbox) {
   const checkBoxListElement = useRef<HTMLDivElement>(null);
 
@@ -29,16 +34,25 @@ function MultiCheckbox({
 
     if (selectCheckboxElement.checked) {
       selectCheckboxElement.checked = false;
-      return;
+    } else {
+      checkBoxListElement?.current?.childNodes.forEach((el: ChildNode) => {
+        const checkboxElement = (el as HTMLDivElement).getElementsByTagName('input')[0];
+        if (!bDuplicateSelect) {
+          checkboxElement.checked = false;
+        }
+      });
+      selectCheckboxElement.checked = true;
     }
 
+    const selectedList: string[] = [];
     checkBoxListElement?.current?.childNodes.forEach((el: ChildNode) => {
       const checkboxElement = (el as HTMLDivElement).getElementsByTagName('input')[0];
-      if (!bDuplicateSelect) {
-        checkboxElement.checked = false;
+      if (checkboxElement.checked) {
+        const selectText = checkboxElement?.nextElementSibling?.textContent;
+        selectedList.push(selectText || '');
       }
     });
-    selectCheckboxElement.checked = true;
+    setSelectedData([...selectedList]);
   };
 
   return (
