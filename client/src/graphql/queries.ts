@@ -29,6 +29,7 @@ export const getUser = /* GraphQL */ `
   query GetUser {
     getUser {
       items {
+        id
         userId 
         question 
         owner
