@@ -38,16 +38,20 @@ function Survey() {
   }
 
   const nowQuestionnaire = data.listQuestionnaires.items[page];
-  const nowSelectedData = userData.getUser.items[0].question[page];
+  const selectedData = userData.getUser.items[0].question;
+  const nowSelectedData = selectedData[page];
   const totalPage = data.listQuestionnaires.items.length;
 
   const updateNowUserQuestion = (nowQuestions: string[]) => {
-    nowSelectedData[page] = nowQuestions;
+    const frontData = selectedData.slice(0, page);
+    const backData = selectedData.slice(page + 1, selectedData.length);
+    const newData = [...frontData, [...nowQuestions], ...backData];
     updateUserData({
       variables: {
         input: {
+          id: userData.getUser.items[0].id,
           userId: userData.getUser.items[0].userId,
-          question: nowSelectedData,
+          question: newData,
         },
       },
     });
