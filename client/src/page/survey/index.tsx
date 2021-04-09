@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
-import { createUser } from 'graphql/mutations';
+import { createUser, updateUser } from 'graphql/mutations';
+
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
@@ -15,6 +16,8 @@ function Survey() {
   } = useQuery(gql`${getUser}`);
 
   const [addUserData] = useMutation(gql`${createUser}`);
+  const [updateUserData] = useMutation(gql`${updateUser}`);
+
   const bUserUpdating = useRef<boolean>(false);
 
   const [page, setPage] = useState<number>(0);
@@ -38,7 +41,20 @@ function Survey() {
   const nowSelectedData = userData.getUser.items[0].question[page];
   const totalPage = data.listQuestionnaires.items.length;
 
-  const onIncrease = () => {
+  const updateNowUserQuestion = (nowQuestions: string[]) => {
+    nowSelectedData[page] = nowQuestions;
+    updateUserData({
+      variables: {
+        input: {
+          userId: userData.getUser.items[0].userId,
+          question: nowSelectedData,
+        },
+      },
+    });
+  };
+
+  const onRightClick = (nowQuestions: string[]) => () => {
+    updateNowUserQuestion(nowQuestions);
     setPage((prevPage) => {
       if (prevPage < totalPage - 1) {
         return prevPage + 1;
@@ -47,7 +63,8 @@ function Survey() {
     });
   };
 
-  const onDecrease = () => {
+  const onLeftClick = (nowQuestions: string[]) => () => {
+    updateNowUserQuestion(nowQuestions);
     setPage((prevPage) => {
       if (prevPage !== 0) {
         return prevPage - 1;
@@ -87,8 +104,8 @@ function Survey() {
         questionList={nowQuestionnaire.questionList}
         bDuplicateSelect={nowQuestionnaire.bDuplicate}
         selectedData={nowSelectedData}
-        leftOnClick={onDecrease}
-        rightOnClick={onIncrease}
+        leftOnClick={onLeftClick}
+        rightOnClick={onRightClick}
         currentPage={page + 1}
         totalPage={totalPage}
       />
