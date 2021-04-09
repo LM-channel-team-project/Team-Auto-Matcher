@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './style';
 
 interface IQuestionnaire {
   question: string;
   questionList: string[];
   bDuplicateSelect: boolean;
-  leftOnClick: React.MouseEventHandler<HTMLDivElement>;
-  rightOnClick: React.MouseEventHandler<HTMLDivElement>;
+  leftOnClick: any;
+  rightOnClick: any;
   selectedData?: string[],
   currentPage: number;
   totalPage: number;
@@ -19,11 +19,12 @@ function Questionnaire({
   bDuplicateSelect,
   leftOnClick,
   rightOnClick,
-  selectedData,
+  selectedData = [],
   currentPage,
   totalPage,
   className,
 }: IQuestionnaire) {
+  const [nowSelectedData, setNowSelectedData] = useState<string[]>(selectedData);
   return (
     <S.Questionnaire className={className}>
       <div className='header'>
@@ -32,10 +33,14 @@ function Questionnaire({
       </div>
       <S.MultiCheckbox
         questionList={questionList}
-        selectedData={selectedData}
+        selectedData={nowSelectedData}
+        setSelectedData={setNowSelectedData}
         bDuplicateSelect={bDuplicateSelect}
       />
-      <S.ArrowNav leftOnClick={leftOnClick} rightOnClick={rightOnClick}/>
+      <S.ArrowNav
+        leftOnClick={leftOnClick(nowSelectedData)}
+        rightOnClick={rightOnClick(nowSelectedData)}
+      />
     </S.Questionnaire>
   );
 }
