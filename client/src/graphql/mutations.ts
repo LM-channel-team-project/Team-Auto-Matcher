@@ -12,3 +12,15 @@ export const createUser = /* GraphQL */ `
     }
   }
 `;
+
+export const updateUser= /* GraphQL */ `
+  mutation updateUser(
+      $input: UpdateUserInput!
+    ) {
+    updateUser(input: $input) {
+      id
+      userId 
+      question
+    }
+  }
+`;
