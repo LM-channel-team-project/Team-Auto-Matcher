@@ -11,7 +11,10 @@ export function Default() {
   const questionList = ['React', 'Vue', 'Vanila Javascript', 'React', 'Vue', 'Vanila Javascript'];
   return (
     <GlobalThemeProvider>
-      <MultiCheckbox questionList={questionList} />
+      <MultiCheckbox
+        questionList={questionList}
+        setSelectedData={() => {}}
+      />
     </GlobalThemeProvider>
   );
 }
