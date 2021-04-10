@@ -1,0 +1,16 @@
+{
+  "bDuplicate": true,
+  "id": "00001",
+  "priority": 1,
+  "questionList": [
+    "React",
+    "Vue.js",
+    "Vanila Javascript",
+    "MongoDB",
+    "MySQL",
+    "GraphQL"
+  ],
+  "questionTitle": "선호하는 기술 스택을 고르세요"
+}
+
+
