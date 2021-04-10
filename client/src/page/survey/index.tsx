@@ -36,14 +36,38 @@ function Survey() {
     return (<div>loading</div>);
   }
 
-  if (userLoading) {
+  if (!userLoading && !userError) {
+    if (userData) {
+      if (userData.getUser.items.length !== 0) {
+        console.log('userData : ', userData);
+      } else if (bUserUpdating.current === false) {
+        const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
+        bUserUpdating.current = true;
+        addUserData({
+          variables: {
+            input: {
+              userId,
+              question: [[]],
+            },
+          },
+        }).then(() => {
+          bUserUpdating.current = false;
+          userRefetch();
+        });
+      }
+    }
+  }
+
+  if (userLoading || bUserUpdating.current) {
     return <>유저로딩중</>;
   }
 
-  const nowQuestionnaire = data.listQuestionnaires.items[page];
-  const selectedData = userData.getUser.items[0].question;
+  const listQuestionnairesData = [...data.listQuestionnaires.items];
+  listQuestionnairesData.sort((el1: any, el2: any) => el1.priority - el2.priority);
+  const nowQuestionnaire = listQuestionnairesData[page];
+  const selectedData = userData.getUser?.items[0]?.question;
   const nowSelectedData = selectedData[page];
-  const totalPage = data.listQuestionnaires.items.length;
+  const totalPage = listQuestionnairesData.length;
 
   const updateNowUserQuestion = (nowQuestions: string[]) => {
     const frontData = selectedData.slice(0, page);
@@ -80,29 +104,6 @@ function Survey() {
       return prevPage;
     });
   };
-
-  if (!userLoading && !userError) {
-    if (userData) {
-      if (userData.getUser.items.length !== 0) {
-        console.log('userData : ', userData);
-      } else if (bUserUpdating.current === false) {
-        const userId = 'pkiop';
-        const something = [['React', 'Vue.js'], ['부전공']];
-        bUserUpdating.current = true;
-        addUserData({
-          variables: {
-            input: {
-              userId,
-              question: something,
-            },
-          },
-        }).then(() => {
-          bUserUpdating.current = false;
-          userRefetch();
-        });
-      }
-    }
-  }
 
   return (
     <S.SurveyPage>
