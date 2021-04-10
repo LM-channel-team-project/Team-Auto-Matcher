@@ -8,7 +8,7 @@ interface ICheckbox {
 
 function Checkbox({ checked = false, className }: ICheckbox) {
   return (
-    <S.Input checked={checked} className={className} type="checkbox" />
+    <S.Input checked={checked} className={className} readOnly type="checkbox" />
   );
 }
 
