@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser, updateUser } from 'graphql/mutations';
@@ -14,6 +15,8 @@ function Survey() {
   const {
     loading: userLoading, error: userError, data: userData, refetch: userRefetch,
   } = useQuery(gql`${getUser}`);
+
+  const history = useHistory();
 
   const [addUserData] = useMutation(gql`${createUser}`);
   const [updateUserData] = useMutation(gql`${updateUser}`);
@@ -63,6 +66,7 @@ function Survey() {
       if (prevPage < totalPage - 1) {
         return prevPage + 1;
       }
+      history.push('/result');
       return prevPage;
     });
   };
