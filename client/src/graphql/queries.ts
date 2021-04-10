@@ -6,6 +6,7 @@ export const getQuestionnaire = /* GraphQL */ `
     getQuestionnaire(id: $id) {
       id
       questionTitle
+      priority
       questionList
       bDuplicate
     }
@@ -17,6 +18,7 @@ export const listQuestionnaires = /* GraphQL */ `
       items {
         id
         questionTitle
+        priority
         questionList
         bDuplicate
       }
