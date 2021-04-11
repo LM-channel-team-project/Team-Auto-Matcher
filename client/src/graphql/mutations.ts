@@ -8,7 +8,10 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input) {
       id
       userId 
-      question
+      question {
+        title
+        answers
+      }
     }
   }
 `;
@@ -20,7 +23,10 @@ export const updateUser= /* GraphQL */ `
     updateUser(input: $input) {
       id
       userId 
-      question
+      question {
+        title
+        answers
+      }
     }
   }
 `;
