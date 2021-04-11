@@ -7,6 +7,24 @@ import { createUser, updateUser } from 'graphql/mutations';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
+const firstInput = [
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+  { title: '', answers: [] },
+];
+
 function Survey() {
   const {
     loading, error, data, refetch,
@@ -47,18 +65,20 @@ function Survey() {
           variables: {
             input: {
               userId,
-              question: [[]],
+              question: firstInput,
             },
           },
         }).then(() => {
           bUserUpdating.current = false;
           userRefetch();
+        }).catch((err: any) => {
+          console.error(err);
         });
       }
     }
   }
 
-  if (userLoading || bUserUpdating.current) {
+  if (userLoading || bUserUpdating.current || !userData) {
     return <>유저로딩중</>;
   }
 
@@ -70,9 +90,20 @@ function Survey() {
   const totalPage = listQuestionnairesData.length;
 
   const updateNowUserQuestion = (nowQuestions: string[]) => {
-    const frontData = selectedData.slice(0, page);
-    const backData = selectedData.slice(page + 1, selectedData.length);
-    const newData = [...frontData, [...nowQuestions], ...backData];
+    const frontData = selectedData.slice(0, page).map((el : any) => ({
+      title: el.title,
+      answers: el.answers,
+    }));
+
+    const backData = selectedData.slice(page + 1, selectedData.length).map((el : any) => ({
+      title: el.title,
+      answers: el.answers,
+    }));
+    const nowQuestion = {
+      title: nowQuestionnaire.questionTitle,
+      answers: [...nowQuestions],
+    };
+    const newData = [...frontData, nowQuestion, ...backData];
     updateUserData({
       variables: {
         input: {
@@ -112,7 +143,7 @@ function Survey() {
         question={nowQuestionnaire.questionTitle}
         questionList={nowQuestionnaire.questionList}
         bDuplicateSelect={nowQuestionnaire.bDuplicate}
-        selectedData={nowSelectedData}
+        selectedData={nowSelectedData.answers}
         leftOnClick={onLeftClick}
         rightOnClick={onRightClick}
         currentPage={page + 1}
