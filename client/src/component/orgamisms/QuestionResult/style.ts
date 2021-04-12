@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import QuestionRespondComponent from 'component/molecules/QuestionRespond';
 
 export const QuestionResult = styled.div`
   display: flex;
@@ -15,5 +16,7 @@ export const QuestionResult = styled.div`
     margin: 0 3rem;
   }
 `;
+
+export const QuestionRespond = styled(QuestionRespondComponent)``;
 
 export default {};
