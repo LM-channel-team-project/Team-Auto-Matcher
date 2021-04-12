@@ -16,7 +16,7 @@ const temp = [
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <QuestionRespond title="사용하고 싶은 기술스택을 고르세요" questionRespondList={temp}/>
+      <QuestionRespond title="사용하고 싶은 기술스택을 고르세요" answers={temp}/>
     </GlobalThemeProvider>
   );
 }

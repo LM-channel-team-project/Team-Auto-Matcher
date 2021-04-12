@@ -1,5 +1,4 @@
 import React from 'react';
-import { arrowDirection } from 'component/atoms/ArrowBtn';
 import * as S from './style';
 
 interface IPageCnt {
