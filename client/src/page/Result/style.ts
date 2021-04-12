@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import QuestionResultComponent from 'component/orgamisms/QuestionResult';
 
 export const ResultPage = styled.div`
   display: flex;
@@ -9,4 +10,4 @@ export const ResultPage = styled.div`
   align-items: center;
 `;
 
-export const temp = styled.div``;
+export const QuestionResult = styled(QuestionResultComponent)``;
