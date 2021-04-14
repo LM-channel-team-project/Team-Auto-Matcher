@@ -5,7 +5,7 @@ export interface IAnswers {
   title: string;
   answers: string[];
 }
-export interface IQuestionRespond extends IAnswers{
+export interface IQuestionRespond extends IAnswers {
   className?: string;
 }
 
@@ -15,7 +15,7 @@ function QuestionRespond({ title, answers, className }: IQuestionRespond) {
   );
   return (
     <S.QuestionRespond className={className}>
-      <div className="title">{title}</div>
+      <div className="title">Q: {title}</div>
       <div className="wrapper">
         {QuestionRespondComponents}
       </div>

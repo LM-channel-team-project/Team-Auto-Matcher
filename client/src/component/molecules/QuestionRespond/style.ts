@@ -11,11 +11,15 @@ export const QuestionRespond = styled.div`
 
   > .wrapper {
     display: flex;
-
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 5rem;
     & > .questionRespond {
-      font-size: 2rem;
-      color: blue;
-      margin-right: 2rem;
+      font-size: 3rem;
+      margin-right: 4rem;
+      border: 0.2rem solid black;
+      border-radius: 1.2rem; 
+      padding: 0.6rem;
     }
   }
 `;
