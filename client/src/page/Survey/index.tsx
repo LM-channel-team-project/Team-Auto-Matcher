@@ -56,7 +56,7 @@ function Survey() {
 
   if (!userLoading && !userError) {
     if (userData) {
-      if (userData.getUser.items.length !== 0) {
+      if (userData.getUser?.items?.length !== 0) {
         console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
         const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
@@ -90,12 +90,12 @@ function Survey() {
   const totalPage = listQuestionnairesData.length;
 
   const updateNowUserQuestion = (nowQuestions: string[]) => {
-    const frontData = selectedData.slice(0, page).map((el : any) => ({
+    const frontData = selectedData.slice(0, page).map((el: any) => ({
       title: el.title,
       answers: el.answers,
     }));
 
-    const backData = selectedData.slice(page + 1, selectedData.length).map((el : any) => ({
+    const backData = selectedData.slice(page + 1, selectedData.length).map((el: any) => ({
       title: el.title,
       answers: el.answers,
     }));
