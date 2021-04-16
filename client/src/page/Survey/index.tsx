@@ -78,7 +78,7 @@ function Survey() {
     }
   }
 
-  if (userLoading || bUserUpdating.current || !userData) {
+  if (userLoading || bUserUpdating.current || !userData?.getData) {
     return <>유저로딩중</>;
   }
 
