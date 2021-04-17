@@ -56,7 +56,7 @@ function Survey() {
 
   if (!userLoading && !userError) {
     if (userData) {
-      if (userData.getUser?.items?.length !== 0) {
+      if (userData.getUser && userData.getUser.items?.length !== 0) {
         console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
         const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
@@ -78,7 +78,7 @@ function Survey() {
     }
   }
 
-  if (userLoading || bUserUpdating.current || !userData?.getData) {
+  if (userLoading || bUserUpdating.current || !userData?.getUser) {
     return <>유저로딩중</>;
   }
 
