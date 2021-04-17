@@ -12,3 +12,7 @@
 ## 개발환경구축
 
 https://www.notion.so/LCTP-15995f7354554a4da4b4070e2654b3aa
+
+## 기획서 겸 디자인
+
+https://www.figma.com/file/GyTBMOKUS7EsGDhgynQPRW/Team-Auto-Matcher?node-id=0%3A1
