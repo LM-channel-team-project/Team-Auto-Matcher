@@ -8,3 +8,11 @@
 ## 구조
 
 ## ![](https://user-images.githubusercontent.com/34783156/112754142-c9d7ad00-9015-11eb-8955-a9ef1c354794.png)
+
+## 개발환경구축
+
+https://www.notion.so/LCTP-15995f7354554a4da4b4070e2654b3aa
+
+## 기획서 겸 디자인
+
+https://www.figma.com/file/GyTBMOKUS7EsGDhgynQPRW/Team-Auto-Matcher?node-id=0%3A1
