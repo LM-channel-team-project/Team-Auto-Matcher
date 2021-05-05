@@ -12,6 +12,7 @@ export const getQuestionnaire = /* GraphQL */ `
     }
   }
 `;
+
 export const listQuestionnaires = /* GraphQL */ `
   query ListQuestionnaires($nextToken: String) {
     listQuestionnaires(nextToken: $nextToken) {
