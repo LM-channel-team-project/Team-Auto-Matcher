@@ -43,3 +43,42 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
+
+export const listTeamDashboard = /* GraphQL */ `
+  query ListTeamDashboard($nextToken: String) {
+    listTeamDashboard(nextToken: $nextToken) {
+      items {
+        id
+        name
+        people
+        skills
+        outline
+        contents {
+          title
+          text
+        }
+      }
+      nextToken
+    }
+  }
+`;
+
+export const listPersonDashboard = /* GraphQL */ `
+  query ListPersonDashboard($nextToken: String) {
+    listPersonDashboard(nextToken: $nextToken) {
+      items {
+        id
+        name
+        skills
+        team
+        outline
+        domain
+        contents {
+          title
+          text
+        }
+      }
+      nextToken
+    }
+  }
+`;
