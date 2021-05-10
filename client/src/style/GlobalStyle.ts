@@ -27,6 +27,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 10px;
     vertical-align: baseline;
     box-sizing: border-box;
+    background-color: #e9e9e9;
   }
   html, body, #root, .Section__container___3YYTG {
     height: 100%;
