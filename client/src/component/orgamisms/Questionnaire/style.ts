@@ -10,7 +10,7 @@ export const Questionnaire = styled.div`
   justify-content: center;
   background-color: #e9e9e9;
   border-radius: 15px;
-
+  min-width: 500px;
   padding: 1.6rem;
 `;
 
@@ -40,7 +40,7 @@ export const backButton = styled.button`
   cursor: pointer;
   transition: all .1s;
   &:hover{
-    background-color: #191412;
+    background-color: #313131;
     color:white;
   }
 `;
@@ -56,7 +56,7 @@ export const nextButton = styled.button`
   cursor: pointer;
   &:hover{
     color:white;
-    background-color: #191412;
+    background-color: #313131;
   }
 `;
 

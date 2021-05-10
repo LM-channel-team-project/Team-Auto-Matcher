@@ -3,10 +3,11 @@ import QuestionBlockComponent from 'component/atoms/QuestionBlock';
 import CheckboxComponent from 'component/atoms/Checkbox';
 
 export const MultiCheckbox = styled.div`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  grid-template-columns: repeat(3, minmax(auto, 20rem));
-  row-gap: 2rem;
+  /* grid-template-columns: repeat(3, minmax(auto, 20rem)); */
+  row-gap: 1rem;
   column-gap: 2rem;
 `;
 
@@ -19,12 +20,11 @@ export const Checkbox = styled(CheckboxComponent)`
 
 export const QuestionBlock = styled(QuestionBlockComponent)`
   display: flex;
-  justify-content: center;
   align-items: center;
   transition: all .2s;
 
   > span {
-    text-align: center;
+    text-align: left;
     font-size: 2.2rem;
     font-weight: 500;
   }
