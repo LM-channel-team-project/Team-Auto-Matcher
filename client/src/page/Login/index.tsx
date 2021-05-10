@@ -32,16 +32,22 @@ const LoginPage = ({ className }: any) => {
 
   return (
     <S.LoginPage className={className}>
+      <S.wrapper>
+        <S.Title>Team Auto Mathcer</S.Title>
+        <S.Button
+          onClick={googleLoginOnClick}>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          구글 로그인
+        </S.Button>
+      </S.wrapper>
       {/* <S.GoogleLogin
         icon={GoogleLogo}
         ButtonTitle={'Login With Google'}
         onClick={googleLoginOnClick}
       /> */}
-      <S.Title>Team Auto Mathcer</S.Title>
-      <S.Button
-        onClick={googleLoginOnClick}>
-        구글 로그인
-      </S.Button>
     </S.LoginPage>
   );
 };
