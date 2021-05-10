@@ -9,6 +9,21 @@ export const LoginPage = styled.div`
   align-items: center;
 `;
 
+export const Button = styled.button`
+  backgroundColor: #696969; 
+  borderRadius: 10px;
+  width: 200px;
+  height: 50px;
+  color: white;
+  fontWeight: bold;
+  cursor: pointer;
+`;
+
+export const Title = styled.div`
+  fontSize: 45px;
+  marginBottom: 15%;
+`;
+
 export const GoogleLogin = styled(OAuthLoginComponent)`
   border: 0.2rem solid black;
   :hover {
