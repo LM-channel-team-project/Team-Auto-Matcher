@@ -32,6 +32,7 @@ function App() {
             component={PersonalDashboard}
           />
           <Route exact path="/matching" component={Matching} />
+          <Route exact path="/login" component={LoginPage} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
