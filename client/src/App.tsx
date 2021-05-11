@@ -18,6 +18,7 @@ function App() {
           <Route exact path="/result" component={withAuthenticator(Result, false, [<LoginPage />])} />
           <Route exact path="/dashboard/team" component={TeamDashboard} />
           <Route exact path="/dashboard/personal" component={PersonalDashboard} />
+          <Route exact path="/login" component={LoginPage} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>

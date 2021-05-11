@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const PageCnt = styled.div`
+    text-align: center;
   > div {
-    display: flex;
-    font-size: 4rem;
+    font-size: 2rem;
   }
 `;
 
