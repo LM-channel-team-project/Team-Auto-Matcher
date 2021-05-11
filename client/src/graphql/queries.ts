@@ -33,11 +33,11 @@ export const getUser = /* GraphQL */ `
     getUser {
       items {
         id
-        userId 
+        userId
         question {
           title
           answers
-        }  
+        }
         owner
       }
     }
@@ -77,6 +77,23 @@ export const listPersonDashboard = /* GraphQL */ `
           title
           text
         }
+      }
+      nextToken
+    }
+  }
+`;
+
+export const listMatchWaitQueue = `
+  query listMatchWaitQueue($nextToken: String) {
+    listMatchWaitQueue(nextToken: $nextToken) {
+      items {
+        id
+        type
+        name
+        year
+        stacks
+        message
+        state
       }
       nextToken
     }
