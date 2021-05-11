@@ -27,20 +27,25 @@ function Questionnaire({
   const [nowSelectedData, setNowSelectedData] = useState<string[]>(selectedData);
   return (
     <S.Questionnaire className={className}>
-      <div className='header'>
-        <S.QuestionBlock className={`${className}`}>{question}</S.QuestionBlock>
-        <S.PageCnt currentPage={currentPage} totalPage={totalPage} />
-      </div>
+      <S.PageCnt currentPage={currentPage} totalPage={totalPage} />
+      <S.QuestionBlock className={`${className}`}>{question}</S.QuestionBlock>
       <S.MultiCheckbox
         questionList={questionList}
         selectedData={nowSelectedData}
         setSelectedData={setNowSelectedData}
         bDuplicateSelect={bDuplicateSelect}
       />
-      <S.ArrowNav
+      {/* <S.ArrowNav
         leftOnClick={leftOnClick(nowSelectedData)}
         rightOnClick={rightOnClick(nowSelectedData)}
-      />
+      /> */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
+        <S.backButton onClick={leftOnClick(nowSelectedData)}>Back</S.backButton>
+        <S.nextButton onClick={rightOnClick(nowSelectedData)}>Next</S.nextButton>
+      </div>
     </S.Questionnaire>
   );
 }
