@@ -9,7 +9,7 @@ const MatchPresenter = ({
   data: any;
 }) => {
   const { items } = data.listMatchWaitQueue;
-  const temp = items.map((el: any) => {
+  const itemList = items.map((el: any) => {
     const stacks = el.stacks.map((stack: string) => <S.Text>{stack}</S.Text>);
     return (
       <S.List>
@@ -25,7 +25,7 @@ const MatchPresenter = ({
     <S.MatchPage className={className}>
       <S.Title>매칭 대기열</S.Title>
       <S.Title>Front-End</S.Title>
-      {temp}
+      {itemList}
     </S.MatchPage>
   );
 };
