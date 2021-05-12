@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { listMatchWaitQueue } from '../../graphql/queries';
+import { listMatchWaitQueue } from '../../graphql/matchQueries';
 import { gql, useQuery } from '@apollo/client';
 
 import MatchPresenter from './MatchPresenter';
