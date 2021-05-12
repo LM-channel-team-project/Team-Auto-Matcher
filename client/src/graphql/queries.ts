@@ -33,11 +33,11 @@ export const getUser = /* GraphQL */ `
     getUser {
       items {
         id
-        userId 
+        userId
         question {
           title
           answers
-        }  
+        }
         owner
       }
     }
