@@ -14,7 +14,6 @@ const MatchWaitQueue = ({ className }: any) => {
   if (loading) {
     return <></>;
   }
-  console.log(data);
   return <MatchPresenter className={className} data={data} />;
 };
 
