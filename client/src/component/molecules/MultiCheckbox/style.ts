@@ -34,8 +34,8 @@ export const QuestionBlock = styled(QuestionBlockComponent)`
   height: 100%;
 
   ${Checkbox}:checked ~ & {
-    background-color: red;
-    box-shadow: 5px 5px 5px;
+    background-color: #cc0001;
+    box-shadow: 3px 3px 3px;
   }
 
   ${Checkbox}:checked ~ & span {
@@ -53,8 +53,8 @@ export const Wrapper = styled.div`
   transition: all .2s;
 
   &:hover{
-    background-color: red;
-    box-shadow: 5px 5px 5px;
+    background-color: #cc0001;
+    box-shadow: 3px 3px 3px;
   }
 
   &:hover span{
