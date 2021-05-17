@@ -6,7 +6,6 @@ export const MultiCheckbox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* grid-template-columns: repeat(3, minmax(auto, 20rem)); */
   row-gap: 1rem;
   column-gap: 2rem;
 `;
