@@ -35,17 +35,10 @@ function Questionnaire({
         setSelectedData={setNowSelectedData}
         bDuplicateSelect={bDuplicateSelect}
       />
-      {/* <S.ArrowNav
+      <S.DirectionNav
         leftOnClick={leftOnClick(nowSelectedData)}
         rightOnClick={rightOnClick(nowSelectedData)}
-      /> */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}>
-        <S.backButton onClick={leftOnClick(nowSelectedData)}>Back</S.backButton>
-        <S.nextButton onClick={rightOnClick(nowSelectedData)}>Next</S.nextButton>
-      </div>
+      />
     </S.Questionnaire>
   );
 }

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import QuestionBlockComponent from 'component/atoms/QuestionBlock';
 import MultiCheckboxComponent from 'component/molecules/MultiCheckbox';
-// import ArrowNavComponent from 'component/molecules/ArrowNav';
 import PageCntComponent from 'component/molecules/PageCnt';
+import DirectionNavComponent from 'component/molecules/DirectionNav';
 
 export const Questionnaire = styled.div`
   display: flex;
@@ -29,37 +29,6 @@ export const MultiCheckbox = styled(MultiCheckboxComponent)`
   margin-bottom: 1.6rem;
 `;
 
-export const backButton = styled.button`
-  padding: 10px 30px;
-  border-radius: 5px;
-  margin-right: 40px;
-  font-size: 25px;
-  font-weight: 600;
-  color: #160840;
-  background-color: white;
-  cursor: pointer;
-  transition: all .1s;
-  &:hover{
-    background-color: #313131;
-    color:white;
-  }
+export const DirectionNav = styled(DirectionNavComponent)`
+  justify-content: center;
 `;
-
-export const nextButton = styled.button`
-  padding: 10px 30px;
-  border-radius: 5px;
-  color: #160840;
-  font-size: 25px;
-  font-weight: 600;
-  background-color: white;
-  transition: all .1s;
-  cursor: pointer;
-  &:hover{
-    color:white;
-    background-color: #313131;
-  }
-`;
-
-// export const ArrowNav = styled(ArrowNavComponent)`
-//   justify-content: center;
-// `;
