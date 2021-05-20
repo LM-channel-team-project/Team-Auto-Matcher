@@ -10,7 +10,6 @@ export const Questionnaire = styled.div`
   justify-content: center;
   background-color: #e9e9e9;
   border-radius: 15px;
-  min-width: 500px;
   padding: 1.6rem;
 `;
 
