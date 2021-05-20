@@ -12,6 +12,13 @@ const color = {
   green: '#28a745',
   delete: '#DC3545',
   deleteHover: '#C82333',
+  button: {
+    red: '#FF5C6A',
+    blue: '#228be6',
+    gray: '#DFDDE5',
+    yellow: '#F8CC6D',
+    orange: '#FFB38F',
+  },
 };
 
 const size = {
