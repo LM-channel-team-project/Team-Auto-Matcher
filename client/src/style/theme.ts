@@ -19,6 +19,13 @@ const color = {
     yellow: '#F8CC6D',
     orange: '#FFB38F',
   },
+  label: {
+    gray: '#DFDDE5',
+    red: '#E88073',
+    blue: '#DFF3F0',
+    yellow: '#F7EAA0',
+    orange: '#FFB38F',
+  },
 };
 
 const size = {
