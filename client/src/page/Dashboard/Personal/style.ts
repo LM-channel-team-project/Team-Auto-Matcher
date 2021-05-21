@@ -1,7 +1,13 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Top = styled.div`
-  position: sticky;
   top: 0;
   left: 0;
   z-index: 2;
@@ -55,11 +61,14 @@ export const Field = styled.h1`
 `;
 
 export const MatchPage = styled.div`
-  height: auto;
   display: flex;
   flex-direction: column;
-  width: 100%;
+
   align-items: center;
+  overflow-y: scroll;
+  padding-top: 10px;
+  width: 1150px;
+  height: 60vh;
 `;
 
 export const List = styled.div`

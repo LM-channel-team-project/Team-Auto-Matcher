@@ -5,7 +5,7 @@ import { gql, useQuery } from '@apollo/client';
 import * as S from './style';
 
 const Match = ({ className }: any) => {
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState<number>(0);
   const { loading, error, data, refetch } = useQuery(
     gql`
       ${listPersonDashboard}
@@ -39,7 +39,7 @@ const Match = ({ className }: any) => {
     <>
       {Object.keys(user).map((field: any, index: number) => {
         return (
-          <div key={index}>
+          <S.Container key={index}>
             {index === current && (
               <>
                 <S.Top>
@@ -74,7 +74,7 @@ const Match = ({ className }: any) => {
                 </S.MatchPage>
               </>
             )}
-          </div>
+          </S.Container>
         );
       })}
     </>
