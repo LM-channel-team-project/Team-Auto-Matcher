@@ -33,14 +33,8 @@ const LoginPage = ({ className }: any) => {
     <S.LoginPage className={className}>
       <S.wrapper>
         <S.Title>Team Auto Mathcer</S.Title>
-        <S.Button
-          onClick={googleLoginOnClick}>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          구글 로그인
-        </S.Button>
+        <S.LoginBtn
+          onLoginClick={googleLoginOnClick} />
       </S.wrapper>
     </S.LoginPage>
   );
