@@ -7,7 +7,6 @@ import PersonalDashboard from 'page/Dashboard/Personal';
 import TeamDashboard from 'page/Dashboard/Team';
 import LoginPage from 'page/Login';
 import NotFound from 'page/NotFound';
-import MatchPage from 'page/MatchWait';
 import { withAuthenticator } from 'aws-amplify-react';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
             component={withAuthenticator(Result, false, [<LoginPage />])}
           />
           <Route exact path="/dashboard/team" component={TeamDashboard} />
-          <Route exact path="/match" component={MatchPage} />
           <Route
             exact
             path="/dashboard/personal"
