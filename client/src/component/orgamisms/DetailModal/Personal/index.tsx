@@ -10,7 +10,7 @@ type ContentItem = {
 };
 
 interface IPersonalDetailModal {
-  data?: {
+  data: {
     id: string;
     name: string;
     outline: string;
@@ -24,7 +24,7 @@ interface IPersonalDetailModal {
 
 const PersonalDetailModal = ({ data, onCloseModal }: IPersonalDetailModal) => {
   const renderContents = () => {
-    const skills = data!.skills.map((skill: string) => (
+    const skills = data.skills.map((skill: string) => (
       <TextLabel className="dc-label" text={skill} color={skillsLabel[skill.toLowerCase()]} />
     ));
 
