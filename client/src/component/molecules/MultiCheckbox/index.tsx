@@ -55,10 +55,26 @@ function MultiCheckbox({
     setSelectedData([...selectedList]);
   };
 
+  const onChangeHandler = (event:any) => {
+    setSelectedData(event.target.value);
+  };
+
+  const initialValue:string = typeof (selectedData) === 'object' ? selectedData.join('') : selectedData;
+
   return (
-    <S.MultiCheckbox onClick={onClickHandler} ref={checkBoxListElement} className={className}>
-      {CheckboxList}
-    </S.MultiCheckbox>
+    <>
+      {questionList.length > 0
+        ? <S.MultiCheckbox onClick={onClickHandler} ref={checkBoxListElement} className={className}>
+          {CheckboxList}
+        </S.MultiCheckbox>
+        : <S.Input
+          maxLength={400}
+          placeholder='400자 이하로 작성해주세요.'
+          value={initialValue}
+          onChange={onChangeHandler}
+        />
+      }
+    </>
   );
 }
 

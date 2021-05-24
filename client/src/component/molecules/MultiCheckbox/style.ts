@@ -27,14 +27,14 @@ export const QuestionBlock = styled(QuestionBlockComponent)`
     font-size: 2.2rem;
     font-weight: 500;
   }
-  border-radius: 5px;
+  border-radius: 0.5em;
 
   width: 100%;
   height: 100%;
 
   ${Checkbox}:checked ~ & {
     background-color: #cc0001;
-    box-shadow: 3px 3px 3px;
+    box-shadow: 0 0.1em 0.3em;
   }
 
   ${Checkbox}:checked ~ & span {
@@ -48,12 +48,12 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 0.5em;
   transition: all .2s;
 
   &:hover{
     background-color: #cc0001;
-    box-shadow: 3px 3px 3px;
+    box-shadow: 0 0.1em 0.3em;
   }
 
   &:hover span{
@@ -62,4 +62,12 @@ export const Wrapper = styled.div`
 
   cursor: pointer;
   user-select: none;
+`;
+
+export const Input = styled.textarea`
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.5em;
+  box-shadow: 0 0.1em 0.3em;
+  margin-bottom: 1.6rem;
 `;
