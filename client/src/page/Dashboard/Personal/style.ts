@@ -62,7 +62,18 @@ export const MatchPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 1.2em;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #7f8c8d;
+    border-radius: 1em;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #dfe6e9;
+    border-radius: 1em;
+  }
   padding-top: 1em;
   width: 115em;
   height: 58em;
@@ -73,6 +84,9 @@ export const List = styled.div`
   width: 110em;
   cursor: pointer;
   margin-bottom: 3em;
+  &:last-child {
+    margin-bottom: 1em;
+  }
   justify-content: space-between;
   align-items: center;
   border-radius: 1.5em;

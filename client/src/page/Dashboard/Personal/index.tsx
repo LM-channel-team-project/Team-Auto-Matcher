@@ -27,8 +27,6 @@ const Match = ({ className }: any) => {
     return result;
   }, {});
 
-  //   const length = Object.keys(user).length;
-
   const { length } = Object.keys(users);
 
   const next = () => {
@@ -63,7 +61,7 @@ const Match = ({ className }: any) => {
                     <S.Text>{info.devExp}</S.Text>
                     <S.Stack>
                       {info.skills.map((skill: any) => (
-                        <S.Stacklist>{skill}</S.Stacklist>
+                        <S.Stacklist key={skill}>{skill}</S.Stacklist>
                       ))}
                     </S.Stack>
                     <S.Text>{info.outline}</S.Text>
