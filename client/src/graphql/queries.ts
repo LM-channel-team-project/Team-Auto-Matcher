@@ -20,6 +20,7 @@ export const listQuestionnaires = /* GraphQL */ `
         id
         questionTitle
         priority
+        questionBrief
         questionList
         bDuplicate
       }
