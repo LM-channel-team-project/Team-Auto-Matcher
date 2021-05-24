@@ -136,6 +136,11 @@ function Survey() {
     });
   };
 
+  const onProgressBarListClick = (e:any, nowQuestions: string[]) => {
+    updateNowUserQuestion(nowQuestions);
+    setPage(Number(e.target.id));
+  };
+
   return (
     <S.SurveyPage>
       <Questionnaire
@@ -148,6 +153,8 @@ function Survey() {
         rightOnClick={onRightClick}
         currentPage={page + 1}
         totalPage={totalPage}
+        onClickList={onProgressBarListClick}
+        listQuestionnairesData={listQuestionnairesData}
       />
     </S.SurveyPage>
   );
