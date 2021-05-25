@@ -1,19 +1,23 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export const listMatchWaitQueue = `
-query listMatchWaitQueue($nextToken: String) {
-  listMatchWaitQueue(nextToken: $nextToken) {
-    items {
-      id
-      type
-      name
-      year
-      stacks
-      message
-      state
+export const listPersonDashboard = /* GraphQL */ `
+  query ListPersonDashboard($nextToken: String) {
+    listPersonDashboard(nextToken: $nextToken) {
+      items {
+        id
+        name
+        skills
+        team
+        outline
+        field
+        devExp
+        contents {
+          title
+          text
+        }
+      }
+      nextToken
     }
-    nextToken
   }
-}
 `;

@@ -1,18 +1,14 @@
 import React from 'react';
 import * as S from './style';
 
-export interface Props {
+export interface Props extends S.StyleProps {
   onClick?: any;
   children: any;
   className?: string;
 }
 
-function Button({ onClick, children, className }: Props) {
-  return (
-    <S.Button onClick={onClick} className={className}>
-      {children}
-    </S.Button>
-  );
+function Button({ children, ...props }: Props) {
+  return <S.Button {...props}>{children}</S.Button>;
 }
 
 export default Button;
