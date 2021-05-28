@@ -141,12 +141,46 @@ function Survey() {
     setPage(Number(e.target.id));
   };
 
+  const setQuestionList = ():string[] => {
+    if (nowQuestionnaire.questionBrief === 'Available Stack') {
+      let questionList = [];
+      switch (selectedData[0].answers[0]) {
+      case '프론트엔드':
+        questionList = ['React', 'TypeScript', 'Angular', 'Vue', 'Ember', 'Node', 'Nuxt', 'Next', 'etc'];
+        break;
+      case '백엔드':
+        questionList = ['Flask', 'Django', 'Spring', 'Express', 'Koa', 'etc'];
+        break;
+      case '안드로이드':
+        questionList = ['Android'];
+        break;
+      case 'IOS':
+        questionList = ['Swift', 'Object-C', 'etc'];
+        break;
+      case 'AI':
+        questionList = ['AI'];
+        break;
+      case '데이터':
+        questionList = ['DATA'];
+        break;
+      case 'Devops':
+        questionList = ['Devops'];
+        break;
+      default:
+        questionList = [...nowQuestionnaire.questionList];
+        break;
+      }
+      return questionList;
+    }
+    return nowQuestionnaire.questionList;
+  };
+
   return (
     <S.SurveyPage>
       <Questionnaire
         key={nowQuestionnaire.id}
         question={nowQuestionnaire.questionTitle}
-        questionList={nowQuestionnaire.questionList}
+        questionList={setQuestionList()}
         bDuplicateSelect={nowQuestionnaire.bDuplicate}
         selectedData={nowSelectedData.answers}
         leftOnClick={onLeftClick}
