@@ -16,7 +16,7 @@ export const LoginBtn = styled.button`
   & span{
     display: block;
     position: absolute;
-    background: #2894ff;
+    background-color: #2894ff;
   }
 
   & span:nth-child(1){
