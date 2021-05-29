@@ -10,7 +10,7 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <ProgressBarList Brief='items' onClickList={() => alert('items')}/>
+      <ProgressBarList brief='items' onClickList={() => alert('items')}/>
     </GlobalThemeProvider>
   );
 }
