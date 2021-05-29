@@ -14,7 +14,7 @@ function ProgressBar({
   totalPage,
   className,
   onClickList,
-  listQuestionnairesData,
+  listQuestionnairesData = [],
 }: IProgressBar) {
   return (
     <S.ProgressBar className={className}>
