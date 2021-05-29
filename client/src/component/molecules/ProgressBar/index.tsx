@@ -6,7 +6,7 @@ interface IProgressBar {
   totalPage: number
   className?: string;
   onClickList: any;
-  listQuestionnairesData?:any;
+  listQuestionnairesData?:any[];
 }
 
 function ProgressBar({
