@@ -11,7 +11,7 @@ interface IProgressBarLists {
 function ProgressBarLists({
   onClickList,
   classProps,
-  setId,
+  setId = 0,
   brief,
 }: IProgressBarLists) {
   return (
