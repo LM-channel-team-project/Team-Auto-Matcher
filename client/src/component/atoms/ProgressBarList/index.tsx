@@ -5,7 +5,7 @@ interface IProgressBarLists {
   onClickList: any;
   classProps?:string;
   setId?:Number;
-  brief:any;
+  brief:string;
 }
 
 function ProgressBarLists({
