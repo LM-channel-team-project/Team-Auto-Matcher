@@ -5,19 +5,19 @@ interface IProgressBarLists {
   onClickList: any;
   classProps?:string;
   setId?:Number;
-  Brief:any;
+  brief:any;
 }
 
 function ProgressBarLists({
   onClickList,
   classProps,
   setId,
-  Brief,
+  brief,
 }: IProgressBarLists) {
   return (
     <S.ProgressBarList className={`${classProps}`}>
       <div id={`${setId}`} onClick={onClickList} ></div>
-      <span>{Brief}</span>
+      <span>{brief}</span>
     </S.ProgressBarList>
   );
 }

@@ -30,7 +30,7 @@ function ProgressBar({
             classProps={whatClass}
             onClickList={onClickList}
             setId={i}
-            Brief={listQuestionnairesData[i].questionBrief}
+            brief={listQuestionnairesData[i].questionBrief}
           />
         );
       })}
