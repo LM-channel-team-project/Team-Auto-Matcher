@@ -1,5 +1,5 @@
 import React from 'react';
-import { arrowDirection } from 'component/atoms/DirectionBtn';
+import { EDirection } from 'component/atoms/DirectionBtn';
 import * as S from './style';
 
 interface IDirectionNav {
@@ -12,10 +12,10 @@ function DirectionNav({ leftOnClick, rightOnClick, className }: IDirectionNav) {
   return (
     <S.DirectionNav className={className}>
       <S.DirectionWrapper onClick={leftOnClick}>
-        <S.DirectionBtn direction={arrowDirection.BACK} />
+        <S.DirectionBtn direction={EDirection.BACK} />
       </S.DirectionWrapper>
       <S.DirectionWrapper onClick={rightOnClick}>
-        <S.DirectionBtn direction={arrowDirection.NEXT} />
+        <S.DirectionBtn direction={EDirection.NEXT} />
       </S.DirectionWrapper>
     </S.DirectionNav>
   );

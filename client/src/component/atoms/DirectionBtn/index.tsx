@@ -1,9 +1,9 @@
 import React from 'react';
 import * as S from './style';
 
-export interface IDirection {
-  BACK: string;
-  NEXT: string;
+export enum EDirection {
+  BACK = 'BACK',
+  NEXT = 'NEXT'
 }
 
 export interface IDirectionBtn {
@@ -11,18 +11,13 @@ export interface IDirectionBtn {
   className?: string;
 }
 
-export const arrowDirection: IDirection = {
-  BACK: 'BACK',
-  NEXT: 'NEXT',
-};
-
 function DirectionBtn({ direction }: IDirectionBtn) {
-  if (direction === arrowDirection.BACK) {
+  if (direction === EDirection.BACK) {
     return (
       <S.Span>BACK</S.Span>
     );
   }
-  if (direction === arrowDirection.NEXT) {
+  if (direction === EDirection.NEXT) {
     return (
       <S.Span>NEXT</S.Span>
     );
