@@ -12,6 +12,7 @@ export function Default() {
   return (
     <GlobalThemeProvider>
       <Questionnaire
+        onClickList={() => alert('item')}
         question={'선호하는 기술스택을 고르세요'}
         questionList={questionList}
         bDuplicateSelect={false}

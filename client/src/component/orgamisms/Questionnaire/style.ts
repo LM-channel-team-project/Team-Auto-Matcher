@@ -1,65 +1,33 @@
 import styled from 'styled-components';
 import QuestionBlockComponent from 'component/atoms/QuestionBlock';
 import MultiCheckboxComponent from 'component/molecules/MultiCheckbox';
-// import ArrowNavComponent from 'component/molecules/ArrowNav';
-import PageCntComponent from 'component/molecules/PageCnt';
+import ProgressComponent from 'component/molecules/ProgressBar';
+import DirectionNavComponent from 'component/molecules/DirectionNav';
 
 export const Questionnaire = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: #e9e9e9;
-  border-radius: 15px;
-  min-width: 500px;
+  border-radius: 1em;
   padding: 1.6rem;
 `;
 
 export const QuestionBlock = styled(QuestionBlockComponent)`
   font-weight: 600;
 
-  font-size: 3rem;
+  font-size: 2rem;
 
-  margin: 1.6rem 0;
+  margin: 0.6rem 0;
 `;
 
-export const PageCnt = styled(PageCntComponent)`
+export const ProgressBar = styled(ProgressComponent)`
 `;
 
 export const MultiCheckbox = styled(MultiCheckboxComponent)`
   margin-bottom: 1.6rem;
 `;
 
-export const backButton = styled.button`
-  padding: 10px 30px;
-  border-radius: 5px;
-  margin-right: 40px;
-  font-size: 25px;
-  font-weight: 600;
-  color: #160840;
-  background-color: white;
-  cursor: pointer;
-  transition: all .1s;
-  &:hover{
-    background-color: #313131;
-    color:white;
-  }
+export const DirectionNav = styled(DirectionNavComponent)`
+  justify-content: center;
 `;
-
-export const nextButton = styled.button`
-  padding: 10px 30px;
-  border-radius: 5px;
-  color: #160840;
-  font-size: 25px;
-  font-weight: 600;
-  background-color: white;
-  transition: all .1s;
-  cursor: pointer;
-  &:hover{
-    color:white;
-    background-color: #313131;
-  }
-`;
-
-// export const ArrowNav = styled(ArrowNavComponent)`
-//   justify-content: center;
-// `;

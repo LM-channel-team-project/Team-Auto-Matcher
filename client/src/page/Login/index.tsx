@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import GoogleLogo from 'image/googlelogo.png';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { Auth, Hub } from 'aws-amplify';
 import * as S from './style';
@@ -34,20 +33,9 @@ const LoginPage = ({ className }: any) => {
     <S.LoginPage className={className}>
       <S.wrapper>
         <S.Title>Team Auto Mathcer</S.Title>
-        <S.Button
-          onClick={googleLoginOnClick}>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          구글 로그인
-        </S.Button>
+        <S.LoginBtn
+          onLoginClick={googleLoginOnClick} />
       </S.wrapper>
-      {/* <S.GoogleLogin
-        icon={GoogleLogo}
-        ButtonTitle={'Login With Google'}
-        onClick={googleLoginOnClick}
-      /> */}
     </S.LoginPage>
   );
 };

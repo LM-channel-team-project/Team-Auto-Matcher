@@ -30,7 +30,6 @@ function App() {
             path="/dashboard/personal"
             component={PersonalDashboard}
           />
-          <Route exact path="/login" component={LoginPage} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
