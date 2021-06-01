@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { listPersonDashboard } from 'graphql/matchQueries';
+import { listPersonDashboard } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as S from './style';
 
