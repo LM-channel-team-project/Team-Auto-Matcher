@@ -18,11 +18,7 @@ const TeamDashboardPage = ({ className }: any) => {
   }
 
   const { items } = data.listTeamDashboard;
-  console.log(
-    items.map((item: any) => (item.skills.length <= 3
-      ? item.skills
-      : item.skills.slice(0, 3).push('...'))),
-  );
+
   const teams = items.map((team: any) => {
     // const people = team.people.map((person: string) => <div>{person}</div>);
     const skills = team.skills.map((skill: string) => (
