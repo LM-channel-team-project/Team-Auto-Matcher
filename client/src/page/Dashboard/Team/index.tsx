@@ -40,7 +40,7 @@ const TeamDashboardPage = ({ className }: any) => {
           {/* <div>person: {people}</div> */}
           <Team.Content>{contents}</Team.Content>
         </Team.Left>
-        <Team.State state="closed">모집중</Team.State>
+        <Team.State state={team.state}>{team.state}</Team.State>
       </Team.List>
     );
   });

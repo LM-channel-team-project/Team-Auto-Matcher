@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const TeamDashboardPage = styled.div`
   height: 100%;
@@ -35,32 +35,45 @@ export const ContentInfo = styled.div`
 `;
 
 export interface stateProps {
-  state: 'open' | 'closed' | 'end';
+  state: '모집중' | '진행중' | '종료';
 }
 
 export const State = styled.div`
   border-radius: 2em;
-  background-color: #e3faf3;
-  padding: 0.7em 0.8em;
-  color: ${({ state }: stateProps) => {
-    let color = '#fff';
+  background-color:${({ state }: stateProps) => {
+    let backGroundColor;
     switch (state) {
-    case 'open':
-      color = '#aaa';
+    case '모집중':
+      backGroundColor = '#D1F3DB';
       break;
-    case 'closed':
-      color = '#green';
-      break;
-    case 'end':
-      color = 'yellow';
+    case '진행중':
+      backGroundColor = '#F3DFDE';
       break;
     default:
-      color = '#fff';
+      backGroundColor = '#E7EAEC';
       break;
     }
-
-    return color;
+    return backGroundColor;
   }};
+
+  padding: 0.7em 0.8em;
+
+  color: ${({ state }: stateProps) => {
+    let fontColor;
+    switch (state) {
+    case '모집중':
+      fontColor = '#2AC551';
+      break;
+    case '진행중':
+      fontColor = '#E55052';
+      break;
+    default:
+      fontColor = '#657381';
+      break;
+    }
+    return fontColor;
+  }};
+
   font-size: 1.6rem;
   font-weight: bold;
 `;
