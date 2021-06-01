@@ -1,44 +1,62 @@
 import React from 'react';
 import { listTeamDashboard } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
-import * as S from './style';
+import * as P from 'page/Dashboard/Personal/style';
+import * as Team from './style';
 
 const TeamDashboardPage = ({ className }: any) => {
   const {
     loading, error, data, refetch,
-  } = useQuery(gql`${listTeamDashboard}`);
+  } = useQuery(
+    gql`
+      ${listTeamDashboard}
+    `,
+  );
 
   if (loading) {
     return <></>;
   }
-  const temp = data.listTeamDashboard.items.map((el: any) => {
-    const people = el.people.map((person: string) => (
-      <div>{person}</div>
+
+  const { items } = data.listTeamDashboard;
+  console.log(
+    items.map((item: any) => (item.skills.length <= 3
+      ? item.skills
+      : item.skills.slice(0, 3).push('...'))),
+  );
+  const teams = items.map((team: any) => {
+    // const people = team.people.map((person: string) => <div>{person}</div>);
+    const skills = team.skills.map((skill: string) => (
+      <P.Stacklist>{skill}</P.Stacklist>
     ));
-    const skills = el.skills.map((skill: string) => (
-      <div>{skill}</div>
+
+    const contents = team.contents.map((content: any) => (
+      <Team.Text>
+        <Team.Title>{content.title}</Team.Title>
+        <Team.ContentInfo>{content.text}</Team.ContentInfo>
+      </Team.Text>
     ));
-    const contents = el.contents.map((content: any) => (
-      <div>
-        <div>title : {content.title}</div>
-        <div>text : {content.text}</div>
-      </div>
-    ));
+
     return (
-      <div>
-        <div>name : {el.name}</div>
-        <div>person: {people}</div>
-        <div>skills: {skills}</div>
-        <div>contents: {contents}</div>
-      </div>
+      <Team.List>
+        <Team.Left>
+          <Team.Name>{team.name}</Team.Name>
+          <P.Stack>{skills}</P.Stack>
+          {/* <div>person: {people}</div> */}
+          <Team.Content>{contents}</Team.Content>
+        </Team.Left>
+        <Team.State state="closed">모집중</Team.State>
+      </Team.List>
     );
   });
   return (
-    <S.TeamDashboardPage className={className}>
-      TEAM Dashboard
-      {temp}
-    </S.TeamDashboardPage>
-
+    <P.Container className={className}>
+      <P.Top>
+        <P.MainBtn>메인 메뉴</P.MainBtn>
+        <Team.Main>팀 현황판</Team.Main>
+      </P.Top>
+      <Team.TeamPage>{teams}</Team.TeamPage>
+      <Team.CreateBtn>팀 생성하기</Team.CreateBtn>
+    </P.Container>
   );
 };
 
