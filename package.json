@@ -1,0 +1,23 @@
+{
+  "name": "team-auto-matcher",
+  "version": "1.0.0",
+  "description": "## 개요",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LM-channel-team-project/Team-Auto-Matcher.git"
+  },
+  "dependencies": {
+    "husky": "^6.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LM-channel-team-project/Team-Auto-Matcher/issues"
+  },
+  "homepage": "https://github.com/LM-channel-team-project/Team-Auto-Matcher#readme"
+}
