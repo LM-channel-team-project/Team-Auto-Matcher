@@ -24,14 +24,14 @@ export const Content = styled.div`
   display: flex;
 `;
 export const Name = styled.h1`
-  font-size: 3em;
+  font-size: 3rem;
 `;
 export const Title = styled.h1`
   margin-bottom: 1em;
-  font-size: 1.6em;
+  font-size: 1.6rem;
 `;
 export const ContentInfo = styled.div`
-  font-size: 1.5em;
+  font-size: 1.5rem;
 `;
 
 export interface stateProps {
@@ -39,7 +39,7 @@ export interface stateProps {
 }
 
 export const State = styled.div`
-  border-radius: 2em;
+  border-radius: 2rem;
   background-color:${({ state }: stateProps) => {
     let backGroundColor;
     switch (state) {
@@ -80,7 +80,7 @@ export const State = styled.div`
 
 export const Main = styled.h1`
   margin: 1.5em 0;
-  font-size: 4em;
+  font-size: 4rem;
 `;
 
 export const TeamPage = styled.div`
@@ -89,24 +89,24 @@ export const TeamPage = styled.div`
   align-items: center;
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 1.2em;
+    width: 1.2rem;
   }
   &::-webkit-scrollbar-thumb {
     background-color: #7f8c8d;
-    border-radius: 1em;
+    border-radius: 1rem;
   }
   &::-webkit-scrollbar-track {
     background-color: #dfe6e9;
-    border-radius: 1em;
+    border-radius: 1rem;
   }
   padding-top: 1em;
-  width: 150em;
-  height: 58em;
+  width: 150rem;
+  height: 58rem;
 `;
 
 export const List = styled.div`
   display: flex;
-  width: 140em;
+  width: 140rem;
   cursor: pointer;
   margin-bottom: 3em;
   &:last-child {
@@ -114,23 +114,23 @@ export const List = styled.div`
   }
   justify-content: space-between;
   align-items: center;
-  border-radius: 1.5em;
+  border-radius: 1.5rem;
   padding: 2em;
-  border: 0.3em solid #ffffff;
-  box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.12),
-    0 0.1em 0.2em rgba(0, 0, 0, 0.24);
+  border: 0.3rem solid #ffffff;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12),
+    0 0.1rem 0.2rem rgba(0, 0, 0, 0.24);
   transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   &:hover {
-    box-shadow: 0 1.4em 2.8em rgba(0, 0, 0, 0.25), 0 1em 1em rgba(0, 0, 0, 0.22);
+    box-shadow: 0 1.4rem 2.8rem rgba(0, 0, 0, 0.25), 0 1rem 1rem rgba(0, 0, 0, 0.22);
   }
 `;
 
 export const CreateBtn = styled.button`
   cursor: pointer;
   margin-top: 1.5em;
-  width: 10em;
-  height: 3em;
-  font-size: 2em;
-  border-radius: 0.5em;
+  width: 20rem;
+  height: 6rem;
+  font-size: 2rem;
+  border-radius: 0.5rem;
 `;
 export default {};
