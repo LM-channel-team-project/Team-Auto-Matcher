@@ -1,7 +1,7 @@
 import React from 'react';
 import { listTeamDashboard } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
-import * as P from 'page/Dashboard/Personal/style';
+import * as Personal from 'page/Dashboard/Personal/style';
 import * as Team from './style';
 
 const TeamDashboardPage = ({ className }: any) => {
@@ -20,9 +20,8 @@ const TeamDashboardPage = ({ className }: any) => {
   const { items } = data.listTeamDashboard;
 
   const teams = items.map((team: any) => {
-    // const people = team.people.map((person: string) => <div>{person}</div>);
     const skills = team.skills.map((skill: string) => (
-      <P.Stacklist>{skill}</P.Stacklist>
+      <Personal.Stacklist>{skill}</Personal.Stacklist>
     ));
 
     const contents = team.contents.map((content: any) => (
@@ -36,8 +35,7 @@ const TeamDashboardPage = ({ className }: any) => {
       <Team.List>
         <Team.Left>
           <Team.Name>{team.name}</Team.Name>
-          <P.Stack>{skills}</P.Stack>
-          {/* <div>person: {people}</div> */}
+          <Personal.Stack>{skills}</Personal.Stack>
           <Team.Content>{contents}</Team.Content>
         </Team.Left>
         <Team.State state={team.state}>{team.state}</Team.State>
@@ -45,14 +43,14 @@ const TeamDashboardPage = ({ className }: any) => {
     );
   });
   return (
-    <P.Container className={className}>
-      <P.Top>
-        <P.MainBtn>메인 메뉴</P.MainBtn>
+    <Personal.Container className={className}>
+      <Personal.Top>
+        <Personal.MainBtn>메인 메뉴</Personal.MainBtn>
         <Team.Main>팀 현황판</Team.Main>
-      </P.Top>
+      </Personal.Top>
       <Team.TeamPage>{teams}</Team.TeamPage>
       <Team.CreateBtn>팀 생성하기</Team.CreateBtn>
-    </P.Container>
+    </Personal.Container>
   );
 };
 

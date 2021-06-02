@@ -9,7 +9,7 @@ export const TeamDashboardPage = styled.div`
 `;
 
 export const Left = styled.div`
-  width: 123em;
+  width: 123rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
