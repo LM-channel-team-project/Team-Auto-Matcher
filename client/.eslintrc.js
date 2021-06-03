@@ -32,12 +32,13 @@ module.exports = {
     ],
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
-    'no-unused-vars': 1,
     'no-use-before-define': 0,
     'no-redeclare': 1,
     'no-console': 0,
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
   },
 
 };
