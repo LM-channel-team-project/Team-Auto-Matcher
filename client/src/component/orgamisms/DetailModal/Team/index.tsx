@@ -1,15 +1,9 @@
 import React from 'react';
-import TextLabel from 'component/atoms/TextLabel';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate from '../template';
+import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
-type ContentItem = {
-  title: string;
-  text: string;
-};
-
-interface ITeamDetailModal {
+export interface ITeamDetailModal {
   data: {
     id: string;
     name: string;
@@ -24,7 +18,7 @@ interface ITeamDetailModal {
 const TeamDetailModal = ({ data, onCloseModal }: ITeamDetailModal) => {
   const renderContents = () => {
     const skills = data.skills.map((skill: string) => (
-      <TextLabel
+      <S.TextLabel
         className="dc-label"
         text={skill}
         color={skillsLabel[skill.toLowerCase()]}
@@ -38,12 +32,12 @@ const TeamDetailModal = ({ data, onCloseModal }: ITeamDetailModal) => {
     const inlineContents = (
       <>
         <S.ContentItem>
-          <S.InlineContent title="구성원" className="ci-inline">
+          <S.InlineContent title="구성원" className="ci-people">
             {people}
           </S.InlineContent>
         </S.ContentItem>
         <S.ContentItem>
-          <S.InlineContent title="기술 스택" className="ci-inline">
+          <S.InlineContent title="기술 스택" className="ci-skills">
             {skills}
           </S.InlineContent>
         </S.ContentItem>
