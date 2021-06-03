@@ -30,6 +30,8 @@ module.exports = {
       'error',
       2,
     ],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     'no-unused-vars': 1,
     'no-use-before-define': 0,
     'no-redeclare': 1,
@@ -37,4 +39,5 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
   },
+
 };
