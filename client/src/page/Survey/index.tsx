@@ -28,16 +28,35 @@ const firstInput = [
 function Survey() {
   const {
     loading, error, data, refetch,
-  } = useQuery(gql`${listQuestionnaires}`);
+  } = useQuery(
+    gql`
+      ${listQuestionnaires}
+    `,
+  );
 
   const {
-    loading: userLoading, error: userError, data: userData, refetch: userRefetch,
-  } = useQuery(gql`${getUser}`);
+    loading: userLoading,
+    error: userError,
+    data: userData,
+    refetch: userRefetch,
+  } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
 
   const history = useHistory();
 
-  const [addUserData] = useMutation(gql`${createUser}`);
-  const [updateUserData] = useMutation(gql`${updateUser}`);
+  const [addUserData] = useMutation(
+    gql`
+      ${createUser}
+    `,
+  );
+  const [updateUserData] = useMutation(
+    gql`
+      ${updateUser}
+    `,
+  );
 
   const bUserUpdating = useRef<boolean>(false);
 
@@ -51,13 +70,13 @@ function Survey() {
   }
 
   if (loading) {
-    return (<div>loading</div>);
+    return <div>loading</div>;
   }
 
   if (!userLoading && !userError) {
     if (userData) {
       if (userData.getUser && userData.getUser.items?.length !== 0) {
-        console.log('userData : ', userData);
+        // console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
         const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
         bUserUpdating.current = true;
@@ -68,12 +87,14 @@ function Survey() {
               question: firstInput,
             },
           },
-        }).then(() => {
-          bUserUpdating.current = false;
-          userRefetch();
-        }).catch((err: any) => {
-          console.error(err);
-        });
+        })
+          .then(() => {
+            bUserUpdating.current = false;
+            userRefetch();
+          })
+          .catch((err: any) => {
+            console.error(err);
+          });
       }
     }
   }
@@ -83,7 +104,9 @@ function Survey() {
   }
 
   const listQuestionnairesData = [...data.listQuestionnaires.items];
-  listQuestionnairesData.sort((el1: any, el2: any) => el1.priority - el2.priority);
+  listQuestionnairesData.sort(
+    (el1: any, el2: any) => el1.priority - el2.priority,
+  );
   const nowQuestionnaire = listQuestionnairesData[page];
   const selectedData = userData.getUser?.items[0]?.question;
   const nowSelectedData = selectedData[page];
@@ -95,10 +118,12 @@ function Survey() {
       answers: el.answers,
     }));
 
-    const backData = selectedData.slice(page + 1, selectedData.length).map((el: any) => ({
-      title: el.title,
-      answers: el.answers,
-    }));
+    const backData = selectedData
+      .slice(page + 1, selectedData.length)
+      .map((el: any) => ({
+        title: el.title,
+        answers: el.answers,
+      }));
     const nowQuestion = {
       title: nowQuestionnaire.questionTitle,
       answers: [...nowQuestions],
@@ -136,17 +161,27 @@ function Survey() {
     });
   };
 
-  const onProgressBarListClick = (e:any, nowQuestions: string[]) => {
+  const onProgressBarListClick = (e: any, nowQuestions: string[]) => {
     updateNowUserQuestion(nowQuestions);
     setPage(Number(e.target.id));
   };
 
-  const setQuestionList = ():string[] => {
+  const setQuestionList = (): string[] => {
     if (nowQuestionnaire.questionBrief === 'Available Stack') {
       let questionList = [];
       switch (selectedData[0].answers[0]) {
       case '프론트엔드':
-        questionList = ['React', 'TypeScript', 'Angular', 'Vue', 'Ember', 'Node', 'Nuxt', 'Next', 'etc'];
+        questionList = [
+          'React',
+          'TypeScript',
+          'Angular',
+          'Vue',
+          'Ember',
+          'Node',
+          'Nuxt',
+          'Next',
+          'etc',
+        ];
         break;
       case '백엔드':
         questionList = ['Flask', 'Django', 'Spring', 'Express', 'Koa', 'etc'];
