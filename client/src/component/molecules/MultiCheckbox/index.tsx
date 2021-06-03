@@ -56,10 +56,8 @@ function MultiCheckbox({
   };
 
   const onChangeHandler = (event:any) => {
-    setSelectedData(event.target.value);
+    setSelectedData([event.target.value]);
   };
-
-  const initialValue:string = typeof (selectedData) === 'object' ? selectedData.join('') : selectedData;
 
   return (
     <>
@@ -70,7 +68,7 @@ function MultiCheckbox({
         : <S.Input
           maxLength={400}
           placeholder='400자 이하로 작성해주세요.'
-          value={initialValue}
+          value={selectedData[0] || ''}
           onChange={onChangeHandler}
         />
       }
