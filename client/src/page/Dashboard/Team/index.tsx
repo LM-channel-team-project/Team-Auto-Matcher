@@ -34,18 +34,18 @@ const TeamDashboardPage = ({ className }: any) => {
 
   const teams = items.map((team: any) => {
     const skills = team.skills.map((skill: string) => (
-      <Personal.Stacklist>{skill}</Personal.Stacklist>
+      <Personal.Stacklist key={skill}>{skill}</Personal.Stacklist>
     ));
 
     const contents = team.contents.map((content: any) => (
-      <Team.Text>
+      <Team.Text key={content.title}>
         <Team.Title>{content.title}</Team.Title>
         <Team.ContentInfo>{content.text}</Team.ContentInfo>
       </Team.Text>
     ));
 
     return (
-      <Team.List onClick={() => setModal({ type: 'detail', data: team })}>
+      <Team.List key={team.name} onClick={() => setModal({ type: 'detail', data: team })}>
         <Team.Left>
           <Team.Name>{team.name}</Team.Name>
           <Personal.Stack>{skills}</Personal.Stack>
