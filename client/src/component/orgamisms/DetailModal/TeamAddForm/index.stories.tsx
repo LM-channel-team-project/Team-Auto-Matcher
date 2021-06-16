@@ -7,7 +7,7 @@ const props = {
     id: 'aaaaa',
     name: '라바마',
     people: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6'],
-    skills: ['React', 'MongoDB', 'GraphQL', 'Apollo Client', 'Redux'],
+    skills: ['React', 'MongoDB', 'GraphQL', 'Apollo Client'],
     outline: '한줄 소개 입니다.',
     contents: [
       {
@@ -28,6 +28,7 @@ const props = {
     ],
   },
   onCloseModal: () => alert('close'),
+  onAdd: () => alert('add'),
 };
 
 export default {

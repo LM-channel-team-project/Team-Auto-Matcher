@@ -3,21 +3,21 @@ import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
-export interface ITeamDetailModal {
+export type TeamModalProps = {
   data: {
-    id: string;
-    name: string;
-    people: string[];
-    outline: string;
-    contents: ContentItem[];
-    skills: string[];
+    id?: string;
+    name?: string;
+    people?: string[];
+    outline?: string;
+    contents?: ContentItem[];
+    skills?: string[];
   };
   onCloseModal: () => void;
 }
 
-const TeamDetailModal = ({ data, onCloseModal }: ITeamDetailModal) => {
+const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
   const renderContents = () => {
-    const skills = data.skills.map((skill: string) => (
+    const skills = data.skills && data.skills.map((skill: string) => (
       <S.TextLabel
         className="dc-label"
         text={skill}
@@ -25,7 +25,7 @@ const TeamDetailModal = ({ data, onCloseModal }: ITeamDetailModal) => {
       />
     ));
 
-    const people = data.people.map((person: string) => (
+    const people = data.people && data.people.map((person: string) => (
       <S.Text type="people">{person}</S.Text>
     ));
 
@@ -44,7 +44,7 @@ const TeamDetailModal = ({ data, onCloseModal }: ITeamDetailModal) => {
       </>
     );
 
-    const blockContents = data.contents.map((content: any) => (
+    const blockContents = data.contents && data.contents.map((content: any) => (
       <S.ContentItem>
         <S.BlockContent title={content.title} className="ci-block">
           <S.Paragraph>{content.text}</S.Paragraph>

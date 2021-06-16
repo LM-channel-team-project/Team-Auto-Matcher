@@ -2,9 +2,6 @@ import styled from 'styled-components';
 import Button from 'component/atoms/Button';
 
 export const DetailModal = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
   width: 40em;
   background-color: ${({ theme }) => theme.color.background};
   text-align: center;
@@ -12,7 +9,6 @@ export const DetailModal = styled.div`
   padding: 3em 0.5em;
   border-radius: 5%;
   box-shadow: ${({ theme }) => theme.color.shadowscale[0]};
-  transform: translate(-50%, -50%);
 `;
 
 export const HeaderWrapper = styled.div`
