@@ -3,7 +3,7 @@ import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
-interface IPersonalDetailModal {
+export type PersonalModalProps = {
   data: {
     id: string;
     name: string;
@@ -16,7 +16,7 @@ interface IPersonalDetailModal {
   onCloseModal: () => void;
 }
 
-const PersonalDetailModal = ({ data, onCloseModal }: IPersonalDetailModal) => {
+const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const renderContents = () => {
     const skills = data.skills.map((skill: string) => (
       <S.TextLabel key={skill} className="dc-label" text={skill} color={skillsLabel[skill.toLowerCase()]} />

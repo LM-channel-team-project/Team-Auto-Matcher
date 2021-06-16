@@ -22,6 +22,7 @@ export const ModalBG = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  backdrop-filter: blur(1px);
 `;
 
 export const Modal = styled.dialog`
