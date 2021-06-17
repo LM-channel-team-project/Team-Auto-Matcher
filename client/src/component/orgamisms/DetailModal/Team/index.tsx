@@ -11,6 +11,7 @@ export interface TeamModalProps {
     outline: string;
     contents: ContentItem[];
     skills: string[];
+    state: string;
   };
   onCloseModal: () => void;
 }
@@ -68,6 +69,7 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
     <DetailModalTemplate
       modalHeader={
         <>
+          <S.State text={data?.state || ''} />
           <S.Title type="team">{data?.name}</S.Title>
           <S.Desc>{data?.outline}</S.Desc>
         </>

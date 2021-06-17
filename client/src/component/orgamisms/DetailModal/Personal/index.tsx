@@ -8,7 +8,8 @@ export interface PersonalModalProps {
     id: string;
     name: string;
     outline: string;
-    domain: string;
+    field: string;
+    devExp: string;
     skills: string[];
     team: string[];
     contents: ContentItem[];
@@ -63,7 +64,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     data ? <DetailModalTemplate
       modalHeader={
         <>
-          <S.Domain>{data.domain}</S.Domain>
+          <S.Domain>{`${data.field} ${data.devExp}`}</S.Domain>
           <S.Title type="personal">{data.name}</S.Title>
           <S.Desc>{data.outline}</S.Desc>
         </>

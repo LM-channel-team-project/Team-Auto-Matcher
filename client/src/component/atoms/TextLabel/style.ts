@@ -3,6 +3,7 @@ import globalTheme from 'style/theme';
 
 export interface StyleProps {
   color?: keyof typeof globalTheme.color.label;
+  fontColor?: keyof typeof globalTheme.color.text;
   outline?: boolean;
 }
 
@@ -24,6 +25,14 @@ const colorStyle = css<StyleProps>`
 }
 `;
 
+const fontColorStyle = css<StyleProps>`
+  ${({ theme, fontColor = 'black' }) => {
+    const selected = theme.color.text[fontColor];
+    return fontColor && css`color: ${selected};`;
+  }
+}
+`;
+
 export const TextLabel = styled.div<StyleProps>`
   display: inline-block;
   font-size: 1rem;
@@ -33,6 +42,8 @@ export const TextLabel = styled.div<StyleProps>`
   border-radius: 2.5em;
 
   ${colorStyle}
+
+  ${fontColorStyle}
 `;
 
 export const Text = styled.span`
