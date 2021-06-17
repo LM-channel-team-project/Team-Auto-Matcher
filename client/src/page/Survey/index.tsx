@@ -5,6 +5,7 @@ import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser, updateUser } from 'graphql/mutations';
 
 import Questionnaire from 'component/orgamisms/Questionnaire';
+import MenuBar from 'component/templates/menuBar';
 import * as S from './style';
 
 const firstInput = [
@@ -176,21 +177,24 @@ function Survey() {
   };
 
   return (
-    <S.SurveyPage>
-      <Questionnaire
-        key={nowQuestionnaire.id}
-        question={nowQuestionnaire.questionTitle}
-        questionList={setQuestionList()}
-        bDuplicateSelect={nowQuestionnaire.bDuplicate}
-        selectedData={nowSelectedData.answers}
-        leftOnClick={onLeftClick}
-        rightOnClick={onRightClick}
-        currentPage={page + 1}
-        totalPage={totalPage}
-        onClickList={onProgressBarListClick}
-        listQuestionnairesData={listQuestionnairesData}
-      />
-    </S.SurveyPage>
+    <>
+      <MenuBar/>
+      <S.SurveyPage>
+        <Questionnaire
+          key={nowQuestionnaire.id}
+          question={nowQuestionnaire.questionTitle}
+          questionList={setQuestionList()}
+          bDuplicateSelect={nowQuestionnaire.bDuplicate}
+          selectedData={nowSelectedData.answers}
+          leftOnClick={onLeftClick}
+          rightOnClick={onRightClick}
+          currentPage={page + 1}
+          totalPage={totalPage}
+          onClickList={onProgressBarListClick}
+          listQuestionnairesData={listQuestionnairesData}
+        />
+      </S.SurveyPage>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { listPersonDashboard } from 'graphql/matchQueries';
+import MenuBar from 'component/templates/menuBar';
 import { gql, useQuery } from '@apollo/client';
 import * as S from './style';
 
@@ -37,6 +38,7 @@ const Match = ({ className }: any) => {
   };
   return (
     <>
+      <MenuBar/>
       <S.Container>
         {Object.keys(users).map((field: any, index: number) => (
           index === current && (

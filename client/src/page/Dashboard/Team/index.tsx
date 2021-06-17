@@ -1,5 +1,6 @@
 import React from 'react';
 import { listTeamDashboard } from 'graphql/queries';
+import MenuBar from 'component/templates/menuBar';
 import { gql, useQuery } from '@apollo/client';
 import * as S from './style';
 
@@ -34,11 +35,13 @@ const TeamDashboardPage = ({ className }: any) => {
     );
   });
   return (
-    <S.TeamDashboardPage className={className}>
-      TEAM Dashboard
-      {temp}
-    </S.TeamDashboardPage>
-
+    <>
+      <MenuBar/>
+      <S.TeamDashboardPage className={className}>
+        TEAM Dashboard
+        {temp}
+      </S.TeamDashboardPage>
+    </>
   );
 };
 
