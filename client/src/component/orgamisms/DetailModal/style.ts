@@ -6,15 +6,15 @@ import InputText from 'component/atoms/InputText';
 import Button from 'component/atoms/Button';
 import globalTheme from 'style/theme';
 
-type TitleProps = {
+interface TitleProps {
   type: 'team' | 'personal';
 }
 
-type TextProps = {
+interface TextProps {
   type?: 'people';
 }
 
-type StyleProps = {
+interface StyleProps {
   theme: typeof globalTheme;
 }
 

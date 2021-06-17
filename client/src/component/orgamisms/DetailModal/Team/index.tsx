@@ -3,7 +3,7 @@ import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
-export type TeamModalProps = {
+export interface TeamModalProps {
   data: {
     id?: string;
     name?: string;

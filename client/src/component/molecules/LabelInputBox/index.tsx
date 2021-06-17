@@ -6,7 +6,7 @@ type Colors = {
   [key: string]: keyof typeof globalTheme.color.label;
 }
 
-type Props = {
+interface Props {
   list?: string[];
   colors?: Colors;
   value?: string | number;

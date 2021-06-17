@@ -6,38 +6,41 @@ import DetailModalTemplate, { ContentItem } from '../template';
 import { TeamModalProps } from '../Team';
 import * as S from '../style';
 
-type InputState = {
+interface InputState {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   reset?: () => void;
-};
+}
 
-type SkillState = {
+interface SkillState {
   onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   removeLabel: (
     event: React.MouseEvent<HTMLButtonElement>,
     name: string,
   ) => void;
-};
+}
 
+// use type alias for computed value
 type InputsState = { [key: string]: InputState } & {
   skill: SkillState & InputState;
 };
 
-type ContentsState = {
+interface ContentsState {
   value: ContentItem[];
   onChange: (
     event: React.ChangeEvent<HTMLTextAreaElement>,
     title: string,
   ) => void;
-};
+}
 
 const contentsTitle = [
   { title: '구현하고자 하는 것', text: '' },
   { title: '진행상황', text: '' },
 ];
 
-type Props = TeamModalProps & { onAdd: () => void };
+interface Props extends TeamModalProps {
+  onAdd: () => void;
+}
 
 const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
   const [createTeamData] = useMutation(

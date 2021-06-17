@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-type Props = {
+interface Props {
   value?: string | number;
   autoWidth?: boolean;
   minWidth?: number;

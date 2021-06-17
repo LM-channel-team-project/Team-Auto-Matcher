@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './style';
 
-type InputType = {
+interface InputType {
   type?: 'text';
   inputRef?: React.RefObject<HTMLInputElement>;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,7 +9,7 @@ type InputType = {
   onKeyPress?: (event:React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-type TextAreaType = {
+interface TextAreaType {
   type: 'textarea';
   inputRef?: React.RefObject<HTMLTextAreaElement>;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;

@@ -8,10 +8,10 @@ import * as S from './style';
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
 type UserData = ExtractType<PersonalModalProps, 'data'>;
 
-type ModalState = {
+interface ModalState {
   type?: 'detail' | 'add';
   data?: UserData;
-};
+}
 
 const PersonalDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});

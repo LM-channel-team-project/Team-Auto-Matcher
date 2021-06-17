@@ -10,10 +10,10 @@ import * as Team from './style';
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
 type TeamData = ExtractType<TeamModalProps, 'data'>;
 
-type ModalState = {
+interface ModalState {
   type?: 'detail' | 'add';
   data?: TeamData;
-};
+}
 
 const TeamDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});

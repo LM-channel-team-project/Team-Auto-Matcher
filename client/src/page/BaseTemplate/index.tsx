@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './style';
 
-type TemplateProps = {
+interface TemplateProps {
   children?: React.ReactNode;
   Modal?: React.ReactNode;
   closeModal?: () => void;
