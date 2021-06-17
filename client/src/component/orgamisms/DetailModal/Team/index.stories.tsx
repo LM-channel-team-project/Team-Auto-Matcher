@@ -26,6 +26,7 @@ const props = {
         vulputate quisque facilisis lorem aenean felis nullam, sodales habitant nunc tempor etiam. Lacus imperdiet tellus commodo molestie luctus vitae euismod ad est cubilia lacinia sagittis, suscipit eleifend aliquet ornare fringilla consequat ridiculus sem justo conubia.`,
       },
     ],
+    state: '모집중',
   },
   onCloseModal: () => alert('close'),
 };

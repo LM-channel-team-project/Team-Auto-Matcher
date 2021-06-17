@@ -15,7 +15,7 @@ module.exports = {
     typescript: {},
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'react-hooks', '@typescript-eslint/eslint-plugin'],
   extends: [
     'airbnb-base',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -30,11 +30,15 @@ module.exports = {
       'error',
       2,
     ],
-    'no-unused-vars': 1,
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     'no-use-before-define': 0,
     'no-redeclare': 1,
     'no-console': 0,
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
   },
+
 };

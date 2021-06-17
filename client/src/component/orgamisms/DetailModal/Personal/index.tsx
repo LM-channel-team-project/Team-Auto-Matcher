@@ -1,20 +1,15 @@
 import React from 'react';
-import TextLabel from 'component/atoms/TextLabel';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate from '../template';
+import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
-type ContentItem = {
-  title: string;
-  text: string;
-};
-
-interface IPersonalDetailModal {
+export interface PersonalModalProps {
   data: {
     id: string;
     name: string;
     outline: string;
-    domain: string;
+    field: string;
+    devExp: string;
     skills: string[];
     team: string[];
     contents: ContentItem[];
@@ -22,23 +17,23 @@ interface IPersonalDetailModal {
   onCloseModal: () => void;
 }
 
-const PersonalDetailModal = ({ data, onCloseModal }: IPersonalDetailModal) => {
+const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const renderContents = () => {
     const skills = data.skills.map((skill: string) => (
-      <TextLabel className="dc-label" text={skill} color={skillsLabel[skill.toLowerCase()]} />
+      <S.TextLabel key={skill} className="dc-label" text={skill} color={skillsLabel[skill.toLowerCase()]} />
     ));
 
-    const team = data!.team.map((aTeam: string) => <S.Text>{aTeam}</S.Text>);
+    const team = data!.team.map((aTeam: string) => <S.Text key={aTeam}>{aTeam}</S.Text>);
 
     const inlineContents = (
       <>
         <S.ContentItem>
-          <S.InlineContent title="소속한 팀" className="ci-inline">
+          <S.InlineContent title="소속한 팀" className="ci-people">
             {team}
           </S.InlineContent>
         </S.ContentItem>
         <S.ContentItem>
-          <S.InlineContent title="기술 스택" className="ci-inline">
+          <S.InlineContent title="기술 스택" className="ci-skill">
             {skills}
           </S.InlineContent>
         </S.ContentItem>
@@ -46,7 +41,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: IPersonalDetailModal) => {
     );
 
     const blockContents = data!.contents.map((content: any) => (
-      <S.ContentItem>
+      <S.ContentItem key={content.title}>
         <S.BlockContent title={content.title} className="ci-block">
           <S.Paragraph>{content.text}</S.Paragraph>
         </S.BlockContent>
@@ -69,7 +64,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: IPersonalDetailModal) => {
     data ? <DetailModalTemplate
       modalHeader={
         <>
-          <S.Domain>{data.domain}</S.Domain>
+          <S.Domain>{`${data.field} ${data.devExp}`}</S.Domain>
           <S.Title type="personal">{data.name}</S.Title>
           <S.Desc>{data.outline}</S.Desc>
         </>

@@ -54,6 +54,7 @@ export const listTeamDashboard = /* GraphQL */ `
         people
         skills
         outline
+        state
         contents {
           title
           text
@@ -73,7 +74,8 @@ export const listPersonDashboard = /* GraphQL */ `
         skills
         team
         outline
-        domain
+        field
+        devExp
         contents {
           title
           text

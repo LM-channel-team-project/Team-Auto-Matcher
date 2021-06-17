@@ -13,7 +13,12 @@ const color = {
   delete: '#DC3545',
   deleteHover: '#C82333',
   background: '#FCFDFF',
-  text: '#271B31',
+  text: {
+    black: '#271B31',
+    gray: '#657381',
+    green: '#2AC551',
+    red: '#E55052',
+  },
   scrollbar: '#dedede',
   button: {
     red: '#FF5C6A',
@@ -23,11 +28,13 @@ const color = {
     orange: '#FFB38F',
   },
   label: {
-    gray: '#DFDDE5',
-    red: '#E88073',
+    gray: '#E7EAEC',
+    darkRed: '#E88073',
     blue: '#DFF3F0',
     yellow: '#F7EAA0',
     orange: '#FFB38F',
+    green: '#D1F3DB',
+    red: '#F3DFDE',
   },
   shadowscale: ['5px 5px 12px rgba(0,0,0,0.25)'],
 };
