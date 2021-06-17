@@ -189,6 +189,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
   );
 
   const onSubmit = async () => {
+    if (name.length < 2) return;
     await createTeamData({
       variables: {
         input: {
