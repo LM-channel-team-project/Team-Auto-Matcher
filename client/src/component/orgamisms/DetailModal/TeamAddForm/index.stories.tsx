@@ -1,3 +1,5 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import client from 'Apollo';
 import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import TeamAddForm from '.';
@@ -34,6 +36,12 @@ const props = {
 export default {
   title: 'Organisms/DetailModal/TeamAddForm',
   component: TeamAddForm,
+  decorators: [(story: Function) => (
+    <ApolloProvider client={new ApolloClient({ link: undefined, cache: new InMemoryCache() })}>
+      {story()}
+    </ApolloProvider>
+  ),
+  ],
 };
 
 export function Default() {
