@@ -15,6 +15,7 @@ const LoginPage = ({ className }: any) => {
         window.location.href = '/';
         break;
       case 'signOut':
+        window.location.href = '/';
         break;
       case 'customOAuthState':
         break;
