@@ -7,7 +7,8 @@ const props = {
     id: 'bbbbb',
     name: '테스트계정',
     outline: '열심히 하겠습니다',
-    domain: 'Backend',
+    devExp: '1년',
+    field: 'Backend',
     skills: ['React', 'MongoDB', 'Express'],
     team: ['팀 구하는중'],
     contents: [
