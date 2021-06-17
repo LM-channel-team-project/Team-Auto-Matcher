@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { listPersonDashboard } from 'graphql/queries';
+import MenuBar from 'component/templates/menuBar';
 import { gql, useQuery } from '@apollo/client';
 import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, { PersonalModalProps } from 'component/orgamisms/DetailModal/Personal';
@@ -93,18 +94,21 @@ const PersonalDashboardPage = ({ className }: any) => {
   };
 
   return (
-    <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
-      <S.Container>
-        <S.Top>
-          <S.MainBtn>메인 메뉴</S.MainBtn>
-          <S.Main>매칭 대기열</S.Main>
-          {Slider}
-        </S.Top>
-        <S.MatchPage className={className}>
-          {UserList}
-        </S.MatchPage>
-      </S.Container>
-    </BaseTemplate>
+    <>
+      <MenuBar/>
+      <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
+        <S.Container>
+          <S.Top>
+            <S.MainBtn>메인 메뉴</S.MainBtn>
+            <S.Main>매칭 대기열</S.Main>
+            {Slider}
+          </S.Top>
+          <S.MatchPage className={className}>
+            {UserList}
+          </S.MatchPage>
+        </S.Container>
+      </BaseTemplate>
+    </>
   );
 };
 
