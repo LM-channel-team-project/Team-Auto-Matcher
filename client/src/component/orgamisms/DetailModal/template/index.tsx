@@ -2,6 +2,10 @@ import React from 'react';
 import CloseBtn from 'component/atoms/CloseBtn';
 import * as S from './style';
 
+export type ContentItem = {
+  title: string;
+  text: string;
+};
 interface IDetailModalTemplate {
   modalHeader: React.ReactNode;
   modalBody: React.ReactNode;

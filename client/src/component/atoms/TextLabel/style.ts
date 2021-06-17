@@ -26,7 +26,7 @@ const colorStyle = css<StyleProps>`
 
 export const TextLabel = styled.div<StyleProps>`
   display: inline-block;
-  font-size: 1em;
+  font-size: 1rem;
   padding: 0 1em;
   line-height: 2em;
   height: 2em;
@@ -36,5 +36,5 @@ export const TextLabel = styled.div<StyleProps>`
 `;
 
 export const Text = styled.span`
-  font-size: 1em;
+  font-size: 1em; // Relative Sizing for TextLabel
 `;

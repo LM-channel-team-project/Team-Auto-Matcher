@@ -30,3 +30,21 @@ export const updateUser= /* GraphQL */ `
     }
   }
 `;
+
+export const createTeam = /* GraphQL */ `
+  mutation createTeam(
+      $input: CreateTeamInput!
+    ) {
+    createTeam(input: $input) {
+      name
+      people
+      skills
+      outline
+      contents {
+        title
+        text
+      }
+      state
+    }
+  }
+`;
