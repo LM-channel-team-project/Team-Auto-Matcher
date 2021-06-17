@@ -185,3 +185,28 @@ export const Textarea = styled(InputText)`
     margin-right: 0.2em;
   }
 `;
+
+const setColor = (text: string) => {
+  switch (text) {
+  case '모집중':
+    return 'green';
+  case '진행중':
+    return 'red';
+  case '종료':
+    return 'gray';
+  default:
+    return undefined;
+  }
+};
+
+export const State = styled((props: { text: string }) => _TextLabel({
+  color: setColor(props.text),
+  fontColor: setColor(props.text),
+  ...props,
+}))`
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.7em 0.8em;
+  line-height: 1em;
+  margin-bottom: 0.8em;
+`;

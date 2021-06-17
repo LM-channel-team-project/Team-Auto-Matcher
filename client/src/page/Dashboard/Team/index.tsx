@@ -51,7 +51,7 @@ const TeamDashboardPage = ({ className }: any) => {
           <Personal.Stack>{skills}</Personal.Stack>
           <Team.Content>{contents}</Team.Content>
         </Team.Left>
-        <Team.State state={team.state}>{team.state}</Team.State>
+        <Team.State text={team.state}/>
       </Team.List>
     );
   });

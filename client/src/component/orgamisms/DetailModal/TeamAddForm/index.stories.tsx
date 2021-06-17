@@ -1,5 +1,4 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import client from 'Apollo';
 import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import TeamAddForm from '.';
@@ -11,6 +10,7 @@ const props = {
     people: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6'],
     skills: ['React', 'MongoDB', 'GraphQL', 'Apollo Client'],
     outline: '한줄 소개 입니다.',
+    state: '',
     contents: [
       {
         title: '구현하고자 하는 것',

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import globalTheme from 'style/theme';
+import TextLabel from 'component/atoms/TextLabel';
 
 export const TeamDashboardPage = styled.div`
   height: 100%;
@@ -35,48 +37,22 @@ export const ContentInfo = styled.div`
 `;
 
 export interface stateProps {
+  theme: typeof globalTheme;
   state: '모집중' | '진행중' | '종료';
 }
 
-export const State = styled.div`
-  border-radius: 2rem;
-  background-color:${({ state }: stateProps) => {
-    let backGroundColor;
-    switch (state) {
-    case '모집중':
-      backGroundColor = '#D1F3DB';
-      break;
-    case '진행중':
-      backGroundColor = '#F3DFDE';
-      break;
-    default:
-      backGroundColor = '#E7EAEC';
-      break;
-    }
-    return backGroundColor;
-  }};
-
-  padding: 0.7em 0.8em;
-
-  color: ${({ state }: stateProps) => {
-    let fontColor;
-    switch (state) {
-    case '모집중':
-      fontColor = '#2AC551';
-      break;
-    case '진행중':
-      fontColor = '#E55052';
-      break;
-    default:
-      fontColor = '#657381';
-      break;
-    }
-    return fontColor;
-  }};
-
-  font-size: 1.6rem;
-  font-weight: bold;
-`;
+const setColor = (text: string) => {
+  switch (text) {
+  case '모집중':
+    return 'green';
+  case '진행중':
+    return 'red';
+  case '종료':
+    return 'gray';
+  default:
+    return undefined;
+  }
+};
 
 export const Main = styled.h1`
   margin: 1.5em 0;
@@ -133,4 +109,17 @@ export const CreateBtn = styled.button`
   font-size: 2rem;
   border-radius: 0.5rem;
 `;
+
+export const State = styled((props: { text: string }) => TextLabel({
+  color: setColor(props.text),
+  fontColor: setColor(props.text),
+  ...props,
+}))`
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 0.7em 0.8em;
+  line-height: 1em;
+  margin-bottom: 0.8em;
+`;
+
 export default {};
