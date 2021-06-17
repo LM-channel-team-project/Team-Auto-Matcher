@@ -63,11 +63,11 @@ const TeamDashboardPage = ({ className }: any) => {
       setModal({});
     };
 
-    switch (modal.type) {
+    switch (modal?.type) {
     case 'detail':
-      return modal.data && <TeamDetailModal data={modal.data} onCloseModal={onCloseModal} />;
+      return <TeamDetailModal data={modal.data} onCloseModal={onCloseModal} />;
     case 'add':
-      return <TeamAddForm data={modal.data || {}} onCloseModal={onCloseModal} onAdd={onTeamAdd}/>;
+      return <TeamAddForm data={modal.data} onCloseModal={onCloseModal} onAdd={onTeamAdd}/>;
     default:
       return '';
     }

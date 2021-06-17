@@ -49,13 +49,12 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
     `,
   );
 
-  const hasPeopleProp = Object.prototype.hasOwnProperty.call(data, 'people');
-  const people = hasPeopleProp ? data.people : [];
+  const people = data?.people || [];
 
-  const [name, setName] = useState(data.name || '');
-  const [outline, setOutline] = useState(data.outline || '');
-  const [skills, setSkills] = useState(data.skills || []);
-  const [contents, setContents] = useState(data.contents || contentsTitle);
+  const [name, setName] = useState(data?.name || '');
+  const [outline, setOutline] = useState(data?.outline || '');
+  const [skills, setSkills] = useState(data?.skills || []);
+  const [contents, setContents] = useState(data?.contents || contentsTitle);
 
   const [skill, setSkill] = useState('');
 
