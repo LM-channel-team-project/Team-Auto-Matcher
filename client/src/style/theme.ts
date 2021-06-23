@@ -12,6 +12,7 @@ const color = {
   green: '#28a745',
   delete: '#DC3545',
   deleteHover: '#C82333',
+  select: '#FF5C6A',
   background: '#FCFDFF',
   text: {
     black: '#271B31',
