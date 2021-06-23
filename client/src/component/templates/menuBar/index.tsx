@@ -8,10 +8,10 @@ const googleLoginOnClick = () => Auth.federatedSignIn({
   provider: CognitoHostedUIIdentityProvider.Google,
 });
 
-const MenuBar = ({ className } : any) => {
-  const [isLogined, setIsLogined] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
-  const [isPath, setIsPath] = useState('');
+const MenuBar = ({ className }: any) => {
+  const [isLogined, setIsLogined] = useState<boolean>(false);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isPath, setIsPath] = useState<string>('');
   useEffect(() => {
     switch (window.location.pathname) {
     case '/':
@@ -84,7 +84,7 @@ const MenuBar = ({ className } : any) => {
       .catch((err) => console.log(err));
   };
 
-  const onClickHamburger = ():void => {
+  const onClickHamburger = (): void => {
     if (isClicked) {
       setIsClicked(false);
     } else {
@@ -94,10 +94,10 @@ const MenuBar = ({ className } : any) => {
 
   return (
     <>
-      <S.MenuBar className = {className}>
+      <S.MenuBar className={className}>
         <S.MenuLeft>
           <S.MenuItems>
-            <Link to='/'>
+            <Link to="/">
               <S.MainImage></S.MainImage>
               <S.MainText>
                 <p>
@@ -112,28 +112,57 @@ const MenuBar = ({ className } : any) => {
         </S.MenuLeft>
         <S.MenuCenter>
           <S.MenuItems>
-            <Link className={isPath === '/' ? 'current' : ''} to='/'>Home</Link>
+            <Link className={isPath === '/' ? 'current' : ''} to="/">
+              Home
+            </Link>
           </S.MenuItems>
           <S.MenuItems>
-            <Link className={isPath === '/dashboard/personal' ? 'current' : ''} to='/dashboard/personal'>Personal</Link>
+            <Link
+              className={isPath === '/dashboard/personal' ? 'current' : ''}
+              to="/dashboard/personal"
+            >
+              Personal
+            </Link>
           </S.MenuItems>
           <S.MenuItems>
-            <Link className={isPath === '/dashboard/team' ? 'current' : ''} to='/dashboard/team'>Team</Link>
+            <Link
+              className={isPath === '/dashboard/team' ? 'current' : ''}
+              to="/dashboard/team"
+            >
+              Team
+            </Link>
           </S.MenuItems>
           <S.MenuItems>
-            <Link className={isPath === '/survey' ? 'current' : ''} to='/survey'>Survey</Link>
+            <Link
+              className={isPath === '/survey' ? 'current' : ''}
+              to="/survey"
+            >
+              Survey
+            </Link>
           </S.MenuItems>
           <S.MenuItems>
-            <Link className={isPath === '/contact' ? 'current' : ''} to='/contact'>Contact</Link>
+            <Link
+              className={isPath === '/contact' ? 'current' : ''}
+              to="/contact"
+            >
+              Contact
+            </Link>
           </S.MenuItems>
         </S.MenuCenter>
         <S.MenuRight>
-          {isLogined && <S.MenuItems>
-            <Link className='mail' to='/mail'>Mail</Link>
-          </S.MenuItems>}
+          {isLogined && (
+            <S.MenuItems>
+              <Link className="mail" to="/mail">
+                Mail
+              </Link>
+            </S.MenuItems>
+          )}
           <S.MenuItems>
-            {isLogined ? <div onClick = {onClickSignOut}>LogOut</div>
-              : <div onClick={googleLoginOnClick}>LogIn</div>}
+            {isLogined ? (
+              <div onClick={onClickSignOut}>LogOut</div>
+            ) : (
+              <div onClick={googleLoginOnClick}>LogIn</div>
+            )}
           </S.MenuItems>
         </S.MenuRight>
         <S.Hamburger clicked={isClicked} onClick={onClickHamburger}>
@@ -144,23 +173,28 @@ const MenuBar = ({ className } : any) => {
       </S.MenuBar>
       <S.HamburgetMenus clicked={isClicked}>
         <S.MenuItems>
-          <Link to='/dashboard/personal'>Personal</Link>
+          <Link to="/dashboard/personal">Personal</Link>
         </S.MenuItems>
         <S.MenuItems>
-          <Link to='/dashboard/team'>Team</Link>
+          <Link to="/dashboard/team">Team</Link>
         </S.MenuItems>
         <S.MenuItems>
-          <Link to='/survey'>Survey</Link>
+          <Link to="/survey">Survey</Link>
         </S.MenuItems>
         <S.MenuItems>
-          <Link to='/contact'>Contact</Link>
+          <Link to="/contact">Contact</Link>
         </S.MenuItems>
-        {isLogined && <S.MenuItems>
-          <Link to='/mail'>Mail</Link>
-        </S.MenuItems>}
+        {isLogined && (
+          <S.MenuItems>
+            <Link to="/mail">Mail</Link>
+          </S.MenuItems>
+        )}
         <S.MenuItems>
-          {isLogined ? <div onClick = {onClickSignOut}>LogOut</div>
-            : <div onClick={googleLoginOnClick}>LogIn</div>}
+          {isLogined ? (
+            <div onClick={onClickSignOut}>LogOut</div>
+          ) : (
+            <div onClick={googleLoginOnClick}>LogIn</div>
+          )}
         </S.MenuItems>
       </S.HamburgetMenus>
     </>
