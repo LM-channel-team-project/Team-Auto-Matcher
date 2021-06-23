@@ -20,7 +20,7 @@ export const Checkbox = styled(CheckboxComponent)`
 export const QuestionBlock = styled(QuestionBlockComponent)`
   display: flex;
   align-items: center;
-  transition: all .2s;
+  transition: all 0.2s;
 
   > span {
     text-align: left;
@@ -34,13 +34,13 @@ export const QuestionBlock = styled(QuestionBlockComponent)`
 
   ${Checkbox}:checked ~ & {
     background-color: #cc0001;
-    box-shadow: 0 0.1em 0.3em;
+    box-shadow: 0.2rem 0.2rem 0.3rem;
   }
 
   ${Checkbox}:checked ~ & span {
     color: white;
   }
-  
+
   padding: 0.8rem 2rem;
 `;
 
@@ -49,14 +49,14 @@ export const Wrapper = styled.div`
   align-items: center;
   background-color: white;
   border-radius: 0.5em;
-  transition: all .2s;
+  transition: all 0.2s;
 
-  &:hover{
+  &:hover {
     background-color: #cc0001;
-    box-shadow: 0 0.1em 0.3em;
+    box-shadow: 0.2rem 0.2rem 0.3rem;
   }
 
-  &:hover span{
+  &:hover span {
     color: white;
   }
 
