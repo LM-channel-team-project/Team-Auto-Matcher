@@ -177,39 +177,24 @@ export interface ClickedProps {
 }
 
 const firstSpanStyle = css`
-  ${({ clicked }: ClickedProps) => {
-    const sth = 0;
-    return (
-      clicked
-      && css`
-        transform: rotate(-45deg) translate(-7px, 6px);
-      `
-    );
-  }}
+  ${({ clicked }: ClickedProps) => clicked
+    && css`
+      transform: rotate(-45deg) translate(-7px, 6px);
+    `}
 `;
 
 const secondSpanStyle = css`
-  ${({ clicked }: ClickedProps) => {
-    const sth = 0;
-    return (
-      clicked
-      && css`
-        opacity: 0;
-      `
-    );
-  }}
+  ${({ clicked }: ClickedProps) => clicked
+    && css`
+      opacity: 0;
+    `}
 `;
 
 const lastSpanStyle = css`
-  ${({ clicked }: ClickedProps) => {
-    const sth = 0;
-    return (
-      clicked
-      && css`
-        transform: rotate(45deg) translate(-7px, -6px);
-      `
-    );
-  }}
+  ${({ clicked }: ClickedProps) => clicked
+    && css`
+      transform: rotate(45deg) translate(-7px, -6px);
+    `}
 `;
 
 export const Hamburger = styled.div`
@@ -245,15 +230,10 @@ export const Hamburger = styled.div`
 export const HamburgerSpan = styled.span``;
 
 const menuStyle = css`
-  ${({ clicked }: ClickedProps) => {
-    const sth = 0;
-    return (
-      clicked
-      && css`
-        top: 7rem;
-      `
-    );
-  }}
+  ${({ clicked }: ClickedProps) => clicked
+    && css`
+      top: 7rem;
+    `}
 `;
 
 export const HamburgetMenus = styled.ul`
