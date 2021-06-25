@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import DetailContent from 'component/molecules/DetailContent';
-import _LabelInputBox from 'component/molecules/LabelInputBox';
+import _LabelInputBox from 'component/orgamisms/LabelInputBox';
 import _TextLabel from 'component/atoms/TextLabel';
 import InputText from 'component/atoms/InputText';
 import Button from 'component/atoms/Button';

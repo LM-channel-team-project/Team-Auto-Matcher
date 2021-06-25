@@ -3,24 +3,27 @@ import * as S from './style';
 
 type ExtractKey<O, K extends keyof O> = O[K];
 
-interface Item {
+export interface Item {
   text: string;
   color: ExtractKey<S.StyleProps, 'color'>
 }
 
-interface Props extends S.StyleProps {
-  className: string;
-  items: [Item];
-  divider?: boolean;
-  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+export interface Props extends S.StyleProps {
+  listRef?: React.MutableRefObject<HTMLDivElement | undefined>
+  className?: string;
+  items?: Item[];
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const AutoCompleteList = ({
-  className, items, size, divider, dividerColor, onClick,
+  listRef, className, items, size, divider, dividerColor, onClick,
 }: Props) => (
-  <S.List className={className}>
-    {items.map((item) => (
-      <S.Item
+  <S.List
+    className={className}
+    ref={listRef ? listRef as React.MutableRefObject<HTMLDivElement> : undefined}
+  >
+    {items?.map((item) => (
+      item && <S.Item
         key={item.text}
         text={item.text}
         color={item.color}

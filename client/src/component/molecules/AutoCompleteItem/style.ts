@@ -10,7 +10,7 @@ export interface StyleProps extends ColorCircleProps {
 
 export const AutoComplete = styled.div`
   position: relative;
-  padding: 0.3em 0.5em;
+  padding: 0.5em 0.8em;
   cursor: pointer;
 
   ${({ divider }: StyleProps) => divider && css`

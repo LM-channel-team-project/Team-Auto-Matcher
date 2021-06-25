@@ -14,6 +14,10 @@ const colorStyle = css<StyleProps>`
       css`
         background-color: ${selected};
 
+        ${() => ['navy', 'darkGreen'].includes(color) && css`
+          color: ${theme.color.white};
+        `}
+
         ${(props: StyleProps) => props.outline && css`
           background-color: ${theme.color.white};
           color: ${selected};

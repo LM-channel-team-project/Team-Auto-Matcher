@@ -4,7 +4,7 @@ import * as S from './style';
 export interface Props extends S.StyleProps {
   text: string;
   divider?: boolean;
-  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const AutoCompleteItem = ({
