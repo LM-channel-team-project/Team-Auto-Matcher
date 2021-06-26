@@ -7,7 +7,7 @@ export default {
   component: AutoCompleteList,
   args: {
     items: [
-      { text: 'item1', color: 'red' },
+      { text: 'item1', color: 'darkRed' },
       { text: 'item2', color: 'blue' },
       { text: 'item3', color: 'orange' },
       { text: 'item4' },

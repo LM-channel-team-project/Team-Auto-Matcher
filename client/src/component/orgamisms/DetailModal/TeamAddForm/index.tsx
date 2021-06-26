@@ -249,7 +249,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
         {people && (
           <S.InlineContent title="구성원" className="ci-people">
             {people.map((person: string) => (
-              <S.Text type="people">{person}</S.Text>
+              <S.Text className="people">{person}</S.Text>
             ))}
           </S.InlineContent>
         )}

@@ -10,10 +10,6 @@ interface TitleProps {
   type: 'team' | 'personal';
 }
 
-interface TextProps {
-  type?: 'people';
-}
-
 interface StyleProps {
   theme: typeof globalTheme;
 }
@@ -53,6 +49,16 @@ export const ContentItem = styled.li`
   &:not(:last-child) .ci-people {
     margin-bottom: 1.5em;
   }
+
+  .ic-text {
+    font-size: 1.5rem;
+  }
+
+  .ic-text:not(:last-child):after {
+    content: ', ';
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 export const InlineContent = styled(DetailContent)`
@@ -60,6 +66,8 @@ export const InlineContent = styled(DetailContent)`
   align-items: flex-start;
   justify-content: flex-start;
   text-align: left;
+  margin-bottom: 1em;
+
 
   .dc-title {
     font-size: 1.6rem;
@@ -71,8 +79,12 @@ export const InlineContent = styled(DetailContent)`
     margin-right: 0.8em;
   }
   
-  &.ci-skills .dc-title {
+  &.ci-skill .dc-title {
     line-height: 1.3em;
+  }
+
+  .dc-body {
+    font-size: 1.5rem;
   }
 `;
 
@@ -89,15 +101,13 @@ export const Text = styled.span`
   font-size: 1.3rem;
   line-height: 1.4em;
 
-  ${({ type }: TextProps) => css`
-    &:not(:last-child):after {
-      content: '${type === 'people' ? '님, ' : ''}';
-    }
+  &.people:not(:last-child):after {
+    content: '님, ';
+  }
 
-    &:last-child:after {
-      content: '${type === 'people' ? '님' : ''}';
-    }
-  `}
+  &.people:last-child:after {
+    content: '님';
+  }
 `;
 
 export const TextLabel = styled(_TextLabel)`

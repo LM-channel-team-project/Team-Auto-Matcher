@@ -9,9 +9,14 @@ export interface PersonalModalProps {
     name: string;
     outline: string;
     field: string;
-    devExp: string;
     skills: string[];
     team: string[];
+    devExp?: string;
+    periods?: string;
+    times?: string[];
+    contact?: string;
+    hasCoWork?: boolean;
+    priority?: string[];
     contents: ContentItem[];
   };
   onCloseModal: () => void;
@@ -19,11 +24,15 @@ export interface PersonalModalProps {
 
 const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const renderContents = () => {
-    const skills = data.skills.map((skill: string) => (
-      <S.TextLabel key={skill} className="dc-label" text={skill} color={skillsLabel[skill.toLowerCase()]} />
-    ));
+    const skills = data.skills.map((skill: string) => {
+      const skillName = Object.keys(skillsLabel)
+        .find((name) => name.toLowerCase() === skill.toLowerCase());
+      return (
+        <S.TextLabel key={skill} className="dc-label" text={skill} color={skillsLabel[String(skillName)]} />
+      );
+    });
 
-    const team = data!.team.map((aTeam: string) => <S.Text key={aTeam}>{aTeam}</S.Text>);
+    const team = data.team.map((aTeam: string) => <S.Text key={aTeam}>{aTeam}</S.Text>);
 
     const inlineContents = (
       <>
@@ -35,6 +44,24 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         <S.ContentItem>
           <S.InlineContent title="기술 스택" className="ci-skill">
             {skills}
+          </S.InlineContent>
+          <S.InlineContent title="공부 기간">
+            {data.devExp}
+          </S.InlineContent>
+          <S.InlineContent title="활동 가능 기간">
+            {data.periods}
+          </S.InlineContent>
+          {<S.InlineContent title="협업 가능 시간대">
+            {data.times?.map((time) => <S.Text key={time} className="ic-text">{time}</S.Text>)}
+          </S.InlineContent>}
+          <S.InlineContent title="진행 방식">
+            {data.contact}
+          </S.InlineContent>
+          <S.InlineContent title="협업 경험">
+            {data.hasCoWork ? '있음' : '없음'}
+          </S.InlineContent>
+          <S.InlineContent title="협업 시 중요하게 생각하는 것">
+            {data.priority?.map((item) => <S.Text key={item} className="ic-text">{item}</S.Text>)}
           </S.InlineContent>
         </S.ContentItem>
       </>

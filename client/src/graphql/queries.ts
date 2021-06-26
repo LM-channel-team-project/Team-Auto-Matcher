@@ -71,11 +71,16 @@ export const listPersonDashboard = /* GraphQL */ `
       items {
         id
         name
-        skills
         team
-        outline
         field
+        skills
         devExp
+        periods
+        times
+        contact
+        hasCoWork
+        priority
+        outline
         contents {
           title
           text

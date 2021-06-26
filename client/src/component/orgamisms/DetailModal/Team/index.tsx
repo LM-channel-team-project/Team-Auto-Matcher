@@ -18,16 +18,20 @@ export interface TeamModalProps {
 
 const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
   const renderContents = () => {
-    const skills = data?.skills.map((skill: string) => (
-      <S.TextLabel
-        className="dc-label"
-        text={skill}
-        color={skillsLabel[skill.toLowerCase()]}
-      />
-    ));
+    const skills = data?.skills.map((skill: string) => {
+      const skillName = Object.keys(skillsLabel)
+        .find((name) => name.toLowerCase() === skill.toLowerCase());
+      return (
+        <S.TextLabel
+          className="dc-label"
+          text={skill}
+          color={skillsLabel[String(skillName)]}
+        />
+      );
+    });
 
     const people = data?.people.map((person: string) => (
-      <S.Text type="people">{person}</S.Text>
+      <S.Text className="people">{person}</S.Text>
     ));
 
     const inlineContents = (
@@ -38,7 +42,7 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
           </S.InlineContent>
         </S.ContentItem>
         <S.ContentItem>
-          <S.InlineContent title="기술 스택" className="ci-skills">
+          <S.InlineContent title="기술 스택" className="ci-skill">
             {skills}
           </S.InlineContent>
         </S.ContentItem>
