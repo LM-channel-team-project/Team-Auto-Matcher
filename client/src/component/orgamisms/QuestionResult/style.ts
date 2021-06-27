@@ -8,8 +8,6 @@ export const QuestionResult = styled.div`
 
   padding: 1.6rem;
 
-  border: 0.4rem solid black;
-
   > .header {
     display: flex;
     justify-content: space-between;

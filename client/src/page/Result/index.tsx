@@ -6,19 +6,27 @@ import * as S from './style';
 
 function Result() {
   const {
-    loading: userLoading, error: userError, data: userData, refetch: userRefetch,
-  } = useQuery(gql`${getUser}`);
+    loading: userLoading,
+    error: userError,
+    data: userData,
+    refetch: userRefetch,
+  } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
 
   if (userError) {
     console.error(userError);
   }
 
   if (userLoading) {
-    return (<>loading</>);
+    return <>loading</>;
   }
 
-  const answerRespond: IAnswers[] = userData.getUser.items[0].question
-    .filter((answer:IAnswers) => answer.title !== '')
+  const { question } = userData.getUser.items[0];
+  const answerRes: IAnswers[] = question
+    .filter((answer: IAnswers) => answer.title !== '')
     .map((answer: IAnswers) => ({
       title: answer.title,
       answers: answer.answers,
@@ -26,7 +34,9 @@ function Result() {
 
   return (
     <S.ResultPage>
-      <S.QuestionResult answerRespond={answerRespond} />
+      <div className="title">설문 결과</div>
+      <S.QuestionResult answerRespond={answerRes} />
+      <button>확 정</button>
     </S.ResultPage>
   );
 }
