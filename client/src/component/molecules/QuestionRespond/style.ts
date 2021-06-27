@@ -5,7 +5,7 @@ export const QuestionRespond = styled.div`
   flex-direction: column;
 
   border-radius: 2em;
-  padding: 3em;
+  padding: 1.8em;
   box-shadow: 0 0.1em 1em rgba(0, 0, 0, 0.12), 0 0.5em 0.6em rgba(0, 0, 0, 0.24);
   margin-bottom: 3em;
 

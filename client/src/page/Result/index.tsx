@@ -36,7 +36,6 @@ function Result() {
     <S.ResultPage>
       <div className="title">설문 결과</div>
       <S.QuestionResult answerRespond={answerRes} />
-      <button>확 정</button>
     </S.ResultPage>
   );
 }

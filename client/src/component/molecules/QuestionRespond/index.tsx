@@ -10,7 +10,6 @@ export interface IQuestionRespond extends IAnswers {
 }
 
 function QuestionRespond({ title, answers, className }: IQuestionRespond) {
-  console.log(`질문 : ${title}, 대답 : ${answers}, 클래스이름 : ${className}`);
   const QuestionRespondComponents = answers.map((questionRespond: string) => (
     <div className="questionRespond">{questionRespond}</div>
   ));
