@@ -15,7 +15,7 @@ interface ModalState {
   data?: TeamData;
 }
 
-const TeamDashboardPage = ({ className }: any) => {
+const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
   const {
@@ -81,7 +81,7 @@ const TeamDashboardPage = ({ className }: any) => {
           <Team.Main>팀 현황판</Team.Main>
         </Personal.Top>
         <Team.TeamPage>{teams}</Team.TeamPage>
-        <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>팀 생성하기</Team.CreateBtn>
+        {isLoggedIn && <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>팀 생성하기</Team.CreateBtn>}
       </Personal.Container>
     </BaseTemplate>
   );
