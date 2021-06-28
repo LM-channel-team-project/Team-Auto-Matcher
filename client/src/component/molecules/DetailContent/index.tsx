@@ -12,7 +12,7 @@ const DetailContent = ({ title, children, className }: IDetailContent) => (
     <S.HeaderWrapper>
       <S.Title className="dc-title">{title}</S.Title>
     </S.HeaderWrapper>
-    <S.BodyWrapper>{children}</S.BodyWrapper>
+    <S.BodyWrapper className="dc-body">{children}</S.BodyWrapper>
   </S.DetailContent>
 );
 
