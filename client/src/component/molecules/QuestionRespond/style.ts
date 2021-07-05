@@ -10,7 +10,7 @@ export const QuestionRespond = styled.div`
   margin-bottom: 3em;
 
   > .title {
-    font-size: 3rem;
+    font-size: 3.6rem;
     font-weight: bold;
   }
 
@@ -24,34 +24,45 @@ export const QuestionRespond = styled.div`
       margin-right: 4rem;
       background-color: #dfe6e9;
       border-radius: 1.2rem;
-      padding: 1.6rem;
-    }
-  }
-  @media screen and (max-width: 1370px) {
-    > .title {
-    }
-    > .wrapper {
-      & > .questionRespond {
-        font-size: 2rem;
-        padding: 1rem;
+      padding: 1rem;
+      &:last-child {
+        margin-right: 0rem;
       }
     }
   }
-  @media screen and (max-width: 1140px) {
+
+  @media screen and (max-width: 85rem) {
     > .title {
-      font-size: 2.5em;
+      font-size: 3.6rem;
     }
     > .wrapper {
+      margin-top: 1rem;
       display: flex;
       flex-flow: row wrap;
       justify-content: left;
       & > .questionRespond {
-        font-size: 1.5rem;
+        font-size: 2rem;
         padding: 1rem;
-        margin-bottom: 1em;
+        margin-top: 1em;
       }
     }
-  } ;
+  }
+  @media screen and (max-width: 35rem) {
+    > .title {
+      font-size: 2.2em;
+    }
+    > .wrapper {
+      margin-top: 3rem;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+      & > .questionRespond {
+        width: 20em;
+        font-size: 2em;
+        margin: 0em 0em 1em;
+      }
+    }
+  }
 `;
 
 export default QuestionRespond;
