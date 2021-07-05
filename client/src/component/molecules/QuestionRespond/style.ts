@@ -27,6 +27,31 @@ export const QuestionRespond = styled.div`
       padding: 1.6rem;
     }
   }
+  @media screen and (max-width: 1370px) {
+    > .title {
+    }
+    > .wrapper {
+      & > .questionRespond {
+        font-size: 2rem;
+        padding: 1rem;
+      }
+    }
+  }
+  @media screen and (max-width: 1140px) {
+    > .title {
+      font-size: 2.5em;
+    }
+    > .wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: left;
+      & > .questionRespond {
+        font-size: 1.5rem;
+        padding: 1rem;
+        margin-bottom: 1em;
+      }
+    }
+  } ;
 `;
 
 export default QuestionRespond;

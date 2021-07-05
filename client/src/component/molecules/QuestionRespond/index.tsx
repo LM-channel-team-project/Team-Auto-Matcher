@@ -11,7 +11,7 @@ export interface IQuestionRespond extends IAnswers {
 
 function QuestionRespond({ title, answers, className }: IQuestionRespond) {
   const QuestionRespondComponents = answers.map((questionRespond: string) => (
-    <div className="questionRespond">{questionRespond}</div>
+    <span className="questionRespond">{questionRespond}</span>
   ));
   return (
     <S.QuestionRespond className={className}>
