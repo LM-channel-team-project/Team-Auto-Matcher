@@ -41,6 +41,29 @@ const isInArray = (arr: string[], target: string) => arr
 const findInArray = (arr: string[], value: string) => arr
   .find((item) => item.toLowerCase() === value.toLowerCase());
 
+// Search for skills what included an string entered
+const searchOnSkills = (value: string) => {
+  const skills = Object.keys(skillsLabel);
+  const escapePattern = /[`~!@#$%^&*()\\\-_=+|[\]{};:'",.<>/?]/g;
+  const match = new Set(value.match(escapePattern));
+
+  const searched: string[] = [];
+  for (let i = 0; i < skills.length; i += 1) {
+    if (searched.length >= 5) break;
+
+    const skill = skills[i];
+    const escaped = Array.from(match).reduce((str, char) => str.replaceAll(char, `\\${char}`), value);
+
+    const regex = new RegExp(escaped, 'i');
+
+    if (regex.test(skill)) {
+      searched.push(skill);
+    }
+  }
+
+  return searched.map((skill) => ({ text: skill, color: skillsLabel[skill] }));
+};
+
 const contentsTitle = [
   { title: '구현하고자 하는 것', text: '' },
   { title: '진행상황', text: '' },
@@ -93,17 +116,8 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
         const { value } = event.target;
         setSkill(value);
 
-        // Search data to be entered into AutoCompletor
-        if (value.length > 1) {
-          const searched = Object.keys(skillsLabel)
-            .reduce((arr: string[], skillName) => {
-              const regex = new RegExp(value, 'i');
-              if (arr.length < 5 && regex.test(skillName)) {
-                arr.push(skillName);
-              }
-              return arr;
-            }, [])
-            .map((skillName) => ({ text: skillName, color: skillsLabel[skillName] }));
+        if (value.length > 0) {
+          const searched = searchOnSkills(value);
           setCompletor(searched);
         } else {
           setCompletor([]);
@@ -113,7 +127,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
       onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => {
         const { value } = inputsState.skill;
 
-        if (value.length < 2 || event.key !== 'Enter') return;
+        if (value.length < 1 || event.key !== 'Enter') return;
 
         // Add a skill item focused by triggering click event, when press Enter key
         if (typeof focus === 'number') {
