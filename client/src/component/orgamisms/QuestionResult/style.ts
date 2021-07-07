@@ -19,13 +19,13 @@ export const QuestionResult = styled.div`
   height: 67em;
   padding: 1.6rem;
   margin-bottom: 3em;
-  > .header {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 3rem;
+`;
+export const Btn = styled.div`
+  display: flex;
+  > .confirm {
+    margin-right: 1em;
   }
 `;
-
 export const QuestionRespond = styled(QuestionRespondComponent)``;
 
 export default {};
