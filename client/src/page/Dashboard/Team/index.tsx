@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { listTeamDashboard } from 'graphql/queries';
-import MenuBar from 'component/templates/menuBar';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import BaseTemplate from 'page/BaseTemplate';
@@ -87,21 +86,18 @@ const TeamDashboardPage = ({ className }: any) => {
   };
 
   return (
-    <>
-      <MenuBar />
-      <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
-        <Personal.Container className={className}>
-          <Personal.Top>
-            <Personal.MainBtn>메인 메뉴</Personal.MainBtn>
-            <Team.Main>팀 현황판</Team.Main>
-          </Personal.Top>
-          <Team.TeamPage>{teams}</Team.TeamPage>
-          <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>
-            팀 생성하기
-          </Team.CreateBtn>
-        </Personal.Container>
-      </BaseTemplate>
-    </>
+    <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
+      <Personal.Container className={className}>
+        <Personal.Top>
+          <Personal.MainBtn>메인 메뉴</Personal.MainBtn>
+          <Team.Main>팀 현황판</Team.Main>
+        </Personal.Top>
+        <Team.TeamPage>{teams}</Team.TeamPage>
+        <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>
+          팀 생성하기
+        </Team.CreateBtn>
+      </Personal.Container>
+    </BaseTemplate>
   );
 };
 

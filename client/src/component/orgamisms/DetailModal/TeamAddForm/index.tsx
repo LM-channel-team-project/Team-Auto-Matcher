@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import { createTeam } from 'graphql/mutations';
-import { gql, useMutation } from '@apollo/client';
+import { getUser } from 'graphql/queries';
+import { createTeam, updateUser } from 'graphql/mutations';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import DetailModalTemplate, { ContentItem } from '../template';
 import { TeamModalProps } from '../Team';
 import * as S from '../style';
@@ -43,9 +44,19 @@ interface Props extends TeamModalProps {
 }
 
 const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
+  const { data: userData, refetch } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
   const [createTeamData] = useMutation(
     gql`
       ${createTeam}
+    `,
+  );
+  const [updateUserData] = useMutation(
+    gql`
+      ${updateUser}
     `,
   );
 
@@ -190,6 +201,36 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
 
   const onSubmit = async () => {
     if (name.length < 2) return;
+    const getUserData = userData.getUser.items[0];
+    if (getUserData.teamInfo.length > 1) {
+      alert('최대 한 개의 팀만 만들 수 있습니다.');
+      return;
+    }
+    const getMail = getUserData.mail.map((el: any) => ({
+      from: el.from,
+      name: el.name,
+      outline: el.outline,
+      field: el.field ? el.field : '',
+      devExp: el.devExp ? el.devExp : '',
+      skills: el.skills,
+      contents: el.contents ? el.contents : [],
+      state: el.state ? el.state : '',
+    }));
+    const getTeamInfo = {
+      name,
+      skills,
+      outline,
+      contents,
+      state: '모집중',
+    };
+    updateUserData({
+      variables: {
+        input: {
+          id: getUserData.id,
+          teamInfo: [getTeamInfo],
+        },
+      },
+    });
     await createTeamData({
       variables: {
         input: {
@@ -198,6 +239,8 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
           skills,
           outline,
           contents,
+          mail: [...getMail],
+          owner: getUserData.id,
           state: '모집중',
         },
       },
