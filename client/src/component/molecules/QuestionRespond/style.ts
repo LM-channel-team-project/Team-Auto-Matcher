@@ -8,7 +8,7 @@ export const QuestionRespond = styled.div`
   padding: 1.8em;
   box-shadow: 0 0.1em 1em rgba(0, 0, 0, 0.12), 0 0.5em 0.6em rgba(0, 0, 0, 0.24);
   margin-bottom: 3em;
-
+  width: 120em;
   > .title {
     font-size: 3.6rem;
     font-weight: bold;
@@ -32,6 +32,7 @@ export const QuestionRespond = styled.div`
   }
 
   @media screen and (max-width: 85rem) {
+    width: 90em;
     > .title {
       font-size: 3.6rem;
     }
@@ -47,7 +48,22 @@ export const QuestionRespond = styled.div`
       }
     }
   }
-  @media screen and (max-width: 35rem) {
+
+  @media screen and (max-width: 63rem) {
+    width: 70em;
+    > .title {
+      font-size: 3rem;
+    }
+  }
+  @media screen and (max-width: 53rem) {
+    width: 60em;
+    > .title {
+      font-size: 2.8rem;
+    }
+  }
+
+  @media screen and (max-width: 43rem) {
+    width: 44em;
     > .title {
       font-size: 2.2em;
     }
