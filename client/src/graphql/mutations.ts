@@ -2,12 +2,10 @@
 /* eslint-disable */
 
 export const createUser = /* GraphQL */ `
-  mutation createUser(
-      $input: CreateUserInput!
-    ) {
+  mutation createUser($input: CreateUserInput!) {
     createUser(input: $input) {
       id
-      userId 
+      userId
       question {
         title
         answers
@@ -16,13 +14,11 @@ export const createUser = /* GraphQL */ `
   }
 `;
 
-export const updateUser= /* GraphQL */ `
-  mutation updateUser(
-      $input: UpdateUserInput!
-    ) {
+export const updateUser = /* GraphQL */ `
+  mutation updateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
       id
-      userId 
+      userId
       question {
         title
         answers
@@ -32,9 +28,7 @@ export const updateUser= /* GraphQL */ `
 `;
 
 export const createTeam = /* GraphQL */ `
-  mutation createTeam(
-      $input: CreateTeamInput!
-    ) {
+  mutation createTeam($input: CreateTeamInput!) {
     createTeam(input: $input) {
       name
       people
@@ -45,6 +39,29 @@ export const createTeam = /* GraphQL */ `
         text
       }
       state
+    }
+  }
+`;
+
+export const createPerson = /* GraphQL */ `
+  mutation createPerson($input: CreatePersonInput!) {
+    createPerson(input: $input) {
+      id
+      field
+      skills
+      devExp
+      name
+      contents {
+        title
+        text
+      }
+      team
+      outline
+      periods
+      times
+      contact
+      hasCoWork
+      priority
     }
   }
 `;
