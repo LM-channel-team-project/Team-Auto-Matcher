@@ -15,6 +15,7 @@ const LoginPage = ({ className }: any) => {
         window.location.href = '/';
         break;
       case 'signOut':
+        window.location.href = '/';
         break;
       case 'customOAuthState':
         break;
@@ -33,8 +34,7 @@ const LoginPage = ({ className }: any) => {
     <S.LoginPage className={className}>
       <S.wrapper>
         <S.Title>Team Auto Mathcer</S.Title>
-        <S.LoginBtn
-          onLoginClick={googleLoginOnClick} />
+        <S.LoginBtn onLoginClick={googleLoginOnClick} />
       </S.wrapper>
     </S.LoginPage>
   );

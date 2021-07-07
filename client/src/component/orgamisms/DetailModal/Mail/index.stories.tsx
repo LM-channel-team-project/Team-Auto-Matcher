@@ -1,23 +1,19 @@
 import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
-import TeamDetailModal from '.';
+import MailDetailModal from '.';
 
 const props = {
   data: {
-    id: 'aaaaa',
-    name: '라바마',
-    people: ['user1', 'user2', 'user3'],
-    skills: ['React', 'MongoDB', 'GraphQL'],
-    outline: '한줄 소개 입니다.',
+    id: 'bbbbb',
+    name: '테스트계정',
+    outline: '열심히 하겠습니다',
+    devExp: '1년',
+    field: 'Backend',
+    skills: ['React', 'MongoDB', 'Express'],
+    team: ['팀 구하는중'],
     contents: [
-      {
-        title: '구현하고자 하는 것',
-        text: '출시를 목적으로 하는 앱을 개발하려 합니다',
-      },
-      {
-        title: '진행 상황',
-        text: '아이디어를 내고 있는 중입니다.',
-      },
+      { title: '자기소개', text: '재밌게 하겠습니다..' },
+      { title: '하고싶은 말', text: '재밌게 합시다..' },
       {
         title: '스크롤 테스트',
         text: `Ullamcorper convallis ante dignissim magna mi eleifend vestibulum elementum id nullam sem, 
@@ -26,22 +22,19 @@ const props = {
         vulputate quisque facilisis lorem aenean felis nullam, sodales habitant nunc tempor etiam. Lacus imperdiet tellus commodo molestie luctus vitae euismod ad est cubilia lacinia sagittis, suscipit eleifend aliquet ornare fringilla consequat ridiculus sem justo conubia.`,
       },
     ],
-    state: '모집중',
-    owner: 'something',
-    mail: ['sth'],
   },
   onCloseModal: () => alert('close'),
 };
 
 export default {
-  title: 'Organisms/DetailModal/Team',
-  component: TeamDetailModal,
+  title: 'Organisms/DetailModal/Mail',
+  component: MailDetailModal,
 };
 
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <TeamDetailModal {...props} />
+      <MailDetailModal {...props} />
     </GlobalThemeProvider>
   );
 }

@@ -5,6 +5,7 @@ import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser, updateUser } from 'graphql/mutations';
 
 import Questionnaire from 'component/orgamisms/Questionnaire';
+import MenuBar from 'component/templates/menuBar';
 import * as S from './style';
 
 const firstInput = [
@@ -78,13 +79,14 @@ function Survey() {
       if (userData.getUser && userData.getUser.items?.length !== 0) {
         // console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
-        const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
         bUserUpdating.current = true;
         addUserData({
           variables: {
             input: {
-              userId,
               question: firstInput,
+              mail: [],
+              teamInfo: [],
+              surveyCompleted: false,
             },
           },
         })
@@ -133,7 +135,6 @@ function Survey() {
       variables: {
         input: {
           id: userData.getUser.items[0].id,
-          userId: userData.getUser.items[0].userId,
           question: newData,
         },
       },
@@ -211,21 +212,24 @@ function Survey() {
   };
 
   return (
-    <S.SurveyPage>
-      <Questionnaire
-        key={nowQuestionnaire.id}
-        question={nowQuestionnaire.questionTitle}
-        questionList={setQuestionList()}
-        bDuplicateSelect={nowQuestionnaire.bDuplicate}
-        selectedData={nowSelectedData.answers}
-        leftOnClick={onLeftClick}
-        rightOnClick={onRightClick}
-        currentPage={page + 1}
-        totalPage={totalPage}
-        onClickList={onProgressBarListClick}
-        listQuestionnairesData={listQuestionnairesData}
-      />
-    </S.SurveyPage>
+    <>
+      <MenuBar />
+      <S.SurveyPage>
+        <Questionnaire
+          key={nowQuestionnaire.id}
+          question={nowQuestionnaire.questionTitle}
+          questionList={setQuestionList()}
+          bDuplicateSelect={nowQuestionnaire.bDuplicate}
+          selectedData={nowSelectedData.answers}
+          leftOnClick={onLeftClick}
+          rightOnClick={onRightClick}
+          currentPage={page + 1}
+          totalPage={totalPage}
+          onClickList={onProgressBarListClick}
+          listQuestionnairesData={listQuestionnairesData}
+        />
+      </S.SurveyPage>
+    </>
   );
 }
 

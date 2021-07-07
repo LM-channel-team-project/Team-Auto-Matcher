@@ -35,11 +35,35 @@ export const getUser = /* GraphQL */ `
       items {
         id
         userId
+        teamInfo {
+          name
+          skills
+          outline
+          state
+          contents {
+            title
+            text
+          }
+        }
+        surveyCompleted
         question {
           title
           answers
         }
         owner
+        mail {
+          devExp
+          field
+          from
+          name
+          outline
+          skills
+          state
+          contents {
+            title
+            text
+          }
+        }
       }
     }
   }
@@ -55,6 +79,20 @@ export const listTeamDashboard = /* GraphQL */ `
         skills
         outline
         state
+        mail {
+          devExp
+          field
+          from
+          name
+          outline
+          skills
+          state
+          contents {
+            title
+            text
+          }
+        }
+        owner
         contents {
           title
           text
@@ -81,6 +119,19 @@ export const listPersonDashboard = /* GraphQL */ `
         hasCoWork
         priority
         outline
+        mail {
+          devExp
+          field
+          from
+          name
+          outline
+          skills
+          state
+          contents {
+            title
+            text
+          }
+        }
         contents {
           title
           text

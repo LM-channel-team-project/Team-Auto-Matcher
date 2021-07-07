@@ -7,6 +7,9 @@ import PersonalDashboard from 'page/Dashboard/Personal';
 import TeamDashboard from 'page/Dashboard/Team';
 import LoginPage from 'page/Login';
 import NotFound from 'page/NotFound';
+import Home from 'page/Home';
+import Contact from 'page/Contact';
+import Mail from 'page/Mail';
 import { withAuthenticator } from 'aws-amplify-react';
 
 function App() {
@@ -16,7 +19,7 @@ function App() {
         <Switch>
           <Route
             exact
-            path="/"
+            path="/survey"
             component={withAuthenticator(Survey, false, [<LoginPage />])}
           />
           <Route
@@ -24,11 +27,19 @@ function App() {
             path="/result"
             component={withAuthenticator(Result, false, [<LoginPage />])}
           />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/contact" component={Contact} />
           <Route exact path="/dashboard/team" component={TeamDashboard} />
           <Route
             exact
             path="/dashboard/personal"
             component={PersonalDashboard}
+          />
+          <Route exact path="/login" component={LoginPage} />
+          <Route
+            exact
+            path="/mail"
+            component={withAuthenticator(Mail, false, [<LoginPage />])}
           />
           <Route path="*" component={NotFound} />
         </Switch>
