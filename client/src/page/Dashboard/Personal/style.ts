@@ -16,17 +16,6 @@ export const Top = styled.div`
   padding-bottom: 2em;
 `;
 
-export const MainBtn = styled.button`
-  cursor: pointer;
-  width: 6em;
-  height: 2em;
-  position: absolute;
-  top: 1.5em;
-  left: 2em;
-  font-size: 3em;
-  border-radius: 0.5em;
-`;
-
 export const Main = styled.h1`
   display: flex;
   margin-top: 0.63em;
@@ -75,13 +64,13 @@ export const MatchPage = styled.div`
     border-radius: 1em;
   }
   padding-top: 1em;
-  width: 115em;
+  width: 150em;
   height: 58em;
 `;
 
 export const List = styled.div`
   display: flex;
-  width: 110em;
+  width: 140rem;
   cursor: pointer;
   margin-bottom: 3em;
   &:last-child {
