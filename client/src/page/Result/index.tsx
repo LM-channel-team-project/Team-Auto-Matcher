@@ -23,8 +23,8 @@ function Result() {
   if (userLoading) {
     return <>loading</>;
   }
-
-  const { question } = userData.getUser.items[0];
+  const items = userData.getUser.items[0];
+  const { question } = items;
   const answerRes: IAnswers[] = question
     .filter((answer: IAnswers) => answer.title !== '')
     .map((answer: IAnswers) => ({
@@ -35,7 +35,7 @@ function Result() {
   return (
     <S.ResultPage>
       <div className="title">설문 결과</div>
-      <S.QuestionResult answerRespond={answerRes} />
+      <S.QuestionResult answerRespond={answerRes} id={items.id} />
     </S.ResultPage>
   );
 }
