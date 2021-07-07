@@ -79,13 +79,14 @@ function Survey() {
       if (userData.getUser && userData.getUser.items?.length !== 0) {
         // console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
-        const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
         bUserUpdating.current = true;
         addUserData({
           variables: {
             input: {
-              userId,
               question: firstInput,
+              mail: [],
+              teamInfo: [],
+              surveyCompleted: false,
             },
           },
         })
@@ -134,7 +135,6 @@ function Survey() {
       variables: {
         input: {
           id: userData.getUser.items[0].id,
-          userId: userData.getUser.items[0].userId,
           question: newData,
         },
       },
@@ -213,7 +213,7 @@ function Survey() {
 
   return (
     <>
-      <MenuBar/>
+      <MenuBar />
       <S.SurveyPage>
         <Questionnaire
           key={nowQuestionnaire.id}
