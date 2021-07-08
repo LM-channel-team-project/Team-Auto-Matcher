@@ -5,18 +5,14 @@ export const createUser = /* GraphQL */ `
   mutation createUser($input: CreateUserInput!) {
     createUser(input: $input) {
       id
-      userId
-      teamInfo {
-        name
-        skills
-        outline
-        state
-        contents {
-          title
-          text
-        }
-      }
+      haveTeam
       surveyCompleted
+      mail {
+        from
+        teamId
+        type
+        teamName
+      }
       question {
         title
         answers
@@ -29,18 +25,14 @@ export const updateUser = /* GraphQL */ `
   mutation updateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
       id
-      teamInfo {
-        name
-        skills
-        outline
-        state
-        contents {
-          title
-          text
-        }
-      }
+      haveTeam
       surveyCompleted
-      userId
+      mail {
+        from
+        teamId
+        type
+        teamName
+      }
       question {
         title
         answers
@@ -52,24 +44,12 @@ export const updateUser = /* GraphQL */ `
 export const createTeam = /* GraphQL */ `
   mutation createTeam($input: CreateTeamInput!) {
     createTeam(input: $input) {
+      id
       name
       people
       skills
       outline
       owner
-      mail {
-        devExp
-        field
-        from
-        name
-        outline
-        skills
-        state
-        contents {
-          title
-          text
-        }
-      }
       contents {
         title
         text
@@ -88,19 +68,6 @@ export const updateTeam = /* GraphQL */ `
       skills
       outline
       owner
-      mail {
-        devExp
-        field
-        from
-        name
-        outline
-        skills
-        state
-        contents {
-          title
-          text
-        }
-      }
       contents {
         title
         text
@@ -117,19 +84,6 @@ export const createPerson = /* GraphQL */ `
       name
       skills
       outline
-      mail {
-        devExp
-        field
-        from
-        name
-        outline
-        skills
-        state
-        contents {
-          title
-          text
-        }
-      }
       contents {
         title
         text
@@ -145,19 +99,6 @@ export const updatePerson = /* GraphQL */ `
       name
       skills
       outline
-      mail {
-        devExp
-        field
-        from
-        name
-        outline
-        skills
-        state
-        contents {
-          title
-          text
-        }
-      }
       contents {
         title
         text

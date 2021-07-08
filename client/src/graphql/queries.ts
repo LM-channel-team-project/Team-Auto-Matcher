@@ -69,10 +69,9 @@ export const getUserById = /* GraphQL */ `
         type
         teamName
       }
-      }
     }
   }
-  `;
+`;
 
 export const listTeamDashboard = /* GraphQL */ `
   query ListTeamDashboard($nextToken: String) {
@@ -91,6 +90,24 @@ export const listTeamDashboard = /* GraphQL */ `
         }
       }
       nextToken
+    }
+  }
+`;
+
+export const getTeamDashboard = /* GraphQL */ `
+  query GetTeamDashboard($id: String!) {
+    getTeamDashboard(id: $id) {
+      id
+      name
+      people
+      skills
+      outline
+      state
+      owner
+      contents {
+        title
+        text
+      }
     }
   }
 `;
@@ -117,6 +134,29 @@ export const listPersonDashboard = /* GraphQL */ `
         }
       }
       nextToken
+    }
+  }
+`;
+
+export const getPersonDashboard = /* GraphQL */ `
+  query GetPersonDashboard($id: String) {
+    getPersonDashboard(id: $id) {
+      id
+      name
+      team
+      field
+      skills
+      devExp
+      periods
+      times
+      contact
+      hasCoWork
+      priority
+      outline
+      contents {
+        title
+        text
+      }
     }
   }
 `;
