@@ -85,6 +85,7 @@ function Survey() {
             input: {
               userId,
               question: firstInput,
+              surveyCompleted: false,
             },
           },
         })
