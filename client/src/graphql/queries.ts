@@ -34,6 +34,7 @@ export const getUser = /* GraphQL */ `
     getUser {
       items {
         id
+        surveyCompleted
         userId
         question {
           title
