@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { createPerson, updateUser, updatePerson } from 'graphql/mutations';
@@ -93,7 +93,6 @@ function QuestionResult({
               title: answerRespond[8].title,
               text: answerRespond[8].answers[0],
             },
-            team: '팀 구하는중',
             outline: answerRespond[10].answers[0],
             periods: answerRespond[3].answers[0],
             times: answerRespond[4].answers,
