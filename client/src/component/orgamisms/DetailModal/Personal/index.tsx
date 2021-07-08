@@ -104,11 +104,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           from: el.from,
           name: el.name,
           outline: el.outline,
-          field: el.field ? el.field : '',
-          devExp: el.devExp ? el.devExp : '',
+          field: el.field ? el.field : null,
+          devExp: el.devExp ? el.devExp : null,
           skills: el.skills,
-          contents: el.contents ? el.contents : '',
-          state: el.state ? el.state : '',
+          contents: el.contents ? el.contents : null,
+          state: el.state ? el.state : null,
         }));
 
       if (isDuplicate) {
@@ -153,7 +153,6 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       onCloseModal();
       alert('초대가 완료되었습니다.');
     } else {
-      // 팀원에 내가 있는지
       alert('자신을 초대할 수 없습니다.');
     }
   };

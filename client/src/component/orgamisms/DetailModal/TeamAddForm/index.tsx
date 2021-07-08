@@ -34,6 +34,32 @@ interface ContentsState {
   ) => void;
 }
 
+// Search for skills what included an string entered
+const searchOnSkills = (value: string) => {
+  const skills = Object.keys(skillsLabel);
+  const escapePattern = /[`~!@#$%^&*()\\\-_=+|[\]{};:'",.<>/?]/g;
+  const match = new Set(value.match(escapePattern));
+
+  const searched: string[] = [];
+  for (let i = 0; i < skills.length; i += 1) {
+    if (searched.length >= 5) break;
+
+    const skill = skills[i];
+    const escaped = Array.from(match).reduce(
+      (str, char) => str.replaceAll(char, `\\${char}`),
+      value,
+    );
+
+    const regex = new RegExp(escaped, 'i');
+
+    if (regex.test(skill)) {
+      searched.push(skill);
+    }
+  }
+
+  return searched.map((skill) => ({ text: skill, color: skillsLabel[skill] }));
+};
+
 const contentsTitle = [
   { title: '구현하고자 하는 것', text: '' },
   { title: '진행상황', text: '' },
@@ -202,32 +228,15 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
   const onSubmit = async () => {
     if (name.length < 2) return;
     const getUserData = userData.getUser.items[0];
-    if (getUserData.teamInfo.length > 1) {
-      alert('최대 한 개의 팀만 만들 수 있습니다.');
+    if (getUserData.haveTeam > 2) {
+      alert('최대 세 개의 팀만 만들 수 있습니다.');
       return;
     }
-    const getMail = getUserData.mail.map((el: any) => ({
-      from: el.from,
-      name: el.name,
-      outline: el.outline,
-      field: el.field ? el.field : '',
-      devExp: el.devExp ? el.devExp : '',
-      skills: el.skills,
-      contents: el.contents ? el.contents : [],
-      state: el.state ? el.state : '',
-    }));
-    const getTeamInfo = {
-      name,
-      skills,
-      outline,
-      contents,
-      state: '모집중',
-    };
     updateUserData({
       variables: {
         input: {
           id: getUserData.id,
-          teamInfo: [getTeamInfo],
+          haveTeam: getUserData.haveTeam + 1,
         },
       },
     });
@@ -239,7 +248,6 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
           skills,
           outline,
           contents,
-          mail: [...getMail],
           owner: getUserData.id,
           state: '모집중',
         },

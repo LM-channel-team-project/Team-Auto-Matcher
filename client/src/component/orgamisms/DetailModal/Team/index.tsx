@@ -142,7 +142,6 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
       onCloseModal();
       alert('지원이 완료되었습니다.');
     } else {
-      // 팀원에 내가 있는지
       alert('자신의 팀에는 지원할 수 없습니다');
     }
   };

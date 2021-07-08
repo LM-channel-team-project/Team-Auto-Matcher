@@ -34,17 +34,7 @@ export const getUser = /* GraphQL */ `
     getUser {
       items {
         id
-        userId
-        teamInfo {
-          name
-          skills
-          outline
-          state
-          contents {
-            title
-            text
-          }
-        }
+        haveTeam
         surveyCompleted
         question {
           title
@@ -52,22 +42,37 @@ export const getUser = /* GraphQL */ `
         }
         owner
         mail {
-          devExp
-          field
           from
-          name
-          outline
-          skills
-          state
-          contents {
-            title
-            text
-          }
+          teamId
+          type
+          teamName
         }
       }
     }
   }
 `;
+
+export const getUserById = /* GraphQL */ `
+  query GetUserById($id: String!) {
+    getUserById(id: $id) {
+      id
+      haveTeam
+      surveyCompleted
+      question {
+        title
+        answers
+      }
+      owner
+      mail {
+        from
+        teamId
+        type
+        teamName
+      }
+      }
+    }
+  }
+  `;
 
 export const listTeamDashboard = /* GraphQL */ `
   query ListTeamDashboard($nextToken: String) {
@@ -79,19 +84,6 @@ export const listTeamDashboard = /* GraphQL */ `
         skills
         outline
         state
-        mail {
-          devExp
-          field
-          from
-          name
-          outline
-          skills
-          state
-          contents {
-            title
-            text
-          }
-        }
         owner
         contents {
           title
@@ -114,19 +106,6 @@ export const listPersonDashboard = /* GraphQL */ `
         outline
         field
         devExp
-        mail {
-          devExp
-          field
-          from
-          name
-          outline
-          skills
-          state
-          contents {
-            title
-            text
-          }
-        }
         contents {
           title
           text
