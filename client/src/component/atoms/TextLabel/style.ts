@@ -10,27 +10,37 @@ export interface StyleProps {
 const colorStyle = css<StyleProps>`
   ${({ theme, color = 'gray' }) => {
     const selected = theme.color.label[color];
-    return color && (
-      css`
+    return (
+      color
+      && css`
         background-color: ${selected};
 
-        ${(props: StyleProps) => props.outline && css`
-          background-color: ${theme.color.white};
-          color: ${selected};
-          border: 1px solid ${selected};
-        `}
+        ${() => ['navy', 'darkGreen'].includes(color)
+          && css`
+            color: ${theme.color.white};
+          `}
+
+        ${(props: StyleProps) => props.outline
+          && css`
+            background-color: ${theme.color.white};
+            color: ${selected};
+            border: 1px solid ${selected};
+          `}
       `
     );
-  }
-}
+  }}
 `;
 
 const fontColorStyle = css<StyleProps>`
   ${({ theme, fontColor = 'black' }) => {
     const selected = theme.color.text[fontColor];
-    return fontColor && css`color: ${selected};`;
-  }
-}
+    return (
+      fontColor
+      && css`
+        color: ${selected};
+      `
+    );
+  }}
 `;
 
 export const TextLabel = styled.div<StyleProps>`
