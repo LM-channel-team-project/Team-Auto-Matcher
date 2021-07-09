@@ -68,7 +68,7 @@ export const List = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 4em;
+  font-size: 2em;
 `;
 
 export const Text = styled.div`
@@ -93,4 +93,23 @@ export const Team = styled.div`
   color: #07c3a7;
   font-size: 1.6rem;
   font-weight: bold;
+`;
+
+export const ContentInfo = styled.div`
+  font-size: 1.5rem;
+`;
+
+export const Left = styled.div`
+  width: 123rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Name = styled.h1`
+  font-size: 3rem;
+`;
+
+export const Content = styled.div`
+  display: flex;
 `;

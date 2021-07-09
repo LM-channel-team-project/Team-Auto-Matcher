@@ -2,23 +2,22 @@ import React, { useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
 import { getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
-import PersonalDetailModal, {
-  PersonalModalProps,
+import MailDetailModal, {
+  MailModalProps,
 } from 'component/orgamisms/DetailModal/Mail';
 import * as S from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
-type UserData = ExtractType<PersonalModalProps, 'data'>;
+type UserData = ExtractType<MailModalProps, 'data'>;
 
 interface ModalState {
-  type?: 'detail' | 'add';
+  type?: 'detail';
   data?: UserData;
 }
 
 const Mail = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
-  const [current, setCurrent] = useState<number>(0);
   const {
     loading, error, data, refetch,
   } = useQuery(
@@ -30,60 +29,43 @@ const Mail = ({ className }: any) => {
   if (loading) {
     return <></>;
   }
-
-  const { items } = data.listPersonDashboard;
-  const users = items.reduce((obj: any, user: any) => {
-    const result = { ...obj };
-    if (result[user.field]) {
-      result[user.field].push(user);
-    } else {
-      result[user.field] = [user];
+  const { mail } = data.getUser.items[0];
+  const mailList = mail.map((el: any) => {
+    let type;
+    if (el.type === 'invite') {
+      type = '팀 초대 메세지';
+    } else if (el.type === 'apply') {
+      type = '팀 지원 메시지';
+    } else if (el.type === 'accept') {
+      type = '팀 승인 메시지';
+    } else if (el.type === 'refuse') {
+      type = '팀 거절 메시지';
     }
-    return result;
-  }, {});
-
-  const fieldNames = Object.keys(users);
-  const currentFieldName = fieldNames[current];
-
-  const { length } = Object.keys(users);
-
-  const next = () => {
-    setCurrent(current === length - 1 ? 0 : current + 1);
-  };
-  const back = () => {
-    setCurrent(current === 0 ? length - 1 : current - 1);
-  };
-
-  const UserList = users[currentFieldName].map((user: any) => (
-    <S.List key={user.id} onClick={() => setModal({ data: user })}>
-      <S.Title>{user.name}</S.Title>
-      <S.Text>{user.devExp}</S.Text>
-      <S.Stack>
-        {user.skills.map((skill: any) => (
-          <S.Stacklist key={skill}>{skill}</S.Stacklist>
-        ))}
-      </S.Stack>
-      <S.Text>{user.outline}</S.Text>
-      <S.Team>{user.team}</S.Team>
-    </S.List>
-  ));
+    return (
+      <S.List key={el.from} onClick={() => setModal({ data: el })}>
+        <S.Title>{type}</S.Title>
+        <S.Text>{el.teamName}팀</S.Text>
+      </S.List>
+    );
+  });
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
 
     return (
       modal.data && (
-        <PersonalDetailModal data={modal.data} onCloseModal={onCloseModal} />
+        <MailDetailModal data={modal.data} onCloseModal={onCloseModal} />
       )
     );
   };
+
   return (
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
-      <S.Container>
+      <S.Container className={className}>
         <S.Top>
           <S.Main>초대 보관함</S.Main>
         </S.Top>
-        <S.MailList></S.MailList>
+        <S.MailList>{mailList}</S.MailList>
       </S.Container>
     </BaseTemplate>
   );
