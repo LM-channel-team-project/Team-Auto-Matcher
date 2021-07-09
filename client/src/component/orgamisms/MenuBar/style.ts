@@ -246,11 +246,13 @@ const menuStyle = css`
   ${({ clicked }: ClickedProps) => clicked
     && css`
       left: 0;
+      opacity: 100;
     `}
 `;
 
 export const HamburgerMenus = styled.ul`
   transition: all 0.4s;
+  opacity: 0;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
   position: absolute;
