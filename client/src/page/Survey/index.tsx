@@ -85,7 +85,7 @@ function Survey() {
             input: {
               question: firstInput,
               mail: [],
-              teamInfo: [],
+              haveTeam: false,
               surveyCompleted: false,
             },
           },
