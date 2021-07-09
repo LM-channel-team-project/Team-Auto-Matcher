@@ -139,7 +139,7 @@ export const listPersonDashboard = /* GraphQL */ `
 `;
 
 export const getPersonDashboard = /* GraphQL */ `
-  query GetPersonDashboard($id: String) {
+  query GetPersonDashboard($id: String!) {
     getPersonDashboard(id: $id) {
       id
       name
