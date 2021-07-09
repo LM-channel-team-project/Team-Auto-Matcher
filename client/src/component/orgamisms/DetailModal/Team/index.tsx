@@ -1,8 +1,8 @@
 import React from 'react';
 import { skillsLabel } from 'style/preset';
-import { getUser } from 'graphql/queries';
+import { getUser, getUserById } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, updateTeam } from 'graphql/mutations';
+import { updateUser } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
@@ -16,7 +16,6 @@ export interface TeamModalProps {
     skills: string[];
     state: string;
     owner: string;
-    mail: string[];
   };
   onCloseModal: () => void;
 }
@@ -28,15 +27,18 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
     `,
   );
 
+  const { data: userIdData } = useQuery(
+    gql`
+      ${getUserById}
+    `,
+    {
+      variables: { id: data?.owner },
+    },
+  );
+
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
-    `,
-  );
-
-  const [updateTeamData] = useMutation(
-    gql`
-      ${updateTeam}
     `,
   );
 
@@ -92,26 +94,22 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
   const onClickApply = () => {
     const getUserData = userData.getUser.items[0];
     if (data?.owner !== getUserData.id) {
-      let isDuplicate = false;
-      const frontData = data?.mail
+      let isDuplicated = false;
+      const frontData = userIdData.getUserById.mail
         .filter((el: any) => {
-          if (el.from === getUserData.id) {
-            isDuplicate = true;
+          if (el.from === getUserData.id && el.teamId === data?.id) {
+            isDuplicated = true;
           }
           return false;
         })
         .map((el: any) => ({
           from: el.from,
-          name: el.name,
-          outline: el.outline,
-          field: el.field ? el.field : '',
-          devExp: el.devExp ? el.devExp : '',
-          skills: el.skills,
-          contents: el.contents ? el.contents : [],
-          state: el.state ? el.state : '',
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
         }));
 
-      if (isDuplicate) {
+      if (isDuplicated) {
         onCloseModal();
         alert('이미 동일한 팀에 지원하였습니다.');
         return;
@@ -120,25 +118,15 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
       const changeIntoArray = Array.from(changeIntoSet);
       const newData = {
         from: getUserData.id,
-        name: getUserData.question[11].answers[0],
-        outline: getUserData.question[8].answers[0],
-        field: getUserData.question[0].answers[0],
-        devExp: getUserData.question[2].answers[0],
-        skills: getUserData.question[1].answers,
+        teamId: data?.id,
+        type: 'apply',
+        teamName: data?.name,
       };
       const combinedData = [...changeIntoArray, newData];
       updateUserData({
         variables: {
           input: {
             id: data?.owner,
-            mail: combinedData,
-          },
-        },
-      });
-      updateTeamData({
-        variables: {
-          input: {
-            id: data?.id,
             mail: combinedData,
           },
         },

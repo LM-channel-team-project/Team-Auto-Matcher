@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import { getUser } from 'graphql/queries';
+import { getUser, getUserById, getTeamDashboard } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, updatePerson } from 'graphql/mutations';
+import { updateUser } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
@@ -20,28 +20,40 @@ export interface PersonalModalProps {
     contact?: string;
     hasCoWork?: boolean;
     priority?: string[];
-    mail: string[];
     contents: ContentItem[];
   };
   onCloseModal: () => void;
 }
 
 const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
+  const [searchId, setSearchId] = useState<String>('0');
   const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
     `,
   );
 
+  const { data: userIdData } = useQuery(
+    gql`
+      ${getUserById}
+    `,
+    {
+      variables: { id: data?.id },
+    },
+  );
+
+  const { data: teamData } = useQuery(
+    gql`
+      ${getTeamDashboard}
+    `,
+    {
+      variables: { id: searchId },
+    },
+  );
+
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
-    `,
-  );
-
-  const [updatePersonData] = useMutation(
-    gql`
-      ${updatePerson}
     `,
   );
 
@@ -81,7 +93,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           </S.InlineContent>
           {
             <S.InlineContent title="협업 가능 시간대">
-              {data.times?.map((time) => (
+              {data.times?.map((time: any) => (
                 <S.Text key={time} className="ic-text">
                   {time}
                 </S.Text>
@@ -93,7 +105,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
             {data.hasCoWork ? '있음' : '없음'}
           </S.InlineContent>
           <S.InlineContent title="협업 시 중요하게 생각하는 것">
-            {data.priority?.map((item) => (
+            {data.priority?.map((item: any) => (
               <S.Text key={item} className="ic-text">
                 {item}
               </S.Text>
@@ -119,32 +131,28 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     );
   };
 
-  const onClickInvite = (): void => {
+  const onClickInvite = () => {
+    setSearchId(userData.getUser.items[0].id);
     const getUserData = userData.getUser.items[0];
-    if (getUserData.teamInfo.length < 1) {
+    if (!getUserData.haveTeam) {
       alert('당신이 팀장으로 있는 팀이 없습니다.');
       return;
     }
-    if (data?.id !== getUserData.id) {
+    if (data?.id !== getUserData.id && userIdData && teamData) {
       let isDuplicate = false;
-      const frontData = data?.mail
+      const frontData = userIdData.getUserById.mail
         .filter((el: any) => {
-          if (el.from === getUserData.id) {
+          if (el.from === getUserData.id && el.type === 'invite') {
             isDuplicate = true;
           }
           return false;
         })
         .map((el: any) => ({
           from: el.from,
-          name: el.name,
-          outline: el.outline,
-          field: el.field ? el.field : null,
-          devExp: el.devExp ? el.devExp : null,
-          skills: el.skills,
-          contents: el.contents ? el.contents : null,
-          state: el.state ? el.state : null,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
         }));
-
       if (isDuplicate) {
         onCloseModal();
         alert('이미 초대한 사용자입니다.');
@@ -152,18 +160,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       }
       const changeIntoSet = new Set(frontData);
       const changeIntoArray = Array.from(changeIntoSet);
-      const getTeamInfo = getUserData.teamInfo[0];
-      const changeType = getTeamInfo.contents.map((el: any) => ({
-        title: el.title,
-        text: el.text,
-      }));
       const newData = {
         from: getUserData.id,
-        name: getTeamInfo.name,
-        outline: getTeamInfo.outline,
-        contents: changeType,
-        state: getTeamInfo.state,
-        skills: getTeamInfo.skills,
+        teamId: teamData.getTeamDashboard.id,
+        type: 'invite',
+        teamName: teamData.getTeamDashboard.name,
       };
       const combinedData = [...changeIntoArray, newData];
       updateUserData({
@@ -174,15 +175,6 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           },
         },
       });
-      updatePersonData({
-        variables: {
-          input: {
-            id: data?.id,
-            mail: combinedData,
-          },
-        },
-      });
-
       refetch();
       onCloseModal();
       alert('초대가 완료되었습니다.');
