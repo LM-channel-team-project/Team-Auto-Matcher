@@ -20,9 +20,6 @@ const firstInput = [
   { title: '', answers: [] },
   { title: '', answers: [] },
   { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
 ];
 
 function Survey() {
