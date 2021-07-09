@@ -159,9 +159,15 @@ const MenuBar = ({ className }: any) => {
           )}
           <S.MenuItems>
             {isLogined ? (
-              <div onClick={onClickSignOut}>LogOut</div>
+              <S.LoginBtn
+                text="LogOut"
+                onLoginClick={onClickSignOut}
+              ></S.LoginBtn>
             ) : (
-              <div onClick={googleLoginOnClick}>LogIn</div>
+              <S.LoginBtn
+                text="LogIn"
+                onLoginClick={googleLoginOnClick}
+              ></S.LoginBtn>
             )}
           </S.MenuItems>
         </S.MenuRight>

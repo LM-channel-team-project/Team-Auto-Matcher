@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import LoginBtnComponent from 'component/molecules/LoginBtn';
 
 export const MenuBar = styled.nav`
   position: absolute;
@@ -25,6 +26,15 @@ export const MenuBar = styled.nav`
   @media screen and (max-width: 840px) {
     padding: 1.7rem 1rem;
   }
+`;
+
+export const LoginBtn = styled(LoginBtnComponent)`
+  width: 8rem;
+  height: 3.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 1rem 1rem;
 `;
 
 export const MenuLeft = styled.ul`
@@ -71,22 +81,6 @@ export const MainText = styled.div`
 
 export const MenuRight = styled.ul`
   display: flex;
-  & div {
-    width: 8rem;
-    height: 3.5rem;
-    background-color: #cc0001;
-    border-radius: 3.5rem;
-    color: white;
-    transition: all 0.4s;
-    cursor: pointer;
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 2.6;
-  }
-  & div:hover {
-    background-color: #313131;
-  }
   & a {
     font-weight: 400;
     font-size: 2rem;
