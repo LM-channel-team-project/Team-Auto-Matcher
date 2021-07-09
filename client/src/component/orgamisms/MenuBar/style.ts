@@ -35,6 +35,11 @@ export const LoginBtn = styled(LoginBtnComponent)`
   font-weight: 700;
   text-align: center;
   padding: 1rem 1rem;
+  border-radius: 0.4rem;
+  background-color: #cc0001;
+  &:hover {
+    background-color: #313131;
+  }
 `;
 
 export const MenuLeft = styled.ul`
@@ -62,7 +67,9 @@ export const MainText = styled.div`
     font-weight: 800;
     color: #313131;
     line-height: 1.2;
+    transition: all 0.2s;
     & span {
+      transition: all 0.2s;
       color: #cc0001;
       font-size: 1.5rem;
       font-weight: 800;
@@ -76,6 +83,18 @@ export const MainText = styled.div`
     font-weight: 600;
     line-height: 1.2;
     color: #d0d0d0;
+    transition: all 0.4s;
+  }
+
+  &:hover p:last-child {
+    color: #313131;
+  }
+
+  &:hover p:first-child {
+    color: #cc0001;
+    & span {
+      color: #313131;
+    }
   }
 `;
 
