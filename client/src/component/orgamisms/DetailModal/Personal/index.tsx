@@ -91,7 +91,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     data ? <DetailModalTemplate
       modalHeader={
         <>
-          <S.Domain>{`${data.field} ${data.devExp}`}</S.Domain>
+          <S.Domain>{data.field}</S.Domain>
           <S.Title type="personal">{data.name}</S.Title>
           <S.Desc>{data.outline}</S.Desc>
         </>
