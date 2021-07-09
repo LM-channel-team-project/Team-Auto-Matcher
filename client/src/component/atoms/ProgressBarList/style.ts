@@ -4,7 +4,7 @@ export const ProgressBarList = styled.li`
   flex: 2;
   position: relative;
   padding: 0 0 2em 0;
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: #cc0001;
   font-weight: 600;
@@ -14,8 +14,8 @@ export const ProgressBarList = styled.li`
   text-align: center;
   border-bottom: 2px solid #313131;
 
-  & div{
-    content: "";
+  & div {
+    content: '';
     display: block;
     width: 12px;
     height: 12px;
@@ -26,13 +26,21 @@ export const ProgressBarList = styled.li`
     left: calc(50% - 6px);
     bottom: -7px;
     z-index: 3;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     cursor: pointer;
-  };
+  }
 
-  & span{
-    transition: opacity .3s ease-in-out;
-  };
+  & span {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  @media screen and (max-width: 640px) {
+    white-space: normal;
+  }
+
+  @media screen and (max-width: 430px) {
+    display: none;
+  }
 `;
 
 export default ProgressBarList;
