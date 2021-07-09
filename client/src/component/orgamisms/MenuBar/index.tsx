@@ -177,7 +177,7 @@ const MenuBar = ({ className }: any) => {
           <S.HamburgerSpan></S.HamburgerSpan>
         </S.Hamburger>
       </S.MenuBar>
-      <S.HamburgetMenus clicked={isClicked}>
+      <S.HamburgerMenus clicked={isClicked}>
         <S.MenuItems>
           <Link to="/dashboard/personal">Personal</Link>
         </S.MenuItems>
@@ -202,7 +202,7 @@ const MenuBar = ({ className }: any) => {
             <div onClick={googleLoginOnClick}>LogIn</div>
           )}
         </S.MenuItems>
-      </S.HamburgetMenus>
+      </S.HamburgerMenus>
     </>
   );
 };

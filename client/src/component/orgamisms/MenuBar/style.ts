@@ -245,16 +245,17 @@ export const HamburgerSpan = styled.span``;
 const menuStyle = css`
   ${({ clicked }: ClickedProps) => clicked
     && css`
-      top: 7rem;
+      left: 0;
     `}
 `;
 
-export const HamburgetMenus = styled.ul`
+export const HamburgerMenus = styled.ul`
   transition: all 0.4s;
   background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(5px);
   position: absolute;
-  top: -50rem;
+  top: 7rem;
+  left: -50rem;
   width: 100%;
   z-index: 20;
   & a:hover,
@@ -267,7 +268,7 @@ export const HamburgetMenus = styled.ul`
     width: 100%;
     font-weight: 400;
     text-align: center;
-    font-size: 4rem;
+    font-size: 2rem;
     margin: 1rem 0;
   }
   ${menuStyle}
