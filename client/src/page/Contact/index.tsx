@@ -1,21 +1,22 @@
+import BaseTemplate from 'page/BaseTemplate';
 import React from 'react';
-import MenuBar from 'component/templates/menuBar';
 import * as S from './style';
 
+interface IContact {
+  name: string;
+  role: string;
+  backgroundUrl: string;
+  englishName: string;
+  githubHref: string;
+  github: string;
+  blogHref?: string;
+  blog?: string;
+  mailHref: string;
+  mail: string;
+  say: string;
+}
+
 const Contact = ({ className }: any) => {
-  interface IContact {
-    name: string;
-    role: string;
-    backgroundUrl: string;
-    englishName: string;
-    githubHref: string;
-    github: string;
-    blogHref?: string;
-    blog?: string;
-    mailHref: string;
-    mail: string;
-    say: string;
-  }
   const SetMates = ({
     name,
     role,
@@ -57,8 +58,7 @@ const Contact = ({ className }: any) => {
     </S.Mates>
   );
   return (
-    <>
-      <MenuBar></MenuBar>
+    <BaseTemplate>
       <S.Contact className={className}>
         <S.Teams>
           <SetMates
@@ -111,7 +111,7 @@ const Contact = ({ className }: any) => {
           ></SetMates>
         </S.Teams>
       </S.Contact>
-    </>
+    </BaseTemplate>
   );
 };
 

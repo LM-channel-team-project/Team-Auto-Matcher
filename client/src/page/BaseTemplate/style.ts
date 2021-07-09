@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const Template = styled.section`
-  position: relative;
+  position: absolute;
   height: 100%;
+  width: 100%;
 `;
 
 export const Nav = styled.nav``;

@@ -1,14 +1,19 @@
 import React from 'react';
-import MenuBar from 'component/templates/menuBar';
+import { getUser } from 'graphql/queries';
+import { gql, useQuery } from '@apollo/client';
+import BaseTemplate from 'page/BaseTemplate';
 import * as S from './style';
 
 function Home() {
-  const sth = 0;
+  const { data } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
   return (
-    <>
-      <MenuBar></MenuBar>
+    <BaseTemplate>
       <S.Home>HomePage</S.Home>
-    </>
+    </BaseTemplate>
   );
 }
 

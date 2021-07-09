@@ -1,4 +1,4 @@
-import MenuBar from 'component/templates/menuBar';
+import MenuBar from 'component/orgamisms/MenuBar';
 import React from 'react';
 import * as S from './style';
 

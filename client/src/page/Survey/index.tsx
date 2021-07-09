@@ -3,9 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser, updateUser } from 'graphql/mutations';
-
+import BaseTemplate from 'page/BaseTemplate';
 import Questionnaire from 'component/orgamisms/Questionnaire';
-import MenuBar from 'component/templates/menuBar';
 import * as S from './style';
 
 const firstInput = [
@@ -27,9 +26,7 @@ const firstInput = [
 ];
 
 function Survey() {
-  const {
-    loading, error, data, refetch,
-  } = useQuery(
+  const { loading, error, data } = useQuery(
     gql`
       ${listQuestionnaires}
     `,
@@ -212,24 +209,25 @@ function Survey() {
   };
 
   return (
-    <>
-      <MenuBar />
-      <S.SurveyPage>
-        <Questionnaire
-          key={nowQuestionnaire.id}
-          question={nowQuestionnaire.questionTitle}
-          questionList={setQuestionList()}
-          bDuplicateSelect={nowQuestionnaire.bDuplicate}
-          selectedData={nowSelectedData.answers}
-          leftOnClick={onLeftClick}
-          rightOnClick={onRightClick}
-          currentPage={page + 1}
-          totalPage={totalPage}
-          onClickList={onProgressBarListClick}
-          listQuestionnairesData={listQuestionnairesData}
-        />
-      </S.SurveyPage>
-    </>
+    <BaseTemplate>
+      <S.SurveyWrapper>
+        <S.SurveyPage>
+          <Questionnaire
+            key={nowQuestionnaire.id}
+            question={nowQuestionnaire.questionTitle}
+            questionList={setQuestionList()}
+            bDuplicateSelect={nowQuestionnaire.bDuplicate}
+            selectedData={nowSelectedData.answers}
+            leftOnClick={onLeftClick}
+            rightOnClick={onRightClick}
+            currentPage={page + 1}
+            totalPage={totalPage}
+            onClickList={onProgressBarListClick}
+            listQuestionnairesData={listQuestionnairesData}
+          />
+        </S.SurveyPage>
+      </S.SurveyWrapper>
+    </BaseTemplate>
   );
 }
 
