@@ -36,7 +36,9 @@ interface ContentsState {
     title: string,
   ) => void;
 }
+const isInArray = (a: string[], v: string) => a.some((e) => e.toLowerCase() === v.toLowerCase());
 
+const findInArray = (a: string[], v: string) => a.find((e) => e.toLowerCase() === v.toLowerCase());
 // Search for skills what included an string entered
 const searchOnSkills = (value: string) => {
   const skills = Object.keys(skillsLabel);
@@ -335,21 +337,22 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
   const onSubmit = async () => {
     if (name.length < 2) return;
     const getUserData = userData.getUser.items[0];
-    if (getUserData.haveTeam > 2) {
-      alert('최대 세 개의 팀만 만들 수 있습니다.');
+    if (getUserData.haveTeam) {
+      alert('최대 한 개의 팀만 만들 수 있습니다.');
       return;
     }
     updateUserData({
       variables: {
         input: {
           id: getUserData.id,
-          haveTeam: getUserData.haveTeam + 1,
+          haveTeam: true,
         },
       },
     });
     await createTeamData({
       variables: {
         input: {
+          id: getUserData.id,
           name,
           people,
           skills,
