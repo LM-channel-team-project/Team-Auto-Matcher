@@ -18,9 +18,7 @@ interface ModalState {
 const Mail = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
-  const {
-    loading, error, data, refetch,
-  } = useQuery(
+  const { loading, data } = useQuery(
     gql`
       ${getUser}
     `,

@@ -8,7 +8,7 @@ import {
 } from 'graphql/queries';
 import { updateUser, updateTeam } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import DetailModalTemplate, { ContentItem } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {

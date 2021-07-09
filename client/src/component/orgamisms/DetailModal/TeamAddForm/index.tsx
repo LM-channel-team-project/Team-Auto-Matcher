@@ -75,7 +75,7 @@ interface Props extends TeamModalProps {
 }
 
 const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
-  const { data: userData, refetch } = useQuery(
+  const { data: userData } = useQuery(
     gql`
       ${getUser}
     `,

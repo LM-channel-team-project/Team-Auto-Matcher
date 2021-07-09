@@ -19,9 +19,7 @@ const PersonalDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
   const [current, setCurrent] = useState<number>(0);
-  const {
-    loading, error, data, refetch,
-  } = useQuery(
+  const { loading, data } = useQuery(
     gql`
       ${listPersonDashboard}
     `,

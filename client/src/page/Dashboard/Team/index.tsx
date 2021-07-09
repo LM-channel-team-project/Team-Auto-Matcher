@@ -20,9 +20,7 @@ interface ModalState {
 const TeamDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
-  const {
-    loading, error, data, refetch,
-  } = useQuery(
+  const { loading, data, refetch } = useQuery(
     gql`
       ${listTeamDashboard}
     `,
