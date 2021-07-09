@@ -9,7 +9,7 @@ export const LoginPage = styled.div`
 `;
 
 export const wrapper = styled.div`
-  padding: 50px 90px;
+  padding: 2rem 5rem;
   border-radius: 20px;
   background-color: #e9e9e9;
   display: flex;
@@ -18,10 +18,21 @@ export const wrapper = styled.div`
   align-items: center;
 `;
 
-export const LoginBtn = styled(LoginBtnComponent)`
-`;
+export const LoginBtn = styled(LoginBtnComponent)``;
 
 export const Title = styled.div`
-  font-size: 45px;
-  margin-bottom: 50%;
+  font-size: 4rem;
+  margin-bottom: 2rem;
+`;
+
+export const Explanation = styled.div`
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+`;
+
+export const Reload = styled.span`
+  cursor: pointer;
+  margin: 0 1rem;
+  color: blue;
+  font-size: 2rem;
 `;
