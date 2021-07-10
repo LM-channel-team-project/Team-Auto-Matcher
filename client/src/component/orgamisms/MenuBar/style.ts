@@ -257,7 +257,6 @@ export const HamburgerMenus = styled.ul`
   top: 7rem;
   left: -600px;
   width: 100%;
-  max-width: 600px;
   z-index: 20;
   & a:hover,
   & div:hover {

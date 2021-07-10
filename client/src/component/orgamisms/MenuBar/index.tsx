@@ -12,6 +12,7 @@ const MenuBar = ({ className }: any) => {
   const [isLogined, setIsLogined] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   useEffect(() => {
     switch (window.location.pathname) {
     case '/':
@@ -42,7 +43,6 @@ const MenuBar = ({ className }: any) => {
         setIsLogined(false);
       });
   }, []);
-
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
@@ -66,7 +66,9 @@ const MenuBar = ({ className }: any) => {
   }, []);
 
   const handleSize = () => {
-    if (window.innerWidth > 600) {
+    const newWidth = window.innerWidth;
+    setWindowWidth(newWidth);
+    if (newWidth > 600) {
       setIsClicked(false);
     }
   };
@@ -177,32 +179,34 @@ const MenuBar = ({ className }: any) => {
           <S.HamburgerSpan></S.HamburgerSpan>
         </S.Hamburger>
       </S.MenuBar>
-      <S.HamburgerMenus clicked={isClicked}>
-        <S.MenuItems>
-          <Link to="/dashboard/personal">Personal</Link>
-        </S.MenuItems>
-        <S.MenuItems>
-          <Link to="/dashboard/team">Team</Link>
-        </S.MenuItems>
-        <S.MenuItems>
-          <Link to="/survey">Survey</Link>
-        </S.MenuItems>
-        <S.MenuItems>
-          <Link to="/contact">Contact</Link>
-        </S.MenuItems>
-        {isLogined && (
+      {windowWidth < 600 && (
+        <S.HamburgerMenus clicked={isClicked}>
           <S.MenuItems>
-            <Link to="/mail">Mail</Link>
+            <Link to="/dashboard/personal">Personal</Link>
           </S.MenuItems>
-        )}
-        <S.MenuItems>
-          {isLogined ? (
-            <div onClick={onClickSignOut}>LogOut</div>
-          ) : (
-            <div onClick={googleLoginOnClick}>LogIn</div>
+          <S.MenuItems>
+            <Link to="/dashboard/team">Team</Link>
+          </S.MenuItems>
+          <S.MenuItems>
+            <Link to="/survey">Survey</Link>
+          </S.MenuItems>
+          <S.MenuItems>
+            <Link to="/contact">Contact</Link>
+          </S.MenuItems>
+          {isLogined && (
+            <S.MenuItems>
+              <Link to="/mail">Mail</Link>
+            </S.MenuItems>
           )}
-        </S.MenuItems>
-      </S.HamburgerMenus>
+          <S.MenuItems>
+            {isLogined ? (
+              <div onClick={onClickSignOut}>LogOut</div>
+            ) : (
+              <div onClick={googleLoginOnClick}>LogIn</div>
+            )}
+          </S.MenuItems>
+        </S.HamburgerMenus>
+      )}
     </>
   );
 };
