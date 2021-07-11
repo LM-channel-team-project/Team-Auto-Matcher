@@ -35,7 +35,11 @@ function Result() {
   return (
     <S.ResultPage>
       <div className="title">설문 결과</div>
-      <S.QuestionResult answerRespond={answerRes} id={items.id} />
+      <S.QuestionResult
+        answerRespond={answerRes}
+        id={items.id}
+        surveyCompleted={items.surveyCompleted}
+      />
     </S.ResultPage>
   );
 }
