@@ -97,10 +97,10 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
       let isDuplicated = false;
       const frontData = userIdData.getUserById.mail
         .filter((el: any) => {
-          if (el.from === getUserData.id && el.teamId === data?.id) {
+          if (el.from === getUserData.id && el.type === 'apply') {
             isDuplicated = true;
           }
-          return false;
+          return true;
         })
         .map((el: any) => ({
           from: el.from,

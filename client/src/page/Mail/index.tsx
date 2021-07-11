@@ -61,7 +61,7 @@ const Mail = ({ className }: any) => {
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
       <S.Container className={className}>
         <S.Top>
-          <S.Main>초대 보관함</S.Main>
+          <S.Main>메시지 보관함</S.Main>
         </S.Top>
         <S.MailList>{mailList}</S.MailList>
       </S.Container>

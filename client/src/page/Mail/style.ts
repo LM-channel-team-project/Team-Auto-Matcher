@@ -18,8 +18,7 @@ export const Top = styled.div`
 
 export const Main = styled.h1`
   display: flex;
-  margin-top: 0.63em;
-  margin-bottom: 1.5em;
+  margin: 1.5em 0;
   justify-content: center;
   align-items: center;
   font-size: 4em;

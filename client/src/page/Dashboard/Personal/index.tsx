@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { listPersonDashboard } from 'graphql/queries';
+import { listPersonDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, {
@@ -17,8 +17,13 @@ interface ModalState {
 
 const PersonalDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
-
   const [current, setCurrent] = useState<number>(0);
+
+  const { data: userData } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
   const { loading, data } = useQuery(
     gql`
       ${listPersonDashboard}
@@ -105,7 +110,12 @@ const PersonalDashboardPage = ({ className }: any) => {
 
     return (
       modal.data && (
-        <PersonalDetailModal data={modal.data} onCloseModal={onCloseModal} />
+        <PersonalDetailModal
+          userId={userData.getUser.items[0].id}
+          haveTeam={userData.getUser.items[0].haveTeam}
+          data={modal.data}
+          onCloseModal={onCloseModal}
+        />
       )
     );
   };

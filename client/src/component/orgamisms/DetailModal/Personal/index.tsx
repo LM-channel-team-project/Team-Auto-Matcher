@@ -23,12 +23,18 @@ export interface PersonalModalProps {
     project?: string;
     contents: ContentItem[];
   };
+  userId?: string;
+  haveTeam?: boolean;
   onCloseModal: () => void;
 }
 
-const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
-  const [searchId, setSearchId] = useState<String>('0');
-  const { data: userData, refetch } = useQuery(
+const PersonalDetailModal = ({
+  data,
+  onCloseModal,
+  userId,
+  haveTeam,
+}: PersonalModalProps) => {
+  const { refetch } = useQuery(
     gql`
       ${getUser}
     `,
@@ -48,7 +54,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       ${getTeamDashboard}
     `,
     {
-      variables: { id: searchId },
+      variables: { id: userId },
     },
   );
 
@@ -136,52 +142,52 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   };
 
   const onClickInvite = () => {
-    setSearchId(userData.getUser.items[0].id);
-    const getUserData = userData.getUser.items[0];
-    if (!getUserData.haveTeam) {
+    if (!haveTeam) {
       alert('당신이 팀장으로 있는 팀이 없습니다.');
       return;
     }
-    if (data?.id !== getUserData.id && userIdData && teamData) {
-      let isDuplicate = false;
-      const frontData = userIdData.getUserById.mail
-        .filter((el: any) => {
-          if (el.from === getUserData.id && el.type === 'invite') {
-            isDuplicate = true;
-          }
-          return false;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
-      if (isDuplicate) {
-        onCloseModal();
-        alert('이미 초대한 사용자입니다.');
-        return;
-      }
-      const changeIntoSet = new Set(frontData);
-      const changeIntoArray = Array.from(changeIntoSet);
-      const newData = {
-        from: getUserData.id,
-        teamId: teamData.getTeamDashboard.id,
-        type: 'invite',
-        teamName: teamData.getTeamDashboard.name,
-      };
-      const combinedData = [...changeIntoArray, newData];
-      updateUserData({
-        variables: {
-          input: {
-            id: data?.id,
-            mail: combinedData,
+    if (data?.id !== userId) {
+      if (userIdData && teamData) {
+        let isDuplicate = false;
+        const frontData = userIdData.getUserById.mail
+          .filter((el: any) => {
+            if (el.from === userId && el.type === 'invite') {
+              isDuplicate = true;
+            }
+            return true;
+          })
+          .map((el: any) => ({
+            from: el.from,
+            teamId: el.teamId,
+            type: el.type,
+            teamName: el.teamName,
+          }));
+        if (isDuplicate) {
+          onCloseModal();
+          alert('이미 초대한 사용자입니다.');
+          return;
+        }
+        const changeIntoSet = new Set(frontData);
+        const changeIntoArray = Array.from(changeIntoSet);
+        const newData = {
+          from: userId,
+          teamId: teamData.getTeamDashboard.id,
+          type: 'invite',
+          teamName: teamData.getTeamDashboard.name,
+        };
+        const combinedData = [...changeIntoArray, newData];
+        updateUserData({
+          variables: {
+            input: {
+              id: data?.id,
+              mail: combinedData,
+            },
           },
-        },
-      });
-      refetch();
-      onCloseModal();
-      alert('초대가 완료되었습니다.');
+        });
+        refetch();
+        onCloseModal();
+        alert('초대가 완료되었습니다.');
+      }
     } else {
       alert('자신을 초대할 수 없습니다.');
     }
