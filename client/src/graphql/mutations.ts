@@ -21,6 +21,7 @@ export const createUser = /* GraphQL */ `
         title
         answers
       }
+      surveyCompleted
     }
   }
 `;
@@ -45,6 +46,7 @@ export const updateUser = /* GraphQL */ `
         title
         answers
       }
+      surveyCompleted
     }
   }
 `;
@@ -130,10 +132,21 @@ export const createPerson = /* GraphQL */ `
           text
         }
       }
+      field
+      skills
+      devExp
+      name
       contents {
         title
         text
       }
+      team
+      outline
+      periods
+      times
+      contact
+      hasCoWork
+      priority
     }
   }
 `;
@@ -158,10 +171,21 @@ export const updatePerson = /* GraphQL */ `
           text
         }
       }
+      field
+      skills
+      devExp
+      name
       contents {
         title
         text
       }
+      team
+      outline
+      periods
+      times
+      contact
+      hasCoWork
+      priority
     }
   }
 `;
