@@ -82,7 +82,7 @@ const MenuBar = ({ className }: any) => {
 
   const onClickSignOut = async () => {
     await Auth.signOut()
-      .then((data) => console.log(data))
+      .then((data) => console.log('completed'))
       .catch((err) => console.log(err));
   };
 
