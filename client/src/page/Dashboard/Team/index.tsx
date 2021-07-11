@@ -3,7 +3,9 @@ import { listTeamDashboard } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import BaseTemplate from 'page/BaseTemplate';
-import TeamDetailModal, { TeamModalProps } from 'component/orgamisms/DetailModal/Team';
+import TeamDetailModal, {
+  TeamModalProps,
+} from 'component/orgamisms/DetailModal/Team';
 import TeamAddForm from 'component/orgamisms/DetailModal/TeamAddForm';
 import * as Team from './style';
 
@@ -45,13 +47,16 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     ));
 
     return (
-      <Team.List key={team.name} onClick={() => setModal({ type: 'detail', data: team })}>
+      <Team.List
+        key={team.name}
+        onClick={() => setModal({ type: 'detail', data: team })}
+      >
         <Team.Left>
           <Team.Name>{team.name}</Team.Name>
           <Personal.Stack>{skills}</Personal.Stack>
           <Team.Content>{contents}</Team.Content>
         </Team.Left>
-        <Team.State text={team.state}/>
+        <Team.State text={team.state} />
       </Team.List>
     );
   });
@@ -65,9 +70,17 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
 
     switch (modal?.type) {
     case 'detail':
-      return <TeamDetailModal data={modal.data} onCloseModal={onCloseModal} />;
+      return (
+        <TeamDetailModal data={modal.data} onCloseModal={onCloseModal} />
+      );
     case 'add':
-      return <TeamAddForm data={modal.data} onCloseModal={onCloseModal} onAdd={onTeamAdd}/>;
+      return (
+        <TeamAddForm
+          data={modal.data}
+          onCloseModal={onCloseModal}
+          onAdd={onTeamAdd}
+        />
+      );
     default:
       return '';
     }
@@ -77,11 +90,11 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
       <Personal.Container className={className}>
         <Personal.Top>
-          <Personal.MainBtn>메인 메뉴</Personal.MainBtn>
           <Team.Main>팀 현황판</Team.Main>
         </Personal.Top>
         <Team.TeamPage>{teams}</Team.TeamPage>
         {isLoggedIn && <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>팀 생성하기</Team.CreateBtn>}
+
       </Personal.Container>
     </BaseTemplate>
   );
