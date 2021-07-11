@@ -5,7 +5,12 @@ import { IAnswers } from 'component/molecules/QuestionRespond';
 import * as S from './style';
 
 function Result() {
-  const { loading: userLoading, error: userError, data: userData } = useQuery(
+  const {
+    loading: userLoading,
+    error: userError,
+    data: userData,
+    refetch: userRefetch,
+  } = useQuery(
     gql`
       ${getUser}
     `,
@@ -18,8 +23,9 @@ function Result() {
   if (userLoading) {
     return <>loading</>;
   }
-
-  const answerRespond: IAnswers[] = userData.getUser.items[0].question
+  const items = userData.getUser.items[0];
+  const { question } = items;
+  const answerRes: IAnswers[] = question
     .filter((answer: IAnswers) => answer.title !== '')
     .map((answer: IAnswers) => ({
       title: answer.title,
@@ -28,7 +34,12 @@ function Result() {
 
   return (
     <S.ResultPage>
-      <S.QuestionResult answerRespond={answerRespond} />
+      <div className="title">설문 결과</div>
+      <S.QuestionResult
+        answerRespond={answerRes}
+        id={items.id}
+        surveyCompleted={items.surveyCompleted}
+      />
     </S.ResultPage>
   );
 }

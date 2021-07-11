@@ -114,7 +114,6 @@ const PersonalDashboardPage = ({ className }: any) => {
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
       <S.Container>
         <S.Top>
-          <S.MainBtn>메인 메뉴</S.MainBtn>
           <S.Main>매칭 대기열</S.Main>
           {Slider}
         </S.Top>

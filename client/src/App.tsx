@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import Survey from 'page/Survey';
@@ -11,8 +11,15 @@ import Home from 'page/Home';
 import Contact from 'page/Contact';
 import Mail from 'page/Mail';
 import { withAuthenticator } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  Auth.currentAuthenticatedUser()
+    .then(() => setIsLoggedIn(true))
+    .catch(() => setIsLoggedIn(false));
+
   return (
     <GlobalThemeProvider>
       <Router>
@@ -29,7 +36,9 @@ function App() {
           />
           <Route exact path="/" component={Home} />
           <Route exact path="/contact" component={Contact} />
-          <Route exact path="/dashboard/team" component={TeamDashboard} />
+          <Route exact path="/dashboard/team">
+            <TeamDashboard isLoggedIn={isLoggedIn} component={TeamDashboard} />
+          </Route>
           <Route
             exact
             path="/dashboard/personal"

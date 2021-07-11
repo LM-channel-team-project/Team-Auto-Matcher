@@ -128,6 +128,7 @@ export const listPersonDashboard = /* GraphQL */ `
         hasCoWork
         priority
         outline
+        project
         contents {
           title
           text
@@ -153,6 +154,7 @@ export const getPersonDashboard = /* GraphQL */ `
       hasCoWork
       priority
       outline
+      project
       contents {
         title
         text

@@ -17,6 +17,7 @@ export const createUser = /* GraphQL */ `
         title
         answers
       }
+      surveyCompleted
     }
   }
 `;
@@ -37,6 +38,7 @@ export const updateUser = /* GraphQL */ `
         title
         answers
       }
+      surveyCompleted
     }
   }
 `;
@@ -82,7 +84,16 @@ export const createPerson = /* GraphQL */ `
     createPerson(input: $input) {
       id
       name
+      team
+      field
       skills
+      devExp
+      periods
+      times
+      contact
+      project
+      hasCoWork
+      priority
       outline
       contents {
         title
@@ -97,7 +108,16 @@ export const updatePerson = /* GraphQL */ `
     updatePerson(input: $input) {
       id
       name
+      team
+      field
       skills
+      devExp
+      periods
+      project
+      times
+      contact
+      hasCoWork
+      priority
       outline
       contents {
         title

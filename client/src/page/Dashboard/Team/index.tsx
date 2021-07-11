@@ -17,7 +17,7 @@ interface ModalState {
   data?: TeamData;
 }
 
-const TeamDashboardPage = ({ className }: any) => {
+const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
   const { loading, data, refetch } = useQuery(
@@ -87,13 +87,14 @@ const TeamDashboardPage = ({ className }: any) => {
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
       <Personal.Container className={className}>
         <Personal.Top>
-          <Personal.MainBtn>메인 메뉴</Personal.MainBtn>
           <Team.Main>팀 현황판</Team.Main>
         </Personal.Top>
         <Team.TeamPage>{teams}</Team.TeamPage>
-        <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>
-          팀 생성하기
-        </Team.CreateBtn>
+        {isLoggedIn && (
+          <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>
+            팀 생성하기
+          </Team.CreateBtn>
+        )}
       </Personal.Container>
     </BaseTemplate>
   );

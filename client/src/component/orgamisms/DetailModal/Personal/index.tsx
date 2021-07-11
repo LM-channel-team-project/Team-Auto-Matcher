@@ -20,6 +20,7 @@ export interface PersonalModalProps {
     contact?: string;
     hasCoWork?: boolean;
     priority?: string[];
+    project?: string;
     contents: ContentItem[];
   };
   onCloseModal: () => void;
@@ -111,6 +112,9 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
               </S.Text>
             ))}
           </S.InlineContent>
+          <S.InlineContent title="계획하고 있는 프로젝트">
+            {data.project}
+          </S.InlineContent>
         </S.ContentItem>
       </>
     );
@@ -187,7 +191,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     <DetailModalTemplate
       modalHeader={
         <>
-          <S.Domain>{`${data.field} ${data.devExp}`}</S.Domain>
+          <S.Domain>{data.field}</S.Domain>
           <S.Title type="personal">{data.name}</S.Title>
           <S.Desc>{data.outline}</S.Desc>
         </>

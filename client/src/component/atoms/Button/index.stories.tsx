@@ -14,24 +14,27 @@ const Template = (args: Props) => (
 );
 
 export const Sizes = (props: Props) => {
-  const args = { onClick: (e: MouseEvent) => alert((e.target as HTMLElement)!.innerText) };
+  const args = {
+    onClick: (e: MouseEvent) => alert((e.target as HTMLElement)!.innerText),
+  };
 
   return (
     <div>
-      <Template size='large' {...args} {...props} />
-      <Template size='medium' {...args} {...props} />
-      <Template size='small' {...args} {...props} />
+      <Template size="biglarge" {...args} {...props} />
+      <Template size="large" {...args} {...props} />
+      <Template size="medium" {...args} {...props} />
+      <Template size="small" {...args} {...props} />
     </div>
   );
 };
 
 export const AllButtons = () => (
   <div style={{ margin: '2em' }}>
-    <Sizes children="Transparent"/>
-    <Sizes color='gray' children="Gray"/>
-    <Sizes color='red' children="Red"/>
-    <Sizes color='blue' children="Blue"/>
-    <Sizes color='yellow' children="Yellow"/>
-    <Sizes color='orange' children="Orange"/>
+    <Sizes children="Transparent" />
+    <Sizes color="gray" children="Gray" />
+    <Sizes color="red" children="Red" />
+    <Sizes color="blue" children="Blue" />
+    <Sizes color="yellow" children="Yellow" />
+    <Sizes color="orange" children="Orange" />
   </div>
 );

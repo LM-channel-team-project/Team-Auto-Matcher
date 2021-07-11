@@ -202,6 +202,9 @@ const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
                   </S.Text>
                 ))}
               </S.InlineContent>
+              <S.InlineContent title="계획하고 있는 프로젝트">
+                {personItems.project}
+              </S.InlineContent>
             </S.ContentItem>
           </>
         );
