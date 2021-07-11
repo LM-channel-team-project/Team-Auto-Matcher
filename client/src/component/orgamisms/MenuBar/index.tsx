@@ -14,26 +14,7 @@ const MenuBar = ({ className }: any) => {
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   useEffect(() => {
-    switch (window.location.pathname) {
-    case '/':
-      setIsPath('/');
-      break;
-    case '/dashboard/personal':
-      setIsPath('/dashboard/personal');
-      break;
-    case '/dashboard/team':
-      setIsPath('/dashboard/team');
-      break;
-    case '/survey':
-      setIsPath('/survey');
-      break;
-    case '/contact':
-      setIsPath('/contact');
-      break;
-    default:
-      setIsPath('');
-      break;
-    }
+    setIsPath(window.location.pathname);
   }, []);
 
   useEffect(() => {
@@ -154,7 +135,7 @@ const MenuBar = ({ className }: any) => {
         <S.MenuRight>
           {isLogined && (
             <S.MenuItems>
-              <Link className="mail" to="/mail">
+              <Link className={isPath === '/mail' ? 'current' : ''} to="/mail">
                 Mail
               </Link>
             </S.MenuItems>

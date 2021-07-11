@@ -111,6 +111,40 @@ export const MenuRight = styled.ul`
   & li:first-child {
     margin-left: 0;
   }
+
+  & a {
+    position: relative;
+    display: block;
+    background-image: url('https:user-images.githubusercontent.com/71132893/121883934-4c3a5800-cd4d-11eb-8c70-d9dece275b9f.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 3rem;
+    height: 3rem;
+    font-size: 0;
+    margin-top: 0.3rem;
+  }
+  & a::after {
+    position: absolute;
+    background-image: linear-gradient(rgba(204, 0, 17.2) 30%, transparent 30%);
+    background-size: 0% 2rem;
+    width: 120%;
+    background-position: 50% 0;
+    background-repeat: repeat-y;
+    left: -10%;
+    top: 50%;
+    height: 0.2rem;
+    margin-top: 0.9rem;
+    content: '';
+    transform: translateY(24px);
+    transition: all 0.4s ease;
+    cursor: default;
+  }
+  & a.current::after {
+    background-size: 100% 2rem;
+  }
+  & a:hover::after {
+    background-size: 100% 2rem;
+  }
   @media screen and (max-width: 600px) {
     display: none;
   }
@@ -172,16 +206,6 @@ export const MenuItems = styled.li`
     color: #313131;
     text-decoration: none;
     transition: color 0.1s;
-  }
-  & a.mail {
-    display: block;
-    background-image: url('https:user-images.githubusercontent.com/71132893/121883934-4c3a5800-cd4d-11eb-8c70-d9dece275b9f.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 3rem;
-    height: 3rem;
-    font-size: 0;
-    margin-top: 0.3rem;
   }
 `;
 
