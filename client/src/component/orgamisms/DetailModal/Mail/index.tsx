@@ -12,6 +12,7 @@ import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
+  className?: string;
   data: {
     from: string;
     teamName: string;
@@ -21,7 +22,7 @@ export interface MailModalProps {
   onCloseModal: () => void;
 }
 
-const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
+const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
@@ -247,10 +248,10 @@ const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
     } else {
       modeling = (
         <>
+          <S.LoadingComponent />
           <S.ContentsList>
-            로딩이 지속될 경우, 해당 정보를 찾을 수 없는 것이니
+            로딩이 지속될 경우, 메시지를 삭제해주세요.
           </S.ContentsList>
-          <S.ContentsList>메시지를 삭제해주세요.</S.ContentsList>
         </>
       );
     }
