@@ -8,6 +8,12 @@ const googleLoginOnClick = () => Auth.federatedSignIn({
   provider: CognitoHostedUIIdentityProvider.Google,
 });
 
+interface IBrieftItems {
+  clName?: string;
+  to: string;
+  text: string;
+}
+
 const MenuBar = ({ className }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -74,6 +80,13 @@ const MenuBar = ({ className }: any) => {
       setIsClicked(true);
     }
   };
+  const BriefItems = ({ clName, to, text }: IBrieftItems) => (
+    <S.MenuItems>
+      <Link className={clName} to={to}>
+        {text}
+      </Link>
+    </S.MenuItems>
+  );
 
   return (
     <>
@@ -94,51 +107,39 @@ const MenuBar = ({ className }: any) => {
           </S.MenuItems>
         </S.MenuLeft>
         <S.MenuCenter>
-          <S.MenuItems>
-            <Link className={isPath === '/' ? 'current' : ''} to="/">
-              Home
-            </Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link
-              className={isPath === '/dashboard/personal' ? 'current' : ''}
-              to="/dashboard/personal"
-            >
-              Personal
-            </Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link
-              className={isPath === '/dashboard/team' ? 'current' : ''}
-              to="/dashboard/team"
-            >
-              Team
-            </Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link
-              className={isPath === '/survey' ? 'current' : ''}
-              to="/survey"
-            >
-              Survey
-            </Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link
-              className={isPath === '/contact' ? 'current' : ''}
-              to="/contact"
-            >
-              Contact
-            </Link>
-          </S.MenuItems>
+          <BriefItems
+            clName={isPath === '/' ? 'current' : ''}
+            to="/"
+            text="Home"
+          />
+          <BriefItems
+            clName={isPath === '/dashboard/personal' ? 'current' : ''}
+            to="/dashboard/personal"
+            text="Personal"
+          />
+          <BriefItems
+            clName={isPath === '/dashboard/team' ? 'current' : ''}
+            to="/dashboard/team"
+            text="Team"
+          />
+          <BriefItems
+            clName={isPath === '/survey' ? 'current' : ''}
+            to="/survey"
+            text="Survey"
+          />
+          <BriefItems
+            clName={isPath === '/contact' ? 'current' : ''}
+            to="/contact"
+            text="Contact"
+          />
         </S.MenuCenter>
         <S.MenuRight>
           {isLoggedIn && (
-            <S.MenuItems>
-              <Link className={isPath === '/mail' ? 'current' : ''} to="/mail">
-                Mail
-              </Link>
-            </S.MenuItems>
+            <BriefItems
+              clName={isPath === '/mail' ? 'current' : ''}
+              to="/mail"
+              text="Mail"
+            />
           )}
           <S.MenuItems>
             {isLoggedIn ? (
@@ -162,23 +163,12 @@ const MenuBar = ({ className }: any) => {
       </S.MenuBar>
       {windowWidth < 600 && (
         <S.HamburgerMenus clicked={isClicked}>
-          <S.MenuItems>
-            <Link to="/dashboard/personal">Personal</Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link to="/dashboard/team">Team</Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link to="/survey">Survey</Link>
-          </S.MenuItems>
-          <S.MenuItems>
-            <Link to="/contact">Contact</Link>
-          </S.MenuItems>
-          {isLoggedIn && (
-            <S.MenuItems>
-              <Link to="/mail">Mail</Link>
-            </S.MenuItems>
-          )}
+          <BriefItems to="/Home" text="Home" />
+          <BriefItems to="/dashboard/personal" text="Personal" />
+          <BriefItems to="/dashboard/team" text="Team" />
+          <BriefItems to="/survey" text="Survey" />
+          <BriefItems to="/contact" text="Contact" />
+          {isLoggedIn && <BriefItems to="/mail" text="Mail" />}
           <S.MenuItems>
             {isLoggedIn ? (
               <div onClick={onClickSignOut}>LogOut</div>
