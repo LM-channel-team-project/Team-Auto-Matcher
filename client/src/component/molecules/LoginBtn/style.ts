@@ -63,26 +63,26 @@ export const LoginBtn = styled.button`
 
   &:hover {
     color: rgba(255, 255, 255, 1);
-    span:nth-child(1) {
+    & span:nth-child(1) {
       transform: scaleY(1);
       transform-origin: bottom;
       transition: transform 0.5s;
     }
 
-    span:nth-child(2) {
+    & span:nth-child(2) {
       transform: scaleX(1);
       transform-origin: left;
       transition: transform 0.5s;
     }
 
-    span:nth-child(3) {
+    & span:nth-child(3) {
       transform: scaleY(1);
       transform-origin: bottom;
       transition: transform 0.5s;
       transition-delay: 0.5s;
     }
 
-    span:nth-child(4) {
+    & span:nth-child(4) {
       transform: scaleX(1);
       transform-origin: left;
       transition: transform 0.5s;
