@@ -9,7 +9,7 @@ const googleLoginOnClick = () => Auth.federatedSignIn({
 });
 
 const MenuBar = ({ className }: any) => {
-  const [isLogined, setIsLogined] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
@@ -19,9 +19,9 @@ const MenuBar = ({ className }: any) => {
 
   useEffect(() => {
     Auth.currentAuthenticatedUser()
-      .then(() => setIsLogined(true))
+      .then(() => setIsLoggedIn(true))
       .catch(() => {
-        setIsLogined(false);
+        setIsLoggedIn(false);
       });
   }, []);
   useEffect(() => {
@@ -133,7 +133,7 @@ const MenuBar = ({ className }: any) => {
           </S.MenuItems>
         </S.MenuCenter>
         <S.MenuRight>
-          {isLogined && (
+          {isLoggedIn && (
             <S.MenuItems>
               <Link className={isPath === '/mail' ? 'current' : ''} to="/mail">
                 Mail
@@ -141,7 +141,7 @@ const MenuBar = ({ className }: any) => {
             </S.MenuItems>
           )}
           <S.MenuItems>
-            {isLogined ? (
+            {isLoggedIn ? (
               <S.LoginBtn
                 text="LogOut"
                 onLoginClick={onClickSignOut}
@@ -174,13 +174,13 @@ const MenuBar = ({ className }: any) => {
           <S.MenuItems>
             <Link to="/contact">Contact</Link>
           </S.MenuItems>
-          {isLogined && (
+          {isLoggedIn && (
             <S.MenuItems>
               <Link to="/mail">Mail</Link>
             </S.MenuItems>
           )}
           <S.MenuItems>
-            {isLogined ? (
+            {isLoggedIn ? (
               <div onClick={onClickSignOut}>LogOut</div>
             ) : (
               <div onClick={googleLoginOnClick}>LogIn</div>
