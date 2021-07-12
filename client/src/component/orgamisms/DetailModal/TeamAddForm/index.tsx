@@ -334,36 +334,51 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
     },
   );
 
-  const onSubmit = async () => {
+  const onMake = async () => {
     if (name.length < 2) return;
-    const getUserData = userData.getUser.items[0];
-    if (getUserData.haveTeam) {
-      alert('최대 한 개의 팀만 만들 수 있습니다.');
-      return;
+    if (userData) {
+      const getUserData = userData.getUser.items[0];
+      const filterArray: number[] = [];
+      getUserData.question.forEach((question: any, index: number) => {
+        if (question.answers.length < 1 || question.answers[0].length < 1) {
+          filterArray.push(index);
+        }
+      });
+      if (filterArray.length > 0) {
+        alert(
+          `${filterArray.join()}번째 설문을 완료해주시고 생성버튼을 눌러주세요. 확인 버튼을 누르면 설문페이지로 돌아갑니다.`,
+        );
+        window.location.href = '/survey';
+        return;
+      }
+      if (getUserData.haveTeam) {
+        alert('최대 한 개의 팀만 만들 수 있습니다.');
+        return;
+      }
+      updateUserData({
+        variables: {
+          input: {
+            id: getUserData.id,
+            haveTeam: true,
+          },
+        },
+      });
+      await createTeamData({
+        variables: {
+          input: {
+            id: getUserData.id,
+            name,
+            people,
+            skills,
+            outline,
+            contents,
+            owner: getUserData.id,
+            state: '모집중',
+          },
+        },
+      });
+      onAdd();
     }
-    updateUserData({
-      variables: {
-        input: {
-          id: getUserData.id,
-          haveTeam: true,
-        },
-      },
-    });
-    await createTeamData({
-      variables: {
-        input: {
-          id: getUserData.id,
-          name,
-          people,
-          skills,
-          outline,
-          contents,
-          owner: getUserData.id,
-          state: '모집중',
-        },
-      },
-    });
-    onAdd();
   };
 
   return (
@@ -376,7 +391,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
         </>
       }
       modalButton={
-        <S.SubmitButton size="medium" color="yellow" onClick={onSubmit}>
+        <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
           팀 생성하기
         </S.SubmitButton>
       }
