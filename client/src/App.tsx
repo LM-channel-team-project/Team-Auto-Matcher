@@ -34,10 +34,12 @@ function App() {
             path="/result"
             component={withAuthenticator(Result, false, [<LoginPage />])}
           />
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Home}>
+            <Home isLoggedIn={isLoggedIn} />
+          </Route>
           <Route exact path="/contact" component={Contact} />
-          <Route exact path="/dashboard/team">
-            <TeamDashboard isLoggedIn={isLoggedIn} component={TeamDashboard} />
+          <Route exact path="/dashboard/team" component={TeamDashboard}>
+            <TeamDashboard isLoggedIn={isLoggedIn} />
           </Route>
           <Route
             exact

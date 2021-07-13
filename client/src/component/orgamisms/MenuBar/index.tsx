@@ -163,7 +163,7 @@ const MenuBar = ({ className }: any) => {
       </S.MenuBar>
       {windowWidth < 600 && (
         <S.HamburgerMenus clicked={isClicked}>
-          <BriefItems to="/Home" text="Home" />
+          <BriefItems to="/home" text="Home" />
           <BriefItems to="/dashboard/personal" text="Personal" />
           <BriefItems to="/dashboard/team" text="Team" />
           <BriefItems to="/survey" text="Survey" />

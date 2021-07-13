@@ -339,16 +339,8 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
     if (userData) {
       const getUserData = userData.getUser.items[0];
       const filterArray: number[] = [];
-      getUserData.question.forEach((question: any, index: number) => {
-        if (question.answers.length < 1 || question.answers[0].length < 1) {
-          filterArray.push(index);
-        }
-      });
-      if (filterArray.length > 0) {
-        alert(
-          `${filterArray.join()}번째 설문을 완료해주시고 생성버튼을 눌러주세요. 확인 버튼을 누르면 설문페이지로 돌아갑니다.`,
-        );
-        window.location.href = '/survey';
+      if (!getUserData.surveyCompleted) {
+        alert('설문을 완료 후 팀을 만들어주세요.');
         return;
       }
       if (getUserData.haveTeam) {

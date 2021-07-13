@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 100px;
+  height: 10rem;
   position: relative;
-  width: 100px;
+  width: 10rem;
   border-radius: 100%;
-  margin: 40px auto;
   transition: all 0.5s ease-in-out;
   &:hover div:first-child {
     border-color: transparent #e45635 transparent #e45635;
@@ -21,11 +20,11 @@ export const Circle = styled.div`
       transform: rotate(360deg);
     }
   }
-  height: 100px;
+  height: 10rem;
   position: relative;
-  width: 100px;
+  width: 10rem;
   border-radius: 100%;
-  border: 2px solid transparent;
+  border: 0.3rem solid transparent;
   border-color: transparent black transparent black;
   animation: rotate-loading 1.5s linear 0s infinite normal;
   transform-origin: 50% 50%;
@@ -50,13 +49,13 @@ export const Text = styled.div`
   animation: loading-text-opacity 2s linear 0s infinite normal;
   color: black;
   font-family: 'Helvetica Neue, ' Helvetica ', ' 'arial';
-  font-size: 10px;
+  font-size: 1rem;
   font-weight: bold;
-  margin-top: 45px;
+  margin-top: 4.5rem;
   opacity: 0;
   position: absolute;
   text-align: center;
   text-transform: uppercase;
   top: 0;
-  width: 100px;
+  width: 10rem;
 `;
