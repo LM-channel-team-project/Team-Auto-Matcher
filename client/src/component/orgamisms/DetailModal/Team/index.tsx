@@ -93,50 +93,46 @@ const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
   };
 
   const onClickApply = () => {
-    if (data?.owner !== userId) {
-      let isDuplicated = false;
-      const frontData = userIdData.getUserById.mail
-        .filter((el: any) => {
-          if (el.from === userId && el.type === 'apply') {
-            isDuplicated = true;
-          }
-          return true;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
+    let isDuplicated = false;
+    const frontData = userIdData.getUserById.mail
+      .filter((el: any) => {
+        if (el.from === userId && el.type === 'apply') {
+          isDuplicated = true;
+        }
+        return true;
+      })
+      .map((el: any) => ({
+        from: el.from,
+        teamId: el.teamId,
+        type: el.type,
+        teamName: el.teamName,
+      }));
 
-      if (isDuplicated) {
-        onCloseModal();
-        alert('이미 동일한 팀에 지원하였습니다.');
-        return;
-      }
-      const changeIntoSet = new Set(frontData);
-      const changeIntoArray = Array.from(changeIntoSet);
-      const newData = {
-        from: userId,
-        teamId: data?.id,
-        type: 'apply',
-        teamName: data?.name,
-      };
-      const combinedData = [...changeIntoArray, newData];
-      updateUserData({
-        variables: {
-          input: {
-            id: data?.owner,
-            mail: combinedData,
-          },
-        },
-      });
-      refetch();
+    if (isDuplicated) {
       onCloseModal();
-      alert('지원이 완료되었습니다.');
-    } else {
-      alert('자신의 팀에는 지원할 수 없습니다');
+      alert('이미 동일한 팀에 지원하였습니다.');
+      return;
     }
+    const changeIntoSet = new Set(frontData);
+    const changeIntoArray = Array.from(changeIntoSet);
+    const newData = {
+      from: userId,
+      teamId: data?.id,
+      type: 'apply',
+      teamName: data?.name,
+    };
+    const combinedData = [...changeIntoArray, newData];
+    updateUserData({
+      variables: {
+        input: {
+          id: data?.owner,
+          mail: combinedData,
+        },
+      },
+    });
+    refetch();
+    onCloseModal();
+    alert('지원이 완료되었습니다.');
   };
 
   return (
@@ -150,9 +146,15 @@ const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
       }
       modalBody={renderContents()}
       modalButton={
-        <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
-          지원하기
-        </S.SubmitButton>
+        data?.owner !== userId ? (
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
+            지원하기
+          </S.SubmitButton>
+        ) : (
+          <S.SubmitButton size="medium" color="yellow" onClick={() => {}}>
+            나의 팀
+          </S.SubmitButton>
+        )
       }
       onCloseModal={onCloseModal}
     />
