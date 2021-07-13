@@ -34,13 +34,40 @@ export const getUser = /* GraphQL */ `
     getUser {
       items {
         id
+        haveTeam
         surveyCompleted
-        userId
         question {
           title
           answers
         }
         owner
+        mail {
+          from
+          teamId
+          type
+          teamName
+        }
+      }
+    }
+  }
+`;
+
+export const getUserById = /* GraphQL */ `
+  query GetUserById($id: String!) {
+    getUserById(id: $id) {
+      id
+      haveTeam
+      surveyCompleted
+      question {
+        title
+        answers
+      }
+      owner
+      mail {
+        from
+        teamId
+        type
+        teamName
       }
     }
   }
@@ -56,12 +83,31 @@ export const listTeamDashboard = /* GraphQL */ `
         skills
         outline
         state
+        owner
         contents {
           title
           text
         }
       }
       nextToken
+    }
+  }
+`;
+
+export const getTeamDashboard = /* GraphQL */ `
+  query GetTeamDashboard($id: String!) {
+    getTeamDashboard(id: $id) {
+      id
+      name
+      people
+      skills
+      outline
+      state
+      owner
+      contents {
+        title
+        text
+      }
     }
   }
 `;
@@ -82,12 +128,37 @@ export const listPersonDashboard = /* GraphQL */ `
         hasCoWork
         priority
         outline
+        project
         contents {
           title
           text
         }
       }
       nextToken
+    }
+  }
+`;
+
+export const getPersonDashboard = /* GraphQL */ `
+  query GetPersonDashboard($id: String!) {
+    getPersonDashboard(id: $id) {
+      id
+      name
+      team
+      field
+      skills
+      devExp
+      periods
+      times
+      contact
+      hasCoWork
+      priority
+      outline
+      project
+      contents {
+        title
+        text
+      }
     }
   }
 `;

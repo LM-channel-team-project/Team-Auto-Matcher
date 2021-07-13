@@ -20,9 +20,7 @@ interface ModalState {
 const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
-  const {
-    loading, error, data, refetch,
-  } = useQuery(
+  const { loading, data, refetch } = useQuery(
     gql`
       ${listTeamDashboard}
     `,
@@ -33,7 +31,6 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   }
 
   const { items } = data.listTeamDashboard;
-
   const teams = items.map((team: any) => {
     const skills = team.skills.map((skill: string) => (
       <Personal.Stacklist key={skill}>{skill}</Personal.Stacklist>
@@ -93,8 +90,11 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
           <Team.Main>팀 현황판</Team.Main>
         </Personal.Top>
         <Team.TeamPage>{teams}</Team.TeamPage>
-        {isLoggedIn && <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>팀 생성하기</Team.CreateBtn>}
-
+        {isLoggedIn && (
+          <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>
+            팀 생성하기
+          </Team.CreateBtn>
+        )}
       </Personal.Container>
     </BaseTemplate>
   );

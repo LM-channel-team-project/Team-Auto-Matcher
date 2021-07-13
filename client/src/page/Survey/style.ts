@@ -9,4 +9,9 @@ export const SurveyPage = styled.div`
   align-items: center;
 `;
 
-export const temp = styled.div``;
+export const SurveyWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;

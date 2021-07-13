@@ -24,10 +24,10 @@ export const Title = styled.h1`
   margin-bottom: 0.8em;
 
   ${({ type }: TitleProps) => css`
-      &:after {
-        content: '${type === 'team' ? ' 팀' : ''}';
-      }
-    `}
+    &:after {
+      content: '${type === 'team' ? ' 팀' : ''}';
+    }
+  `}
 `;
 
 export const Desc = styled.p`
@@ -68,7 +68,6 @@ export const InlineContent = styled(DetailContent)`
   text-align: left;
   margin-bottom: 1em;
 
-
   .dc-title {
     font-size: 1.6rem;
     white-space: nowrap;
@@ -78,7 +77,7 @@ export const InlineContent = styled(DetailContent)`
     content: ':';
     margin-right: 0.8em;
   }
-  
+
   &.ci-skill .dc-title {
     line-height: 1.3em;
   }
@@ -131,10 +130,10 @@ export const SubmitButton = styled(Button)``;
 
 const inputStyle = css`
   ${({ theme }: StyleProps) => css`
-      background-color: ${theme.color.white};
-      color: ${theme.color.black};
+    background-color: ${theme.color.white};
+    color: ${theme.color.black};
   `}
-  
+
   font-size: 1.3rem;
   padding: 0.3em 0.5em;
   border-radius: 5px;

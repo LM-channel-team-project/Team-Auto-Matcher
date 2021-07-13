@@ -8,7 +8,11 @@ export interface Props extends S.StyleProps {
 }
 
 const AutoCompleteItem = ({
-  color, size = 'medium', text, onClick, ...props
+  color,
+  size = 'medium',
+  text,
+  onClick,
+  ...props
 }: Props) => (
   <S.AutoComplete {...props} onClick={onClick}>
     <S.ColorCircle color={color} size={size} />

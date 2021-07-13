@@ -23,10 +23,14 @@ export const Sizes = (args: Props) => (
 );
 
 export const Colors = (args: Props) => {
-  const colors = Object.keys(theme.color.label) as [keyof typeof theme.color.label];
+  const colors = Object.keys(theme.color.label) as [
+    keyof typeof theme.color.label,
+  ];
   return (
     <>
-      {colors.map((color) => <Template color={color} {...args} />)}
+      {colors.map((color) => (
+        <Template color={color} {...args} />
+      ))}
     </>
   );
 };

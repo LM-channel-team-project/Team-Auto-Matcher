@@ -1,6 +1,8 @@
 import InputText from 'component/atoms/InputText';
 import _TextLabel from 'component/atoms/TextLabel';
-import AutoCompleteList, { Props as CompletorProps } from 'component/orgamisms/AutoCompleteList';
+import AutoCompleteList, {
+  Props as CompletorProps,
+} from 'component/orgamisms/AutoCompleteList';
 import styled, { css } from 'styled-components';
 
 export const Container = styled.div``;
@@ -79,17 +81,17 @@ export const Input = styled(InputText)`
   }
 
   ${({ theme }) => css`
-      background-color: ${theme.color.white};
-      color: ${theme.color.black};
+    background-color: ${theme.color.white};
+    color: ${theme.color.black};
 
-      @keyframes red {
+    @keyframes red {
       from {
         border-color: ${theme.color.red};
       }
       to {
         border-color: ${theme.color.yellow};
       }
-  }
+    }
   `}
 `;
 

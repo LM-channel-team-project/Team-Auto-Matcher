@@ -15,6 +15,7 @@ const LoginPage = ({ className }: any) => {
         window.location.href = '/';
         break;
       case 'signOut':
+        window.location.href = '/';
         break;
       case 'customOAuthState':
         break;
@@ -29,12 +30,20 @@ const LoginPage = ({ className }: any) => {
       });
   }, []);
 
+  const onClickReload = () => {
+    window.location.reload();
+  };
+
   return (
     <S.LoginPage className={className}>
       <S.wrapper>
         <S.Title>Team Auto Mathcer</S.Title>
-        <S.LoginBtn
-          onLoginClick={googleLoginOnClick} />
+        <S.Explanation>로그인이 필요합니다.</S.Explanation>
+        <S.Explanation>
+          로그인을 하셧다면
+          <S.Reload onClick={onClickReload}>이곳</S.Reload>을 눌러주세요.
+        </S.Explanation>
+        <S.LoginBtn text="구글로그인" onLoginClick={googleLoginOnClick} />
       </S.wrapper>
     </S.LoginPage>
   );

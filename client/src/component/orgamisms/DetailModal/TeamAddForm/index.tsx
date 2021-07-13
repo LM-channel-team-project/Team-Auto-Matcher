@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import { createTeam } from 'graphql/mutations';
-import { gql, useMutation } from '@apollo/client';
 import { Item } from 'component/orgamisms/AutoCompleteList';
+import { getUser } from 'graphql/queries';
+import { createTeam, updateUser } from 'graphql/mutations';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import DetailModalTemplate, { ContentItem } from '../template';
 import { TeamModalProps } from '../Team';
 import * as S from '../style';
@@ -35,12 +36,9 @@ interface ContentsState {
     title: string,
   ) => void;
 }
+const isInArray = (a: string[], v: string) => a.some((e) => e.toLowerCase() === v.toLowerCase());
 
-const isInArray = (arr: string[], target: string) => arr
-  .some((item) => item.toLowerCase() === target.toLowerCase());
-const findInArray = (arr: string[], value: string) => arr
-  .find((item) => item.toLowerCase() === value.toLowerCase());
-
+const findInArray = (a: string[], v: string) => a.find((e) => e.toLowerCase() === v.toLowerCase());
 // Search for skills what included an string entered
 const searchOnSkills = (value: string) => {
   const skills = Object.keys(skillsLabel);
@@ -52,7 +50,10 @@ const searchOnSkills = (value: string) => {
     if (searched.length >= 5) break;
 
     const skill = skills[i];
-    const escaped = Array.from(match).reduce((str, char) => str.replaceAll(char, `\\${char}`), value);
+    const escaped = Array.from(match).reduce(
+      (str, char) => str.replaceAll(char, `\\${char}`),
+      value,
+    );
 
     const regex = new RegExp(escaped, 'i');
 
@@ -74,9 +75,19 @@ interface Props extends TeamModalProps {
 }
 
 const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
+  const { data: userData } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
   const [createTeamData] = useMutation(
     gql`
       ${createTeam}
+    `,
+  );
+  const [updateUserData] = useMutation(
+    gql`
+      ${updateUser}
     `,
   );
 
@@ -131,7 +142,9 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
 
         // Add a skill item focused by triggering click event, when press Enter key
         if (typeof focus === 'number') {
-          const items = Array.from(completorRef.current?.children as Iterable<HTMLElement>);
+          const items = Array.from(
+            completorRef.current?.children as Iterable<HTMLElement>,
+          );
           items[focus].click();
           setFocus(null);
           return;
@@ -168,7 +181,9 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
           return;
         }
 
-        const items = Array.from(completorRef.current?.children as Iterable<HTMLElement>);
+        const items = Array.from(
+          completorRef.current?.children as Iterable<HTMLElement>,
+        );
         const last = items.length - 1;
 
         if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
@@ -321,14 +336,29 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
 
   const onSubmit = async () => {
     if (name.length < 2) return;
+    const getUserData = userData.getUser.items[0];
+    if (getUserData.haveTeam) {
+      alert('최대 한 개의 팀만 만들 수 있습니다.');
+      return;
+    }
+    updateUserData({
+      variables: {
+        input: {
+          id: getUserData.id,
+          haveTeam: true,
+        },
+      },
+    });
     await createTeamData({
       variables: {
         input: {
+          id: getUserData.id,
           name,
           people,
           skills,
           outline,
           contents,
+          owner: getUserData.id,
           state: '모집중',
         },
       },

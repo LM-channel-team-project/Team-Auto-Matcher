@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import AutoCompleteItem, { Props as ItemProps } from 'component/molecules/AutoCompleteItem';
+import AutoCompleteItem, {
+  Props as ItemProps,
+} from 'component/molecules/AutoCompleteItem';
 
-export interface StyleProps extends Omit<ItemProps, 'text' | 'theme'> {
-
-}
+export interface StyleProps extends Omit<ItemProps, 'text' | 'theme'> {}
 
 export const List = styled.div`
   position: absolute;

@@ -30,15 +30,16 @@ const tokenAuthLink = createAuthLink({
   },
 }) as any;
 
-const awsLink = ApolloLink.split((operation) => {
-  const publicOperations = ['ListPersonDashboard', 'ListTeamDashboard'];
-  return publicOperations.includes(operation.operationName);
-}, apiAuthLink, tokenAuthLink);
+const awsLink = ApolloLink.split(
+  (operation) => {
+    const publicOperations = ['ListPersonDashboard', 'ListTeamDashboard'];
+    return publicOperations.includes(operation.operationName);
+  },
+  apiAuthLink,
+  tokenAuthLink,
+);
 
-const link = ApolloLink.from([
-  awsLink,
-  createHttpLink({ uri: url }),
-]);
+const link = ApolloLink.from([awsLink, createHttpLink({ uri: url })]);
 
 const cache = new InMemoryCache();
 

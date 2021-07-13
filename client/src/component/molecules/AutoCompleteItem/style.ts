@@ -1,6 +1,8 @@
 import globalTheme from 'style/theme';
 import styled, { css } from 'styled-components';
-import _ColorCircle, { Props as ColorCircleProps } from 'component/atoms/ColorCircle';
+import _ColorCircle, {
+  Props as ColorCircleProps,
+} from 'component/atoms/ColorCircle';
 
 export interface StyleProps extends ColorCircleProps {
   theme: typeof globalTheme;
@@ -13,18 +15,19 @@ export const AutoComplete = styled.div`
   padding: 0.5em 0.8em;
   cursor: pointer;
 
-  ${({ divider }: StyleProps) => divider && css`
-    &:not(:last-child):after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background: ${({ theme, dividerColor = 'subMainColor' }: StyleProps) => theme.color[dividerColor]};
-      opacity: 0.2;
-    }
-  `}
+  ${({ divider }: StyleProps) => divider
+    && css`
+      &:not(:last-child):after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background: ${({ theme, dividerColor = 'subMainColor' }: StyleProps) => theme.color[dividerColor]};
+        opacity: 0.2;
+      }
+    `}
 `;
 
 export const ColorCircle = styled(_ColorCircle)`

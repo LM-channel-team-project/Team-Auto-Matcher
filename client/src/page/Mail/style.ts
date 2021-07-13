@@ -24,52 +24,30 @@ export const Main = styled.h1`
   font-size: 4em;
 `;
 
-export const Slider = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1.5em;
-`;
-export const Button = styled.div`
-  cursor: pointer;
-  background-color: #dfe6e9;
-  width: 8em;
-  height: 8em;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-export const Field = styled.h1`
-  width: 7.7em;
-  text-align: center;
-  font-size: 4em;
-`;
-
-export const MatchPage = styled.div`
+export const MailList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 1.2em;
+    width: 1.2rem;
   }
   &::-webkit-scrollbar-thumb {
     background-color: #7f8c8d;
-    border-radius: 1em;
+    border-radius: 1rem;
   }
   &::-webkit-scrollbar-track {
     background-color: #dfe6e9;
-    border-radius: 1em;
+    border-radius: 1rem;
   }
   padding-top: 1em;
-  width: 150em;
-  height: 58em;
+  width: 150rem;
+  height: 58rem;
 `;
 
 export const List = styled.div`
   display: flex;
-  width: 140rem;
+  width: 110em;
   cursor: pointer;
   margin-bottom: 3em;
   &:last-child {
@@ -89,7 +67,7 @@ export const List = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 4em;
+  font-size: 2em;
 `;
 
 export const Text = styled.div`
@@ -116,4 +94,21 @@ export const Team = styled.div`
   font-weight: bold;
 `;
 
-export default {};
+export const ContentInfo = styled.div`
+  font-size: 1.5rem;
+`;
+
+export const Left = styled.div`
+  width: 123rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Name = styled.h1`
+  font-size: 3rem;
+`;
+
+export const Content = styled.div`
+  display: flex;
+`;

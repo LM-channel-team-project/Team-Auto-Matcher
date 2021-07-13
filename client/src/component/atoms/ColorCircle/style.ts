@@ -23,7 +23,8 @@ function sizeStyle({ size = 'medium' }: StyleProps) {
   }
   return css`
     width: ${sizeNum}rem;
-    height: ${sizeNum}rem;`;
+    height: ${sizeNum}rem;
+  `;
 }
 
 export const Circle = styled.div`

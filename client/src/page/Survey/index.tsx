@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser, updateUser } from 'graphql/mutations';
-
+import BaseTemplate from 'page/BaseTemplate';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
@@ -20,15 +20,10 @@ const firstInput = [
   { title: '', answers: [] },
   { title: '', answers: [] },
   { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
 ];
 
 function Survey() {
-  const {
-    loading, error, data, refetch,
-  } = useQuery(
+  const { loading, error, data } = useQuery(
     gql`
       ${listQuestionnaires}
     `,
@@ -78,13 +73,13 @@ function Survey() {
       if (userData.getUser && userData.getUser.items?.length !== 0) {
         // console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
-        const userId = 'usergithubId'; // TODO 깃헙아이디입력받게하기
         bUserUpdating.current = true;
         addUserData({
           variables: {
             input: {
-              userId,
               question: firstInput,
+              mail: [],
+              haveTeam: false,
               surveyCompleted: false,
             },
           },
@@ -134,7 +129,6 @@ function Survey() {
       variables: {
         input: {
           id: userData.getUser.items[0].id,
-          userId: userData.getUser.items[0].userId,
           question: newData,
         },
       },
@@ -212,21 +206,25 @@ function Survey() {
   };
 
   return (
-    <S.SurveyPage>
-      <Questionnaire
-        key={nowQuestionnaire.id}
-        question={nowQuestionnaire.questionTitle}
-        questionList={setQuestionList()}
-        bDuplicateSelect={nowQuestionnaire.bDuplicate}
-        selectedData={nowSelectedData.answers}
-        leftOnClick={onLeftClick}
-        rightOnClick={onRightClick}
-        currentPage={page + 1}
-        totalPage={totalPage}
-        onClickList={onProgressBarListClick}
-        listQuestionnairesData={listQuestionnairesData}
-      />
-    </S.SurveyPage>
+    <BaseTemplate>
+      <S.SurveyWrapper>
+        <S.SurveyPage>
+          <Questionnaire
+            key={nowQuestionnaire.id}
+            question={nowQuestionnaire.questionTitle}
+            questionList={setQuestionList()}
+            bDuplicateSelect={nowQuestionnaire.bDuplicate}
+            selectedData={nowSelectedData.answers}
+            leftOnClick={onLeftClick}
+            rightOnClick={onRightClick}
+            currentPage={page + 1}
+            totalPage={totalPage}
+            onClickList={onProgressBarListClick}
+            listQuestionnairesData={listQuestionnairesData}
+          />
+        </S.SurveyPage>
+      </S.SurveyWrapper>
+    </BaseTemplate>
   );
 }
 

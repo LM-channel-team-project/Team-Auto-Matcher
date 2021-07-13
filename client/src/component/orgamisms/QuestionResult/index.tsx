@@ -49,6 +49,19 @@ function QuestionResult({
   ));
 
   const onSubmit = async () => {
+    const filterArray: number[] = [];
+    answerRespond.forEach((answer: IAnswers, index: number) => {
+      if (answer.answers.length < 1 || answer.answers[0].length < 1) {
+        filterArray.push(index);
+      }
+    });
+    if (filterArray.length > 0) {
+      alert(
+        `${filterArray.join()}번째 설문을 완료해주시고 등록버튼을 눌러주세요. 확인 버튼을 누르면 돌아갑니다.`,
+      );
+      window.location.href = '/survey';
+      return;
+    }
     if (!surveyCompleted) {
       await createPersonData({
         variables: {
@@ -69,6 +82,7 @@ function QuestionResult({
             contact: answerRespond[5].answers[0],
             hasCoWork: answerRespond[6].answers[0] === '경험 없음',
             priority: answerRespond[7].answers,
+            project: answerRespond[9].answers[0],
           },
         },
       });

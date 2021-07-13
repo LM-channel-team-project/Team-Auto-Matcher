@@ -28,6 +28,8 @@ const props = {
         vulputate quisque facilisis lorem aenean felis nullam, sodales habitant nunc tempor etiam. Lacus imperdiet tellus commodo molestie luctus vitae euismod ad est cubilia lacinia sagittis, suscipit eleifend aliquet ornare fringilla consequat ridiculus sem justo conubia.`,
       },
     ],
+    owner: 'something',
+    mail: ['sth'],
   },
   onCloseModal: () => alert('close'),
   onAdd: () => alert('add'),
@@ -36,11 +38,16 @@ const props = {
 export default {
   title: 'Organisms/DetailModal/TeamAddForm',
   component: TeamAddForm,
-  decorators: [(story: Function) => (
-    <ApolloProvider client={new ApolloClient({ link: undefined, cache: new InMemoryCache() })}>
-      {story()}
-    </ApolloProvider>
-  ),
+  decorators: [
+    (story: Function) => (
+      <ApolloProvider
+        client={
+          new ApolloClient({ link: undefined, cache: new InMemoryCache() })
+        }
+      >
+        {story()}
+      </ApolloProvider>
+    ),
   ],
 };
 
