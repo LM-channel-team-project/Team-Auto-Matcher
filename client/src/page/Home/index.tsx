@@ -59,7 +59,7 @@ const Home = ({ className, isLoggedIn }: any) => {
                     window.location.href = '/dashboard/team';
                   }}
                 >
-                  Team
+                  Teams
                 </S.BlackButton>
                 <a href={slackInvite}>
                   <S.WhiteButton>Slack</S.WhiteButton>
@@ -106,13 +106,13 @@ const Home = ({ className, isLoggedIn }: any) => {
               로그인하여 당신의 프로필을 등록하거나, 현재 등록되어 있는 팀들을
               살펴보세요.
             </S.Description>
-            <S.BlackButton onClick={googleLoginOnClick}>로그인</S.BlackButton>
+            <S.BlackButton onClick={googleLoginOnClick}>Login</S.BlackButton>
             <S.WhiteButton
               onClick={() => {
                 window.location.href = '/dashboard/team';
               }}
             >
-              팀현황
+              Teams
             </S.WhiteButton>
           </S.Right>
         </>
@@ -125,7 +125,28 @@ const Home = ({ className, isLoggedIn }: any) => {
   return (
     <BaseTemplate>
       <S.Home>
-        <Phasing />
+        <S.Left background="https://user-images.githubusercontent.com/71132893/125273613-125a7280-e348-11eb-9b49-1a60858adeb9.jpg" />
+        <S.Right>
+          <S.Title>로그인이 완료되었습니다.</S.Title>
+          <S.Description>
+            Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
+            활동해보세요.
+          </S.Description>
+          <S.BlackButton
+            onClick={() => {
+              window.location.href = '/survey';
+            }}
+          >
+            Survey
+          </S.BlackButton>
+          <S.WhiteButton
+            onClick={() => {
+              window.location.href = '/personal';
+            }}
+          >
+            Personal
+          </S.WhiteButton>
+        </S.Right>
       </S.Home>
     </BaseTemplate>
   );
