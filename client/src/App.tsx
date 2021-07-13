@@ -12,9 +12,28 @@ import Contact from 'page/Contact';
 import Mail from 'page/Mail';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
+import { useQuery, gql } from '@apollo/client';
+import { getUser } from 'graphql/queries';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
+
+  const sendData = () => {
+    if (data) {
+      const userData = {
+        id: data.getUser.items[0].id,
+        surveyCompleted: data.getUser.items[0].surveyCompleted,
+        haveTeam: data.getUser.items[0].haveTeam,
+      };
+      return userData;
+    }
+    return null;
+  };
 
   Auth.currentAuthenticatedUser()
     .then(() => setIsLoggedIn(true))
@@ -39,13 +58,11 @@ function App() {
           </Route>
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/dashboard/team" component={TeamDashboard}>
-            <TeamDashboard isLoggedIn={isLoggedIn} />
+            <TeamDashboard userData={sendData()} isLoggedIn={isLoggedIn} />
           </Route>
-          <Route
-            exact
-            path="/dashboard/personal"
-            component={PersonalDashboard}
-          />
+          <Route exact path="/dashboard/personal" component={PersonalDashboard}>
+            <PersonalDashboard userData={sendData()} />
+          </Route>
           <Route exact path="/login" component={LoginPage} />
           <Route
             exact

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import globalTheme from 'style/theme';
 import TextLabel from 'component/atoms/TextLabel';
+import Floating from 'component/atoms/FloatingButton';
 
 export const TeamDashboardPage = styled.div`
   height: 100%;
@@ -97,7 +98,8 @@ export const List = styled.div`
     0 0.1rem 0.2rem rgba(0, 0, 0, 0.24);
   transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   &:hover {
-    box-shadow: 0 1.4rem 2.8rem rgba(0, 0, 0, 0.25), 0 1rem 1rem rgba(0, 0, 0, 0.22);
+    box-shadow: 0 1.4rem 2.8rem rgba(0, 0, 0, 0.25),
+      0 1rem 1rem rgba(0, 0, 0, 0.22);
   }
 `;
 
@@ -109,6 +111,8 @@ export const CreateBtn = styled.button`
   font-size: 2rem;
   border-radius: 0.5rem;
 `;
+
+export const FloatingButton = styled(Floating)``;
 
 export const State = styled((props: { text: string }) => TextLabel({
   color: setColor(props.text),

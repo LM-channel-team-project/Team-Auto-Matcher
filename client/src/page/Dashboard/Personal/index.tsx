@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { listPersonDashboard, getUser } from 'graphql/queries';
+import { listPersonDashboard, getPersonDashboard } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, {
@@ -15,19 +15,22 @@ interface ModalState {
   data?: UserData;
 }
 
-const PersonalDashboardPage = ({ className }: any) => {
+const PersonalDashboardPage = ({ className, userData }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [current, setCurrent] = useState<number>(0);
 
-  const { data: userData } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
   const { loading, data } = useQuery(
     gql`
       ${listPersonDashboard}
     `,
+  );
+  const { data: personData } = useQuery(
+    gql`
+      ${getPersonDashboard}
+    `,
+    {
+      variables: { id: userData && userData.id },
+    },
   );
 
   if (loading) {
@@ -111,8 +114,8 @@ const PersonalDashboardPage = ({ className }: any) => {
     return (
       modal.data && (
         <PersonalDetailModal
-          userId={userData.getUser.items[0].id}
-          haveTeam={userData.getUser.items[0].haveTeam}
+          userId={userData.id}
+          haveTeam={userData.haveTeam}
           data={modal.data}
           onCloseModal={onCloseModal}
         />
@@ -120,8 +123,24 @@ const PersonalDashboardPage = ({ className }: any) => {
     );
   };
 
+  const ClickerLoad = () => {
+    if (personData) {
+      if (userData.surveyCompleted) {
+        return (
+          <S.FloatingButton
+            onClick={() => setModal({ data: personData.getPersonDashboard })}
+          >
+            내 정보
+          </S.FloatingButton>
+        );
+      }
+    }
+    return <></>;
+  };
+
   return (
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
+      <ClickerLoad />
       <S.Container>
         <S.Top>
           <S.Main>매칭 대기열</S.Main>

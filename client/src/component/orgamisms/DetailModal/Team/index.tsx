@@ -17,11 +17,12 @@ export interface TeamModalProps {
     state: string;
     owner: string;
   };
+  userId?: string;
   onCloseModal: () => void;
 }
 
-const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
-  const { data: userData, refetch } = useQuery(
+const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
+  const { refetch } = useQuery(
     gql`
       ${getUser}
     `,
@@ -92,12 +93,11 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
   };
 
   const onClickApply = () => {
-    const getUserData = userData.getUser.items[0];
-    if (data?.owner !== getUserData.id) {
+    if (data?.owner !== userId) {
       let isDuplicated = false;
       const frontData = userIdData.getUserById.mail
         .filter((el: any) => {
-          if (el.from === getUserData.id && el.type === 'apply') {
+          if (el.from === userId && el.type === 'apply') {
             isDuplicated = true;
           }
           return true;
@@ -117,7 +117,7 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
       const changeIntoSet = new Set(frontData);
       const changeIntoArray = Array.from(changeIntoSet);
       const newData = {
-        from: getUserData.id,
+        from: userId,
         teamId: data?.id,
         type: 'apply',
         teamName: data?.name,
