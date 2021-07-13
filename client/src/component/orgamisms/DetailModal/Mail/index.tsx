@@ -259,21 +259,35 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const beTeamMember = () => {
-    const teamItems = teamData.getTeamDashboard;
-    const personItems = personData.getPersonDashboard;
-    updateTeamData({
-      variables: {
-        input: {
-          id: data?.teamId,
-          people: [...teamItems.people, personItems.name],
+    if (teamData && personData && userData) {
+      const teamItems = teamData.getTeamDashboard;
+      const personItems = personData.getPersonDashboard;
+      const userItems = userData.getUser.items[0];
+      updateTeamData({
+        variables: {
+          input: {
+            id: data?.teamId,
+            people: [...teamItems.people, personItems.name],
+          },
         },
-      },
-    });
+      });
+      updateUserData({
+        variables: {
+          input: {
+            id: userItems.id,
+            team:
+              userItems.team[0] === '팀 구하는중'
+                ? [data?.teamName]
+                : [...userItems.team, data?.teamName],
+          },
+        },
+      });
+    }
   };
 
   const sendMessage = (setType: string) => {
-    const userItems = userData.getUser.items[0];
-    if (userDataById) {
+    if (userDataById && userData) {
+      const userItems = userData.getUser.items[0];
       const frontData = userDataById.getUserById.mail.map((el: any) => ({
         from: el.from,
         teamId: el.teamId,
@@ -299,34 +313,36 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const delMessage = () => {
-    const userItems = userData.getUser.items[0];
-    const filteredMail = userItems.mail
-      .filter((el: any) => {
-        if (
-          el.from === data?.from
-          && el.type === data?.type
-          && el.teamId === data?.teamId
-          && el.teamName === data?.teamName
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .map((el: any) => ({
-        from: el.from,
-        teamId: el.teamId,
-        type: el.type,
-        teamName: el.teamName,
-      }));
-    updateUserData({
-      variables: {
-        input: {
-          id: userItems.id,
-          mail: filteredMail,
+    if (userData) {
+      const userItems = userData.getUser.items[0];
+      const filteredMail = userItems.mail
+        .filter((el: any) => {
+          if (
+            el.from === data?.from
+            && el.type === data?.type
+            && el.teamId === data?.teamId
+            && el.teamName === data?.teamName
+          ) {
+            return false;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          from: el.from,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
+        }));
+      updateUserData({
+        variables: {
+          input: {
+            id: userItems.id,
+            mail: filteredMail,
+          },
         },
-      },
-    });
-    refetch();
+      });
+      refetch();
+    }
   };
 
   const onClickAccept = (): void => {
