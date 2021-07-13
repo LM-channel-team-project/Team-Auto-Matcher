@@ -107,11 +107,4 @@ export const WhiteButton = styled.button`
   }
 `;
 
-export const LoadingComponent = styled(Loading)`
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-export default Home;
+export const LoadingComponent = styled(Loading)``;

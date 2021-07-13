@@ -43,7 +43,7 @@ export const Text = styled.div`
       opacity: 0;
     }
     100% {
-      opacity: 0;
+      opacity: 1;
     }
   }
   animation: loading-text-opacity 2s linear 0s infinite normal;
