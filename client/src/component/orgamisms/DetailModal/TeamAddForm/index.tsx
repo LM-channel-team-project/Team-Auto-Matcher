@@ -338,7 +338,6 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
     if (name.length < 2) return;
     if (userData) {
       const getUserData = userData.getUser.items[0];
-      const filterArray: number[] = [];
       if (!getUserData.surveyCompleted) {
         alert('설문을 완료 후 팀을 만들어주세요.');
         return;

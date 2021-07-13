@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById, getTeamDashboard } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
