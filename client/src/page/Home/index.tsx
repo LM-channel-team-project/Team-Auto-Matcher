@@ -22,8 +22,9 @@ const Home = ({ className, isLoggedIn }: any) => {
   const SettingPhase = () => {
     let phase = <S.LoadingComponent />;
     if (isLoggedIn) {
-      if (data) {
-        if (data.getUser.items[0].haveTeam) {
+      if (data && data.getUser.items?.length !== 0) {
+        const userItems = data.getUser.items[0];
+        if (userItems.haveTeam) {
           phase = (
             <>
               <S.Left background="https://user-images.githubusercontent.com/71132893/125388384-5eee8e00-e3da-11eb-9b2d-4a5b35cf4fc2.jpg" />
@@ -43,7 +44,7 @@ const Home = ({ className, isLoggedIn }: any) => {
               </S.Right>
             </>
           );
-        } else if (data.getUser.items[0].surveyCompleted) {
+        } else if (userItems.surveyCompleted) {
           phase = (
             <>
               <S.Left background="https://user-images.githubusercontent.com/71132893/125273607-11294580-e348-11eb-943e-15497e18631b.jpg" />
@@ -67,34 +68,34 @@ const Home = ({ className, isLoggedIn }: any) => {
               </S.Right>
             </>
           );
-        } else {
-          phase = (
-            <>
-              <S.Left background="https://user-images.githubusercontent.com/71132893/125273613-125a7280-e348-11eb-9b49-1a60858adeb9.jpg" />
-              <S.Right>
-                <S.Title>로그인이 완료되었습니다.</S.Title>
-                <S.Description>
-                  Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
-                  활동해보세요.
-                </S.Description>
-                <S.BlackButton
-                  onClick={() => {
-                    window.location.href = '/survey';
-                  }}
-                >
-                  Survey
-                </S.BlackButton>
-                <S.WhiteButton
-                  onClick={() => {
-                    window.location.href = '/personal';
-                  }}
-                >
-                  Personal
-                </S.WhiteButton>
-              </S.Right>
-            </>
-          );
         }
+      } else {
+        phase = (
+          <>
+            <S.Left background="https://user-images.githubusercontent.com/71132893/125273613-125a7280-e348-11eb-9b49-1a60858adeb9.jpg" />
+            <S.Right>
+              <S.Title>로그인이 완료되었습니다.</S.Title>
+              <S.Description>
+                Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
+                활동해보세요.
+              </S.Description>
+              <S.BlackButton
+                onClick={() => {
+                  window.location.href = '/survey';
+                }}
+              >
+                Survey
+              </S.BlackButton>
+              <S.WhiteButton
+                onClick={() => {
+                  window.location.href = '/personal';
+                }}
+              >
+                Personal
+              </S.WhiteButton>
+            </S.Right>
+          </>
+        );
       }
     } else {
       phase = (

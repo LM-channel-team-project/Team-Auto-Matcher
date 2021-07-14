@@ -24,15 +24,18 @@ function App() {
   );
 
   const sendData = () => {
+    let userData = { id: '', surveyCompleted: false, haveTeam: false };
     if (data) {
-      const userData = {
-        id: data.getUser.items[0].id,
-        surveyCompleted: data.getUser.items[0].surveyCompleted,
-        haveTeam: data.getUser.items[0].haveTeam,
-      };
-      return userData;
+      if (data.id) {
+        const userItems = data.getUser.items[0];
+        userData = {
+          id: userItems.id,
+          surveyCompleted: userItems.surveyCompleted,
+          haveTeam: userItems.haveTeam,
+        };
+      }
     }
-    return null;
+    return userData;
   };
 
   Auth.currentAuthenticatedUser()
