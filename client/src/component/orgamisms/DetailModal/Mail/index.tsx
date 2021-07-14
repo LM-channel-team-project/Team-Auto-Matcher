@@ -345,17 +345,17 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     }
   };
 
-  const onClickAccept = (): void => {
+  const onClickAccept = async () => {
     beTeamMember();
-    sendMessage('accept');
+    await sendMessage('accept');
     delMessage();
     alert(
       '팀으로 등록이 완료되었습니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
     );
   };
 
-  const onClickRefuse = (): void => {
-    sendMessage('refuse');
+  const onClickRefuse = async () => {
+    await sendMessage('refuse');
     delMessage();
     alert('거절이 완료되었습니다.');
   };

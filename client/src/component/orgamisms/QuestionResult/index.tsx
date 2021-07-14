@@ -63,6 +63,14 @@ function QuestionResult({
       return;
     }
     if (!surveyCompleted) {
+      updateUserData({
+        variables: {
+          input: {
+            id,
+            surveyCompleted: true,
+          },
+        },
+      });
       await createPersonData({
         variables: {
           input: {
@@ -86,16 +94,8 @@ function QuestionResult({
           },
         },
       });
-      updateUserData({
-        variables: {
-          input: {
-            id,
-            surveyCompleted: true,
-          },
-        },
-      });
     } else {
-      updatePersonData({
+      await updatePersonData({
         variables: {
           input: {
             id,

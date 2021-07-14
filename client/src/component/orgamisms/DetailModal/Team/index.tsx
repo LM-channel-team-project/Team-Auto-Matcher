@@ -104,7 +104,7 @@ const TeamDetailModal = ({
     );
   };
 
-  const onClickApply = () => {
+  const onClickApply = async () => {
     let isDuplicated = false;
     const frontData = userIdData.getUserById.mail
       .filter((el: any) => {
@@ -134,7 +134,7 @@ const TeamDetailModal = ({
       teamName: data?.name,
     };
     const combinedData = [...changeIntoArray, newData];
-    updateUserData({
+    await updateUserData({
       variables: {
         input: {
           id: data?.owner,
@@ -146,7 +146,7 @@ const TeamDetailModal = ({
     onCloseModal();
     alert('지원이 완료되었습니다.');
   };
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     const getConfirm = prompt('팀을 삭제하려면 "삭제"를 입력해주세요.');
     if (getConfirm === '삭제') {
       deleteTeamData({
@@ -156,7 +156,7 @@ const TeamDetailModal = ({
           },
         },
       });
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id: data?.owner,
@@ -164,7 +164,7 @@ const TeamDetailModal = ({
           },
         },
       });
-      onAdd();
+      await onAdd();
       refetch();
       onCloseModal();
       alert('삭제가 완료되었습니다.');

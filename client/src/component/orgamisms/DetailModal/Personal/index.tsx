@@ -149,7 +149,7 @@ const PersonalDetailModal = ({
     );
   };
 
-  const onClickInvite = () => {
+  const onClickInvite = async () => {
     if (!haveTeam) {
       alert('당신이 팀장으로 있는 팀이 없습니다.');
       return;
@@ -183,7 +183,7 @@ const PersonalDetailModal = ({
         teamName: teamData.getTeamDashboard.name,
       };
       const combinedData = [...changeIntoArray, newData];
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id: data?.id,
@@ -197,7 +197,7 @@ const PersonalDetailModal = ({
     }
   };
 
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     const getConfirm = prompt('팀을 삭제하려면 "삭제"를 입력해주세요.');
     if (getConfirm === '삭제') {
       DeletePersonData({
@@ -208,7 +208,7 @@ const PersonalDetailModal = ({
         },
       });
       const firstInput = Array(12).fill({ title: '', answers: [] });
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id: userId,
@@ -217,7 +217,7 @@ const PersonalDetailModal = ({
           },
         },
       });
-      personRefetch();
+      await personRefetch();
       refetch();
       onCloseModal();
       alert(

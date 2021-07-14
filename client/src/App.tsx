@@ -12,16 +12,9 @@ import Contact from 'page/Contact';
 import Mail from 'page/Mail';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
-import { useQuery, gql } from '@apollo/client';
-import { getUser } from 'graphql/queries';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { data } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
 
   Auth.currentAuthenticatedUser()
     .then(() => setIsLoggedIn(true))
