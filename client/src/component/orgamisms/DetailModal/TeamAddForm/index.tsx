@@ -322,6 +322,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
     if (name.length < 2) return;
     if (userData) {
       const getUserData = userData.getUser.items[0];
+      console.log(getUserData.question[11].answers[0]);
       if (!getUserData.surveyCompleted) {
         alert('설문을 완료 후 팀을 만들어주세요.');
         return;
@@ -343,7 +344,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
           input: {
             id: getUserData.id,
             name,
-            people: [getUserData.name],
+            people: [getUserData.question[11].answers[0]],
             skills,
             outline,
             contents,
