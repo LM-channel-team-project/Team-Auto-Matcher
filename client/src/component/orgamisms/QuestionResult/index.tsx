@@ -3,6 +3,7 @@ import { IAnswers } from 'component/molecules/QuestionRespond';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { createPerson, updateUser, updatePerson } from 'graphql/mutations';
 import { listPersonDashboard } from 'graphql/queries';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import Button from 'component/atoms/Button';
 import * as S from './style';
 
@@ -138,6 +139,7 @@ function QuestionResult({
             ? '설문 결과 등록하기'
             : '등록된 데이터 업데이트하기'}
         </Button>
+        {/* <ConfirmModal title="내용을 저장 하시겠습니까 ?" /> */}
       </S.Btn>
     </>
   );

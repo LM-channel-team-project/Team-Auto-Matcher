@@ -24,6 +24,7 @@ const color = {
   white: '#FFFFFF',
   green: '#28a745',
   button: {
+    bred: '#F22F2A',
     red: '#FF5C6A',
     blue: '#228be6',
     gray: '#DFDDE5',
