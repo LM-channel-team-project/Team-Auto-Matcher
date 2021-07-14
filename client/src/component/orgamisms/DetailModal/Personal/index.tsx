@@ -205,7 +205,7 @@ const PersonalDetailModal = ({
             초대하기
           </S.SubmitButton>
         ) : (
-          <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
+          <S.SubmitButton size="medium" color="yellow" onClick={() => {}}>
             내 정보
           </S.SubmitButton>
         )
