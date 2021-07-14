@@ -244,7 +244,7 @@ const PersonalDetailModal = ({
             초대하기
           </S.SubmitButton>
         ) : (
-          <S.SubmitButton size="medium" color="yellow" onClick={onClickDelete}>
+          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
             삭제하기
           </S.SubmitButton>
         )
