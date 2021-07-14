@@ -56,8 +56,9 @@ const setColor = (text: string) => {
 };
 
 export const Main = styled.h1`
-  margin: 1.5em 0;
-  font-size: 4rem;
+  margin: 2.7em 0 1.5em;
+  font-size: 3.2em;
+  font-weight: bold;
 `;
 
 export const TeamPage = styled.div`
