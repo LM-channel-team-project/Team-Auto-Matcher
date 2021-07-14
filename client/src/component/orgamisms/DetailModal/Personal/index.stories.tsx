@@ -29,6 +29,7 @@ const props = {
     ],
     mail: ['sth'],
   },
+  personRefetch: () => alert('refetch personDashboard'),
   onCloseModal: () => alert('close'),
 };
 

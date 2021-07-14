@@ -70,11 +70,7 @@ const contentsTitle = [
   { title: '진행상황', text: '' },
 ];
 
-interface Props extends TeamModalProps {
-  onAdd: () => void;
-}
-
-const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
+const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
   const { data: userData } = useQuery(
     gql`
       ${getUser}
@@ -90,9 +86,6 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
       ${updateUser}
     `,
   );
-
-  // People data belonged to this team is not edited here
-  const people = data?.people || [];
 
   // Data to submit when create a team
   const [name, setName] = useState(data?.name || '');
@@ -275,15 +268,6 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
   const inlineContents = (
     <>
       <S.ContentItem>
-        {people && (
-          <S.InlineContent title="구성원" className="ci-people">
-            {people.map((person: string) => (
-              <S.Text className="people">{person}</S.Text>
-            ))}
-          </S.InlineContent>
-        )}
-      </S.ContentItem>
-      <S.ContentItem>
         <S.InlineContent title="기술 스택" className="ci-skills">
           <S.LabelInputBox
             list={skills}
@@ -359,7 +343,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
           input: {
             id: getUserData.id,
             name,
-            people,
+            people: [getUserData.name],
             skills,
             outline,
             contents,

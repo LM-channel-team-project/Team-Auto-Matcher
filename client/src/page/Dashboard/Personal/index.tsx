@@ -19,7 +19,7 @@ const PersonalDashboardPage = ({ className, userData }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [current, setCurrent] = useState<number>(0);
 
-  const { loading, data } = useQuery(
+  const { loading, data, refetch } = useQuery(
     gql`
       ${listPersonDashboard}
     `,
@@ -118,6 +118,7 @@ const PersonalDashboardPage = ({ className, userData }: any) => {
           haveTeam={userData.haveTeam}
           data={modal.data}
           onCloseModal={onCloseModal}
+          personRefetch={refetch}
         />
       )
     );

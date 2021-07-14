@@ -2,7 +2,7 @@ import React from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser } from 'graphql/mutations';
+import { updateUser, deleteTeam } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
@@ -18,10 +18,16 @@ export interface TeamModalProps {
     owner: string;
   };
   userId?: string;
+  onAdd: () => void;
   onCloseModal: () => void;
 }
 
-const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
+const TeamDetailModal = ({
+  data,
+  userId,
+  onAdd,
+  onCloseModal,
+}: TeamModalProps) => {
   const { refetch } = useQuery(
     gql`
       ${getUser}
@@ -40,6 +46,12 @@ const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
+    `,
+  );
+
+  const [deleteTeamData] = useMutation(
+    gql`
+      ${deleteTeam}
     `,
   );
 
@@ -134,6 +146,32 @@ const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
     onCloseModal();
     alert('지원이 완료되었습니다.');
   };
+  const onClickDelete = () => {
+    const getConfirm = prompt('팀을 삭제하려면 "삭제"를 입력해주세요.');
+    if (getConfirm === '삭제') {
+      deleteTeamData({
+        variables: {
+          input: {
+            id: data?.owner,
+          },
+        },
+      });
+      updateUserData({
+        variables: {
+          input: {
+            id: data?.owner,
+            haveTeam: false,
+          },
+        },
+      });
+      onAdd();
+      refetch();
+      onCloseModal();
+      alert('삭제가 완료되었습니다.');
+    } else {
+      alert('삭제가 완료되지 않았습니다.');
+    }
+  };
 
   return (
     <DetailModalTemplate
@@ -151,8 +189,8 @@ const TeamDetailModal = ({ data, userId, onCloseModal }: TeamModalProps) => {
             지원하기
           </S.SubmitButton>
         ) : (
-          <S.SubmitButton size="medium" color="yellow" onClick={() => {}}>
-            나의 팀
+          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+            팀 삭제하기
           </S.SubmitButton>
         )
       }

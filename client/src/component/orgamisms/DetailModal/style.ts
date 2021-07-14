@@ -104,11 +104,15 @@ export const Text = styled.span`
   line-height: 1.4em;
 
   &.people:not(:last-child):after {
-    content: '님, ';
+    content: ', ';
   }
 
-  &.people:last-child:after {
-    content: '님';
+  &.people:first-child:before {
+    content: '팀장 :';
+  }
+
+  &.people:first-child:after {
+    content: ', 팀원 : ';
   }
 `;
 

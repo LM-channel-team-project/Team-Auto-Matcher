@@ -81,6 +81,7 @@ const TeamDashboardPage = ({ className, isLoggedIn, userData }: any) => {
           userId={userData.id}
           data={modal.data}
           onCloseModal={onCloseModal}
+          onAdd={onTeamAdd}
         />
       );
     case 'add':

@@ -79,6 +79,14 @@ export const updateTeam = /* GraphQL */ `
   }
 `;
 
+export const deleteTeam = /* GraphQL */ `
+  mutation deleteTeam($input: DeleteTeamInput!) {
+    deleteTeam(input: $input) {
+      id
+    }
+  }
+`;
+
 export const createPerson = /* GraphQL */ `
   mutation createPerson($input: CreatePersonInput!) {
     createPerson(input: $input) {
@@ -123,6 +131,14 @@ export const updatePerson = /* GraphQL */ `
         title
         text
       }
+    }
+  }
+`;
+
+export const deletePerson = /* GraphQL */ `
+  mutation deletePerson($input: DeletePersonInput!) {
+    deletePerson(input: $input) {
+      id
     }
   }
 `;
