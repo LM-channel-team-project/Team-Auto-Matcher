@@ -198,7 +198,7 @@ const PersonalDetailModal = ({
   };
 
   const onClickDelete = async () => {
-    const getConfirm = prompt('팀을 삭제하려면 "삭제"를 입력해주세요.');
+    const getConfirm = prompt('정보를 삭제하려면 "삭제"를 입력해주세요.');
     if (getConfirm === '삭제') {
       DeletePersonData({
         variables: {
