@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { listPersonDashboard, getUser } from 'graphql/queries';
+import {
+  listPersonDashboard,
+  getPersonDashboard,
+  getUser,
+} from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, {
@@ -24,10 +28,19 @@ const PersonalDashboardPage = ({ className }: any) => {
       ${getUser}
     `,
   );
-  const { loading, data } = useQuery(
+
+  const { loading, data, refetch } = useQuery(
     gql`
       ${listPersonDashboard}
     `,
+  );
+  const { data: personData } = useQuery(
+    gql`
+      ${getPersonDashboard}
+    `,
+    {
+      variables: { id: userData && userData.getUser.items[0].id },
+    },
   );
 
   if (loading) {
@@ -115,13 +128,30 @@ const PersonalDashboardPage = ({ className }: any) => {
           haveTeam={userData.getUser.items[0].haveTeam}
           data={modal.data}
           onCloseModal={onCloseModal}
+          personRefetch={refetch}
         />
       )
     );
   };
 
+  const ClickerLoad = () => {
+    if (personData && userData) {
+      if (userData.getUser.items[0].surveyCompleted) {
+        return (
+          <S.FloatingButton
+            onClick={() => setModal({ data: personData.getPersonDashboard })}
+          >
+            내 정보
+          </S.FloatingButton>
+        );
+      }
+    }
+    return <></>;
+  };
+
   return (
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
+      <ClickerLoad />
       <S.Container>
         <S.Top>
           <S.Main>매칭 대기열</S.Main>

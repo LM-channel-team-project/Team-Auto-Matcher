@@ -4,6 +4,7 @@ import _LabelInputBox from 'component/orgamisms/LabelInputBox';
 import _TextLabel from 'component/atoms/TextLabel';
 import InputText from 'component/atoms/InputText';
 import Button from 'component/atoms/Button';
+import Loading from 'component/atoms/Loading';
 import globalTheme from 'style/theme';
 
 interface TitleProps {
@@ -13,6 +14,8 @@ interface TitleProps {
 interface StyleProps {
   theme: typeof globalTheme;
 }
+
+export const LoadingComponent = styled(Loading)``;
 
 export const Domain = styled.h2`
   font-size: 1.4rem;
@@ -101,11 +104,15 @@ export const Text = styled.span`
   line-height: 1.4em;
 
   &.people:not(:last-child):after {
-    content: '님, ';
+    content: ', ';
   }
 
-  &.people:last-child:after {
-    content: '님';
+  &.people:first-child:before {
+    content: '팀장 :';
+  }
+
+  &.people:first-child:after {
+    content: ', 팀원 : ';
   }
 `;
 

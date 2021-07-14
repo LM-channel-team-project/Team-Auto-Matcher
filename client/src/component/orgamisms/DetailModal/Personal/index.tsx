@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById, getTeamDashboard } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser } from 'graphql/mutations';
+import { updateUser, deletePerson } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
@@ -25,6 +25,7 @@ export interface PersonalModalProps {
   };
   userId?: string;
   haveTeam?: boolean;
+  personRefetch: () => void;
   onCloseModal: () => void;
 }
 
@@ -33,6 +34,7 @@ const PersonalDetailModal = ({
   onCloseModal,
   userId,
   haveTeam,
+  personRefetch,
 }: PersonalModalProps) => {
   const { refetch } = useQuery(
     gql`
@@ -61,6 +63,12 @@ const PersonalDetailModal = ({
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
+    `,
+  );
+
+  const [DeletePersonData] = useMutation(
+    gql`
+      ${deletePerson}
     `,
   );
 
@@ -141,55 +149,82 @@ const PersonalDetailModal = ({
     );
   };
 
-  const onClickInvite = () => {
+  const onClickInvite = async () => {
     if (!haveTeam) {
       alert('당신이 팀장으로 있는 팀이 없습니다.');
       return;
     }
-    if (data?.id !== userId) {
-      if (userIdData && teamData) {
-        let isDuplicate = false;
-        const frontData = userIdData.getUserById.mail
-          .filter((el: any) => {
-            if (el.from === userId && el.type === 'invite') {
-              isDuplicate = true;
-            }
-            return true;
-          })
-          .map((el: any) => ({
-            from: el.from,
-            teamId: el.teamId,
-            type: el.type,
-            teamName: el.teamName,
-          }));
-        if (isDuplicate) {
-          onCloseModal();
-          alert('이미 초대한 사용자입니다.');
-          return;
-        }
-        const changeIntoSet = new Set(frontData);
-        const changeIntoArray = Array.from(changeIntoSet);
-        const newData = {
-          from: userId,
-          teamId: teamData.getTeamDashboard.id,
-          type: 'invite',
-          teamName: teamData.getTeamDashboard.name,
-        };
-        const combinedData = [...changeIntoArray, newData];
-        updateUserData({
-          variables: {
-            input: {
-              id: data?.id,
-              mail: combinedData,
-            },
-          },
-        });
-        refetch();
+    if (userIdData && teamData) {
+      let isDuplicate = false;
+      const frontData = userIdData.getUserById.mail
+        .filter((el: any) => {
+          if (el.from === userId && el.type === 'invite') {
+            isDuplicate = true;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          from: el.from,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
+        }));
+      if (isDuplicate) {
         onCloseModal();
-        alert('초대가 완료되었습니다.');
+        alert('이미 초대한 사용자입니다.');
+        return;
       }
+      const changeIntoSet = new Set(frontData);
+      const changeIntoArray = Array.from(changeIntoSet);
+      const newData = {
+        from: userId,
+        teamId: teamData.getTeamDashboard.id,
+        type: 'invite',
+        teamName: teamData.getTeamDashboard.name,
+      };
+      const combinedData = [...changeIntoArray, newData];
+      await updateUserData({
+        variables: {
+          input: {
+            id: data?.id,
+            mail: combinedData,
+          },
+        },
+      });
+      refetch();
+      onCloseModal();
+      alert('초대가 완료되었습니다.');
+    }
+  };
+
+  const onClickDelete = async () => {
+    const getConfirm = prompt('정보를 삭제하려면 "삭제"를 입력해주세요.');
+    if (getConfirm === '삭제') {
+      DeletePersonData({
+        variables: {
+          input: {
+            id: userId,
+          },
+        },
+      });
+      const firstInput = Array(12).fill({ title: '', answers: [] });
+      await updateUserData({
+        variables: {
+          input: {
+            id: userId,
+            surveyCompleted: false,
+            question: firstInput,
+          },
+        },
+      });
+      await personRefetch();
+      refetch();
+      onCloseModal();
+      alert(
+        '삭제가 완료되었습니다. 다시 등록하시려면 설문을 다시 진행해주세요.',
+      );
     } else {
-      alert('자신을 초대할 수 없습니다.');
+      alert('삭제가 완료되지 않았습니다.');
     }
   };
 
@@ -204,9 +239,15 @@ const PersonalDetailModal = ({
       }
       modalBody={renderContents()}
       modalButton={
-        <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
-          초대하기
-        </S.SubmitButton>
+        data?.id !== userId ? (
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
+            초대하기
+          </S.SubmitButton>
+        ) : (
+          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+            삭제하기
+          </S.SubmitButton>
+        )
       }
       onCloseModal={onCloseModal}
     />

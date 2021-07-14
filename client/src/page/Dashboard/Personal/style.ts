@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Floating from 'component/atoms/FloatingButton';
 
 export const Container = styled.div`
   display: flex;
@@ -115,5 +116,7 @@ export const Team = styled.div`
   font-size: 1.6rem;
   font-weight: bold;
 `;
+
+export const FloatingButton = styled(Floating)``;
 
 export default {};

@@ -5,12 +5,7 @@ import { IAnswers } from 'component/molecules/QuestionRespond';
 import * as S from './style';
 
 function Result() {
-  const {
-    loading: userLoading,
-    error: userError,
-    data: userData,
-    refetch: userRefetch,
-  } = useQuery(
+  const { loading: userLoading, error: userError, data: userData } = useQuery(
     gql`
       ${getUser}
     `,

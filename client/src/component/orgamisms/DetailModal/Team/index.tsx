@@ -2,7 +2,7 @@ import React from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser } from 'graphql/mutations';
+import { updateUser, deleteTeam } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
@@ -17,11 +17,18 @@ export interface TeamModalProps {
     state: string;
     owner: string;
   };
+  userId?: string;
+  onAdd: () => void;
   onCloseModal: () => void;
 }
 
-const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
-  const { data: userData, refetch } = useQuery(
+const TeamDetailModal = ({
+  data,
+  userId,
+  onAdd,
+  onCloseModal,
+}: TeamModalProps) => {
+  const { refetch } = useQuery(
     gql`
       ${getUser}
     `,
@@ -39,6 +46,12 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
+    `,
+  );
+
+  const [deleteTeamData] = useMutation(
+    gql`
+      ${deleteTeam}
     `,
   );
 
@@ -91,51 +104,72 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
     );
   };
 
-  const onClickApply = () => {
-    const getUserData = userData.getUser.items[0];
-    if (data?.owner !== getUserData.id) {
-      let isDuplicated = false;
-      const frontData = userIdData.getUserById.mail
-        .filter((el: any) => {
-          if (el.from === getUserData.id && el.type === 'apply') {
-            isDuplicated = true;
-          }
-          return true;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
+  const onClickApply = async () => {
+    let isDuplicated = false;
+    const frontData = userIdData.getUserById.mail
+      .filter((el: any) => {
+        if (el.from === userId && el.type === 'apply') {
+          isDuplicated = true;
+        }
+        return true;
+      })
+      .map((el: any) => ({
+        from: el.from,
+        teamId: el.teamId,
+        type: el.type,
+        teamName: el.teamName,
+      }));
 
-      if (isDuplicated) {
-        onCloseModal();
-        alert('이미 동일한 팀에 지원하였습니다.');
-        return;
-      }
-      const changeIntoSet = new Set(frontData);
-      const changeIntoArray = Array.from(changeIntoSet);
-      const newData = {
-        from: getUserData.id,
-        teamId: data?.id,
-        type: 'apply',
-        teamName: data?.name,
-      };
-      const combinedData = [...changeIntoArray, newData];
-      updateUserData({
+    if (isDuplicated) {
+      onCloseModal();
+      alert('이미 동일한 팀에 지원하였습니다.');
+      return;
+    }
+    const changeIntoSet = new Set(frontData);
+    const changeIntoArray = Array.from(changeIntoSet);
+    const newData = {
+      from: userId,
+      teamId: data?.id,
+      type: 'apply',
+      teamName: data?.name,
+    };
+    const combinedData = [...changeIntoArray, newData];
+    await updateUserData({
+      variables: {
+        input: {
+          id: data?.owner,
+          mail: combinedData,
+        },
+      },
+    });
+    refetch();
+    onCloseModal();
+    alert('지원이 완료되었습니다.');
+  };
+  const onClickDelete = async () => {
+    const getConfirm = prompt('팀을 삭제하려면 "삭제"를 입력해주세요.');
+    if (getConfirm === '삭제') {
+      deleteTeamData({
         variables: {
           input: {
             id: data?.owner,
-            mail: combinedData,
           },
         },
       });
+      await updateUserData({
+        variables: {
+          input: {
+            id: data?.owner,
+            haveTeam: false,
+          },
+        },
+      });
+      await onAdd();
       refetch();
       onCloseModal();
-      alert('지원이 완료되었습니다.');
+      alert('삭제가 완료되었습니다.');
     } else {
-      alert('자신의 팀에는 지원할 수 없습니다');
+      alert('삭제가 완료되지 않았습니다.');
     }
   };
 
@@ -150,9 +184,15 @@ const TeamDetailModal = ({ data, onCloseModal }: TeamModalProps) => {
       }
       modalBody={renderContents()}
       modalButton={
-        <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
-          지원하기
-        </S.SubmitButton>
+        data?.owner !== userId ? (
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
+            지원하기
+          </S.SubmitButton>
+        ) : (
+          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+            팀 삭제하기
+          </S.SubmitButton>
+        )
       }
       onCloseModal={onCloseModal}
     />

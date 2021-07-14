@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { listTeamDashboard } from 'graphql/queries';
+import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import BaseTemplate from 'page/BaseTemplate';
@@ -20,10 +20,25 @@ interface ModalState {
 const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
+  const { data: userData } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
+
   const { loading, data, refetch } = useQuery(
     gql`
       ${listTeamDashboard}
     `,
+  );
+
+  const { data: teamData } = useQuery(
+    gql`
+      ${getTeamDashboard}
+    `,
+    {
+      variables: { id: userData && userData.getUser.items[0].id },
+    },
   );
 
   if (loading) {
@@ -68,7 +83,12 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     switch (modal?.type) {
     case 'detail':
       return (
-        <TeamDetailModal data={modal.data} onCloseModal={onCloseModal} />
+        <TeamDetailModal
+          userId={userData.getUser.items[0].id}
+          data={modal.data}
+          onCloseModal={onCloseModal}
+          onAdd={onTeamAdd}
+        />
       );
     case 'add':
       return (
@@ -83,8 +103,25 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     }
   };
 
+  const ClickerLoad = () => {
+    if (teamData && userData) {
+      if (userData.getUser.items[0].haveTeam) {
+        return (
+          <Team.FloatingButton
+            onClick={() => setModal({ type: 'detail', data: teamData.getTeamDashboard })
+            }
+          >
+            나의 팀
+          </Team.FloatingButton>
+        );
+      }
+    }
+    return <></>;
+  };
+
   return (
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
+      <ClickerLoad />
       <Personal.Container className={className}>
         <Personal.Top>
           <Team.Main>팀 현황판</Team.Main>

@@ -30,6 +30,7 @@ const props = {
     owner: 'something',
     mail: ['sth'],
   },
+  onAdd: () => alert('delete'),
   onCloseModal: () => alert('close'),
 };
 

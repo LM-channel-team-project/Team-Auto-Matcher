@@ -12,6 +12,7 @@ import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
+  className?: string;
   data: {
     from: string;
     teamName: string;
@@ -21,7 +22,7 @@ export interface MailModalProps {
   onCloseModal: () => void;
 }
 
-const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
+const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
@@ -247,10 +248,10 @@ const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
     } else {
       modeling = (
         <>
+          <S.LoadingComponent />
           <S.ContentsList>
-            로딩이 지속될 경우, 해당 정보를 찾을 수 없는 것이니
+            로딩이 지속될 경우, 메시지를 삭제해주세요.
           </S.ContentsList>
-          <S.ContentsList>메시지를 삭제해주세요.</S.ContentsList>
         </>
       );
     }
@@ -258,21 +259,35 @@ const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
   };
 
   const beTeamMember = () => {
-    const teamItems = teamData.getTeamDashboard;
-    const personItems = personData.getPersonDashboard;
-    updateTeamData({
-      variables: {
-        input: {
-          id: data?.teamId,
-          people: [...teamItems.people, personItems.name],
+    if (teamData && personData && userData) {
+      const teamItems = teamData.getTeamDashboard;
+      const personItems = personData.getPersonDashboard;
+      const userItems = userData.getUser.items[0];
+      updateTeamData({
+        variables: {
+          input: {
+            id: data?.teamId,
+            people: [...teamItems.people, personItems.name],
+          },
         },
-      },
-    });
+      });
+      updateUserData({
+        variables: {
+          input: {
+            id: userItems.id,
+            team:
+              userItems.team[0] === '팀 구하는중'
+                ? [data?.teamName]
+                : [...userItems.team, data?.teamName],
+          },
+        },
+      });
+    }
   };
 
   const sendMessage = (setType: string) => {
-    const userItems = userData.getUser.items[0];
-    if (userDataById) {
+    if (userDataById && userData) {
+      const userItems = userData.getUser.items[0];
       const frontData = userDataById.getUserById.mail.map((el: any) => ({
         from: el.from,
         teamId: el.teamId,
@@ -298,47 +313,49 @@ const MailDetailModal = ({ data, onCloseModal }: MailModalProps) => {
   };
 
   const delMessage = () => {
-    const userItems = userData.getUser.items[0];
-    const filteredMail = userItems.mail
-      .filter((el: any) => {
-        if (
-          el.from === data?.from
-          && el.type === data?.type
-          && el.teamId === data?.teamId
-          && el.teamName === data?.teamName
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .map((el: any) => ({
-        from: el.from,
-        teamId: el.teamId,
-        type: el.type,
-        teamName: el.teamName,
-      }));
-    updateUserData({
-      variables: {
-        input: {
-          id: userItems.id,
-          mail: filteredMail,
+    if (userData) {
+      const userItems = userData.getUser.items[0];
+      const filteredMail = userItems.mail
+        .filter((el: any) => {
+          if (
+            el.from === data?.from
+            && el.type === data?.type
+            && el.teamId === data?.teamId
+            && el.teamName === data?.teamName
+          ) {
+            return false;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          from: el.from,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
+        }));
+      updateUserData({
+        variables: {
+          input: {
+            id: userItems.id,
+            mail: filteredMail,
+          },
         },
-      },
-    });
-    refetch();
+      });
+      refetch();
+    }
   };
 
-  const onClickAccept = (): void => {
+  const onClickAccept = async () => {
     beTeamMember();
-    sendMessage('accept');
+    await sendMessage('accept');
     delMessage();
     alert(
       '팀으로 등록이 완료되었습니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
     );
   };
 
-  const onClickRefuse = (): void => {
-    sendMessage('refuse');
+  const onClickRefuse = async () => {
+    await sendMessage('refuse');
     delMessage();
     alert('거절이 완료되었습니다.');
   };

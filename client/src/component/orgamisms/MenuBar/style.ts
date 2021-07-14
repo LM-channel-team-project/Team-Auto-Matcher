@@ -159,10 +159,10 @@ export const MenuCenter = styled.ul`
     background-image: linear-gradient(rgba(204, 0, 17.2) 30%, transparent 30%);
     background-size: 0% 2rem;
     width: 120%;
-    background-position: 50% 0;
+    background-position: 53% 0;
     background-repeat: repeat-y;
     left: -10%;
-    top: 50%;
+    top: 53%;
     height: 0.2rem;
     margin-top: 0.9rem;
     content: '';

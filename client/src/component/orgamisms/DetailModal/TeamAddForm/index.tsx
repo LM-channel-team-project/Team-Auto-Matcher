@@ -70,11 +70,7 @@ const contentsTitle = [
   { title: '진행상황', text: '' },
 ];
 
-interface Props extends TeamModalProps {
-  onAdd: () => void;
-}
-
-const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
+const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
   const { data: userData } = useQuery(
     gql`
       ${getUser}
@@ -90,9 +86,6 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
       ${updateUser}
     `,
   );
-
-  // People data belonged to this team is not edited here
-  const people = data?.people || [];
 
   // Data to submit when create a team
   const [name, setName] = useState(data?.name || '');
@@ -275,15 +268,6 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
   const inlineContents = (
     <>
       <S.ContentItem>
-        {people && (
-          <S.InlineContent title="구성원" className="ci-people">
-            {people.map((person: string) => (
-              <S.Text className="people">{person}</S.Text>
-            ))}
-          </S.InlineContent>
-        )}
-      </S.ContentItem>
-      <S.ContentItem>
         <S.InlineContent title="기술 스택" className="ci-skills">
           <S.LabelInputBox
             list={skills}
@@ -334,36 +318,43 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
     },
   );
 
-  const onSubmit = async () => {
+  const onMake = async () => {
     if (name.length < 2) return;
-    const getUserData = userData.getUser.items[0];
-    if (getUserData.haveTeam) {
-      alert('최대 한 개의 팀만 만들 수 있습니다.');
-      return;
+    if (userData) {
+      const getUserData = userData.getUser.items[0];
+      console.log(getUserData.question[11].answers[0]);
+      if (!getUserData.surveyCompleted) {
+        alert('설문을 완료 후 팀을 만들어주세요.');
+        return;
+      }
+      if (getUserData.haveTeam) {
+        alert('최대 한 개의 팀만 만들 수 있습니다.');
+        return;
+      }
+      updateUserData({
+        variables: {
+          input: {
+            id: getUserData.id,
+            haveTeam: true,
+          },
+        },
+      });
+      await createTeamData({
+        variables: {
+          input: {
+            id: getUserData.id,
+            name,
+            people: [getUserData.question[11].answers[0]],
+            skills,
+            outline,
+            contents,
+            owner: getUserData.id,
+            state: '모집중',
+          },
+        },
+      });
+      onAdd();
     }
-    updateUserData({
-      variables: {
-        input: {
-          id: getUserData.id,
-          haveTeam: true,
-        },
-      },
-    });
-    await createTeamData({
-      variables: {
-        input: {
-          id: getUserData.id,
-          name,
-          people,
-          skills,
-          outline,
-          contents,
-          owner: getUserData.id,
-          state: '모집중',
-        },
-      },
-    });
-    onAdd();
   };
 
   return (
@@ -376,7 +367,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: Props) => {
         </>
       }
       modalButton={
-        <S.SubmitButton size="medium" color="yellow" onClick={onSubmit}>
+        <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
           팀 생성하기
         </S.SubmitButton>
       }
