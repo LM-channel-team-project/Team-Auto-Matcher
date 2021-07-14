@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { listPersonDashboard, getPersonDashboard } from 'graphql/queries';
+import {
+  listPersonDashboard,
+  getPersonDashboard,
+  getUser,
+} from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, {
@@ -15,9 +19,15 @@ interface ModalState {
   data?: UserData;
 }
 
-const PersonalDashboardPage = ({ className, userData }: any) => {
+const PersonalDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [current, setCurrent] = useState<number>(0);
+
+  const { data: userData } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
 
   const { loading, data, refetch } = useQuery(
     gql`
@@ -29,7 +39,7 @@ const PersonalDashboardPage = ({ className, userData }: any) => {
       ${getPersonDashboard}
     `,
     {
-      variables: { id: userData && userData.id },
+      variables: { id: userData && userData.getUser.items[0].id },
     },
   );
 
@@ -114,8 +124,8 @@ const PersonalDashboardPage = ({ className, userData }: any) => {
     return (
       modal.data && (
         <PersonalDetailModal
-          userId={userData.id}
-          haveTeam={userData.haveTeam}
+          userId={userData.getUser.items[0].id}
+          haveTeam={userData.getUser.items[0].haveTeam}
           data={modal.data}
           onCloseModal={onCloseModal}
           personRefetch={refetch}
@@ -125,8 +135,8 @@ const PersonalDashboardPage = ({ className, userData }: any) => {
   };
 
   const ClickerLoad = () => {
-    if (personData) {
-      if (userData.surveyCompleted) {
+    if (personData && userData) {
+      if (userData.getUser.items[0].surveyCompleted) {
         return (
           <S.FloatingButton
             onClick={() => setModal({ data: personData.getPersonDashboard })}

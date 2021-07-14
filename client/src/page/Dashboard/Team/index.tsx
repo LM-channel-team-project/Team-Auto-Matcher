@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getTeamDashboard, listTeamDashboard } from 'graphql/queries';
+import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import BaseTemplate from 'page/BaseTemplate';
@@ -17,8 +17,14 @@ interface ModalState {
   data?: TeamData;
 }
 
-const TeamDashboardPage = ({ className, isLoggedIn, userData }: any) => {
+const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
+
+  const { data: userData } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
 
   const { loading, data, refetch } = useQuery(
     gql`
@@ -31,7 +37,7 @@ const TeamDashboardPage = ({ className, isLoggedIn, userData }: any) => {
       ${getTeamDashboard}
     `,
     {
-      variables: { id: userData && userData.id },
+      variables: { id: userData && userData.getUser.items[0].id },
     },
   );
 
@@ -78,7 +84,7 @@ const TeamDashboardPage = ({ className, isLoggedIn, userData }: any) => {
     case 'detail':
       return (
         <TeamDetailModal
-          userId={userData.id}
+          userId={userData.getUser.items[0].id}
           data={modal.data}
           onCloseModal={onCloseModal}
           onAdd={onTeamAdd}
@@ -98,8 +104,8 @@ const TeamDashboardPage = ({ className, isLoggedIn, userData }: any) => {
   };
 
   const ClickerLoad = () => {
-    if (teamData) {
-      if (userData.haveTeam) {
+    if (teamData && userData) {
+      if (userData.getUser.items[0].haveTeam) {
         return (
           <Team.FloatingButton
             onClick={() => setModal({ type: 'detail', data: teamData.getTeamDashboard })

@@ -23,21 +23,6 @@ function App() {
     `,
   );
 
-  const sendData = () => {
-    let userData = { id: '', surveyCompleted: false, haveTeam: false };
-    if (data) {
-      if (data.id) {
-        const userItems = data.getUser.items[0];
-        userData = {
-          id: userItems.id,
-          surveyCompleted: userItems.surveyCompleted,
-          haveTeam: userItems.haveTeam,
-        };
-      }
-    }
-    return userData;
-  };
-
   Auth.currentAuthenticatedUser()
     .then(() => setIsLoggedIn(true))
     .catch(() => setIsLoggedIn(false));
@@ -61,11 +46,13 @@ function App() {
           </Route>
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/dashboard/team" component={TeamDashboard}>
-            <TeamDashboard userData={sendData()} isLoggedIn={isLoggedIn} />
+            <TeamDashboard isLoggedIn={isLoggedIn} />
           </Route>
-          <Route exact path="/dashboard/personal" component={PersonalDashboard}>
-            <PersonalDashboard userData={sendData()} />
-          </Route>
+          <Route
+            exact
+            path="/dashboard/personal"
+            component={PersonalDashboard}
+          />
           <Route exact path="/login" component={LoginPage} />
           <Route
             exact
