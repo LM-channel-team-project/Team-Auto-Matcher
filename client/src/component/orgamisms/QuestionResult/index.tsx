@@ -64,7 +64,7 @@ function QuestionResult({
       return;
     }
     if (!surveyCompleted) {
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id,
