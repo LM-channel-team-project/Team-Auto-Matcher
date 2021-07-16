@@ -6,7 +6,7 @@ import {
   getUser,
   getUserById,
 } from 'graphql/queries';
-import { updateUser, updateTeam } from 'graphql/mutations';
+import { updateUser, updateTeam, updatePerson } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import DetailModalTemplate from '../template';
 import * as S from '../style';
@@ -59,6 +59,12 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
+    `,
+  );
+
+  const [updatePersonData] = useMutation(
+    gql`
+      ${updatePerson}
     `,
   );
 
@@ -271,14 +277,14 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           },
         },
       });
-      updateUserData({
+      updatePersonData({
         variables: {
           input: {
             id: userItems.id,
             team:
-              userItems.team[0] === '팀 구하는중'
+              personItems.team[0] === '팀 구하는중'
                 ? [data?.teamName]
-                : [...userItems.team, data?.teamName],
+                : [...personItems.team, data?.teamName],
           },
         },
       });
@@ -301,6 +307,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         teamName: data?.teamName,
       };
       const combinedData = [...frontData, newMail];
+
       updateUserData({
         variables: {
           input: {
