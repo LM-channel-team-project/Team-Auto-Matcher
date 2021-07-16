@@ -64,14 +64,6 @@ function QuestionResult({
       return;
     }
     if (!surveyCompleted) {
-      await updateUserData({
-        variables: {
-          input: {
-            id,
-            surveyCompleted: true,
-          },
-        },
-      });
       await createPersonData({
         variables: {
           input: {
@@ -92,6 +84,14 @@ function QuestionResult({
             hasCoWork: answerRespond[6].answers[0] === '경험 없음',
             priority: answerRespond[7].answers,
             project: answerRespond[9].answers[0],
+          },
+        },
+      });
+      updateUserData({
+        variables: {
+          input: {
+            id,
+            surveyCompleted: true,
           },
         },
       });
