@@ -11,7 +11,6 @@ export const Container = styled.div`
 export const Top = styled.div`
   top: 0em;
   left: 0em;
-  z-index: 2;
   padding-top: 2em;
   background-color: #fff;
 `;
