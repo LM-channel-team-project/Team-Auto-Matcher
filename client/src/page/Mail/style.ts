@@ -18,10 +18,10 @@ export const Top = styled.div`
 
 export const Main = styled.h1`
   display: flex;
-  margin: 1.5em 0;
+  margin: 3em 0 1em;
   justify-content: center;
   align-items: center;
-  font-size: 4em;
+  font-size: 3.2em;
 `;
 
 export const MailList = styled.div`
@@ -41,8 +41,23 @@ export const MailList = styled.div`
     border-radius: 1rem;
   }
   padding-top: 1em;
-  width: 150rem;
-  height: 58rem;
+  width: 124rem;
+  height: 68rem;
+  @media screen and (max-width: 1290px) {
+    width: 108rem;
+  }
+  @media screen and (max-width: 1110px) {
+    width: 95rem;
+  }
+  @media screen and (max-width: 954px) {
+    width: 82rem;
+  }
+  @media screen and (max-width: 820px) {
+    width: 67em;
+  }
+  @media screen and (max-width: 670px) {
+    width: 49em;
+  }
 `;
 
 export const List = styled.div`
@@ -64,10 +79,31 @@ export const List = styled.div`
   &:hover {
     box-shadow: 0 1.4em 2.8em rgba(0, 0, 0, 0.25), 0 1em 1em rgba(0, 0, 0, 0.22);
   }
+  @media screen and (max-width: 1290px) {
+    width: 97em;
+  }
+  @media screen and (max-width: 1110px) {
+    width: 84rem;
+  }
+  @media screen and (max-width: 954px) {
+    width: 71em;
+  }
+  @media screen and (max-width: 820px) {
+    width: 59rem;
+  }
+  @media screen and (max-width: 670px) {
+    width: 43rem;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const Title = styled.h1`
   font-size: 2em;
+  @media screen and (max-width: 670px) {
+    font-size: 2.5em;
+    margin-bottom: 1.6em;
+  }
 `;
 
 export const Text = styled.div`
