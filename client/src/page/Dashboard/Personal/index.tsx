@@ -104,7 +104,7 @@ const PersonalDashboardPage = ({ className }: any) => {
     </S.Slider>
   );
 
-  const UserList = users[currentFieldName].map((user: any) => (
+  const UserList = users[currentFieldName]?.map((user: any) => (
     <S.List key={user.id} onClick={() => setModal({ data: user })}>
       <S.Title>{user.name}</S.Title>
       <S.Text>{user.devExp}</S.Text>
