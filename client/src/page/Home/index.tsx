@@ -22,80 +22,82 @@ const Home = ({ className, isLoggedIn }: any) => {
   const SettingPhase = () => {
     let phase = <S.LoadingComponent />;
     if (isLoggedIn) {
-      if (data && data.getUser.items?.length !== 0) {
-        const userItems = data.getUser.items[0];
-        if (userItems.haveTeam) {
+      if (data) {
+        if (data.getUser.items?.length !== 0) {
+          const userItems = data.getUser.items[0];
+          if (userItems.haveTeam) {
+            phase = (
+              <>
+                <S.Left background="https://user-images.githubusercontent.com/71132893/125388384-5eee8e00-e3da-11eb-9b2d-4a5b35cf4fc2.jpg" />
+                <S.Right>
+                  <S.Title>팀 생성이 완료되었습니다.</S.Title>
+                  <S.Description>
+                    당신은 팀장으로서 활동을 할 수 있습니다. Team Auto Matcher
+                    Github에 접속해서 Repository를 만들고, 팀원을 초대해
+                    활동해주세요. Slack에서 팀원들과 소통할 수 있습니다.
+                  </S.Description>
+                  <a href="https://github.com/LM-channel-team-project">
+                    <S.BlackButton>Github</S.BlackButton>
+                  </a>
+                  <a href={slackInvite}>
+                    <S.WhiteButton onClick={() => {}}>Slack</S.WhiteButton>
+                  </a>
+                </S.Right>
+              </>
+            );
+          } else if (userItems.surveyCompleted) {
+            phase = (
+              <>
+                <S.Left background="https://user-images.githubusercontent.com/71132893/125273607-11294580-e348-11eb-943e-15497e18631b.jpg" />
+                <S.Right>
+                  <S.Title>설문이 완료되었습니다.</S.Title>
+                  <S.Description>
+                    Team 페이지로 이동해, 등록할 팀을 찾아보거나 팀을 생성하여
+                    팀장으로 활동하세요. 저희 Slack에 접속하시면 당신의 팀과
+                    소통하며, 더 많은 정보를 얻으실 수 있습니다.
+                  </S.Description>
+                  <S.BlackButton
+                    onClick={() => {
+                      window.location.href = '/dashboard/team';
+                    }}
+                  >
+                    Teams
+                  </S.BlackButton>
+                  <a href={slackInvite}>
+                    <S.WhiteButton>Slack</S.WhiteButton>
+                  </a>
+                </S.Right>
+              </>
+            );
+          }
+        } else {
           phase = (
             <>
-              <S.Left background="https://user-images.githubusercontent.com/71132893/125388384-5eee8e00-e3da-11eb-9b2d-4a5b35cf4fc2.jpg" />
+              <S.Left background="https://user-images.githubusercontent.com/71132893/125273613-125a7280-e348-11eb-9b49-1a60858adeb9.jpg" />
               <S.Right>
-                <S.Title>팀 생성이 완료되었습니다.</S.Title>
+                <S.Title>로그인이 완료되었습니다.</S.Title>
                 <S.Description>
-                  당신은 팀장으로서 활동을 할 수 있습니다. Team Auto Matcher
-                  Github에 접속해서 Repository를 만들고, 팀원을 초대해
-                  활동해주세요. Slack에서 팀원들과 소통할 수 있습니다.
-                </S.Description>
-                <a href="https://github.com/LM-channel-team-project">
-                  <S.BlackButton>Github</S.BlackButton>
-                </a>
-                <a href={slackInvite}>
-                  <S.WhiteButton onClick={() => {}}>Slack</S.WhiteButton>
-                </a>
-              </S.Right>
-            </>
-          );
-        } else if (userItems.surveyCompleted) {
-          phase = (
-            <>
-              <S.Left background="https://user-images.githubusercontent.com/71132893/125273607-11294580-e348-11eb-943e-15497e18631b.jpg" />
-              <S.Right>
-                <S.Title>설문이 완료되었습니다.</S.Title>
-                <S.Description>
-                  Team 페이지로 이동해, 등록할 팀을 찾아보거나 팀을 생성하여
-                  팀장으로 활동하세요. 저희 Slack에 접속하시면 당신의 팀과
-                  소통하며, 더 많은 정보를 얻으실 수 있습니다.
+                  Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
+                  활동해보세요.
                 </S.Description>
                 <S.BlackButton
                   onClick={() => {
-                    window.location.href = '/dashboard/team';
+                    window.location.href = '/survey';
                   }}
                 >
-                  Teams
+                  Survey
                 </S.BlackButton>
-                <a href={slackInvite}>
-                  <S.WhiteButton>Slack</S.WhiteButton>
-                </a>
+                <S.WhiteButton
+                  onClick={() => {
+                    window.location.href = '/personal';
+                  }}
+                >
+                  Personal
+                </S.WhiteButton>
               </S.Right>
             </>
           );
         }
-      } else {
-        phase = (
-          <>
-            <S.Left background="https://user-images.githubusercontent.com/71132893/125273613-125a7280-e348-11eb-9b49-1a60858adeb9.jpg" />
-            <S.Right>
-              <S.Title>로그인이 완료되었습니다.</S.Title>
-              <S.Description>
-                Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
-                활동해보세요.
-              </S.Description>
-              <S.BlackButton
-                onClick={() => {
-                  window.location.href = '/survey';
-                }}
-              >
-                Survey
-              </S.BlackButton>
-              <S.WhiteButton
-                onClick={() => {
-                  window.location.href = '/personal';
-                }}
-              >
-                Personal
-              </S.WhiteButton>
-            </S.Right>
-          </>
-        );
       }
     } else {
       phase = (
