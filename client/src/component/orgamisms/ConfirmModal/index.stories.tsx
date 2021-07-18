@@ -10,7 +10,7 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <ConfirmModal title="내용을 저장 하시겠습니까 ?" />
+      <ConfirmModal open={true} title="내용을 저장 하시겠습니까 ?" />
     </GlobalThemeProvider>
   );
 }

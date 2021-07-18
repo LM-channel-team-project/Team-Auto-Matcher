@@ -1,10 +1,25 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Button from 'component/atoms/Button';
 
+interface Props {
+  openModal?: boolean;
+}
 export const Main = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  ${({ openModal }: Props) => openModal
+    && css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `}
 `;
 
 export const Container = styled.div`

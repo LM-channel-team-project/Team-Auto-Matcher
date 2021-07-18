@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { createPerson, updateUser, updatePerson } from 'graphql/mutations';
 import { listPersonDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import BaseTemplate from 'page/BaseTemplate';
 import Button from 'component/atoms/Button';
 import * as S from './style';
 
@@ -20,6 +21,15 @@ function QuestionResult({
   id,
   surveyCompleted,
 }: IQuestionResult) {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const { refetch } = useQuery(
     gql`
       ${listPersonDashboard}
@@ -49,7 +59,7 @@ function QuestionResult({
     />
   ));
 
-  const onSubmit = async () => {
+  const ConfirmSubmit = async () => {
     const filterArray: number[] = [];
     answerRespond.forEach((answer: IAnswers, index: number) => {
       if (answer.answers.length < 1 || answer.answers[0].length < 1) {
@@ -118,13 +128,20 @@ function QuestionResult({
         },
       });
     }
-    refetch();
-    alert('확정 되었습니다.');
+    await setTimeout(() => {
+      refetch();
+    }, 1000);
     window.location.href = '/dashboard/personal';
   };
 
   return (
     <>
+      <ConfirmModal
+        surveyCompleted={surveyCompleted}
+        open={modalOpen}
+        close={closeModal}
+        ConfirmSubmit={ConfirmSubmit}
+      />
       <S.QuestionResult className={className}>
         {QuestionRespondList}
       </S.QuestionResult>
@@ -133,13 +150,10 @@ function QuestionResult({
           className="confirm"
           size="biglarge"
           color="gray"
-          onClick={onSubmit}
+          onClick={openModal}
         >
-          {!surveyCompleted
-            ? '설문 결과 등록하기'
-            : '등록된 데이터 업데이트하기'}
+          {!surveyCompleted ? '설문 결과 등록하기' : '설문 업데이트하기'}
         </Button>
-        {/* <ConfirmModal title="내용을 저장 하시겠습니까 ?" /> */}
       </S.Btn>
     </>
   );
