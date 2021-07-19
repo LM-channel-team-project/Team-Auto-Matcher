@@ -48,7 +48,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const { items } = data.listTeamDashboard;
   const teams = items.map((team: any) => {
     const skills = team.skills.map((skill: string) => (
-      <Personal.Stacklist key={skill}>{skill}</Personal.Stacklist>
+      <Team.Stacklist key={skill}>{skill}</Team.Stacklist>
     ));
 
     const contents = team.contents.map((content: any) => (
@@ -65,7 +65,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
       >
         <Team.Left>
           <Team.Name>{team.name}</Team.Name>
-          <Personal.Stack>{skills}</Personal.Stack>
+          <Team.Stack>{skills}</Team.Stack>
           <Team.Content>{contents}</Team.Content>
         </Team.Left>
         <Team.State text={team.state} />
