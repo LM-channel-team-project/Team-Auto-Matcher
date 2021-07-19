@@ -4,7 +4,6 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { createPerson, updateUser, updatePerson } from 'graphql/mutations';
 import { listPersonDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import BaseTemplate from 'page/BaseTemplate';
 import Button from 'component/atoms/Button';
 import * as S from './style';
 
