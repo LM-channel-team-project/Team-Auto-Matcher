@@ -74,39 +74,38 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     `,
   );
   const modalHeader = () => {
-    let modeling = <div></div>;
     if (personData && teamData) {
       const personItems = personData.getPersonDashboard;
       const teamItems = teamData.getTeamDashboard;
       if (data?.type === 'invite') {
-        modeling = (
+        return (
           <>
             <S.State text={teamItems.state || ''} />
             <S.Title type="team">{teamItems.name}</S.Title>
             <S.Desc>{teamItems.outline}</S.Desc>
           </>
         );
-      } else if (data?.type === 'apply') {
-        modeling = (
+      }
+      if (data?.type === 'apply') {
+        return (
           <>
             <S.Domain>{personItems.field}</S.Domain>
             <S.Title type="personal">{personItems.name}</S.Title>
             <S.Desc>{personItems.outline}</S.Desc>
           </>
         );
-      } else if (data?.type === 'refuse') {
-        modeling = <S.Title type="personal">거절 메시지</S.Title>;
-      } else if (data?.type === 'accept') {
-        modeling = <S.Title type="personal">승인 메시지</S.Title>;
       }
-    } else {
-      modeling = <S.Title type="personal">로딩중</S.Title>;
+      if (data?.type === 'refuse') {
+        return <S.Title type="personal">거절 메시지</S.Title>;
+      }
+      if (data?.type === 'accept') {
+        return <S.Title type="personal">승인 메시지</S.Title>;
+      }
     }
-    return modeling;
+    return <S.Title type="personal">로딩중</S.Title>;
   };
 
   const renderContents = () => {
-    let modeling = <div></div>;
     if (personData && teamData) {
       const teamItems = teamData.getTeamDashboard;
       const personItems = personData.getPersonDashboard;
@@ -147,13 +146,14 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             </S.BlockContent>
           </S.ContentItem>
         ));
-        modeling = (
+        return (
           <>
             <S.ContentsList>{inlineContents}</S.ContentsList>
             <S.ContentsList>{blockContents}</S.ContentsList>
           </>
         );
-      } else if (data?.type === 'apply') {
+      }
+      if (data?.type === 'apply') {
         const skills = personItems.skills.map((skill: string) => {
           const skillName = Object.keys(skillsLabel).find(
             (name) => name.toLowerCase() === skill.toLowerCase(),
@@ -222,14 +222,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             </S.BlockContent>
           </S.ContentItem>
         ));
-        modeling = (
+        return (
           <>
             <S.ContentsList>{inlineContents}</S.ContentsList>
             <S.ContentsList>{blockContents}</S.ContentsList>
           </>
         );
-      } else if (data?.type === 'refuse') {
-        modeling = (
+      }
+      if (data?.type === 'refuse') {
+        return (
           <>
             <S.ContentsList>{personItems.name}님께서</S.ContentsList>
             <S.ContentsList>
@@ -237,8 +238,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             </S.ContentsList>
           </>
         );
-      } else if (data?.type === 'accept') {
-        modeling = (
+      }
+      if (data?.type === 'accept') {
+        return (
           <>
             <S.ContentsList>{personItems.name}님께서</S.ContentsList>
             <S.ContentsList>
@@ -251,17 +253,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           </>
         );
       }
-    } else {
-      modeling = (
-        <>
-          <S.LoadingComponent />
-          <S.ContentsList>
-            로딩이 지속될 경우, 메시지를 삭제해주세요.
-          </S.ContentsList>
-        </>
-      );
     }
-    return modeling;
+    return (
+      <>
+        <S.LoadingComponent />
+        <S.ContentsList>
+          로딩이 지속될 경우, 메시지를 삭제해주세요.
+        </S.ContentsList>
+      </>
+    );
   };
 
   const beTeamMember = () => {
@@ -373,39 +373,31 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const modalButton = () => {
-    let modeling = <div></div>;
     if (personData && teamData) {
       if (data?.type === 'accept' || data?.type === 'refuse') {
-        modeling = (
+        return (
           <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
             메시지 삭제
           </S.SubmitButton>
         );
-      } else {
-        modeling = (
-          <>
-            <S.SubmitButton
-              size="medium"
-              color="yellow"
-              onClick={onClickAccept}
-            >
-              수락하기
-            </S.SubmitButton>
-            <span style={{ marginRight: '2rem' }}></span>
-            <S.SubmitButton size="medium" color="gray" onClick={onClickRefuse}>
-              거절하기
-            </S.SubmitButton>
-          </>
-        );
       }
-    } else {
-      modeling = (
-        <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-          메시지 삭제
-        </S.SubmitButton>
+      return (
+        <>
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickAccept}>
+            수락하기
+          </S.SubmitButton>
+          <span style={{ marginRight: '2rem' }}></span>
+          <S.SubmitButton size="medium" color="gray" onClick={onClickRefuse}>
+            거절하기
+          </S.SubmitButton>
+        </>
       );
     }
-    return modeling;
+    return (
+      <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+        메시지 삭제
+      </S.SubmitButton>
+    );
   };
 
   return data ? (
