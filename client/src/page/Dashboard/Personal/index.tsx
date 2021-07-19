@@ -74,8 +74,8 @@ const PersonalDashboardPage = ({ className }: any) => {
     <S.Slider>
       <S.Button onClick={back}>
         <svg
-          width="32"
-          height="32"
+          width="30"
+          height="30"
           viewBox="0 0 43 46"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -89,8 +89,8 @@ const PersonalDashboardPage = ({ className }: any) => {
       <S.Field>{currentFieldName}</S.Field>
       <S.Button onClick={next}>
         <svg
-          width="32"
-          height="32"
+          width="30"
+          height="30"
           viewBox="0 0 42 46"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

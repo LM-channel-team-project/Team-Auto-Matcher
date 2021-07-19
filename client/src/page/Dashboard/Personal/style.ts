@@ -33,15 +33,16 @@ export const Slider = styled.div`
 export const Button = styled.div`
   cursor: pointer;
   background-color: #dfe6e9;
-  width: 7em;
-  height: 7em;
+  width: 5em;
+  height: 5em;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 export const Field = styled.h1`
-  width: 7.7em;
+  padding: 0 2rem;
+  max-width: 7.7em;
   text-align: center;
   font-size: 2.9em;
   font-weight: bold;
