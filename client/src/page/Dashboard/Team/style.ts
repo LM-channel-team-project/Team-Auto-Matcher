@@ -45,6 +45,9 @@ export const List = styled.div`
     display: flex;
     flex-direction: column;
   }
+  @media screen and (max-width: 470px) {
+    width: 36rem;
+  }
 `;
 
 export const Left = styled.div`
@@ -233,6 +236,10 @@ export const TeamPage = styled.div`
   }
   @media screen and (max-width: 50rem) {
     width: 47em;
+    height: 62em;
+  }
+  @media screen and (max-width: 470px) {
+    width: 38em;
     height: 62em;
   }
 `;

@@ -82,6 +82,10 @@ export const MatchPage = styled.div`
     width: 47em;
     height: 62em;
   }
+  @media screen and (max-width: 470px) {
+    width: 38em;
+    height: 62em;
+  }
 `;
 
 export const List = styled.div`
@@ -116,6 +120,9 @@ export const List = styled.div`
     width: 43rem;
     display: flex;
     flex-direction: column;
+  }
+  @media screen and (max-width: 470px) {
+    width: 36rem;
   }
 `;
 

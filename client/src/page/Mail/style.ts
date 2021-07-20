@@ -58,6 +58,9 @@ export const MailList = styled.div`
   @media screen and (max-width: 670px) {
     width: 49em;
   }
+  @media screen and (max-width: 470px) {
+    width: 38em;
+  }
 `;
 
 export const List = styled.div`
@@ -95,6 +98,9 @@ export const List = styled.div`
     width: 43rem;
     display: flex;
     flex-direction: column;
+  }
+  @media screen and (max-width: 470px) {
+    width: 36rem;
   }
 `;
 

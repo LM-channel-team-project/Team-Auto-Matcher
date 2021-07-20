@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const Contact = styled.div``;
+export const Contact = styled.div`
+  overflow: auto;
+`;
 
 export const Teams = styled.ul`
   display: flex;
@@ -8,14 +10,15 @@ export const Teams = styled.ul`
   padding: 0 13rem;
   flex-wrap: wrap;
   margin-top: 30rem;
-  min-width: 460px;
   @media screen and (max-width: 800px) {
     padding: 0;
     margin-top: 15rem;
   }
   @media screen and (max-width: 640px) {
-    margin-top: 0;
-    transform: translateY(15rem);
+    margin-top: 5rem;
+  }
+  @media screen and (max-width: 400px) {
+    height: 100vh;
   }
 `;
 
