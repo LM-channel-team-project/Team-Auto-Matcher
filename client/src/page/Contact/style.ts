@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 
 export const Contact = styled.div`
-  overflow: auto;
+  @media screen and (max-width: 400px) {
+    overflow: auto;
+  }
 `;
 
 export const Teams = styled.ul`
