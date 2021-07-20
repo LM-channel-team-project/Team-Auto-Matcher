@@ -21,8 +21,29 @@ function QuestionResult({
   surveyCompleted,
 }: IQuestionResult) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState<string>('');
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
 
   const openModal = () => {
+    const filterArray: number[] = [];
+    answerRespond.forEach((answer: IAnswers, index: number) => {
+      if (answer.answers.length < 1 || answer.answers[0].length < 1) {
+        filterArray.push(index);
+      }
+    });
+    if (filterArray.length > 0) {
+      setConfirmText(
+        `${filterArray.join()}번째 설문을 완료해주시고 등록버튼을 다시 눌러주세요. 확인 버튼을 누르면 돌아갑니다.`,
+      );
+      setConfirmFunction(() => () => {
+        window.location.href = '/survey';
+      });
+    } else {
+      setConfirmText(
+        surveyCompleted ? '업데이트 하시겠습니까?' : '등록하시겠습니까?',
+      );
+      setConfirmFunction(() => confirmSubmit);
+    }
     setModalOpen(true);
   };
   const closeModal = () => {
@@ -58,20 +79,7 @@ function QuestionResult({
     />
   ));
 
-  const ConfirmSubmit = async () => {
-    const filterArray: number[] = [];
-    answerRespond.forEach((answer: IAnswers, index: number) => {
-      if (answer.answers.length < 1 || answer.answers[0].length < 1) {
-        filterArray.push(index);
-      }
-    });
-    if (filterArray.length > 0) {
-      alert(
-        `${filterArray.join()}번째 설문을 완료해주시고 등록버튼을 눌러주세요. 확인 버튼을 누르면 돌아갑니다.`,
-      );
-      window.location.href = '/survey';
-      return;
-    }
+  const confirmSubmit = async () => {
     if (!surveyCompleted) {
       await createPersonData({
         variables: {
@@ -135,12 +143,13 @@ function QuestionResult({
 
   return (
     <>
-      <ConfirmModal
-        surveyCompleted={surveyCompleted}
-        open={modalOpen}
-        close={closeModal}
-        ConfirmSubmit={ConfirmSubmit}
-      />
+      {modalOpen && (
+        <ConfirmModal
+          text={confirmText}
+          close={closeModal}
+          onClickConfirm={confirmFunction}
+        />
+      )}
       <S.QuestionResult className={className}>
         {QuestionRespondList}
       </S.QuestionResult>

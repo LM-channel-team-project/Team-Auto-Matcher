@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import {
   getPersonDashboard,
@@ -8,6 +8,7 @@ import {
 } from 'graphql/queries';
 import { updateUser, updateTeam, updatePerson } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
 import * as S from '../style';
 
@@ -73,6 +74,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       ${updateTeam}
     `,
   );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState<string>('');
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const modalHeader = () => {
     if (personData && teamData) {
       const personItems = personData.getPersonDashboard;
@@ -352,24 +356,49 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     }
   };
 
-  const onClickAccept = async () => {
-    beTeamMember();
-    await sendMessage('accept');
-    delMessage();
-    alert(
-      '팀으로 등록이 완료되었습니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
-    );
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
-  const onClickRefuse = async () => {
-    await sendMessage('refuse');
-    delMessage();
-    alert('거절이 완료되었습니다.');
+  const onClickAccept = () => {
+    openModal();
+    setConfirmText(
+      '확인을 누르면, 팀으로 등록이 완료됩니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
+    );
+    const confirmAccept = async () => {
+      beTeamMember();
+      await sendMessage('accept');
+      await delMessage();
+      closeModal();
+      onCloseModal();
+    };
+    setConfirmFunction(() => confirmAccept);
+  };
+
+  const onClickRefuse = () => {
+    openModal();
+    setConfirmText('확인을 누르면, 거절이 완료되며 메시지가 삭제됩니다.');
+    const confirmRefuse = async () => {
+      await sendMessage('refuse');
+      await delMessage();
+      closeModal();
+      onCloseModal();
+    };
+    setConfirmFunction(() => confirmRefuse);
   };
 
   const onClickDelete = (): void => {
-    delMessage();
-    alert('삭제가 완료되었습니다.');
+    openModal();
+    setConfirmText('확인을 누르면 메시지가 삭제됩니다.');
+    const confirmDelete = async () => {
+      await delMessage();
+      closeModal();
+      onCloseModal();
+    };
+    setConfirmFunction(() => confirmDelete);
   };
 
   const modalButton = () => {
@@ -401,12 +430,21 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   return data ? (
-    <DetailModalTemplate
-      modalHeader={modalHeader()}
-      modalBody={renderContents()}
-      modalButton={modalButton()}
-      onCloseModal={onCloseModal}
-    />
+    <>
+      <DetailModalTemplate
+        modalHeader={modalHeader()}
+        modalBody={renderContents()}
+        modalButton={modalButton()}
+        onCloseModal={onCloseModal}
+      />
+      {modalOpen && (
+        <ConfirmModal
+          text={confirmText}
+          close={closeModal}
+          onClickConfirm={confirmFunction}
+        />
+      )}
+    </>
   ) : (
     <div>error</div>
   );
