@@ -45,11 +45,9 @@ const MenuBar = ({ className }: any) => {
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((user) => console.log(user))
-      .catch((e) => {
-        console.log('Not signed in');
-      });
+    Auth.currentAuthenticatedUser().catch((e) => {
+      console.log('Not signed in');
+    });
   }, []);
 
   const handleSize = () => {
@@ -68,9 +66,7 @@ const MenuBar = ({ className }: any) => {
   }, [window.innerWidth]);
 
   const onClickSignOut = async () => {
-    await Auth.signOut()
-      .then((data) => console.log('completed'))
-      .catch((err) => console.log(err));
+    await Auth.signOut().catch((err) => console.log(err));
   };
 
   const onClickHamburger = (): void => {

@@ -23,11 +23,9 @@ const LoginPage = ({ className }: any) => {
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((user) => console.log(user))
-      .catch((e) => {
-        console.log('Not signed in');
-      });
+    Auth.currentAuthenticatedUser().catch((e) => {
+      console.log('Not signed in');
+    });
   }, []);
 
   const onClickReload = () => {
