@@ -298,7 +298,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const sendMessage = (setType: string) => {
     if (userDataById && userData) {
       const userItems = userData.getUser.items[0];
-      const frontData = userDataById.getUserById.mail.map((el: any) => ({
+      const frontData = userDataById.getUserById.mail?.map((el: any) => ({
         from: el.from,
         teamId: el.teamId,
         type: el.type,
@@ -365,9 +365,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
 
   const onClickAccept = () => {
     openModal();
-    setConfirmText(
-      '확인을 누르면, 팀으로 등록이 완료됩니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
-    );
+    setConfirmText('확인을 누르면, 팀으로 등록이 완료됩니다.');
     const confirmAccept = async () => {
       beTeamMember();
       await sendMessage('accept');
