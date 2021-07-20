@@ -31,8 +31,8 @@ const Contact = ({ className }: any) => {
       backgroundUrl: 'https://avatars.githubusercontent.com/u/44824320?v=4',
       englishName: 'HK',
       github: 'https://github.com/lhk3337',
-      mailHref: 'mailto:pkiopb@gmail.com',
-      mail: 'pkiopb@gmail.com',
+      mailHref: 'mailto:lhk3337@gmail.com',
+      mail: 'lhk3337@gmail.com',
     },
     {
       name: '오영롱',
