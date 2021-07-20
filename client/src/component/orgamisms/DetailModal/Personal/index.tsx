@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById, getTeamDashboard } from 'graphql/queries';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deletePerson } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
@@ -71,6 +72,9 @@ const PersonalDetailModal = ({
       ${deletePerson}
     `,
   );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState<string>('');
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
 
   const renderContents = () => {
     const skills = data.skills.map((skill: string) => {
@@ -149,9 +153,22 @@ const PersonalDetailModal = ({
     );
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const onClickInvite = async () => {
     if (!haveTeam) {
-      alert('당신이 팀장으로 있는 팀이 없습니다.');
+      openModal();
+      setConfirmText(
+        '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
+      );
+      setConfirmFunction(() => () => {
+        window.location.href = '/dashboard/team';
+      });
       return;
     }
     if (userIdData && teamData) {
@@ -170,8 +187,9 @@ const PersonalDetailModal = ({
           teamName: el.teamName,
         }));
       if (isDuplicate) {
-        onCloseModal();
-        alert('이미 초대한 사용자입니다.');
+        openModal();
+        setConfirmText('이미 초대한 사용자입니다.');
+        setConfirmFunction(() => closeModal);
         return;
       }
       const changeIntoSet = new Set(frontData);
@@ -191,16 +209,20 @@ const PersonalDetailModal = ({
           },
         },
       });
-      refetch();
-      onCloseModal();
-      alert('초대가 완료되었습니다.');
+      await refetch();
+      const closeModals = () => {
+        onCloseModal();
+        closeModal();
+      };
+      openModal();
+      setConfirmText('초대가 완료되었습니다.');
+      setConfirmFunction(() => closeModals);
     }
   };
 
-  const onClickDelete = async () => {
-    const getConfirm = prompt('정보를 삭제하려면 "삭제"를 입력해주세요.');
-    if (getConfirm === '삭제') {
-      DeletePersonData({
+  const onClickDelete = () => {
+    const deleteConfirm = async () => {
+      await DeletePersonData({
         variables: {
           input: {
             id: userId,
@@ -218,39 +240,53 @@ const PersonalDetailModal = ({
         },
       });
       await personRefetch();
-      refetch();
+      await refetch();
       onCloseModal();
-      alert(
-        '삭제가 완료되었습니다. 다시 등록하시려면 설문을 다시 진행해주세요.',
-      );
-    } else {
-      alert('삭제가 완료되지 않았습니다.');
-    }
+      closeModal();
+    };
+    openModal();
+    setConfirmText(
+      '확인을 누르면 삭제가 완료됩니다. 삭제 완료 후, 다시 등록하려면 설문을 다시 진행해주세요.',
+    );
+    setConfirmFunction(() => deleteConfirm);
   };
 
   return data ? (
-    <DetailModalTemplate
-      modalHeader={
-        <>
-          <S.Domain>{data.field}</S.Domain>
-          <S.Title type="personal">{data.name}</S.Title>
-          <S.Desc>{data.outline}</S.Desc>
-        </>
-      }
-      modalBody={renderContents()}
-      modalButton={
-        data?.id !== userId ? (
-          <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
-            초대하기
-          </S.SubmitButton>
-        ) : (
-          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-            삭제하기
-          </S.SubmitButton>
-        )
-      }
-      onCloseModal={onCloseModal}
-    />
+    <>
+      <DetailModalTemplate
+        modalHeader={
+          <>
+            <S.Domain>{data.field}</S.Domain>
+            <S.Title type="personal">{data.name}</S.Title>
+            <S.Desc>{data.outline}</S.Desc>
+          </>
+        }
+        modalBody={renderContents()}
+        modalButton={
+          data?.id !== userId ? (
+            <S.SubmitButton
+              size="medium"
+              color="yellow"
+              onClick={onClickInvite}
+            >
+              초대하기
+            </S.SubmitButton>
+          ) : (
+            <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+              삭제하기
+            </S.SubmitButton>
+          )
+        }
+        onCloseModal={onCloseModal}
+      />
+      {modalOpen && (
+        <ConfirmModal
+          text={confirmText}
+          close={closeModal}
+          onClickConfirm={confirmFunction}
+        />
+      )}
+    </>
   ) : (
     <div>error</div>
   );

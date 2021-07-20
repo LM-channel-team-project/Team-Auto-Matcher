@@ -4,6 +4,7 @@ import { Item } from 'component/orgamisms/AutoCompleteList';
 import { getUser } from 'graphql/queries';
 import { createTeam, updateUser } from 'graphql/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate, { ContentItem } from '../template';
 import { TeamModalProps } from '../Team';
 import * as S from '../style';
@@ -86,6 +87,10 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
       ${updateUser}
     `,
   );
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState<string>('');
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
 
   // Data to submit when create a team
   const [name, setName] = useState(data?.name || '');
@@ -318,17 +323,35 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
     },
   );
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const onMake = async () => {
     if (name.length < 2) return;
     if (userData) {
       const getUserData = userData.getUser.items[0];
-      console.log(getUserData.question[11].answers[0]);
       if (!getUserData.surveyCompleted) {
-        alert('설문을 완료 후 팀을 만들어주세요.');
+        openModal();
+        setConfirmText(
+          '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
+        );
+        setConfirmFunction(() => () => {
+          window.location.href = '/survey';
+        });
         return;
       }
       if (getUserData.haveTeam) {
-        alert('최대 한 개의 팀만 만들 수 있습니다.');
+        openModal();
+        setConfirmText('최대 한 개의 팀만 생성할 수 있습니다.');
+        const closeModals = () => {
+          onCloseModal();
+          closeModal();
+        };
+        setConfirmFunction(() => closeModals);
         return;
       }
       updateUserData({
@@ -353,26 +376,36 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
           },
         },
       });
-      onAdd();
+      await onAdd();
+      window.location.href = '/dashboard/team';
     }
   };
 
   return (
-    <DetailModalTemplate
-      modalHeader={headerContents}
-      modalBody={
-        <>
-          <S.ContentsList>{inlineContents}</S.ContentsList>
-          <S.ContentsList>{blockContents}</S.ContentsList>
-        </>
-      }
-      modalButton={
-        <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
-          팀 생성하기
-        </S.SubmitButton>
-      }
-      onCloseModal={onCloseModal}
-    />
+    <>
+      <DetailModalTemplate
+        modalHeader={headerContents}
+        modalBody={
+          <>
+            <S.ContentsList>{inlineContents}</S.ContentsList>
+            <S.ContentsList>{blockContents}</S.ContentsList>
+          </>
+        }
+        modalButton={
+          <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
+            팀 생성하기
+          </S.SubmitButton>
+        }
+        onCloseModal={onCloseModal}
+      />
+      {modalOpen && (
+        <ConfirmModal
+          text={confirmText}
+          close={closeModal}
+          onClickConfirm={confirmFunction}
+        />
+      )}
+    </>
   );
 };
 

@@ -69,6 +69,33 @@ const Home = ({ className, isLoggedIn }: any) => {
                 </S.Right>
               </>
             );
+          } else {
+            phase = (
+              <>
+                <S.Left background="https://user-images.githubusercontent.com/71132893/125273613-125a7280-e348-11eb-9b49-1a60858adeb9.jpg" />
+                <S.Right>
+                  <S.Title>로그인이 완료되었습니다.</S.Title>
+                  <S.Description>
+                    Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
+                    활동해보세요.
+                  </S.Description>
+                  <S.BlackButton
+                    onClick={() => {
+                      window.location.href = '/survey';
+                    }}
+                  >
+                    Survey
+                  </S.BlackButton>
+                  <S.WhiteButton
+                    onClick={() => {
+                      window.location.href = '/dashboard/personal';
+                    }}
+                  >
+                    Personal
+                  </S.WhiteButton>
+                </S.Right>
+              </>
+            );
           }
         } else {
           phase = (
@@ -89,7 +116,7 @@ const Home = ({ className, isLoggedIn }: any) => {
                 </S.BlackButton>
                 <S.WhiteButton
                   onClick={() => {
-                    window.location.href = '/personal';
+                    window.location.href = '/dashboard/personal';
                   }}
                 >
                   Personal

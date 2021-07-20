@@ -1,9 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Button from 'component/atoms/Button';
 
-interface Props {
-  openModal?: boolean;
-}
 export const Main = styled.div`
   display: none;
   position: fixed;
@@ -13,24 +10,20 @@ export const Main = styled.div`
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
-
-  ${({ openModal }: Props) => openModal
-    && css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `}
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Container = styled.div`
   position: relative;
   width: 38em;
-  height: 15em;
   background: #ffffff;
   box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.12);
   border-radius: 20px;
 `;
 export const Text = styled.h1`
+  line-height: 1.2;
   font-size: 2.3em;
   margin-bottom: 1.3em;
 `;

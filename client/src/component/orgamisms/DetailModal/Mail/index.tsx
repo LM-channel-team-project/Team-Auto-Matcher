@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import {
   getPersonDashboard,
@@ -8,6 +8,7 @@ import {
 } from 'graphql/queries';
 import { updateUser, updateTeam, updatePerson } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
 import * as S from '../style';
 
@@ -73,40 +74,42 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       ${updateTeam}
     `,
   );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState<string>('');
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const modalHeader = () => {
-    let modeling = <div></div>;
     if (personData && teamData) {
       const personItems = personData.getPersonDashboard;
       const teamItems = teamData.getTeamDashboard;
       if (data?.type === 'invite') {
-        modeling = (
+        return (
           <>
             <S.State text={teamItems.state || ''} />
             <S.Title type="team">{teamItems.name}</S.Title>
             <S.Desc>{teamItems.outline}</S.Desc>
           </>
         );
-      } else if (data?.type === 'apply') {
-        modeling = (
+      }
+      if (data?.type === 'apply') {
+        return (
           <>
             <S.Domain>{personItems.field}</S.Domain>
             <S.Title type="personal">{personItems.name}</S.Title>
             <S.Desc>{personItems.outline}</S.Desc>
           </>
         );
-      } else if (data?.type === 'refuse') {
-        modeling = <S.Title type="personal">거절 메시지</S.Title>;
-      } else if (data?.type === 'accept') {
-        modeling = <S.Title type="personal">승인 메시지</S.Title>;
       }
-    } else {
-      modeling = <S.Title type="personal">로딩중</S.Title>;
+      if (data?.type === 'refuse') {
+        return <S.Title type="personal">거절 메시지</S.Title>;
+      }
+      if (data?.type === 'accept') {
+        return <S.Title type="personal">승인 메시지</S.Title>;
+      }
     }
-    return modeling;
+    return <S.Title type="personal">로딩중</S.Title>;
   };
 
   const renderContents = () => {
-    let modeling = <div></div>;
     if (personData && teamData) {
       const teamItems = teamData.getTeamDashboard;
       const personItems = personData.getPersonDashboard;
@@ -147,13 +150,14 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             </S.BlockContent>
           </S.ContentItem>
         ));
-        modeling = (
+        return (
           <>
             <S.ContentsList>{inlineContents}</S.ContentsList>
             <S.ContentsList>{blockContents}</S.ContentsList>
           </>
         );
-      } else if (data?.type === 'apply') {
+      }
+      if (data?.type === 'apply') {
         const skills = personItems.skills.map((skill: string) => {
           const skillName = Object.keys(skillsLabel).find(
             (name) => name.toLowerCase() === skill.toLowerCase(),
@@ -222,14 +226,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             </S.BlockContent>
           </S.ContentItem>
         ));
-        modeling = (
+        return (
           <>
             <S.ContentsList>{inlineContents}</S.ContentsList>
             <S.ContentsList>{blockContents}</S.ContentsList>
           </>
         );
-      } else if (data?.type === 'refuse') {
-        modeling = (
+      }
+      if (data?.type === 'refuse') {
+        return (
           <>
             <S.ContentsList>{personItems.name}님께서</S.ContentsList>
             <S.ContentsList>
@@ -237,8 +242,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             </S.ContentsList>
           </>
         );
-      } else if (data?.type === 'accept') {
-        modeling = (
+      }
+      if (data?.type === 'accept') {
+        return (
           <>
             <S.ContentsList>{personItems.name}님께서</S.ContentsList>
             <S.ContentsList>
@@ -251,17 +257,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           </>
         );
       }
-    } else {
-      modeling = (
-        <>
-          <S.LoadingComponent />
-          <S.ContentsList>
-            로딩이 지속될 경우, 메시지를 삭제해주세요.
-          </S.ContentsList>
-        </>
-      );
     }
-    return modeling;
+    return (
+      <>
+        <S.LoadingComponent />
+        <S.ContentsList>
+          로딩이 지속될 경우, 메시지를 삭제해주세요.
+        </S.ContentsList>
+      </>
+    );
   };
 
   const beTeamMember = () => {
@@ -352,69 +356,95 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     }
   };
 
-  const onClickAccept = async () => {
-    beTeamMember();
-    await sendMessage('accept');
-    delMessage();
-    alert(
-      '팀으로 등록이 완료되었습니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
-    );
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
-  const onClickRefuse = async () => {
-    await sendMessage('refuse');
-    delMessage();
-    alert('거절이 완료되었습니다.');
+  const onClickAccept = () => {
+    openModal();
+    setConfirmText(
+      '확인을 누르면, 팀으로 등록이 완료됩니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
+    );
+    const confirmAccept = async () => {
+      beTeamMember();
+      await sendMessage('accept');
+      await delMessage();
+      closeModal();
+      onCloseModal();
+    };
+    setConfirmFunction(() => confirmAccept);
+  };
+
+  const onClickRefuse = () => {
+    openModal();
+    setConfirmText('확인을 누르면, 거절이 완료되며 메시지가 삭제됩니다.');
+    const confirmRefuse = async () => {
+      await sendMessage('refuse');
+      await delMessage();
+      closeModal();
+      onCloseModal();
+    };
+    setConfirmFunction(() => confirmRefuse);
   };
 
   const onClickDelete = (): void => {
-    delMessage();
-    alert('삭제가 완료되었습니다.');
+    openModal();
+    setConfirmText('확인을 누르면 메시지가 삭제됩니다.');
+    const confirmDelete = async () => {
+      await delMessage();
+      closeModal();
+      onCloseModal();
+    };
+    setConfirmFunction(() => confirmDelete);
   };
 
   const modalButton = () => {
-    let modeling = <div></div>;
     if (personData && teamData) {
       if (data?.type === 'accept' || data?.type === 'refuse') {
-        modeling = (
+        return (
           <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
             메시지 삭제
           </S.SubmitButton>
         );
-      } else {
-        modeling = (
-          <>
-            <S.SubmitButton
-              size="medium"
-              color="yellow"
-              onClick={onClickAccept}
-            >
-              수락하기
-            </S.SubmitButton>
-            <span style={{ marginRight: '2rem' }}></span>
-            <S.SubmitButton size="medium" color="gray" onClick={onClickRefuse}>
-              거절하기
-            </S.SubmitButton>
-          </>
-        );
       }
-    } else {
-      modeling = (
-        <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-          메시지 삭제
-        </S.SubmitButton>
+      return (
+        <>
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickAccept}>
+            수락하기
+          </S.SubmitButton>
+          <span style={{ marginRight: '2rem' }}></span>
+          <S.SubmitButton size="medium" color="gray" onClick={onClickRefuse}>
+            거절하기
+          </S.SubmitButton>
+        </>
       );
     }
-    return modeling;
+    return (
+      <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+        메시지 삭제
+      </S.SubmitButton>
+    );
   };
 
   return data ? (
-    <DetailModalTemplate
-      modalHeader={modalHeader()}
-      modalBody={renderContents()}
-      modalButton={modalButton()}
-      onCloseModal={onCloseModal}
-    />
+    <>
+      <DetailModalTemplate
+        modalHeader={modalHeader()}
+        modalBody={renderContents()}
+        modalButton={modalButton()}
+        onCloseModal={onCloseModal}
+      />
+      {modalOpen && (
+        <ConfirmModal
+          text={confirmText}
+          close={closeModal}
+          onClickConfirm={confirmFunction}
+        />
+      )}
+    </>
   ) : (
     <div>error</div>
   );
