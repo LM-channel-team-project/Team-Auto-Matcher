@@ -39,7 +39,12 @@ const PersonalDashboardPage = ({ className }: any) => {
       ${getPersonDashboard}
     `,
     {
-      variables: { id: userData && userData.getUser.items[0].id },
+      variables: {
+        id:
+          userData && userData.getUser.items?.length !== 0
+            ? userData.getUser.items[0].id
+            : '',
+      },
     },
   );
 

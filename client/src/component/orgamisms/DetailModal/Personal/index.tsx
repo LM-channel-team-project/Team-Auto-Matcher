@@ -163,7 +163,9 @@ const PersonalDetailModal = ({
   const onClickInvite = async () => {
     if (!haveTeam) {
       openModal();
-      setConfirmText('확인을 누르면, 거절이 완료되며 메시지가 삭제됩니다.');
+      setConfirmText(
+        '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
+      );
       setConfirmFunction(() => () => {
         window.location.href = '/dashboard/team';
       });
@@ -208,10 +210,13 @@ const PersonalDetailModal = ({
         },
       });
       await refetch();
-      onCloseModal();
+      const closeModals = () => {
+        onCloseModal();
+        closeModal();
+      };
       openModal();
       setConfirmText('초대가 완료되었습니다.');
-      setConfirmFunction(() => closeModal);
+      setConfirmFunction(() => closeModals);
     }
   };
 

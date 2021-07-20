@@ -88,7 +88,7 @@ const Home = ({ className, isLoggedIn }: any) => {
                   </S.BlackButton>
                   <S.WhiteButton
                     onClick={() => {
-                      window.location.href = '/personal';
+                      window.location.href = '/dashboard/personal';
                     }}
                   >
                     Personal
@@ -116,7 +116,7 @@ const Home = ({ className, isLoggedIn }: any) => {
                 </S.BlackButton>
                 <S.WhiteButton
                   onClick={() => {
-                    window.location.href = '/personal';
+                    window.location.href = '/dashboard/personal';
                   }}
                 >
                   Personal

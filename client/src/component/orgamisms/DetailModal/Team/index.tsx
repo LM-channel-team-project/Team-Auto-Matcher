@@ -155,10 +155,13 @@ const TeamDetailModal = ({
       },
     });
     await refetch();
-    onCloseModal();
+    const closeModals = () => {
+      onCloseModal();
+      closeModal();
+    };
     openModal();
     setConfirmText('지원이 완료되었습니다.');
-    setConfirmFunction(() => closeModal);
+    setConfirmFunction(() => closeModals);
   };
   const onClickDelete = () => {
     const deleteConfirm = async () => {

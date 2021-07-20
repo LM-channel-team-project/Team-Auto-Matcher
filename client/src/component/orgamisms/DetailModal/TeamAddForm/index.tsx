@@ -376,7 +376,8 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
           },
         },
       });
-      onAdd();
+      await onAdd();
+      window.location.href = '/dashboard/team';
     }
   };
 
