@@ -102,6 +102,10 @@ export const BlockContent = styled(DetailContent)`
 export const Text = styled.span`
   font-size: 1.3rem;
   line-height: 1.4em;
+  
+  &.team:not(:last-child):after {
+    content: ', ';
+  }
 
   &.people:not(:last-child):after {
     content: ', ';
