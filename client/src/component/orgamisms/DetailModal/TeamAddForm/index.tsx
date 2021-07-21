@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { Item } from 'component/orgamisms/AutoCompleteList';
-import { getUser } from 'graphql/queries';
-import { createTeam, updateUser } from 'graphql/mutations';
+import { getUser, getPersonDashboard } from 'graphql/queries';
+import { createTeam, updateUser, updatePerson } from 'graphql/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate, { ContentItem } from '../template';
@@ -86,6 +86,19 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
     gql`
       ${updateUser}
     `,
+  );
+  const [updatePersonData] = useMutation(
+    gql`
+      ${updatePerson}
+    `,
+  );
+  const { data: myPersonData } = useQuery(
+    gql`
+      ${getPersonDashboard}
+    `,
+    {
+      variables: { id: userData && userData.getUser.items[0].id },
+    },
   );
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -332,7 +345,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
 
   const onMake = async () => {
     if (name.length < 2) return;
-    if (userData) {
+    if (userData && myPersonData) {
       const getUserData = userData.getUser.items[0];
       if (!getUserData.surveyCompleted) {
         openModal();
@@ -354,11 +367,22 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
         setConfirmFunction(() => closeModals);
         return;
       }
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id: getUserData.id,
             haveTeam: true,
+          },
+        },
+      });
+      await updatePersonData({
+        variables: {
+          input: {
+            id: getUserData.id,
+            team:
+              myPersonData.getPersonDashboard.team[0] === '팀 구하는중'
+                ? [name]
+                : [...myPersonData.getPersonDashboard.team, name],
           },
         },
       });

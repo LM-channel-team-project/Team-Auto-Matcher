@@ -92,7 +92,9 @@ const PersonalDetailModal = ({
     });
 
     const team = data.team.map((aTeam: string) => (
-      <S.Text key={aTeam}>{aTeam}</S.Text>
+      <S.Text className="team" key={aTeam}>
+        {aTeam}
+      </S.Text>
     ));
 
     const inlineContents = (

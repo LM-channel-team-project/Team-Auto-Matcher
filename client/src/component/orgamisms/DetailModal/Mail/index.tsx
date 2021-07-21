@@ -39,6 +39,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     },
   );
 
+  const { data: myPersonData } = useQuery(
+    gql`
+      ${getPersonDashboard}
+    `,
+    {
+      variables: { id: userData && userData.getUser.items[0].id },
+    },
+  );
+
   const { data: teamData } = useQuery(
     gql`
       ${getTeamDashboard}
@@ -47,7 +56,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       variables: { id: data?.teamId },
     },
   );
-
   const { data: userDataById } = useQuery(
     gql`
       ${getUserById}
@@ -268,34 +276,39 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     );
   };
 
-  const beTeamMember = () => {
-    if (teamData && personData && userData) {
+  const beTeamMember = async () => {
+    if (teamData && personData && userData && myPersonData) {
       const teamItems = teamData.getTeamDashboard;
       const personItems = personData.getPersonDashboard;
       const userItems = userData.getUser.items[0];
-      updateTeamData({
+      const myPersonItems = myPersonData.getPersonDashboard;
+      await updateTeamData({
         variables: {
           input: {
             id: data?.teamId,
-            people: [...teamItems.people, personItems.name],
+            people:
+              data?.type === 'invite'
+                ? [...teamItems.people, userItems.question[11].answers[0]]
+                : [...teamItems.people, personItems.name],
           },
         },
       });
-      updatePersonData({
+      const teams = data?.type === 'invite'
+        ? [...myPersonItems.team, data?.teamName]
+        : [...personItems.team, data?.teamName];
+      await updatePersonData({
         variables: {
           input: {
-            id: userItems.id,
+            id: data?.type === 'invite' ? userItems.id : data?.from,
             team:
-              personItems.team[0] === '팀 구하는중'
-                ? [data?.teamName]
-                : [...personItems.team, data?.teamName],
+              personItems.team[0] === '팀 구하는중' ? [data?.teamName] : teams,
           },
         },
       });
     }
   };
 
-  const sendMessage = (setType: string) => {
+  const sendMessage = async (type: string) => {
     if (userDataById && userData) {
       const userItems = userData.getUser.items[0];
       const frontData = userDataById.getUserById.mail?.map((el: any) => ({
@@ -307,12 +320,12 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       const newMail = {
         from: userItems.id,
         teamId: data?.teamId,
-        type: setType,
+        type,
         teamName: data?.teamName,
       };
       const combinedData = [...frontData, newMail];
 
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id: data?.from,
@@ -323,7 +336,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     }
   };
 
-  const delMessage = () => {
+  const delMessage = async () => {
     if (userData) {
       const userItems = userData.getUser.items[0];
       const filteredMail = userItems.mail
@@ -344,7 +357,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           type: el.type,
           teamName: el.teamName,
         }));
-      updateUserData({
+      await updateUserData({
         variables: {
           input: {
             id: userItems.id,
@@ -352,7 +365,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           },
         },
       });
-      refetch();
+      await refetch();
     }
   };
 
@@ -362,39 +375,48 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+  const closeModals = () => {
+    closeModal();
+    onCloseModal();
+  };
 
-  const onClickAccept = () => {
+  const onClickAccept = async () => {
     openModal();
-    setConfirmText('확인을 누르면, 팀으로 등록이 완료됩니다.');
+    if (data?.type === 'invite') {
+      setConfirmText(
+        '확인을 누르면 팀으로 등록이 완료됩니다. 팀오토매쳐 slack으로 입장해, 팀장의 연락을 기다려주세요.',
+      );
+    } else {
+      setConfirmText(
+        '확인을 누르면 사용자가 팀으로 등록이 완료됩니다. 팀오토매쳐 slack으로 입장해, 팀원과 소통해주세요.',
+      );
+    }
     const confirmAccept = async () => {
-      beTeamMember();
+      await beTeamMember();
       await sendMessage('accept');
       await delMessage();
-      closeModal();
-      onCloseModal();
+      closeModals();
     };
     setConfirmFunction(() => confirmAccept);
   };
 
-  const onClickRefuse = () => {
+  const onClickRefuse = async () => {
     openModal();
-    setConfirmText('확인을 누르면, 거절이 완료되며 메시지가 삭제됩니다.');
+    setConfirmText('확인을 누르면 거절이 완료되며 메시지가 삭제됩니다.');
     const confirmRefuse = async () => {
       await sendMessage('refuse');
       await delMessage();
-      closeModal();
-      onCloseModal();
+      closeModals();
     };
     setConfirmFunction(() => confirmRefuse);
   };
 
-  const onClickDelete = (): void => {
+  const onClickDelete = async () => {
     openModal();
     setConfirmText('확인을 누르면 메시지가 삭제됩니다.');
     const confirmDelete = async () => {
       await delMessage();
-      closeModal();
-      onCloseModal();
+      closeModals();
     };
     setConfirmFunction(() => confirmDelete);
   };
@@ -438,7 +460,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       {modalOpen && (
         <ConfirmModal
           text={confirmText}
-          close={closeModal}
+          close={closeModals}
           onClickConfirm={confirmFunction}
         />
       )}
