@@ -311,7 +311,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const sendMessage = async (type: string) => {
     if (userDataById && userData) {
       const userItems = userData.getUser.items[0];
-      const frontData = userDataById.getUserById.mail.map((el: any) => ({
+      const frontData = userDataById.getUserById.mail?.map((el: any) => ({
         from: el.from,
         teamId: el.teamId,
         type: el.type,

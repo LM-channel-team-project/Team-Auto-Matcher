@@ -115,7 +115,7 @@ export const MenuRight = styled.ul`
   & a {
     position: relative;
     display: block;
-    background-image: url('https:user-images.githubusercontent.com/71132893/121883934-4c3a5800-cd4d-11eb-8c70-d9dece275b9f.png');
+    background-image: url('https://user-images.githubusercontent.com/71132893/121883934-4c3a5800-cd4d-11eb-8c70-d9dece275b9f.png');
     background-repeat: no-repeat;
     background-size: cover;
     width: 3rem;
