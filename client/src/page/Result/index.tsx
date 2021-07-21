@@ -16,7 +16,7 @@ function Result() {
   }
 
   if (userLoading) {
-    return <>loading</>;
+    return <></>;
   }
   const items = userData.getUser.items[0];
   const { question } = items;
