@@ -460,7 +460,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       {modalOpen && (
         <ConfirmModal
           text={confirmText}
-          close={closeModals}
+          close={closeModal}
           onClickConfirm={confirmFunction}
         />
       )}
