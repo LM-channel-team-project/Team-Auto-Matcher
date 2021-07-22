@@ -163,63 +163,62 @@ const PersonalDetailModal = ({
   };
 
   const onClickInvite = async () => {
-    if (!haveTeam) {
-      openModal();
-      setConfirmText(
-        '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
-      );
-      setConfirmFunction(() => () => {
-        window.location.href = '/dashboard/team';
-      });
-      return;
-    }
-    if (userIdData && teamData) {
-      let isDuplicate = false;
-      const frontData = userIdData.getUserById.mail
-        .filter((el: any) => {
-          if (el.from === userId && el.type === 'invite') {
-            isDuplicate = true;
-          }
-          return true;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
-      if (isDuplicate) {
-        openModal();
-        setConfirmText('이미 초대한 사용자입니다.');
-        setConfirmFunction(() => closeModal);
+    const confirmInvite = async () => {
+      if (!haveTeam) {
+        setConfirmText(
+          '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
+        );
+        setConfirmFunction(() => () => {
+          window.location.href = '/dashboard/team';
+        });
         return;
       }
-      const changeIntoSet = new Set(frontData);
-      const changeIntoArray = Array.from(changeIntoSet);
-      const newData = {
-        from: userId,
-        teamId: teamData.getTeamDashboard.id,
-        type: 'invite',
-        teamName: teamData.getTeamDashboard.name,
-      };
-      const combinedData = [...changeIntoArray, newData];
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.id,
-            mail: combinedData,
+      if (userIdData && teamData) {
+        let isDuplicate = false;
+        const frontData = userIdData.getUserById.mail
+          .filter((el: any) => {
+            if (el.from === userId && el.type === 'invite') {
+              isDuplicate = true;
+            }
+            return true;
+          })
+          .map((el: any) => ({
+            from: el.from,
+            teamId: el.teamId,
+            type: el.type,
+            teamName: el.teamName,
+          }));
+        if (isDuplicate) {
+          setConfirmText('이미 초대한 사용자입니다.');
+          setConfirmFunction(() => closeModal);
+          return;
+        }
+        const changeIntoSet = new Set(frontData);
+        const changeIntoArray = Array.from(changeIntoSet);
+        const newData = {
+          from: userId,
+          teamId: teamData.getTeamDashboard.id,
+          type: 'invite',
+          teamName: teamData.getTeamDashboard.name,
+        };
+        const combinedData = [...changeIntoArray, newData];
+        await updateUserData({
+          variables: {
+            input: {
+              id: data?.id,
+              mail: combinedData,
+            },
           },
-        },
-      });
-      await refetch();
-      const closeModals = () => {
+        });
+        await refetch();
         onCloseModal();
         closeModal();
-      };
-      openModal();
-      setConfirmText('초대가 완료되었습니다.');
-      setConfirmFunction(() => closeModals);
-    }
+      }
+    };
+
+    openModal();
+    setConfirmText('확인을 누르면 초대가 완료됩니다.');
+    setConfirmFunction(() => confirmInvite);
   };
 
   const onClickDelete = () => {

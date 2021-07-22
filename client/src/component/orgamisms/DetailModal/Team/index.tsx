@@ -116,52 +116,50 @@ const TeamDetailModal = ({
   };
 
   const onClickApply = async () => {
-    let isDuplicated = false;
-    const frontData = userIdData.getUserById.mail
-      .filter((el: any) => {
-        if (el.from === userId && el.type === 'apply') {
-          isDuplicated = true;
-        }
-        return true;
-      })
-      .map((el: any) => ({
-        from: el.from,
-        teamId: el.teamId,
-        type: el.type,
-        teamName: el.teamName,
-      }));
-
-    if (isDuplicated) {
-      openModal();
-      setConfirmText('이미 동일한 팀에 지원하였습니다.');
-      setConfirmFunction(() => closeModal);
-      return;
-    }
-    const changeIntoSet = new Set(frontData);
-    const changeIntoArray = Array.from(changeIntoSet);
-    const newData = {
-      from: userId,
-      teamId: data?.id,
-      type: 'apply',
-      teamName: data?.name,
-    };
-    const combinedData = [...changeIntoArray, newData];
-    await updateUserData({
-      variables: {
-        input: {
-          id: data?.owner,
-          mail: combinedData,
+    const confirmApply = async () => {
+      let isDuplicated = false;
+      const frontData = userIdData.getUserById.mail
+        .filter((el: any) => {
+          if (el.from === userId && el.type === 'apply') {
+            isDuplicated = true;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          from: el.from,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
+        }));
+      if (isDuplicated) {
+        setConfirmText('이미 동일한 팀에 지원하였습니다.');
+        setConfirmFunction(() => closeModal);
+        return;
+      }
+      const changeIntoSet = new Set(frontData);
+      const changeIntoArray = Array.from(changeIntoSet);
+      const newData = {
+        from: userId,
+        teamId: data?.id,
+        type: 'apply',
+        teamName: data?.name,
+      };
+      const combinedData = [...changeIntoArray, newData];
+      await updateUserData({
+        variables: {
+          input: {
+            id: data?.owner,
+            mail: combinedData,
+          },
         },
-      },
-    });
-    await refetch();
-    const closeModals = () => {
+      });
+      await refetch();
       onCloseModal();
       closeModal();
     };
     openModal();
-    setConfirmText('지원이 완료되었습니다.');
-    setConfirmFunction(() => closeModals);
+    setConfirmText('확인을 누르면 지원이 완료됩니다.');
+    setConfirmFunction(() => confirmApply);
   };
   const onClickDelete = () => {
     const deleteConfirm = async () => {
