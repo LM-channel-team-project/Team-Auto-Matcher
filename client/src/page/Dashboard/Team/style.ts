@@ -240,7 +240,7 @@ export const TeamPage = styled.div`
   }
   @media screen and (max-width: 470px) {
     width: 38em;
-    height: 62em;
+    height: 40em;
   }
 `;
 

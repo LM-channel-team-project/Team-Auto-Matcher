@@ -19,6 +19,9 @@ export const QuestionResult = styled.div`
   height: 67em;
   padding: 1.6rem;
   margin-bottom: 3em;
+  @media screen and (max-width: 470px) {
+    height: 60em;
+  }
 `;
 export const Btn = styled.div`
   display: flex;
