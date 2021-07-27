@@ -29,6 +29,11 @@
 | :----------------------------------: | :----------------------------------: |
 | <img src='https://user-images.githubusercontent.com/71132893/126994394-48932076-50be-401f-b81a-2e8d63bb5fb8.gif' width='400px' height='200px'>                                 | <img src='https://user-images.githubusercontent.com/71132893/126994395-ed3de24a-a19b-4875-8b02-6ca4b7086aa5.gif' width='400px' height='200px'>                                 |
 
+## Project AWS Structure(Backend)
+![AWS Structure](https://user-images.githubusercontent.com/44824320/127099189-486481e8-0ae1-4b26-87cd-a7a4d739e701.png)
+
+
+
 
 ## Used Languages and Tools
 <div align='left'>
