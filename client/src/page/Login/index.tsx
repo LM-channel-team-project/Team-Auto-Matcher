@@ -35,7 +35,7 @@ const LoginPage = ({ className }: any) => {
   return (
     <S.LoginPage className={className}>
       <S.wrapper>
-        <S.Title>Team Auto Mathcer</S.Title>
+        <S.Title>Team Auto Matcher</S.Title>
         <S.Explanation>로그인이 필요합니다.</S.Explanation>
         <S.Explanation>
           로그인을 하셨다면
