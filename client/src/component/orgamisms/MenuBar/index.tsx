@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import { gql, useQuery } from '@apollo/client';
-import { getUser } from 'graphql/queries';
 import * as S from './style';
 
 const googleLoginOnClick = () => Auth.federatedSignIn({
@@ -21,16 +19,6 @@ const MenuBar = ({ className }: any) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-
-  const { data: userData } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-  const mailCheck = userData && userData.getUser.items?.length !== 0
-    ? userData.getUser.items[0].mail && true
-    : false;
-
   useEffect(() => {
     setIsPath(window.location.pathname);
   }, []);
@@ -142,7 +130,7 @@ const MenuBar = ({ className }: any) => {
           />
         </S.MenuCenter>
         <S.MenuRight>
-          {mailCheck && (
+          {isLoggedIn && (
             <BriefItems
               clName={isPath === '/mail' ? 'current' : ''}
               to="/mail"
@@ -176,7 +164,7 @@ const MenuBar = ({ className }: any) => {
           <BriefItems to="/dashboard/team" text="Team" />
           <BriefItems to="/survey" text="Survey" />
           <BriefItems to="/contact" text="Contact" />
-          {mailCheck && <BriefItems to="/mail" text="Mail" />}
+          {isLoggedIn && <BriefItems to="/mail" text="Mail" />}
           <S.MenuItems>
             {isLoggedIn ? (
               <div onClick={onClickSignOut}>LogOut</div>
