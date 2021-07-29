@@ -27,7 +27,7 @@ const Mail = ({ className }: any) => {
   if (loading) {
     return <></>;
   }
-  const { mail } = data.getUser.items[0];
+  const mail = data && data.getUser.items?.length !== 0 ? data.getUser.items[0].mail : [];
   const mailList = mail?.map((el: any) => {
     let type;
     if (el.type === 'invite') {
