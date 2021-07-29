@@ -57,7 +57,7 @@ const PersonalDetailModal = ({
       ${getTeamDashboard}
     `,
     {
-      variables: { id: userId },
+      variables: { id: userId && userId },
     },
   );
 
@@ -264,7 +264,8 @@ const PersonalDetailModal = ({
         }
         modalBody={renderContents()}
         modalButton={
-          data?.id !== userId ? (
+          userId
+          && (data?.id !== userId ? (
             <S.SubmitButton
               size="medium"
               color="yellow"
@@ -276,7 +277,7 @@ const PersonalDetailModal = ({
             <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
               삭제하기
             </S.SubmitButton>
-          )
+          ))
         }
         onCloseModal={onCloseModal}
       />
