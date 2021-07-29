@@ -28,7 +28,7 @@ const Mail = ({ className }: any) => {
     return <></>;
   }
   const mail = data && data.getUser.items?.length !== 0 ? data.getUser.items[0].mail : [];
-  const mailList = mail?.map((el: any) => {
+  const mailList = mail.map((el: any) => {
     let type;
     if (el.type === 'invite') {
       type = '팀 초대 메세지';
