@@ -200,7 +200,8 @@ const TeamDetailModal = ({
         }
         modalBody={renderContents()}
         modalButton={
-          data?.owner !== userId ? (
+          userId
+          && (data?.owner !== userId ? (
             <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
               지원하기
             </S.SubmitButton>
@@ -208,7 +209,7 @@ const TeamDetailModal = ({
             <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
               팀 삭제하기
             </S.SubmitButton>
-          )
+          ))
         }
         onCloseModal={onCloseModal}
       />
