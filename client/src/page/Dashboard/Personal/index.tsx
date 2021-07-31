@@ -129,8 +129,16 @@ const PersonalDashboardPage = ({ className }: any) => {
     return (
       modal.data && (
         <PersonalDetailModal
-          userId={userData.getUser.items[0].id}
-          haveTeam={userData.getUser.items[0].haveTeam}
+          userId={
+            userData && userData.getUser.items?.length !== 0
+              ? userData.getUser.items[0].id
+              : null
+          }
+          haveTeam={
+            userData && userData.getUser.items?.length !== 0
+              ? userData.getUser.items[0].haveTeam
+              : null
+          }
           data={modal.data}
           onCloseModal={onCloseModal}
           personRefetch={refetch}

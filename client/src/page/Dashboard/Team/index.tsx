@@ -89,7 +89,11 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     case 'detail':
       return (
         <TeamDetailModal
-          userId={userData.getUser.items[0].id}
+          userId={
+            userData && userData.getUser.items?.length !== 0
+              ? userData.getUser.items[0].id
+              : null
+          }
           data={modal.data}
           onCloseModal={onCloseModal}
           onAdd={onTeamAdd}
