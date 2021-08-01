@@ -8,8 +8,8 @@ import Amplify, { Auth } from 'aws-amplify';
 
 Amplify.configure(appSyncConfig);
 
-const url = appSyncConfig.aws_appsync_graphqlEndpoint;
-const region = appSyncConfig.aws_appsync_region;
+const url = appSyncConfig.aws_appsync_graphqlEndpoint as string;
+const region = appSyncConfig.aws_appsync_region as string;
 const authenticationType = ['AMAZON_COGNITO_USER_POOLS', 'API_KEY'];
 
 const apiAuthLink = createAuthLink({
