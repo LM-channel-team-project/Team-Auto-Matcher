@@ -1,8 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { Item } from 'component/orgamisms/AutoCompleteList';
-import { getUser, getPersonDashboard } from 'graphql/queries';
-import { createTeam, updateUser, updatePerson } from 'graphql/mutations';
+import {
+  getUser,
+  getPersonDashboard,
+  listTeamDashboard,
+} from 'graphql/queries';
+import {
+  createTeam,
+  updateUser,
+  updatePerson,
+  updateTeam,
+} from 'graphql/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate, { ContentItem } from '../template';
@@ -71,10 +80,15 @@ const contentsTitle = [
   { title: '진행상황', text: '' },
 ];
 
-const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
-  const { data: userData } = useQuery(
+const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
+  const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
+    `,
+  );
+  const { refetch: teamRefetch } = useQuery(
+    gql`
+      ${listTeamDashboard}
     `,
   );
   const [createTeamData] = useMutation(
@@ -100,6 +114,11 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
       variables: { id: userData && userData.getUser.items[0].id },
     },
   );
+  const [updateTeamData] = useMutation(
+    gql`
+      ${updateTeam}
+    `,
+  );
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
@@ -110,6 +129,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
   const [outline, setOutline] = useState(data?.outline || '');
   const [skills, setSkills] = useState(data?.skills || []);
   const [contents, setContents] = useState(data?.contents || contentsTitle);
+  const [teamState, setTeamState] = useState(data?.state || '');
 
   // Value for skill input
   const [skill, setSkill] = useState('');
@@ -263,8 +283,19 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
     },
   };
 
+  const onClickState = () => {
+    if (teamState === '모집중') {
+      setTeamState('진행중');
+    } else if (teamState === '진행중') {
+      setTeamState('종료');
+    } else {
+      setTeamState('모집중');
+    }
+  };
+
   const headerContents = (
     <>
+      {data && <S.ClickState onClick={onClickState} text={teamState} />}
       <S.TitleInput
         value={inputsState.name.value}
         placeholder="팀 이름"
@@ -346,62 +377,89 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
   const onMake = async () => {
     if (name.length < 2) return;
     if (userData && myPersonData) {
-      const getUserData = userData.getUser.items[0];
-      if (!getUserData.surveyCompleted) {
-        openModal();
-        setConfirmText(
-          '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
-        );
-        setConfirmFunction(() => () => {
-          window.location.href = '/survey';
+      if (!data) {
+        const getUserData = userData.getUser.items[0];
+        if (!getUserData.surveyCompleted) {
+          openModal();
+          setConfirmText(
+            '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
+          );
+          setConfirmFunction(() => () => {
+            window.location.href = '/survey';
+          });
+          return;
+        }
+        if (getUserData.haveTeam) {
+          openModal();
+          setConfirmText('최대 한 개의 팀만 생성할 수 있습니다.');
+          const closeModals = () => {
+            onCloseModal();
+            closeModal();
+          };
+          setConfirmFunction(() => closeModals);
+          return;
+        }
+        await updateUserData({
+          variables: {
+            input: {
+              id: getUserData.id,
+              haveTeam: true,
+            },
+          },
         });
-        return;
-      }
-      if (getUserData.haveTeam) {
-        openModal();
-        setConfirmText('최대 한 개의 팀만 생성할 수 있습니다.');
-        const closeModals = () => {
-          onCloseModal();
-          closeModal();
+        await updatePersonData({
+          variables: {
+            input: {
+              id: getUserData.id,
+              team:
+                myPersonData.getPersonDashboard.team[0] === '팀 구하는중'
+                  ? [name]
+                  : [...myPersonData.getPersonDashboard.team, name],
+            },
+          },
+        });
+        await createTeamData({
+          variables: {
+            input: {
+              id: getUserData.id,
+              name,
+              people: [getUserData.question[11].answers[0]],
+              skills,
+              outline,
+              contents,
+              owner: getUserData.id,
+              state: '모집중',
+            },
+          },
+        });
+        await teamRefetch();
+        await refetch();
+        window.location.reload();
+      } else {
+        const updateConfirm = async () => {
+          const removeType = contents.map((el: any) => ({
+            title: el.title,
+            text: el.text,
+          }));
+          await updateTeamData({
+            variables: {
+              input: {
+                id: data?.id,
+                name,
+                skills,
+                outline,
+                contents: removeType,
+                state: teamState,
+              },
+            },
+          });
+          await teamRefetch();
+          window.location.reload();
         };
-        setConfirmFunction(() => closeModals);
-        return;
+        openModal();
+        setConfirmText('확인을 누르면 업데이트가 완료됩니다.');
+        setConfirmFunction(() => updateConfirm);
       }
-      await updateUserData({
-        variables: {
-          input: {
-            id: getUserData.id,
-            haveTeam: true,
-          },
-        },
-      });
-      await updatePersonData({
-        variables: {
-          input: {
-            id: getUserData.id,
-            team:
-              myPersonData.getPersonDashboard.team[0] === '팀 구하는중'
-                ? [name]
-                : [...myPersonData.getPersonDashboard.team, name],
-          },
-        },
-      });
-      await createTeamData({
-        variables: {
-          input: {
-            id: getUserData.id,
-            name,
-            people: [getUserData.question[11].answers[0]],
-            skills,
-            outline,
-            contents,
-            owner: getUserData.id,
-            state: '모집중',
-          },
-        },
-      });
-      await onAdd();
-      window.location.href = '/dashboard/team';
     }
   };
 
@@ -416,9 +474,21 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
           </>
         }
         modalButton={
-          <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
-            팀 생성하기
-          </S.SubmitButton>
+          !data ? (
+            <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
+              팀 생성하기
+            </S.SubmitButton>
+          ) : (
+            <>
+              <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
+                업데이트
+              </S.SubmitButton>
+              <S.SpaceSpan />
+              <S.SubmitButton size="medium" color="red" onClick={onClickUpdate}>
+                취소
+              </S.SubmitButton>
+            </>
+          )
         }
         onCloseModal={onCloseModal}
       />

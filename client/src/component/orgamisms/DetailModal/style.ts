@@ -64,6 +64,10 @@ export const ContentItem = styled.li`
   }
 `;
 
+export const SpaceSpan = styled.span`
+  margin-left: 1rem;
+`;
+
 export const InlineContent = styled(DetailContent)`
   display: flex;
   align-items: flex-start;
@@ -102,7 +106,7 @@ export const BlockContent = styled(DetailContent)`
 export const Text = styled.span`
   font-size: 1.3rem;
   line-height: 1.4em;
-  
+
   &.team:not(:last-child):after {
     content: ', ';
   }
@@ -229,4 +233,17 @@ export const State = styled((props: { text: string }) => _TextLabel({
   padding: 0.7em 0.8em;
   line-height: 1em;
   margin-bottom: 0.8em;
+`;
+
+export const ClickState = styled((props: { onClick: any; text: string }) => _TextLabel({
+  color: setColor(props.text),
+  fontColor: setColor(props.text),
+  ...props,
+}))`
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.7em 0.8em;
+  line-height: 1em;
+  margin-bottom: 0.8em;
+  cursor: pointer;
 `;

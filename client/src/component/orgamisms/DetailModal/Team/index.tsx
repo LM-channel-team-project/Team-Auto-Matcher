@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import { getUser, getUserById } from 'graphql/queries';
+import { getUser, getUserById, listTeamDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam } from 'graphql/mutations';
@@ -19,19 +19,24 @@ export interface TeamModalProps {
     owner: string;
   };
   userId?: string;
-  onAdd: () => void;
   onCloseModal: () => void;
+  onClickUpdate: () => void;
 }
 
 const TeamDetailModal = ({
   data,
   userId,
-  onAdd,
   onCloseModal,
+  onClickUpdate,
 }: TeamModalProps) => {
   const { refetch } = useQuery(
     gql`
       ${getUser}
+    `,
+  );
+  const { refetch: teamRefetch } = useQuery(
+    gql`
+      ${listTeamDashboard}
     `,
   );
 
@@ -178,7 +183,7 @@ const TeamDetailModal = ({
           },
         },
       });
-      await onAdd();
+      await teamRefetch();
       await refetch();
       onCloseModal();
       closeModal();
@@ -202,13 +207,29 @@ const TeamDetailModal = ({
         modalButton={
           userId
           && (data?.owner !== userId ? (
-            <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
-              지원하기
-            </S.SubmitButton>
+            data?.state === '모집중' && (
+              <S.SubmitButton
+                size="medium"
+                color="yellow"
+                onClick={onClickApply}
+              >
+                지원하기
+              </S.SubmitButton>
+            )
           ) : (
-            <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-              팀 삭제하기
-            </S.SubmitButton>
+            <>
+              <S.SubmitButton
+                size="medium"
+                color="yellow"
+                onClick={onClickUpdate}
+              >
+                업데이트
+              </S.SubmitButton>
+              <S.SpaceSpan />
+              <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+                팀 삭제하기
+              </S.SubmitButton>
+            </>
           ))
         }
         onCloseModal={onCloseModal}
