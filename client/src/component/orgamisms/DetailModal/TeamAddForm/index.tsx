@@ -72,7 +72,7 @@ const contentsTitle = [
 ];
 
 const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
-  const { data: userData } = useQuery(
+  const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
     `,
@@ -401,7 +401,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
         },
       });
       await onAdd();
-      window.location.href = '/dashboard/team';
+      await refetch();
     }
   };
 
