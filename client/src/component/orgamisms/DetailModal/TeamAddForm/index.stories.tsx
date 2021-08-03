@@ -32,7 +32,7 @@ const props = {
     mail: ['sth'],
   },
   onCloseModal: () => alert('close'),
-  onAdd: () => alert('add'),
+  onClickUpdate: () => alert('update'),
 };
 
 export default {

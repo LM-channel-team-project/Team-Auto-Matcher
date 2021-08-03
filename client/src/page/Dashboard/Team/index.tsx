@@ -13,7 +13,7 @@ type ExtractType<O, K> = K extends keyof O ? O[K] : never;
 type TeamData = ExtractType<TeamModalProps, 'data'>;
 
 interface ModalState {
-  type?: 'detail' | 'add';
+  type?: 'detail' | 'add' | 'update';
   data?: TeamData;
 }
 
@@ -26,7 +26,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     `,
   );
 
-  const { loading, data, refetch } = useQuery(
+  const { loading, data } = useQuery(
     gql`
       ${listTeamDashboard}
     `,
@@ -80,9 +80,13 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
-    const onTeamAdd = () => {
-      refetch();
-      setModal({});
+
+    const onClickUpdate = () => {
+      if (modal?.type === 'update') {
+        setModal({ type: 'detail', data: teamData.getTeamDashboard });
+      } else {
+        setModal({ type: 'update', data: teamData.getTeamDashboard });
+      }
     };
 
     switch (modal?.type) {
@@ -96,15 +100,22 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
           }
           data={modal.data}
           onCloseModal={onCloseModal}
-          onAdd={onTeamAdd}
+          onClickUpdate={onClickUpdate}
         />
       );
     case 'add':
       return (
         <TeamAddForm
+          onCloseModal={onCloseModal}
+          onClickUpdate={onClickUpdate}
+        />
+      );
+    case 'update':
+      return (
+        <TeamAddForm
           data={modal.data}
           onCloseModal={onCloseModal}
-          onAdd={onTeamAdd}
+          onClickUpdate={onClickUpdate}
         />
       );
     default:

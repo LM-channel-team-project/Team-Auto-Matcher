@@ -64,6 +64,10 @@ export const ContentItem = styled.li`
   }
 `;
 
+export const SpaceSpan = styled.span`
+  margin-left: 1rem;
+`;
+
 export const InlineContent = styled(DetailContent)`
   display: flex;
   align-items: flex-start;
@@ -102,7 +106,7 @@ export const BlockContent = styled(DetailContent)`
 export const Text = styled.span`
   font-size: 1.3rem;
   line-height: 1.4em;
-  
+
   &.team:not(:last-child):after {
     content: ', ';
   }
