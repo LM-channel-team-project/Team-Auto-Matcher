@@ -402,6 +402,7 @@ const TeamAddForm = ({ data, onCloseModal, onAdd }: TeamModalProps) => {
       });
       await onAdd();
       await refetch();
+      window.location.reload();
     }
   };
 
