@@ -207,9 +207,15 @@ const TeamDetailModal = ({
         modalButton={
           userId
           && (data?.owner !== userId ? (
-            <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
-              지원하기
-            </S.SubmitButton>
+            data?.state === '모집중' && (
+              <S.SubmitButton
+                size="medium"
+                color="yellow"
+                onClick={onClickApply}
+              >
+                지원하기
+              </S.SubmitButton>
+            )
           ) : (
             <>
               <S.SubmitButton

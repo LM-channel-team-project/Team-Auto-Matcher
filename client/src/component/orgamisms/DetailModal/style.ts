@@ -234,3 +234,16 @@ export const State = styled((props: { text: string }) => _TextLabel({
   line-height: 1em;
   margin-bottom: 0.8em;
 `;
+
+export const ClickState = styled((props: { onClick: any; text: string }) => _TextLabel({
+  color: setColor(props.text),
+  fontColor: setColor(props.text),
+  ...props,
+}))`
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.7em 0.8em;
+  line-height: 1em;
+  margin-bottom: 0.8em;
+  cursor: pointer;
+`;

@@ -129,6 +129,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
   const [outline, setOutline] = useState(data?.outline || '');
   const [skills, setSkills] = useState(data?.skills || []);
   const [contents, setContents] = useState(data?.contents || contentsTitle);
+  const [teamState, setTeamState] = useState(data?.state || '');
 
   // Value for skill input
   const [skill, setSkill] = useState('');
@@ -282,8 +283,19 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
     },
   };
 
+  const onClickState = () => {
+    if (teamState === '모집중') {
+      setTeamState('진행중');
+    } else if (teamState === '진행중') {
+      setTeamState('종료');
+    } else {
+      setTeamState('모집중');
+    }
+  };
+
   const headerContents = (
     <>
+      {data && <S.ClickState onClick={onClickState} text={teamState} />}
       <S.TitleInput
         value={inputsState.name.value}
         placeholder="팀 이름"
@@ -437,7 +449,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
                 skills,
                 outline,
                 contents: removeType,
-                state: '모집중',
+                state: teamState,
               },
             },
           });
