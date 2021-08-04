@@ -32,7 +32,6 @@ export const Slider = styled.div`
 `;
 export const Button = styled.div`
   cursor: pointer;
-  background-color: #dfe6e9;
   width: 5em;
   height: 5em;
   border-radius: 50%;
@@ -87,7 +86,6 @@ export const MatchPage = styled.div`
     height: 62em;
   }
 `;
-
 export const List = styled.div`
   display: flex;
   width: 140rem;
