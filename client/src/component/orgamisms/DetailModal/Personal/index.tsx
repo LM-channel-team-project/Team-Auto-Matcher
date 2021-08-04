@@ -314,13 +314,15 @@ const PersonalDetailModal = ({
         modalButton={
           userId
           && (data?.id !== userId ? (
-            <S.SubmitButton
-              size="medium"
-              color="yellow"
-              onClick={onClickInvite}
-            >
-              초대하기
-            </S.SubmitButton>
+            data?.personState !== '종료' && (
+              <S.SubmitButton
+                size="medium"
+                color="yellow"
+                onClick={onClickInvite}
+              >
+                초대하기
+              </S.SubmitButton>
+            )
           ) : (
             <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
               삭제하기
