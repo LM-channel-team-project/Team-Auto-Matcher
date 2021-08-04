@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Floating from 'component/atoms/FloatingButton';
+import _TextLabel from 'component/atoms/TextLabel';
 
 export const Container = styled.div`
   display: flex;
@@ -211,5 +212,37 @@ export const Team = styled.div`
 `;
 
 export const FloatingButton = styled(Floating)``;
+
+const setPersonColor = (text: string) => {
+  switch (text) {
+  case '팀 구하는 중':
+    return 'green';
+  case '팀장':
+    return 'red';
+  case '종료':
+    return 'gray';
+  default:
+    return undefined;
+  }
+};
+
+export const PersonState = styled((props: { text: string }) => _TextLabel({
+  color: setPersonColor(props.text),
+  fontColor: setPersonColor(props.text),
+  ...props,
+}))`
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 1em;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 50rem) {
+    position: absolute;
+    right: 0.5em;
+    top: 0.6em;
+  }
+`;
 
 export default {};

@@ -16,6 +16,7 @@ const props = {
     contact: 'online',
     hasCoWork: true,
     priority: ['UI/UX', '기능'],
+    personState: '팀모집중',
     contents: [
       { title: '자기소개', text: '재밌게 하겠습니다..' },
       { title: '하고싶은 말', text: '재밌게 합시다..' },
@@ -29,7 +30,6 @@ const props = {
     ],
     mail: ['sth'],
   },
-  personRefetch: () => alert('refetch personDashboard'),
   onCloseModal: () => alert('close'),
 };
 

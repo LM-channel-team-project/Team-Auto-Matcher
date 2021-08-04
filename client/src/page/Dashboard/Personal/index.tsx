@@ -29,7 +29,7 @@ const PersonalDashboardPage = ({ className }: any) => {
     `,
   );
 
-  const { loading, data, refetch } = useQuery(
+  const { loading, data } = useQuery(
     gql`
       ${listPersonDashboard}
     `,
@@ -119,7 +119,7 @@ const PersonalDashboardPage = ({ className }: any) => {
         ))}
       </S.Stack>
       <S.Text>{user.outline}</S.Text>
-      <S.Team>{user.team}</S.Team>
+      <S.PersonState text={user.personState} />
     </S.List>
   ));
 
@@ -141,7 +141,6 @@ const PersonalDashboardPage = ({ className }: any) => {
           }
           data={modal.data}
           onCloseModal={onCloseModal}
-          personRefetch={refetch}
         />
       )
     );

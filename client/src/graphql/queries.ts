@@ -129,6 +129,7 @@ export const listPersonDashboard = /* GraphQL */ `
         priority
         outline
         project
+        personState
         contents {
           title
           text
@@ -155,6 +156,7 @@ export const getPersonDashboard = /* GraphQL */ `
       priority
       outline
       project
+      personState
       contents {
         title
         text
