@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Floating from 'component/atoms/FloatingButton';
+import _TextLabel from 'component/atoms/TextLabel';
 
 export const Container = styled.div`
   display: flex;
@@ -32,7 +33,6 @@ export const Slider = styled.div`
 `;
 export const Button = styled.div`
   cursor: pointer;
-  background-color: #dfe6e9;
   width: 5em;
   height: 5em;
   border-radius: 50%;
@@ -84,10 +84,9 @@ export const MatchPage = styled.div`
   }
   @media screen and (max-width: 470px) {
     width: 38em;
-    height: 62em;
+    height: 48em;
   }
 `;
-
 export const List = styled.div`
   display: flex;
   width: 140rem;
@@ -213,5 +212,37 @@ export const Team = styled.div`
 `;
 
 export const FloatingButton = styled(Floating)``;
+
+const setPersonColor = (text: string) => {
+  switch (text) {
+  case '팀 구하는 중':
+    return 'green';
+  case '팀장':
+    return 'red';
+  case '종료':
+    return 'gray';
+  default:
+    return undefined;
+  }
+};
+
+export const PersonState = styled((props: { text: string }) => _TextLabel({
+  color: setPersonColor(props.text),
+  fontColor: setPersonColor(props.text),
+  ...props,
+}))`
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 1em;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 50rem) {
+    position: absolute;
+    right: 0.5em;
+    top: 0.6em;
+  }
+`;
 
 export default {};

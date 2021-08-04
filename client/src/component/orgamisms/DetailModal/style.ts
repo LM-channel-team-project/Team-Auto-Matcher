@@ -137,6 +137,7 @@ export const Paragraph = styled.p`
   font-size: 1.3rem;
   line-height: 1.2em;
   white-space: pre-line;
+  word-break: break-all;
 `;
 
 export const SubmitButton = styled(Button)``;
@@ -210,7 +211,7 @@ export const Textarea = styled(InputText)`
   }
 `;
 
-const setColor = (text: string) => {
+const setTeamColor = (text: string) => {
   switch (text) {
   case '모집중':
     return 'green';
@@ -224,8 +225,8 @@ const setColor = (text: string) => {
 };
 
 export const State = styled((props: { text: string }) => _TextLabel({
-  color: setColor(props.text),
-  fontColor: setColor(props.text),
+  color: setTeamColor(props.text),
+  fontColor: setTeamColor(props.text),
   ...props,
 }))`
   font-size: 1.2rem;
@@ -236,14 +237,54 @@ export const State = styled((props: { text: string }) => _TextLabel({
 `;
 
 export const ClickState = styled((props: { onClick: any; text: string }) => _TextLabel({
-  color: setColor(props.text),
-  fontColor: setColor(props.text),
+  color: setTeamColor(props.text),
+  fontColor: setTeamColor(props.text),
   ...props,
 }))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
   line-height: 1em;
+  margin-bottom: 0.8em;
+  cursor: pointer;
+`;
+
+const setPersonColor = (text: string) => {
+  switch (text) {
+  case '팀 구하는 중':
+    return 'green';
+  case '팀장':
+    return 'red';
+  case '종료':
+    return 'gray';
+  default:
+    return undefined;
+  }
+};
+
+export const PersonState = styled((props: { text: string }) => _TextLabel({
+  color: setPersonColor(props.text),
+  fontColor: setPersonColor(props.text),
+  ...props,
+}))`
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.7em 0.8em;
+  line-height: 0.7em;
+  margin-bottom: 0.8em;
+`;
+
+export const ClickPersonState = styled(
+  (props: { onClick: any; text: string }) => _TextLabel({
+    color: setPersonColor(props.text),
+    fontColor: setPersonColor(props.text),
+    ...props,
+  }),
+)`
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.7em 0.8em;
+  line-height: 0.7em;
   margin-bottom: 0.8em;
   cursor: pointer;
 `;

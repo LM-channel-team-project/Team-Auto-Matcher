@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { skillsLabel } from 'style/preset';
-import { getUser, getUserById, getTeamDashboard } from 'graphql/queries';
+import {
+  getUser,
+  getUserById,
+  getTeamDashboard,
+  listPersonDashboard,
+} from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, deletePerson } from 'graphql/mutations';
+import { updateUser, deletePerson, updatePerson } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
@@ -23,10 +28,10 @@ export interface PersonalModalProps {
     priority?: string[];
     project?: string;
     contents: ContentItem[];
+    personState: string;
   };
   userId?: string;
   haveTeam?: boolean;
-  personRefetch: () => void;
   onCloseModal: () => void;
 }
 
@@ -35,7 +40,6 @@ const PersonalDetailModal = ({
   onCloseModal,
   userId,
   haveTeam,
-  personRefetch,
 }: PersonalModalProps) => {
   const { refetch } = useQuery(
     gql`
@@ -67,14 +71,29 @@ const PersonalDetailModal = ({
     `,
   );
 
+  const [updatePersonData] = useMutation(
+    gql`
+      ${updatePerson}
+    `,
+  );
+
   const [DeletePersonData] = useMutation(
     gql`
       ${deletePerson}
     `,
   );
+
+  const { refetch: personRefetch } = useQuery(
+    gql`
+      ${listPersonDashboard}
+    `,
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [personState, setPersonState] = useState<string>(
+    data?.personState || '',
+  );
 
   const renderContents = () => {
     const skills = data.skills.map((skill: string) => {
@@ -132,9 +151,9 @@ const PersonalDetailModal = ({
               </S.Text>
             ))}
           </S.InlineContent>
-          <S.InlineContent title="계획하고 있는 프로젝트">
-            {data.project}
-          </S.InlineContent>
+          <S.BlockContent title="계획하고 있는 프로젝트" className="ci-block">
+            <S.Paragraph>{data.project}</S.Paragraph>
+          </S.BlockContent>
         </S.ContentItem>
       </>
     );
@@ -215,7 +234,6 @@ const PersonalDetailModal = ({
         closeModal();
       }
     };
-
     openModal();
     setConfirmText('확인을 누르면 초대가 완료됩니다.');
     setConfirmFunction(() => confirmInvite);
@@ -252,11 +270,41 @@ const PersonalDetailModal = ({
     setConfirmFunction(() => deleteConfirm);
   };
 
+  const onClickState = () => {
+    if (personState === '팀 구하는 중') {
+      setPersonState('팀장');
+    } else if (personState === '팀장') {
+      setPersonState('종료');
+    } else {
+      setPersonState('팀 구하는 중');
+    }
+  };
+  useEffect(() => {
+    const updatePersonState = async () => {
+      await updatePersonData({
+        variables: {
+          input: {
+            id: userId,
+            personState,
+          },
+        },
+      });
+      await personRefetch();
+    };
+    updatePersonState();
+  }, [personState]);
+
   return data ? (
     <>
       <DetailModalTemplate
         modalHeader={
           <>
+            {userId
+              && (data?.id === userId ? (
+                <S.ClickPersonState onClick={onClickState} text={personState} />
+              ) : (
+                <S.PersonState text={personState} />
+              ))}
             <S.Domain>{data.field}</S.Domain>
             <S.Title type="personal">{data.name}</S.Title>
             <S.Desc>{data.outline}</S.Desc>
@@ -266,13 +314,15 @@ const PersonalDetailModal = ({
         modalButton={
           userId
           && (data?.id !== userId ? (
-            <S.SubmitButton
-              size="medium"
-              color="yellow"
-              onClick={onClickInvite}
-            >
-              초대하기
-            </S.SubmitButton>
+            data?.personState !== '종료' && (
+              <S.SubmitButton
+                size="medium"
+                color="yellow"
+                onClick={onClickInvite}
+              >
+                초대하기
+              </S.SubmitButton>
+            )
           ) : (
             <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
               삭제하기

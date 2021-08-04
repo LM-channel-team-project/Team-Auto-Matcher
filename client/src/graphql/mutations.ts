@@ -103,6 +103,7 @@ export const createPerson = /* GraphQL */ `
       hasCoWork
       priority
       outline
+      personState
       contents {
         title
         text
@@ -127,6 +128,7 @@ export const updatePerson = /* GraphQL */ `
       hasCoWork
       priority
       outline
+      personState
       contents {
         title
         text

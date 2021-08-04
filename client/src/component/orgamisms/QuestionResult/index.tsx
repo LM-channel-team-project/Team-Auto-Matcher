@@ -100,6 +100,7 @@ function QuestionResult({
             contact: answerRespond[5].answers[0],
             hasCoWork: answerRespond[6].answers[0] === '경험 있음',
             priority: answerRespond[7].answers,
+            personState: '팀 구하는 중',
             project: answerRespond[9].answers[0],
           },
         },
@@ -136,9 +137,7 @@ function QuestionResult({
         },
       });
     }
-    await setTimeout(() => {
-      refetch();
-    }, 1000);
+    await refetch();
     window.location.href = '/dashboard/personal';
   };
 
