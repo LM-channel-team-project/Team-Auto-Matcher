@@ -132,9 +132,9 @@ const PersonalDetailModal = ({
               </S.Text>
             ))}
           </S.InlineContent>
-          <S.InlineContent title="계획하고 있는 프로젝트">
-            {data.project}
-          </S.InlineContent>
+          <S.BlockContent title="계획하고 있는 프로젝트" className="ci-block">
+            <S.Paragraph>{data.project}</S.Paragraph>
+          </S.BlockContent>
         </S.ContentItem>
       </>
     );

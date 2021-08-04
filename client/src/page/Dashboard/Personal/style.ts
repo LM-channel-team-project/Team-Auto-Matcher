@@ -83,7 +83,7 @@ export const MatchPage = styled.div`
   }
   @media screen and (max-width: 470px) {
     width: 38em;
-    height: 62em;
+    height: 48em;
   }
 `;
 export const List = styled.div`

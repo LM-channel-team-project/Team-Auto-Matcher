@@ -137,6 +137,7 @@ export const Paragraph = styled.p`
   font-size: 1.3rem;
   line-height: 1.2em;
   white-space: pre-line;
+  word-break: break-all;
 `;
 
 export const SubmitButton = styled(Button)``;
