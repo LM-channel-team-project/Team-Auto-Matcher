@@ -127,7 +127,12 @@ export const List = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 3.5em;
+  font-size: 2.7em;
+  max-width: 17.5rem;
+  padding-bottom: 0.1875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @media screen and (max-width: 1160px) {
     font-size: 3em;
   }
@@ -135,12 +140,18 @@ export const Title = styled.h1`
     font-size: 2em;
   }
   @media screen and (max-width: 50rem) {
-    font-size: 3.5em;
+    font-size: 3em;
+    max-width: 30rem;
+    padding-bottom: 0.3rem;
   }
 `;
 
 export const Text = styled.div`
   font-size: 1.8em;
+  max-width: 18.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   @media screen and (max-width: 1450px) {
     font-size: 1.3em;
   }
@@ -156,18 +167,7 @@ export const Text = styled.div`
   }
 `;
 export const Stack = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  text-align: center;
-  grid-row-gap: 1em;
-
-  @media screen and (max-width: 1160px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    text-align: center;
-    grid-row-gap: 1em;
-    justify-content: center;
-  }
+  display: flex;
   @media screen and (max-width: 50rem) {
     display: flex;
     flex-flow: row wrap;
