@@ -5,7 +5,7 @@ interface IMultiCheckbox {
   questionList: string[];
   bDuplicateSelect?: boolean;
   selectedData?: string[];
-  setSelectedData: React.Dispatch<React.SetStateAction<string[]>>
+  setSelectedData: React.Dispatch<React.SetStateAction<string[]>>;
   className?: string;
 }
 
@@ -20,23 +20,27 @@ function MultiCheckbox({
 
   const CheckboxList = questionList.map((question: string) => (
     <S.Wrapper key={question} className={'wrapper'}>
-      <S.Checkbox checked={selectedData.includes(question)}/>
-      <S.QuestionBlock >
+      <S.Checkbox checked={selectedData.includes(question)} />
+      <S.QuestionBlock>
         <span>{question}</span>
       </S.QuestionBlock>
-    </S.Wrapper >
+    </S.Wrapper>
   ));
 
   const onClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const selectCheckboxElement = (event.target as HTMLElement).closest('.wrapper')?.getElementsByTagName('input')[0];
+    const selectCheckboxElement = (event.target as HTMLElement)
+      .closest('.wrapper')
+      ?.getElementsByTagName('input')[0];
     if (!selectCheckboxElement) return;
 
     if (selectCheckboxElement.checked) {
       selectCheckboxElement.checked = false;
     } else {
       checkBoxListElement?.current?.childNodes.forEach((el: ChildNode) => {
-        const checkboxElement = (el as HTMLDivElement).getElementsByTagName('input')[0];
+        const checkboxElement = (el as HTMLDivElement).getElementsByTagName(
+          'input',
+        )[0];
         if (!bDuplicateSelect) {
           checkboxElement.checked = false;
         }
@@ -46,7 +50,9 @@ function MultiCheckbox({
 
     const selectedList: string[] = [];
     checkBoxListElement?.current?.childNodes.forEach((el: ChildNode) => {
-      const checkboxElement = (el as HTMLDivElement).getElementsByTagName('input')[0];
+      const checkboxElement = (el as HTMLDivElement).getElementsByTagName(
+        'input',
+      )[0];
       if (checkboxElement.checked) {
         const selectText = checkboxElement?.nextElementSibling?.textContent;
         selectedList.push(selectText || '');
@@ -55,23 +61,38 @@ function MultiCheckbox({
     setSelectedData([...selectedList]);
   };
 
-  const onChangeHandler = (event:any) => {
+  const onChangeHandler = (event: any) => {
     setSelectedData([event.target.value]);
   };
 
+  if (questionList.length > 0) {
+    return (
+      <S.MultiCheckbox
+        onClick={onClickHandler}
+        ref={checkBoxListElement}
+        className={className}
+      >
+        {CheckboxList}
+      </S.MultiCheckbox>
+    );
+  }
   return (
     <>
-      {questionList.length > 0
-        ? <S.MultiCheckbox onClick={onClickHandler} ref={checkBoxListElement} className={className}>
-          {CheckboxList}
-        </S.MultiCheckbox>
-        : <S.Input
-          maxLength={400}
-          placeholder='400자 이하로 작성해주세요.'
+      {bDuplicateSelect ? (
+        <S.Input
+          maxLength={20}
+          placeholder="20자 이하로 작성해주세요."
           value={selectedData[0] || ''}
           onChange={onChangeHandler}
         />
-      }
+      ) : (
+        <S.Input
+          maxLength={400}
+          placeholder="400자 이하로 작성해주세요."
+          value={selectedData[0] || ''}
+          onChange={onChangeHandler}
+        />
+      )}
     </>
   );
 }
