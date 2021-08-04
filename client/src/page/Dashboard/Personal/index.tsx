@@ -114,9 +114,16 @@ const PersonalDashboardPage = ({ className }: any) => {
       <S.Title>{user.name}</S.Title>
       <S.Text>{user.devExp}</S.Text>
       <S.Stack>
-        {user.skills.map((skill: any) => (
-          <S.Stacklist key={skill}>{skill}</S.Stacklist>
-        ))}
+        {user.skills.length > 3
+          ? user.skills
+            .slice(0, 4)
+            .fill('...', 3, 4)
+            .map((skill: any) => (
+              <S.Stacklist key={skill}>{skill}</S.Stacklist>
+            ))
+          : user.skills.map((skill: any) => (
+            <S.Stacklist key={skill}>{skill}</S.Stacklist>
+          ))}
       </S.Stack>
       <S.Text>{user.outline}</S.Text>
       <S.Team>{user.team}</S.Team>
