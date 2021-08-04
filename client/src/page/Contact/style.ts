@@ -68,6 +68,10 @@ export const FlipBack = styled.div`
   transition: all 0.6s ease;
   box-shadow: 2px 2px 10px rgb(0 0 0 / 20%);
   transform: rotateY(180deg);
+  & p:first-child {
+    color: black;
+    font-weight: 900;
+  }
 `;
 
 export const FlipBackP = styled.p`
