@@ -280,18 +280,20 @@ const PersonalDetailModal = ({
     }
   };
   useEffect(() => {
-    const updatePersonState = async () => {
-      await updatePersonData({
-        variables: {
-          input: {
-            id: userId,
-            personState,
+    if (data?.id === userId) {
+      const updatePersonState = async () => {
+        await updatePersonData({
+          variables: {
+            input: {
+              id: userId,
+              personState,
+            },
           },
-        },
-      });
-      await personRefetch();
-    };
-    updatePersonState();
+        });
+        await personRefetch();
+      };
+      updatePersonState();
+    }
   }, [personState]);
 
   return data ? (
