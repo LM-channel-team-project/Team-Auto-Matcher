@@ -7,20 +7,7 @@ import BaseTemplate from 'page/BaseTemplate';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
-const firstInput = [
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-  { title: '', answers: [] },
-];
+const firstInput = Array(12).fill({ title: '', answers: [] });
 
 function Survey() {
   const { loading, error, data } = useQuery(
@@ -78,7 +65,15 @@ function Survey() {
           variables: {
             input: {
               question: firstInput,
-              mail: [],
+              mail: [
+                {
+                  from: 'admin',
+                  teamId:
+                    '안녕하세요 Team Auto Matcher에 오신 것을 환영합니다. Survey 페이지로 이동해 설문을 완료해주시면 개인으로 활동할 수 있습니다. 그 이후에는 팀원으로 활동하시거나, 팀을 등록해 팀장으로 활동하 실 수 있습니다. 더 많은 정보는 slack 혹은 github에서 얻으실 수 있습니다.',
+                  type: 'notice',
+                  teamName: 'Team Auto Matcher',
+                },
+              ],
               haveTeam: false,
               surveyCompleted: false,
             },

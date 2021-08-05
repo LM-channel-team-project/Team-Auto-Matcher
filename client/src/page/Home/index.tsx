@@ -1,6 +1,7 @@
 import React from 'react';
 import { getUser } from 'graphql/queries';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { Link } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Auth } from 'aws-amplify';
 import BaseTemplate from 'page/BaseTemplate';
@@ -56,13 +57,9 @@ const Home = ({ className, isLoggedIn }: any) => {
                     팀장으로 활동하세요. 저희 Slack에 접속하시면 당신의 팀과
                     소통하며, 더 많은 정보를 얻으실 수 있습니다.
                   </S.Description>
-                  <S.BlackButton
-                    onClick={() => {
-                      window.location.href = '/dashboard/team';
-                    }}
-                  >
-                    Teams
-                  </S.BlackButton>
+                  <Link to="/dashboard/team">
+                    <S.BlackButton>Teams</S.BlackButton>
+                  </Link>
                   <a href={slackInvite}>
                     <S.WhiteButton>Slack</S.WhiteButton>
                   </a>
@@ -79,20 +76,12 @@ const Home = ({ className, isLoggedIn }: any) => {
                     Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
                     활동해보세요.
                   </S.Description>
-                  <S.BlackButton
-                    onClick={() => {
-                      window.location.href = '/survey';
-                    }}
-                  >
-                    Survey
-                  </S.BlackButton>
-                  <S.WhiteButton
-                    onClick={() => {
-                      window.location.href = '/dashboard/personal';
-                    }}
-                  >
-                    Personal
-                  </S.WhiteButton>
+                  <Link to="/survey">
+                    <S.BlackButton>Survey</S.BlackButton>
+                  </Link>
+                  <Link to="/dashboard/personal">
+                    <S.WhiteButton>Personal</S.WhiteButton>
+                  </Link>
                 </S.Right>
               </>
             );
@@ -107,20 +96,12 @@ const Home = ({ className, isLoggedIn }: any) => {
                   Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
                   활동해보세요.
                 </S.Description>
-                <S.BlackButton
-                  onClick={() => {
-                    window.location.href = '/survey';
-                  }}
-                >
-                  Survey
-                </S.BlackButton>
-                <S.WhiteButton
-                  onClick={() => {
-                    window.location.href = '/dashboard/personal';
-                  }}
-                >
-                  Personal
-                </S.WhiteButton>
+                <Link to="/survey">
+                  <S.BlackButton>Survey</S.BlackButton>
+                </Link>
+                <Link to="/dashboard/personal">
+                  <S.WhiteButton>Personal</S.WhiteButton>
+                </Link>
               </S.Right>
             </>
           );
@@ -137,13 +118,9 @@ const Home = ({ className, isLoggedIn }: any) => {
               살펴보세요.
             </S.Description>
             <S.BlackButton onClick={googleLoginOnClick}>Login</S.BlackButton>
-            <S.WhiteButton
-              onClick={() => {
-                window.location.href = '/dashboard/team';
-              }}
-            >
-              Teams
-            </S.WhiteButton>
+            <Link to="/dashboard/team">
+              <S.WhiteButton>Teams</S.WhiteButton>
+            </Link>
           </S.Right>
         </>
       );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { createPerson, updateUser, updatePerson } from 'graphql/mutations';
@@ -20,6 +21,7 @@ function QuestionResult({
   id,
   surveyCompleted,
 }: IQuestionResult) {
+  const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
@@ -36,7 +38,7 @@ function QuestionResult({
         `${filterArray.join()}번째 설문을 완료해주시고 등록버튼을 다시 눌러주세요. 확인 버튼을 누르면 돌아갑니다.`,
       );
       setConfirmFunction(() => () => {
-        window.location.href = '/survey';
+        history.push('/survey');
       });
     } else {
       setConfirmText(
@@ -138,7 +140,7 @@ function QuestionResult({
       });
     }
     await refetch();
-    window.location.href = '/dashboard/personal';
+    history.push('/dashboard/personal');
   };
 
   return (
@@ -154,10 +156,15 @@ function QuestionResult({
         {QuestionRespondList}
       </S.QuestionResult>
       <S.Btn>
+        <Link to="/survey">
+          <Button size="biglarge" color="gray">
+            돌아가기
+          </Button>
+        </Link>
         <Button
           className="confirm"
           size="biglarge"
-          color="gray"
+          color="yellow"
           onClick={openModal}
         >
           {!surveyCompleted ? '설문 결과 등록하기' : '설문 업데이트하기'}

@@ -39,6 +39,9 @@ export const Desc = styled.p`
 `;
 
 export const ContentsList = styled.ul`
+  font-size: 1.5rem;
+  line-height: 2;
+  word-break: keep-all;
   &:not(:last-child) {
     margin-bottom: 3em;
   }
@@ -96,6 +99,9 @@ export const InlineContent = styled(DetailContent)`
 
 export const BlockContent = styled(DetailContent)`
   text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
   .dc-title {
     font-size: 1.6rem;

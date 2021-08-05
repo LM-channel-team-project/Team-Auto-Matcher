@@ -6,6 +6,7 @@ import {
   getTeamDashboard,
   listPersonDashboard,
 } from 'graphql/queries';
+import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deletePerson, updatePerson } from 'graphql/mutations';
@@ -41,6 +42,7 @@ const PersonalDetailModal = ({
   userId,
   haveTeam,
 }: PersonalModalProps) => {
+  const history = useHistory();
   const { refetch } = useQuery(
     gql`
       ${getUser}
@@ -188,7 +190,7 @@ const PersonalDetailModal = ({
           '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
         );
         setConfirmFunction(() => () => {
-          window.location.href = '/dashboard/team';
+          history.push('/dashboard/team');
         });
         return;
       }
