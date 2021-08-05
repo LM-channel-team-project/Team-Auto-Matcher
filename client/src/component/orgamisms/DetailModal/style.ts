@@ -39,6 +39,9 @@ export const Desc = styled.p`
 `;
 
 export const ContentsList = styled.ul`
+  font-size: 1.5rem;
+  line-height: 2;
+  word-break: keep-all;
   &:not(:last-child) {
     margin-bottom: 3em;
   }

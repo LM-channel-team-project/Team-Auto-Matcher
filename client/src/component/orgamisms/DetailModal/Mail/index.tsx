@@ -113,6 +113,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (data?.type === 'accept') {
         return <S.Title type="personal">승인 메시지</S.Title>;
       }
+      if (data?.type === 'notice') {
+        return <S.Title type="personal">공지</S.Title>;
+      }
     }
     return <S.Title type="personal">로딩중</S.Title>;
   };
@@ -258,10 +261,19 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             <S.ContentsList>
               {teamItems.name}팀의 지원 / 초대를 승인하였습니다.
             </S.ContentsList>
-            <S.ContentsList>github 이름 {personItems.name} 님을</S.ContentsList>
+            <S.ContentsList>
+              github 닉네임 {personItems.name} 님을
+            </S.ContentsList>
             <S.ContentsList>
               Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
             </S.ContentsList>
+          </>
+        );
+      }
+      if (data?.type === 'notice') {
+        return (
+          <>
+            <S.ContentsList>{data?.teamId}</S.ContentsList>
           </>
         );
       }
@@ -423,7 +435,11 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
 
   const modalButton = () => {
     if (personData && teamData) {
-      if (data?.type === 'accept' || data?.type === 'refuse') {
+      if (
+        data?.type === 'accept'
+        || data?.type === 'refuse'
+        || data?.type === 'notice'
+      ) {
         return (
           <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
             메시지 삭제
