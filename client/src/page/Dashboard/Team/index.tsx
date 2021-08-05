@@ -3,6 +3,7 @@ import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import BaseTemplate from 'page/BaseTemplate';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import TeamDetailModal, {
   TeamModalProps,
 } from 'component/orgamisms/DetailModal/Team';
@@ -19,6 +20,9 @@ interface ModalState {
 
 const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
+  const [modalOpen, setModalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState<string>('');
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
 
   const { data: userData } = useQuery(
     gql`
@@ -139,6 +143,27 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     return <></>;
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const onClickMakeTeam = () => {
+    if (userData.getUser.items[0].surveyCompleted) {
+      setModal({ type: 'add' });
+      return;
+    }
+    openModal();
+    setConfirmText(
+      '설문을 완료한 후 팀생성이 가능합니다. 확인을 누르면 설문조사 화면으로 넘어갑니다.',
+    );
+    setConfirmFunction(() => () => {
+      window.location.href = '/survey';
+    });
+  };
+
   return (
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
       <ClickerLoad />
@@ -148,11 +173,16 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         </Personal.Top>
         <Team.TeamPage>{teams}</Team.TeamPage>
         {isLoggedIn && (
-          <Team.CreateBtn onClick={() => setModal({ type: 'add' })}>
-            팀 생성하기
-          </Team.CreateBtn>
+          <Team.CreateBtn onClick={onClickMakeTeam}>팀 생성하기</Team.CreateBtn>
         )}
       </Personal.Container>
+      {modalOpen && (
+        <ConfirmModal
+          text={confirmText}
+          close={closeModal}
+          onClickConfirm={confirmFunction}
+        />
+      )}
     </BaseTemplate>
   );
 };
