@@ -247,8 +247,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (data?.type === 'refuse') {
         return (
           <>
-            <S.ContentsList>{personItems.name}님께서</S.ContentsList>
             <S.ContentsList>
+              {personItems.name}님께서
+              <br />
               {teamItems.name}팀의 지원 / 초대를 거절하였습니다.
             </S.ContentsList>
           </>
@@ -257,14 +258,12 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (data?.type === 'accept') {
         return (
           <>
-            <S.ContentsList>{personItems.name}님께서</S.ContentsList>
             <S.ContentsList>
+              {personItems.name} 님께서 <br />
               {teamItems.name}팀의 지원 / 초대를 승인하였습니다.
-            </S.ContentsList>
-            <S.ContentsList>
+              <br />
               github 닉네임 {personItems.name} 님을
-            </S.ContentsList>
-            <S.ContentsList>
+              <br />
               Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
             </S.ContentsList>
           </>

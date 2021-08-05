@@ -13,6 +13,7 @@ import {
   updateTeam,
 } from 'graphql/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate, { ContentItem } from '../template';
 import { TeamModalProps } from '../Team';
@@ -81,6 +82,7 @@ const contentsTitle = [
 ];
 
 const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
+  const history = useHistory();
   const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
@@ -385,7 +387,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
             '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
           );
           setConfirmFunction(() => () => {
-            window.location.href = '/survey';
+            history.push('/survey');
           });
           return;
         }
@@ -418,6 +420,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
             },
           },
         });
+        await refetch();
         await createTeamData({
           variables: {
             input: {
@@ -433,7 +436,6 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           },
         });
         await teamRefetch();
-        await refetch();
         window.location.reload();
       } else {
         const updateConfirm = async () => {
@@ -454,7 +456,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
             },
           });
           await teamRefetch();
-          window.location.reload();
+          onCloseModal();
         };
         openModal();
         setConfirmText('확인을 누르면 업데이트가 완료됩니다.');

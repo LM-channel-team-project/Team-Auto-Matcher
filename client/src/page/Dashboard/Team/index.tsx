@@ -3,6 +3,7 @@ import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import BaseTemplate from 'page/BaseTemplate';
+import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import TeamDetailModal, {
   TeamModalProps,
@@ -19,6 +20,7 @@ interface ModalState {
 }
 
 const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
+  const history = useHistory();
   const [modal, setModal] = useState<ModalState>({});
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
@@ -160,7 +162,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
       '설문을 완료한 후 팀생성이 가능합니다. 확인을 누르면 설문조사 화면으로 넘어갑니다.',
     );
     setConfirmFunction(() => () => {
-      window.location.href = '/survey';
+      history.push('/survey');
     });
   };
 

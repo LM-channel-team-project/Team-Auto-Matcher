@@ -26,7 +26,7 @@ export const QuestionResult = styled.div`
 export const Btn = styled.div`
   display: flex;
   > .confirm {
-    margin-right: 1em;
+    margin-left: 1em;
   }
 `;
 export const QuestionRespond = styled(QuestionRespondComponent)``;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import * as S from './style';
@@ -15,6 +15,7 @@ interface IBrieftItems {
 }
 
 const MenuBar = ({ className }: any) => {
+  const history = useHistory();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
@@ -34,10 +35,10 @@ const MenuBar = ({ className }: any) => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
       case 'signIn':
-        window.location.href = '/';
+        history.push('/');
         break;
       case 'signOut':
-        window.location.href = '/';
+        history.push('/');
         break;
       case 'customOAuthState':
         break;
