@@ -31,7 +31,7 @@ const LoginPage = ({ className }: any) => {
   }, []);
 
   const onClickReload = () => {
-    window.location.reload();
+    history.go(0);
   };
 
   return (
