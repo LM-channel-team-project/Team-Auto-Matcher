@@ -21,7 +21,7 @@ const MenuBar = ({ className }: any) => {
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   useEffect(() => {
-    setIsPath(window.location.pathname);
+    setIsPath(history.location.pathname);
   }, []);
 
   useEffect(() => {

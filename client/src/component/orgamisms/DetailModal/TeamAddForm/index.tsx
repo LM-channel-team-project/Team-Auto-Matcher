@@ -436,7 +436,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           },
         });
         await teamRefetch();
-        window.location.reload();
+        history.go(0);
       } else {
         const updateConfirm = async () => {
           const removeType = contents.map((el: any) => ({
