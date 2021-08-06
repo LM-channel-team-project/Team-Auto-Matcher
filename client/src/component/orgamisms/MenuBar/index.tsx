@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
+import { getUser } from 'graphql/queries';
+import { gql, useQuery } from '@apollo/client';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import * as S from './style';
 
@@ -20,6 +22,13 @@ const MenuBar = ({ className }: any) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const { data: userdata } = useQuery(
+    gql`
+      ${getUser}
+    `,
+  );
+  const mailCounter: number | undefined = userdata?.getUser.items[0].mail.length;
+
   useEffect(() => {
     setIsPath(window.location.pathname);
   }, []);
@@ -132,11 +141,16 @@ const MenuBar = ({ className }: any) => {
         </S.MenuCenter>
         <S.MenuRight>
           {isLoggedIn && (
-            <BriefItems
-              clName={isPath === '/mail' ? 'current' : ''}
-              to="/mail"
-              text="Mail"
-            />
+            <S.MailMenu>
+              <S.MailCounter counts={mailCounter === 0}>
+                {mailCounter}
+              </S.MailCounter>
+              <BriefItems
+                clName={isPath === '/mail' ? 'current' : ''}
+                to="/mail"
+                text="Mail"
+              />
+            </S.MailMenu>
           )}
           <S.MenuItems>
             {isLoggedIn ? (
@@ -165,7 +179,14 @@ const MenuBar = ({ className }: any) => {
           <BriefItems to="/dashboard/team" text="Team" />
           <BriefItems to="/survey" text="Survey" />
           <BriefItems to="/contact" text="Contact" />
-          {isLoggedIn && <BriefItems to="/mail" text="Mail" />}
+          {isLoggedIn && (
+            <S.MailBriefContainer>
+              <BriefItems to="/mail" text="Mail" />
+              <S.MailBriefCount counts={mailCounter === 0}>
+                {mailCounter}
+              </S.MailBriefCount>
+            </S.MailBriefContainer>
+          )}
           <S.MenuItems>
             {isLoggedIn ? (
               <div onClick={onClickSignOut}>LogOut</div>

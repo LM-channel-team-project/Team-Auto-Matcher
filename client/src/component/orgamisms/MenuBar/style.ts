@@ -196,6 +196,45 @@ export const MenuCenter = styled.ul`
     display: none;
   }
 `;
+export const MailMenu = styled.div`
+  position: relative;
+`;
+interface mailPropsType {
+  counts?: boolean;
+}
+export const MailCounter = styled.div<mailPropsType>`
+  width: 20px;
+  height: 20px;
+  right: -8px;
+  top: -7px;
+  background-color: #cc0001;
+  z-index: 1;
+  position: absolute;
+  display: ${(props) => (props.counts ? 'none' : 'flex')};
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 50%;
+`;
+
+export const MailBriefContainer = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const MailBriefCount = styled.p<mailPropsType>`
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  font-size: 15px;
+  display: ${(props) => (props.counts ? 'none' : 'flex')};
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background-color: #cc0001;
+`;
 
 export const MenuItems = styled.li`
   & div {
