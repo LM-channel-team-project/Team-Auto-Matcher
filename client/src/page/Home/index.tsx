@@ -12,16 +12,25 @@ const googleLoginOnClick = () => Auth.federatedSignIn({
 });
 
 const Home = ({ className, isLoggedIn }: any) => {
-  const { data } = useQuery(
+  const { loading, data } = useQuery(
     gql`
       ${getUser}
     `,
   );
+  if (isLoggedIn) {
+    if (loading) {
+      return (
+        <S.LoadContainer>
+          <S.LoadingComponent />
+        </S.LoadContainer>
+      );
+    }
+  }
   // 7월 13일 초대 주소 get, 30일 마다 갱신
   const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-sqrkwn93-SsuQ0qY1xwind4cZ1xfUWw';
 
   const SettingPhase = () => {
-    let phase = <S.LoadingComponent />;
+    let phase = <></>;
     if (isLoggedIn) {
       if (data) {
         if (data.getUser.items?.length !== 0) {
