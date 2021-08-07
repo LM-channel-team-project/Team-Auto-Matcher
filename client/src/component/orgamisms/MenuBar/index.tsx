@@ -22,7 +22,7 @@ const MenuBar = ({ className }: any) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-  const { data: userdata } = useQuery(
+  const { loading, data: userdata } = useQuery(
     gql`
       ${getUser}
     `,
@@ -93,7 +93,9 @@ const MenuBar = ({ className }: any) => {
       </Link>
     </S.MenuItems>
   );
-
+  if (isLoggedIn) {
+    if (loading) return null;
+  }
   return (
     <>
       <S.MenuBar className={className}>

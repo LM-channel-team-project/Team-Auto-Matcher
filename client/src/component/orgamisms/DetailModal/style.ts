@@ -17,6 +17,12 @@ interface StyleProps {
 
 export const LoadingComponent = styled(Loading)``;
 
+export const LoadingContent = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
 export const Domain = styled.h2`
   font-size: 1.4rem;
   margin-bottom: 0.5em;
