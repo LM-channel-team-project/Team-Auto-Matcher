@@ -278,12 +278,12 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       }
     }
     return (
-      <>
+      <S.LoadingContent>
         <S.LoadingComponent />
         <S.ContentsList>
           로딩이 지속될 경우, 메시지를 삭제해주세요.
         </S.ContentsList>
-      </>
+      </S.LoadingContent>
     );
   };
 
