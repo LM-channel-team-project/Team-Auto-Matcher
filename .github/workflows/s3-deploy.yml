@@ -12,11 +12,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@master
 
-      - name: cd to client
-        run: cd client
-
       - name: Install Dependencies
-        run: npm i
+        run: cd client && npm i
 
       - name: Build
         env:
@@ -28,14 +25,14 @@ jobs:
           REACT_APP_AWS_REDIRECT_SIGNOUT_URL: ${{ secrets.REACT_APP_AWS_REDIRECT_SIGNOUT_URL }}
           REACT_APP_AWS_APPSYNC_GRAPHQLENDPOINT: ${{ secrets.REACT_APP_AWS_APPSYNC_GRAPHQLENDPOINT }}
           REACT_APP_AWS_APIKEY: ${{ secrets.REACT_APP_AWS_APIKEY }}
-        run: npm run build
+        run: cd client && npm run build
 
       - name: Deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp \
+          aws s3 cp client/build \
             --recursive \
             --region ap-northeast-2 \
             dist s3://lctp-team-auto-matcher
