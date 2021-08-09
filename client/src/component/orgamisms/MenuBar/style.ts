@@ -203,10 +203,11 @@ interface mailPropsType {
   counts?: boolean;
 }
 export const MailCounter = styled.div<mailPropsType>`
-  width: 20px;
-  height: 20px;
-  right: -8px;
-  top: -7px;
+  width: 2rem;
+  height: 2rem;
+  right: -0.8rem;
+  top: -0.3rem;
+  font-size: 1.5rem;
   background-color: #cc0001;
   z-index: 1;
   position: absolute;
@@ -214,7 +215,7 @@ export const MailCounter = styled.div<mailPropsType>`
   align-items: center;
   justify-content: center;
   color: white;
-  font-weight: bold;
+  font-weight: 500;
   border-radius: 50%;
 `;
 
@@ -225,10 +226,11 @@ export const MailBriefContainer = styled.p`
 `;
 
 export const MailBriefCount = styled.p<mailPropsType>`
-  width: 25px;
-  height: 25px;
-  margin-left: 10px;
-  font-size: 15px;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.625rem;
+  font-weight: 400;
+  font-size: 2rem;
   display: ${(props) => (props.counts ? 'none' : 'flex')};
   justify-content: center;
   align-items: center;

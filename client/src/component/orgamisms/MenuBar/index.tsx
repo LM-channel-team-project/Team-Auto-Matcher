@@ -27,7 +27,7 @@ const MenuBar = ({ className }: any) => {
       ${getUser}
     `,
   );
-  const mailCounter: number | undefined = userdata?.getUser.items[0].mail.length;
+  const mailCounter: number | undefined = userdata?.getUser.items[0]?.mail.length;
 
   useEffect(() => {
     setIsPath(history.location.pathname);
@@ -144,7 +144,9 @@ const MenuBar = ({ className }: any) => {
         <S.MenuRight>
           {isLoggedIn && (
             <S.MailMenu>
-              <S.MailCounter counts={mailCounter === 0}>
+              <S.MailCounter
+                counts={mailCounter === 0 || mailCounter === undefined}
+              >
                 {mailCounter}
               </S.MailCounter>
               <BriefItems
@@ -184,7 +186,9 @@ const MenuBar = ({ className }: any) => {
           {isLoggedIn && (
             <S.MailBriefContainer>
               <BriefItems to="/mail" text="Mail" />
-              <S.MailBriefCount counts={mailCounter === 0}>
+              <S.MailBriefCount
+                counts={mailCounter === 0 || mailCounter === undefined}
+              >
                 {mailCounter}
               </S.MailBriefCount>
             </S.MailBriefContainer>
