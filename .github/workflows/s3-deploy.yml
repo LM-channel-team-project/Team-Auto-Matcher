@@ -16,7 +16,7 @@ jobs:
         run: cd client
 
       - name: Install Dependencies
-        run: npm 
+        run: npm i
 
       - name: Build
         env:
