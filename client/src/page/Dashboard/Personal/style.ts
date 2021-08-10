@@ -151,6 +151,10 @@ export const Text = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  &.teamList {
+    font-size: 1.9em;
+    font-weight: 500;
+  }
   @media screen and (max-width: 1450px) {
     font-size: 1.3em;
   }

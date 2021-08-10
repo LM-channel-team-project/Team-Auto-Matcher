@@ -4,32 +4,30 @@ import { getUser, getUserById, listTeamDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam } from 'graphql/mutations';
-import DetailModalTemplate, { ContentItem } from '../template';
+import DetailModalTemplate, { ContentItem, teamListType } from '../template';
 import * as S from '../style';
 
 export interface TeamModalProps {
   data?: {
     id: string;
     name: string;
-    people: string[];
+    people: teamListType[];
     outline: string;
     contents: ContentItem[];
     skills: string[];
     state: string;
     owner: string;
   };
-  userId?: string;
   onCloseModal: () => void;
   onClickUpdate: () => void;
 }
 
 const TeamDetailModal = ({
   data,
-  userId,
   onCloseModal,
   onClickUpdate,
 }: TeamModalProps) => {
-  const { refetch } = useQuery(
+  const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
     `,
@@ -78,8 +76,8 @@ const TeamDetailModal = ({
       );
     });
 
-    const people = data?.people.map((person: string) => (
-      <S.Text className="people">{person}</S.Text>
+    const people = data?.people.map((person: teamListType) => (
+      <S.Text className="people">{person.name}</S.Text>
     ));
 
     const inlineContents = (
@@ -125,7 +123,10 @@ const TeamDetailModal = ({
       let isDuplicated = false;
       const frontData = userIdData.getUserById.mail
         .filter((el: any) => {
-          if (el.from === userId && el.type === 'apply') {
+          if (
+            el.from === userData?.getUser.items[0].id
+            && el.type === 'apply'
+          ) {
             isDuplicated = true;
           }
           return true;
@@ -144,7 +145,7 @@ const TeamDetailModal = ({
       const changeIntoSet = new Set(frontData);
       const changeIntoArray = Array.from(changeIntoSet);
       const newData = {
-        from: userId,
+        from: userData?.getUser.items[0].id,
         teamId: data?.id,
         type: 'apply',
         teamName: data?.name,
@@ -205,9 +206,9 @@ const TeamDetailModal = ({
         }
         modalBody={renderContents()}
         modalButton={
-          userId
-          && (data?.owner !== userId ? (
-            data?.state === '모집중' && (
+          userData
+          && (data?.owner !== userData.getUser.items[0].id ? (
+            data?.state !== '종료' && (
               <S.SubmitButton
                 size="medium"
                 color="yellow"

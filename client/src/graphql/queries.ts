@@ -40,7 +40,11 @@ export const getUser = /* GraphQL */ `
           title
           answers
         }
-        owner
+        personState
+        teamList {
+          id
+          name
+        }
         mail {
           from
           teamId
@@ -62,7 +66,11 @@ export const getUserById = /* GraphQL */ `
         title
         answers
       }
-      owner
+      personState
+      teamList {
+        id
+        name
+      }
       mail {
         from
         teamId
@@ -73,13 +81,44 @@ export const getUserById = /* GraphQL */ `
   }
 `;
 
+export const listUser = /* GraphQL */ `
+  query ListUser($nextToken: String) {
+    listUser(nextToken: $nextToken) {
+      items {
+        id
+        haveTeam
+        surveyCompleted
+        question {
+          title
+          answers
+        }
+        personState
+        teamList {
+          id
+          name
+        }
+        mail {
+          from
+          teamId
+          type
+          teamName
+        }
+      }
+      nextToken
+    }
+  }
+`;
+
 export const listTeamDashboard = /* GraphQL */ `
   query ListTeamDashboard($nextToken: String) {
     listTeamDashboard(nextToken: $nextToken) {
       items {
         id
         name
-        people
+        people {
+          id
+          name
+        }
         skills
         outline
         state
@@ -99,64 +138,14 @@ export const getTeamDashboard = /* GraphQL */ `
     getTeamDashboard(id: $id) {
       id
       name
-      people
+      people {
+        id
+        name
+      }
       skills
       outline
       state
       owner
-      contents {
-        title
-        text
-      }
-    }
-  }
-`;
-
-export const listPersonDashboard = /* GraphQL */ `
-  query ListPersonDashboard($nextToken: String) {
-    listPersonDashboard(nextToken: $nextToken) {
-      items {
-        id
-        name
-        team
-        field
-        skills
-        devExp
-        periods
-        times
-        contact
-        hasCoWork
-        priority
-        outline
-        project
-        personState
-        contents {
-          title
-          text
-        }
-      }
-      nextToken
-    }
-  }
-`;
-
-export const getPersonDashboard = /* GraphQL */ `
-  query GetPersonDashboard($id: String!) {
-    getPersonDashboard(id: $id) {
-      id
-      name
-      team
-      field
-      skills
-      devExp
-      periods
-      times
-      contact
-      hasCoWork
-      priority
-      outline
-      project
-      personState
       contents {
         title
         text

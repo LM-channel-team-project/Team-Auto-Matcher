@@ -27,7 +27,7 @@ const MenuBar = ({ className }: any) => {
       ${getUser}
     `,
   );
-  const mailCounter: number | undefined = userdata?.getUser.items[0].mail.length;
+  const mailCounter: number | undefined = userdata?.getUser.items[0]?.mail.length;
 
   useEffect(() => {
     setIsPath(history.location.pathname);
@@ -56,7 +56,7 @@ const MenuBar = ({ className }: any) => {
     });
 
     Auth.currentAuthenticatedUser().catch((e) => {
-      console.log('Not signed in');
+      // console.log('Not signed in');
     });
   }, []);
 
@@ -144,7 +144,9 @@ const MenuBar = ({ className }: any) => {
         <S.MenuRight>
           {isLoggedIn && (
             <S.MailMenu>
-              <S.MailCounter counts={mailCounter === 0}>
+              <S.MailCounter
+                counts={mailCounter === 0 || mailCounter === undefined}
+              >
                 {mailCounter}
               </S.MailCounter>
               <BriefItems

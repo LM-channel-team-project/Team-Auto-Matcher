@@ -7,7 +7,7 @@ const props = {
   data: {
     id: 'aaaaa',
     name: '라바마',
-    people: ['user1', 'user2', 'user3', 'user4', 'user5', 'user6'],
+    people: [{ id: 'test', name: 'test' }],
     skills: ['React', 'MongoDB', 'GraphQL', 'Apollo'],
     outline: '한줄 소개 입니다.',
     state: '',
