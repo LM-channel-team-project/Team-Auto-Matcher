@@ -107,17 +107,18 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           </>
         );
       }
+      const Msg = (message: string) => (
+        <S.Title type="personal">{`${
+          personItems?.name == null || teamItems?.name == null
+            ? '삭제 메시지'
+            : message
+        }`}</S.Title>
+      );
       if (data?.type === 'refuse') {
-        if (personItems?.name == null || teamItems?.name == null) {
-          return <S.Title type="personal">삭제 메시지</S.Title>;
-        }
-        return <S.Title type="personal">거절 메시지</S.Title>;
+        return Msg('거절 메시지');
       }
       if (data?.type === 'accept') {
-        if (personItems?.name == null || teamItems?.name == null) {
-          return <S.Title type="personal">삭제 메시지</S.Title>;
-        }
-        return <S.Title type="personal">승인 메시지</S.Title>;
+        return Msg('승인 메시지');
       }
       if (data?.type === 'notice') {
         return <S.Title type="personal">공지</S.Title>;
