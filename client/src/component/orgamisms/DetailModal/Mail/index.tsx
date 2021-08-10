@@ -272,8 +272,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'accept') {
-        console.log(personItems?.name == null);
-        console.log(teamItems?.name == null);
         if (personItems?.name == null || teamItems?.name == null) {
           return (
             <>
