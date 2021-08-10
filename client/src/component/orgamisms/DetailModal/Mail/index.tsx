@@ -108,9 +108,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'refuse') {
+        if (personItems?.name == null || teamItems?.name == null) {
+          return <S.Title type="personal">삭제 메시지</S.Title>;
+        }
         return <S.Title type="personal">거절 메시지</S.Title>;
       }
       if (data?.type === 'accept') {
+        if (personItems?.name == null || teamItems?.name == null) {
+          return <S.Title type="personal">삭제 메시지</S.Title>;
+        }
         return <S.Title type="personal">승인 메시지</S.Title>;
       }
       if (data?.type === 'notice') {
@@ -245,6 +251,16 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'refuse') {
+        if (personItems?.name == null || teamItems?.name == null) {
+          return (
+            <>
+              <S.ContentsList>
+                사용자나 팀이 삭제 되었습니다. <br />
+                메시지를 삭제해 주세요.
+              </S.ContentsList>
+            </>
+          );
+        }
         return (
           <>
             <S.ContentsList>
@@ -256,6 +272,18 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'accept') {
+        console.log(personItems?.name == null);
+        console.log(teamItems?.name == null);
+        if (personItems?.name == null || teamItems?.name == null) {
+          return (
+            <>
+              <S.ContentsList>
+                사용자나 팀이 삭제 되었습니다. <br />
+                메시지를 삭제해 주세요.
+              </S.ContentsList>
+            </>
+          );
+        }
         return (
           <>
             <S.ContentsList>
