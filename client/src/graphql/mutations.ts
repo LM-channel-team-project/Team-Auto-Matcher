@@ -18,6 +18,11 @@ export const createUser = /* GraphQL */ `
         answers
       }
       surveyCompleted
+      personState
+      teamList {
+        id
+        name
+      }
     }
   }
 `;
@@ -39,6 +44,11 @@ export const updateUser = /* GraphQL */ `
         answers
       }
       surveyCompleted
+      personState
+      teamList {
+        id
+        name
+      }
     }
   }
 `;
@@ -48,7 +58,10 @@ export const createTeam = /* GraphQL */ `
     createTeam(input: $input) {
       id
       name
-      people
+      people {
+        id
+        name
+      }
       skills
       outline
       owner
@@ -66,7 +79,10 @@ export const updateTeam = /* GraphQL */ `
     updateTeam(input: $input) {
       id
       name
-      people
+      people {
+        id
+        name
+      }
       skills
       outline
       owner
@@ -82,64 +98,6 @@ export const updateTeam = /* GraphQL */ `
 export const deleteTeam = /* GraphQL */ `
   mutation deleteTeam($input: DeleteTeamInput!) {
     deleteTeam(input: $input) {
-      id
-    }
-  }
-`;
-
-export const createPerson = /* GraphQL */ `
-  mutation createPerson($input: CreatePersonInput!) {
-    createPerson(input: $input) {
-      id
-      name
-      team
-      field
-      skills
-      devExp
-      periods
-      times
-      contact
-      project
-      hasCoWork
-      priority
-      outline
-      personState
-      contents {
-        title
-        text
-      }
-    }
-  }
-`;
-
-export const updatePerson = /* GraphQL */ `
-  mutation updatePerson($input: UpdatePersonInput!) {
-    updatePerson(input: $input) {
-      id
-      name
-      team
-      field
-      skills
-      devExp
-      periods
-      project
-      times
-      contact
-      hasCoWork
-      priority
-      outline
-      personState
-      contents {
-        title
-        text
-      }
-    }
-  }
-`;
-
-export const deletePerson = /* GraphQL */ `
-  mutation deletePerson($input: DeletePersonInput!) {
-    deletePerson(input: $input) {
       id
     }
   }

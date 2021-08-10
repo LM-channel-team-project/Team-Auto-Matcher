@@ -76,6 +76,8 @@ function Survey() {
               ],
               haveTeam: false,
               surveyCompleted: false,
+              personState: '팀 구하는 중',
+              teamList: [],
             },
           },
         })

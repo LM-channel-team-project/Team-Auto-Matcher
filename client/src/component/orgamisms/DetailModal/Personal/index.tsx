@@ -4,46 +4,35 @@ import {
   getUser,
   getUserById,
   getTeamDashboard,
-  listPersonDashboard,
+  listUser,
 } from 'graphql/queries';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, deletePerson, updatePerson } from 'graphql/mutations';
-import DetailModalTemplate, { ContentItem } from '../template';
+import { updateUser } from 'graphql/mutations';
+import DetailModalTemplate, {
+  QuestionItem,
+  MailType,
+  teamListType,
+} from '../template';
 import * as S from '../style';
 
 export interface PersonalModalProps {
   data: {
     id: string;
-    name: string;
-    outline: string;
-    field: string;
-    skills: string[];
-    team: string[];
-    devExp?: string;
-    periods?: string;
-    times?: string[];
-    contact?: string;
-    hasCoWork?: boolean;
-    priority?: string[];
-    project?: string;
-    contents: ContentItem[];
+    haveTeam: boolean;
+    surveyCompleted: boolean;
+    question: QuestionItem[];
     personState: string;
+    teamList: teamListType[];
+    mail: MailType[];
   };
-  userId?: string;
-  haveTeam?: boolean;
   onCloseModal: () => void;
 }
 
-const PersonalDetailModal = ({
-  data,
-  onCloseModal,
-  userId,
-  haveTeam,
-}: PersonalModalProps) => {
+const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const history = useHistory();
-  const { refetch } = useQuery(
+  const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
     `,
@@ -63,7 +52,7 @@ const PersonalDetailModal = ({
       ${getTeamDashboard}
     `,
     {
-      variables: { id: userId && userId },
+      variables: { id: userData && userData.getUser.items[0].id },
     },
   );
 
@@ -73,21 +62,9 @@ const PersonalDetailModal = ({
     `,
   );
 
-  const [updatePersonData] = useMutation(
+  const { refetch: listUserRefetch } = useQuery(
     gql`
-      ${updatePerson}
-    `,
-  );
-
-  const [DeletePersonData] = useMutation(
-    gql`
-      ${deletePerson}
-    `,
-  );
-
-  const { refetch: personRefetch } = useQuery(
-    gql`
-      ${listPersonDashboard}
+      ${listUser}
     `,
   );
   const [modalOpen, setModalOpen] = useState(false);
@@ -98,7 +75,7 @@ const PersonalDetailModal = ({
   );
 
   const renderContents = () => {
-    const skills = data.skills.map((skill: string) => {
+    const skills = data.question[1].answers?.map((skill: string) => {
       const skillName = Object.keys(skillsLabel).find(
         (name) => name.toLowerCase() === skill.toLowerCase(),
       );
@@ -112,11 +89,15 @@ const PersonalDetailModal = ({
       );
     });
 
-    const team = data.team.map((aTeam: string) => (
-      <S.Text className="team" key={aTeam}>
-        {aTeam}
-      </S.Text>
-    ));
+    const team = data?.teamList.length > 0 ? (
+      data.teamList.map((aTeam: teamListType) => (
+        <S.Text className="team" key={aTeam.id}>
+          {aTeam.name}
+        </S.Text>
+      ))
+    ) : (
+      <S.Text>팀 구하는 중</S.Text>
+    );
 
     const inlineContents = (
       <>
@@ -129,44 +110,50 @@ const PersonalDetailModal = ({
           <S.InlineContent title="기술 스택" className="ci-skill">
             {skills}
           </S.InlineContent>
-          <S.InlineContent title="공부 기간">{data.devExp}</S.InlineContent>
+          <S.InlineContent title="공부 기간">
+            {data.question[2].answers[0]}
+          </S.InlineContent>
           <S.InlineContent title="활동 가능 기간">
-            {data.periods}
+            {data.question[3].answers[0]}
           </S.InlineContent>
           {
             <S.InlineContent title="협업 가능 시간대">
-              {data.times?.map((time: any) => (
+              {data.question[4].answers?.map((time: any) => (
                 <S.Text key={time} className="ic-text">
                   {time}
                 </S.Text>
               ))}
             </S.InlineContent>
           }
-          <S.InlineContent title="진행 방식">{data.contact}</S.InlineContent>
+          <S.InlineContent title="진행 방식">
+            {data.question[5].answers[0]}
+          </S.InlineContent>
           <S.InlineContent title="협업 경험">
-            {data.hasCoWork ? '있음' : '없음'}
+            {data.question[6].answers[0] ? '있음' : '없음'}
           </S.InlineContent>
           <S.InlineContent title="협업 시 중요하게 생각하는 것">
-            {data.priority?.map((item: any) => (
+            {data.question[7].answers?.map((item: any) => (
               <S.Text key={item} className="ic-text">
                 {item}
               </S.Text>
             ))}
           </S.InlineContent>
           <S.BlockContent title="계획하고 있는 프로젝트" className="ci-block">
-            <S.Paragraph>{data.project}</S.Paragraph>
+            <S.Paragraph>{data.question[9].answers}</S.Paragraph>
           </S.BlockContent>
         </S.ContentItem>
       </>
     );
 
-    const blockContents = data!.contents.map((content: any) => (
-      <S.ContentItem key={content.title}>
-        <S.BlockContent title={content.title} className="ci-block">
-          <S.Paragraph>{content.text}</S.Paragraph>
-        </S.BlockContent>
-      </S.ContentItem>
-    ));
+    const blockContents = (
+      <>
+        <S.ContentItem key={data.question[8].title}>
+          <S.BlockContent title={data.question[8].title} className="ci-block">
+            <S.Paragraph>{data.question[8].answers}</S.Paragraph>
+          </S.BlockContent>
+        </S.ContentItem>
+      </>
+    );
 
     return (
       <>
@@ -184,21 +171,26 @@ const PersonalDetailModal = ({
   };
 
   const onClickInvite = async () => {
-    const confirmInvite = async () => {
-      if (!haveTeam) {
-        setConfirmText(
-          '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
-        );
-        setConfirmFunction(() => () => {
-          history.push('/dashboard/team');
-        });
-        return;
-      }
-      if (userIdData && teamData) {
+    if (userData && userIdData && teamData) {
+      const confirmInvite = async () => {
+        const userItems = userData.getUser.items[0];
+        const teamItems = teamData.getTeamDashboard;
+        if (!userItems.haveTeam) {
+          setConfirmText(
+            '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
+          );
+          setConfirmFunction(() => () => {
+            history.push('/dashboard/team');
+          });
+          return;
+        }
         let isDuplicate = false;
         const frontData = userIdData.getUserById.mail
           .filter((el: any) => {
-            if (el.from === userId && el.type === 'invite') {
+            if (
+              el.from === userData?.getUser.items[0].id
+              && el.type === 'invite'
+            ) {
               isDuplicate = true;
             }
             return true;
@@ -217,10 +209,10 @@ const PersonalDetailModal = ({
         const changeIntoSet = new Set(frontData);
         const changeIntoArray = Array.from(changeIntoSet);
         const newData = {
-          from: userId,
-          teamId: teamData.getTeamDashboard.id,
+          from: userItems.id,
+          teamId: teamItems.id,
           type: 'invite',
-          teamName: teamData.getTeamDashboard.name,
+          teamName: teamItems.name,
         };
         const combinedData = [...changeIntoArray, newData];
         await updateUserData({
@@ -234,42 +226,36 @@ const PersonalDetailModal = ({
         await refetch();
         onCloseModal();
         closeModal();
-      }
-    };
-    openModal();
-    setConfirmText('확인을 누르면 초대가 완료됩니다.');
-    setConfirmFunction(() => confirmInvite);
+      };
+      openModal();
+      setConfirmText('확인을 누르면 초대가 완료됩니다.');
+      setConfirmFunction(() => confirmInvite);
+    }
   };
 
   const onClickDelete = () => {
-    const deleteConfirm = async () => {
-      await DeletePersonData({
-        variables: {
-          input: {
-            id: userId,
+    if (userData) {
+      const deleteConfirm = async () => {
+        await updateUserData({
+          variables: {
+            input: {
+              id: userData.getUser.items[0].id,
+              surveyCompleted: false,
+              personState: '팀 구하는 중',
+            },
           },
-        },
-      });
-      const firstInput = Array(12).fill({ title: '', answers: [] });
-      await updateUserData({
-        variables: {
-          input: {
-            id: userId,
-            surveyCompleted: false,
-            question: firstInput,
-          },
-        },
-      });
-      await personRefetch();
-      await refetch();
-      onCloseModal();
-      closeModal();
-    };
-    openModal();
-    setConfirmText(
-      '확인을 누르면 삭제가 완료됩니다. 삭제 완료 후, 다시 등록하려면 설문을 다시 진행해주세요.',
-    );
-    setConfirmFunction(() => deleteConfirm);
+        });
+        await refetch();
+        await listUserRefetch();
+        onCloseModal();
+        closeModal();
+      };
+      openModal();
+      setConfirmText(
+        '확인을 누르면 삭제가 완료됩니다. 삭제 완료 후, 다시 등록하려면 설문을 다시 진행해주세요.',
+      );
+      setConfirmFunction(() => deleteConfirm);
+    }
   };
 
   const onClickState = () => {
@@ -282,17 +268,17 @@ const PersonalDetailModal = ({
     }
   };
   useEffect(() => {
-    if (data?.id === userId) {
+    if (data?.id === userData?.getUser.items[0].id) {
       const updatePersonState = async () => {
-        await updatePersonData({
+        await updateUserData({
           variables: {
             input: {
-              id: userId,
+              id: userData?.getUser.items[0].id,
               personState,
             },
           },
         });
-        await personRefetch();
+        await refetch();
       };
       updatePersonState();
     }
@@ -303,21 +289,21 @@ const PersonalDetailModal = ({
       <DetailModalTemplate
         modalHeader={
           <>
-            {userId
-              && (data?.id === userId ? (
+            {userData
+              && (data?.id === userData.getUser.items[0].id ? (
                 <S.ClickPersonState onClick={onClickState} text={personState} />
               ) : (
                 <S.PersonState text={personState} />
               ))}
-            <S.Domain>{data.field}</S.Domain>
-            <S.Title type="personal">{data.name}</S.Title>
-            <S.Desc>{data.outline}</S.Desc>
+            <S.Domain>{data.question[0].answers[0]}</S.Domain>
+            <S.Title type="personal">{data.question[11].answers[0]}</S.Title>
+            <S.Desc>{data.question[10].answers[0]}</S.Desc>
           </>
         }
         modalBody={renderContents()}
         modalButton={
-          userId
-          && (data?.id !== userId ? (
+          userData
+          && (data?.id !== userData.getUser.items[0].id ? (
             data?.personState !== '종료' && (
               <S.SubmitButton
                 size="medium"

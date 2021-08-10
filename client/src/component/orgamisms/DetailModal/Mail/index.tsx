@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import {
-  getPersonDashboard,
-  getTeamDashboard,
-  getUser,
-  getUserById,
-} from 'graphql/queries';
-import { updateUser, updateTeam, updatePerson } from 'graphql/mutations';
+import { getTeamDashboard, getUser, getUserById } from 'graphql/queries';
+import { updateUser, updateTeam } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import DetailModalTemplate from '../template';
+import DetailModalTemplate, { teamListType } from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
@@ -28,24 +23,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     gql`
       ${getUser}
     `,
-  );
-
-  const { data: personData } = useQuery(
-    gql`
-      ${getPersonDashboard}
-    `,
-    {
-      variables: { id: data?.from },
-    },
-  );
-
-  const { data: myPersonData } = useQuery(
-    gql`
-      ${getPersonDashboard}
-    `,
-    {
-      variables: { id: userData && userData.getUser.items[0].id },
-    },
   );
 
   const { data: teamData } = useQuery(
@@ -71,12 +48,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     `,
   );
 
-  const [updatePersonData] = useMutation(
-    gql`
-      ${updatePerson}
-    `,
-  );
-
   const [updateTeamData] = useMutation(
     gql`
       ${updateTeam}
@@ -86,8 +57,8 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const modalHeader = () => {
-    if (personData && teamData) {
-      const personItems = personData.getPersonDashboard;
+    if (userDataById && teamData) {
+      const thatUserItems = userDataById.getUserById;
       const teamItems = teamData.getTeamDashboard;
       if (data?.type === 'invite') {
         return (
@@ -101,9 +72,11 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (data?.type === 'apply') {
         return (
           <>
-            <S.Domain>{personItems.field}</S.Domain>
-            <S.Title type="personal">{personItems.name}</S.Title>
-            <S.Desc>{personItems.outline}</S.Desc>
+            <S.Domain>{thatUserItems.question[0].answers[0]}</S.Domain>
+            <S.Title type="personal">
+              {thatUserItems.question[11].answers[0]}
+            </S.Title>
+            <S.Desc>{thatUserItems.question[10].answers[0]}</S.Desc>
           </>
         );
       }
@@ -128,9 +101,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const renderContents = () => {
-    if (personData && teamData) {
+    if (userDataById && teamData) {
       const teamItems = teamData.getTeamDashboard;
-      const personItems = personData.getPersonDashboard;
+      const thatUserItems = userDataById.getUserById;
       if (data?.type === 'invite') {
         const skills = teamItems.skills.map((skill: string) => {
           const skillName = Object.keys(skillsLabel).find(
@@ -144,8 +117,8 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             />
           );
         });
-        const people = teamItems.people.map((person: string) => (
-          <S.Text className="people">{person}</S.Text>
+        const people = teamItems.people.map((person: teamListType) => (
+          <S.Text className="people">{person.name}</S.Text>
         ));
         const inlineContents = (
           <>
@@ -176,22 +149,30 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'apply') {
-        const skills = personItems.skills.map((skill: string) => {
-          const skillName = Object.keys(skillsLabel).find(
-            (name) => name.toLowerCase() === skill.toLowerCase(),
-          );
-          return (
-            <S.TextLabel
-              key={skill}
-              className="dc-label"
-              text={skill}
-              color={skillsLabel[String(skillName)]}
-            />
-          );
-        });
-        const team = personItems.team.map((aTeam: string) => (
-          <S.Text key={aTeam}>{aTeam}</S.Text>
-        ));
+        const skills = thatUserItems.question[1].answers?.map(
+          (skill: string) => {
+            const skillName = Object.keys(skillsLabel).find(
+              (name) => name.toLowerCase() === skill.toLowerCase(),
+            );
+            return (
+              <S.TextLabel
+                key={skill}
+                className="dc-label"
+                text={skill}
+                color={skillsLabel[String(skillName)]}
+              />
+            );
+          },
+        );
+        const team = thatUserItems?.teamList.length > 0 ? (
+          thatUserItems.teamList.map((aTeam: teamListType) => (
+            <S.Text className="team" key={aTeam.id}>
+              {aTeam.name}
+            </S.Text>
+          ))
+        ) : (
+          <S.Text>팀 구하는 중</S.Text>
+        );
         const inlineContents = (
           <>
             <S.ContentItem>
@@ -204,14 +185,14 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
                 {skills}
               </S.InlineContent>
               <S.InlineContent title="공부 기간">
-                {personItems.devExp}
+                {thatUserItems.question[2].answers[0]}
               </S.InlineContent>
               <S.InlineContent title="활동 가능 기간">
-                {personItems.periods}
+                {thatUserItems.question[3].answers[0]}
               </S.InlineContent>
               {
                 <S.InlineContent title="협업 가능 시간대">
-                  {personItems.times?.map((time: any) => (
+                  {thatUserItems.question[4].answers?.map((time: any) => (
                     <S.Text key={time} className="ic-text">
                       {time}
                     </S.Text>
@@ -219,31 +200,39 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
                 </S.InlineContent>
               }
               <S.InlineContent title="진행 방식">
-                {personItems.contact}
+                {thatUserItems.question[5].answers[0]}
               </S.InlineContent>
               <S.InlineContent title="협업 경험">
-                {personItems.hasCoWork ? '있음' : '없음'}
+                {thatUserItems.question[6].answers[0] ? '있음' : '없음'}
               </S.InlineContent>
               <S.InlineContent title="협업 시 중요하게 생각하는 것">
-                {personItems.priority?.map((item: any) => (
+                {thatUserItems.question[7].answers?.map((item: any) => (
                   <S.Text key={item} className="ic-text">
                     {item}
                   </S.Text>
                 ))}
               </S.InlineContent>
-              <S.InlineContent title="계획하고 있는 프로젝트">
-                {personItems.project}
-              </S.InlineContent>
+              <S.BlockContent
+                title="계획하고 있는 프로젝트"
+                className="ci-block"
+              >
+                <S.Paragraph>{thatUserItems.question[9].answers}</S.Paragraph>
+              </S.BlockContent>
             </S.ContentItem>
           </>
         );
-        const blockContents = personItems.contents.map((content: any) => (
-          <S.ContentItem key={content.title}>
-            <S.BlockContent title={content.title} className="ci-block">
-              <S.Paragraph>{content.text}</S.Paragraph>
-            </S.BlockContent>
-          </S.ContentItem>
-        ));
+        const blockContents = (
+          <>
+            <S.ContentItem key={thatUserItems.question[8].title}>
+              <S.BlockContent
+                title={thatUserItems.question[8].title}
+                className="ci-block"
+              >
+                <S.Paragraph>{thatUserItems.question[8].answers}</S.Paragraph>
+              </S.BlockContent>
+            </S.ContentItem>
+          </>
+        );
         return (
           <>
             <S.ContentsList>{inlineContents}</S.ContentsList>
@@ -265,7 +254,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         return (
           <>
             <S.ContentsList>
-              {personItems.name}님께서
+              {thatUserItems.question[11].answers[0]}님께서
               <br />
               {teamItems.name}팀의 지원 / 초대를 거절하였습니다.
             </S.ContentsList>
@@ -286,10 +275,10 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         return (
           <>
             <S.ContentsList>
-              {personItems.name} 님께서 <br />
+              {thatUserItems.question[11].answers[0]} 님께서 <br />
               {teamItems.name}팀의 지원 / 초대를 승인하였습니다.
               <br />
-              github 닉네임 {personItems.name} 님을
+              github 닉네임 {thatUserItems.question[11].answers[0]} 님을
               <br />
               Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
             </S.ContentsList>
@@ -315,31 +304,54 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const beTeamMember = async () => {
-    if (teamData && personData && userData && myPersonData) {
+    if (teamData && userDataById && userData && userData) {
       const teamItems = teamData.getTeamDashboard;
-      const personItems = personData.getPersonDashboard;
+      const thatUserItems = userDataById.getUserById;
       const userItems = userData.getUser.items[0];
-      const myPersonItems = myPersonData.getPersonDashboard;
+      const removeTypeFromPeople = teamItems.people.map((el: any) => ({
+        id: el.id,
+        name: el.name,
+      }));
       await updateTeamData({
         variables: {
           input: {
             id: data?.teamId,
             people:
               data?.type === 'invite'
-                ? [...teamItems.people, userItems.question[11].answers[0]]
-                : [...teamItems.people, personItems.name],
+                ? [
+                  ...removeTypeFromPeople,
+                  {
+                    id: userItems.id,
+                    name: userItems.question[11].answers[0],
+                  },
+                ]
+                : [
+                  ...removeTypeFromPeople,
+                  {
+                    id: thatUserItems.id,
+                    name: thatUserItems.question[11].answers[0],
+                  },
+                ],
           },
         },
       });
-      const teams = data?.type === 'invite'
-        ? [...myPersonItems.team, data?.teamName]
-        : [...personItems.team, data?.teamName];
-      await updatePersonData({
+      const removeType = data?.type === 'invite'
+        ? userItems.teamList.map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }))
+        : thatUserItems.teamList.map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
+      await updateUserData({
         variables: {
           input: {
             id: data?.type === 'invite' ? userItems.id : data?.from,
-            team:
-              personItems.team[0] === '팀 구하는중' ? [data?.teamName] : teams,
+            teamList: [
+              ...removeType,
+              { id: teamItems.id, name: data?.teamName },
+            ],
           },
         },
       });
@@ -460,7 +472,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const modalButton = () => {
-    if (personData && teamData) {
+    if (userDataById && teamData) {
       if (
         data?.type === 'accept'
         || data?.type === 'refuse'

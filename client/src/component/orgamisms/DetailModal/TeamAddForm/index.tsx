@@ -1,17 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { Item } from 'component/orgamisms/AutoCompleteList';
-import {
-  getUser,
-  getPersonDashboard,
-  listTeamDashboard,
-} from 'graphql/queries';
-import {
-  createTeam,
-  updateUser,
-  updatePerson,
-  updateTeam,
-} from 'graphql/mutations';
+import { getUser, listTeamDashboard } from 'graphql/queries';
+import { createTeam, updateUser, updateTeam } from 'graphql/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
@@ -102,19 +93,6 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
     gql`
       ${updateUser}
     `,
-  );
-  const [updatePersonData] = useMutation(
-    gql`
-      ${updatePerson}
-    `,
-  );
-  const { data: myPersonData } = useQuery(
-    gql`
-      ${getPersonDashboard}
-    `,
-    {
-      variables: { id: userData && userData.getUser.items[0].id },
-    },
   );
   const [updateTeamData] = useMutation(
     gql`
@@ -378,10 +356,10 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
 
   const onMake = async () => {
     if (name.length < 2) return;
-    if (userData && myPersonData) {
+    if (userData) {
       if (!data) {
-        const getUserData = userData.getUser.items[0];
-        if (!getUserData.surveyCompleted) {
+        const userItems = userData.getUser.items[0];
+        if (!userItems.surveyCompleted) {
           openModal();
           setConfirmText(
             '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
@@ -391,7 +369,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           });
           return;
         }
-        if (getUserData.haveTeam) {
+        if (userItems.haveTeam) {
           openModal();
           setConfirmText('최대 한 개의 팀만 생성할 수 있습니다.');
           const closeModals = () => {
@@ -401,22 +379,16 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           setConfirmFunction(() => closeModals);
           return;
         }
+        const removeType = userItems.teamList.map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
         await updateUserData({
           variables: {
             input: {
-              id: getUserData.id,
+              id: userItems.id,
               haveTeam: true,
-            },
-          },
-        });
-        await updatePersonData({
-          variables: {
-            input: {
-              id: getUserData.id,
-              team:
-                myPersonData.getPersonDashboard.team[0] === '팀 구하는중'
-                  ? [name]
-                  : [...myPersonData.getPersonDashboard.team, name],
+              teamList: [...removeType, { id: userItems.id, name }],
             },
           },
         });
@@ -424,18 +396,21 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
         await createTeamData({
           variables: {
             input: {
-              id: getUserData.id,
+              id: userItems.id,
               name,
-              people: [getUserData.question[11].answers[0]],
+              people: [
+                { id: userItems.id, name: userItems.question[11].answers[0] },
+              ],
               skills,
               outline,
               contents,
-              owner: getUserData.id,
+              owner: userItems.id,
               state: '모집중',
             },
           },
         });
         await teamRefetch();
+        onCloseModal();
         history.go(0);
       } else {
         const updateConfirm = async () => {
