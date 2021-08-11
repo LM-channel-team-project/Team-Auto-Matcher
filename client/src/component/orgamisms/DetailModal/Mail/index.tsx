@@ -82,7 +82,8 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       }
       const Msg = (message: string) => (
         <S.Title type="personal">{`${
-          personItems?.name == null || teamItems?.name == null
+          thatUserItems.question[11].answers[0] == null
+          || teamItems?.name == null
             ? '삭제 메시지'
             : message
         }`}</S.Title>
@@ -241,7 +242,10 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'refuse') {
-        if (personItems?.name == null || teamItems?.name == null) {
+        if (
+          thatUserItems.question[11].answers[0] == null
+          || teamItems?.name == null
+        ) {
           return (
             <>
               <S.ContentsList>
@@ -262,7 +266,10 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       if (data?.type === 'accept') {
-        if (personItems?.name == null || teamItems?.name == null) {
+        if (
+          thatUserItems.question[11].answers[0] == null
+          || teamItems?.name == null
+        ) {
           return (
             <>
               <S.ContentsList>
