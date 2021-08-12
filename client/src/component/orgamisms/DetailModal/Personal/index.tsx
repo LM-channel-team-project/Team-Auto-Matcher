@@ -9,7 +9,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser } from 'graphql/mutations';
+import { updateUser, updateTeam } from 'graphql/mutations';
 import DetailModalTemplate, {
   QuestionItem,
   MailType,
@@ -47,7 +47,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     },
   );
 
-  const { data: teamData } = useQuery(
+  const { data: teamData, refetch: teamRefetch } = useQuery(
     gql`
       ${getTeamDashboard}
     `,
@@ -61,6 +61,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       ${updateUser}
     `,
   );
+  const [updateTeamData] = useMutation(
+    gql`
+      ${updateTeam}
+    `,
+  );
 
   const { refetch: listUserRefetch } = useQuery(
     gql`
@@ -70,9 +75,16 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
-  const [personState, setPersonState] = useState<string>(
-    data?.personState || '',
-  );
+  const [personState, setPersonState] = useState<string>(data?.personState || '');
+  const [isInTeam, setIsInTeam] = useState<boolean>(false);
+
+  useEffect(() => {
+    data?.teamList.forEach((el: any) => {
+      if (el.id === userData?.getUser.items[0].id) {
+        setIsInTeam(true);
+      }
+    });
+  }, []);
 
   const renderContents = () => {
     const skills = data.question[1].answers?.map((skill: string) => {
@@ -284,6 +296,80 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     }
   }, [personState]);
 
+  const onClickOut = () => {
+    const confirmOut = async () => {
+      const userItems = userData?.getUser.items[0];
+      const teamFilter = data?.teamList.filter((el: any) => {
+        if (el.id === userItems.id) {
+          return false;
+        }
+        return true;
+      }).map((el: any) => ({
+        id: el.id,
+        name: el.name,
+      }));
+      const peopleFilter = teamData.getTeamDashboard.people.filter((el: any) => {
+        if (el.id === data?.id) {
+          return false;
+        }
+        return true;
+      }).map((el: any) => ({
+        id: el.id,
+        name: el.name,
+      }));
+      await updateUserData({
+        variables: {
+          input: {
+            id: data?.id,
+            teamList: teamFilter,
+          },
+        },
+      });
+      await updateTeamData({
+        variables: {
+          input: {
+            id: userItems.id,
+            people: peopleFilter,
+          },
+        },
+      });
+      await listUserRefetch();
+      await teamRefetch();
+      onCloseModal();
+      closeModal();
+    };
+    openModal();
+    setConfirmText('확인을 누르면 해당 유저를 팀에서 내보냅니다.');
+    setConfirmFunction(() => confirmOut);
+  };
+
+  const modalButton = () => {
+    if (isInTeam) {
+      return <S.SubmitButton
+        size="medium"
+        color="red"
+        onClick={onClickOut}
+      >
+        팀 내보내기
+      </S.SubmitButton>;
+    }
+    if (data?.id !== userData?.getUser.items[0].id) {
+      if (data?.personState !== '종료') {
+        return <S.SubmitButton
+          size="medium"
+          color="yellow"
+          onClick={onClickInvite}
+        >
+          초대하기
+        </S.SubmitButton>;
+      }
+      return <></>;
+    }
+    return <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+      삭제하기
+    </S.SubmitButton>;
+  };
+
   return data ? (
     <>
       <DetailModalTemplate
@@ -301,24 +387,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           </>
         }
         modalBody={renderContents()}
-        modalButton={
-          userData
-          && (data?.id !== userData.getUser.items[0].id ? (
-            data?.personState !== '종료' && (
-              <S.SubmitButton
-                size="medium"
-                color="yellow"
-                onClick={onClickInvite}
-              >
-                초대하기
-              </S.SubmitButton>
-            )
-          ) : (
-            <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-              삭제하기
-            </S.SubmitButton>
-          ))
-        }
+        modalButton={modalButton()}
         onCloseModal={onCloseModal}
       />
       {modalOpen && (
