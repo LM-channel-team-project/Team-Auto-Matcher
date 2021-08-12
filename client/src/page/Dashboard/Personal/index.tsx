@@ -116,7 +116,7 @@ const PersonalDashboardPage = ({ className }: any) => {
             ))}
         </S.Stack>
         <S.Text className="teamList">
-          {user.teamList.length > 1
+          {user.teamList.length > 0
             ? user.teamList
               .slice(0, 2)
               .fill('...', 2, 3)
