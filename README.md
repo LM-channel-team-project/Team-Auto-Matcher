@@ -48,7 +48,7 @@
 
 ## Development Environment
 
-https://www.notion.so/LCTP-15995f7354554a4da4b4070e2654b3aa
+https://green-preface-69c.notion.site/LCTP-1477c58017c74ecabecebe39d87b22e9
 
 ## Project Plan & Design
 
