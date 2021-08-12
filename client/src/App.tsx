@@ -25,31 +25,23 @@ function App() {
       <Router>
         <Switch>
           <Route
-            exact
-            path="/survey"
+            exact path="/survey"
             component={withAuthenticator(Survey, false, [<LoginPage />])}
           />
           <Route
-            exact
-            path="/result"
+            exact path="/result"
             component={withAuthenticator(Result, false, [<LoginPage />])}
           />
-          <Route exact path="/" component={Home}>
-            <Home isLoggedIn={isLoggedIn} />
-          </Route>
+          <Route render={(props) => <Home {...props} isLoggedIn={isLoggedIn}></Home>} exact path="/"/>
           <Route exact path="/contact" component={Contact} />
-          <Route exact path="/dashboard/team" component={TeamDashboard}>
-            <TeamDashboard isLoggedIn={isLoggedIn} />
-          </Route>
+          <Route render={(props) => <TeamDashboard {...props} isLoggedIn={isLoggedIn}></TeamDashboard>} exact path="/dashboard/team"/>
           <Route
-            exact
-            path="/dashboard/personal"
+            exact path="/dashboard/personal"
             component={PersonalDashboard}
           />
           <Route exact path="/login" component={LoginPage} />
           <Route
-            exact
-            path="/mail"
+            exact path="/mail"
             component={withAuthenticator(Mail, false, [<LoginPage />])}
           />
           <Route path="*" component={NotFound} />
