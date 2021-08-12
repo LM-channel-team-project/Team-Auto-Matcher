@@ -38,10 +38,12 @@ const PersonalDashboardPage = ({ className }: any) => {
   const { items } = data.listUser;
   const users = items.reduce((obj: any, user: any) => {
     const result = { ...obj };
-    if (result[user.question[0].answers[0]]) {
-      result[user.question[0].answers[0]].push(user);
-    } else {
-      result[user.question[0].answers[0]] = [user];
+    if (user.surveyCompleted) {
+      if (result[user.question[0].answers[0]]) {
+        result[user.question[0].answers[0]].push(user);
+      } else {
+        result[user.question[0].answers[0]] = [user];
+      }
     }
     return result;
   }, {});
@@ -92,45 +94,38 @@ const PersonalDashboardPage = ({ className }: any) => {
     </S.Slider>
   );
 
-  const UserList = users[currentFieldName]
-    .filter((user: any) => {
-      if (!user.surveyCompleted) {
-        return false;
-      }
-      return true;
-    })
-    .map((user: any) => (
-      <S.List key={user.id} onClick={() => setModal({ data: user })}>
-        <S.Title>{user.question[11].answers[0]}</S.Title>
-        <S.Text>{user.question[2].answers[0]}</S.Text>
-        <S.Stack>
-          {user.question[1].answers.length > 3
-            ? user.question[1].answers
-              .slice(0, 4)
-              .fill('...', 3, 4)
-              .map((skill: any) => (
-                <S.Stacklist key={skill}>{skill}</S.Stacklist>
-              ))
-            : user.question[1].answers.map((skill: any) => (
+  const UserList = users[currentFieldName]?.map((user: any) => (
+    <S.List key={user.id} onClick={() => setModal({ data: user })}>
+      <S.Title>{user.question[11].answers[0]}</S.Title>
+      <S.Text>{user.question[2].answers[0]}</S.Text>
+      <S.Stack>
+        {user.question[1].answers.length > 3
+          ? user.question[1].answers
+            .slice(0, 4)
+            .fill('...', 3, 4)
+            .map((skill: any) => (
               <S.Stacklist key={skill}>{skill}</S.Stacklist>
-            ))}
-        </S.Stack>
-        <S.Text className="teamList">
-          {user.teamList.length > 1
-            ? user.teamList
-              .slice(0, 2)
-              .fill('...', 2, 3)
-              .map((team: any, index: number) => {
-                if (index === user.teamList.length - 1 || index === 1) {
-                  return `${team.name}팀 소속`;
-                }
-                return `${team.name}팀, `;
-              })
-            : '팀 구하는 중'}
-        </S.Text>
-        <S.PersonState text={user.personState} />
-      </S.List>
-    ));
+            ))
+          : user.question[1].answers.map((skill: any) => (
+            <S.Stacklist key={skill}>{skill}</S.Stacklist>
+          ))}
+      </S.Stack>
+      <S.Text className="teamList">
+        {user.teamList.length > 1
+          ? user.teamList
+            .slice(0, 2)
+            .fill('...', 2, 3)
+            .map((team: any, index: number) => {
+              if (index === user.teamList.length - 1 || index === 1) {
+                return `${team.name}팀 소속`;
+              }
+              return `${team.name}팀, `;
+            })
+          : '팀 구하는 중'}
+      </S.Text>
+      <S.PersonState text={user.personState} />
+    </S.List>
+  ));
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
