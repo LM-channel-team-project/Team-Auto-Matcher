@@ -25,13 +25,11 @@ function App() {
       <Router>
         <Switch>
           <Route
-            exact
-            path="/survey"
+            exact path="/survey"
             component={withAuthenticator(Survey, false, [<LoginPage />])}
           />
           <Route
-            exact
-            path="/result"
+            exact path="/result"
             component={withAuthenticator(Result, false, [<LoginPage />])}
           />
           <Route exact path="/" component={Home}>
@@ -48,8 +46,7 @@ function App() {
           />
           <Route exact path="/login" component={LoginPage} />
           <Route
-            exact
-            path="/mail"
+            exact path="/mail"
             component={withAuthenticator(Mail, false, [<LoginPage />])}
           />
           <Route path="*" component={NotFound} />
