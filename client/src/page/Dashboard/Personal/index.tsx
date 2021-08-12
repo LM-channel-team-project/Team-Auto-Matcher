@@ -38,10 +38,12 @@ const PersonalDashboardPage = ({ className }: any) => {
   const { items } = data.listUser;
   const users = items.reduce((obj: any, user: any) => {
     const result = { ...obj };
-    if (result[user.question[0].answers[0]]) {
-      result[user.question[0].answers[0]].push(user);
-    } else {
-      result[user.question[0].answers[0]] = [user];
+    if (user.surveyCompleted) {
+      if (result[user.question[0].answers[0]]) {
+        result[user.question[0].answers[0]].push(user);
+      } else {
+        result[user.question[0].answers[0]] = [user];
+      }
     }
     return result;
   }, {});
