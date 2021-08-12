@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById, listTeamDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, deleteTeam } from 'graphql/mutations';
+import { updateUser, deleteTeam, updateTeam } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem, teamListType } from '../template';
 import * as S from '../style';
 
@@ -53,6 +53,12 @@ const TeamDetailModal = ({
     `,
   );
 
+  const [updateTeamData] = useMutation(
+    gql`
+      ${updateTeam}
+    `,
+  );
+
   const [deleteTeamData] = useMutation(
     gql`
       ${deleteTeam}
@@ -61,6 +67,15 @@ const TeamDetailModal = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [isInTeam, setIsInTeam] = useState<boolean>(false);
+
+  useEffect(() => {
+    data?.people.forEach((el: any) => {
+      if (el.id === userData?.getUser.items[0].id) {
+        setIsInTeam(true);
+      }
+    });
+  }, []);
 
   const renderContents = () => {
     const skills = data?.skills.map((skill: string) => {
@@ -111,11 +126,95 @@ const TeamDetailModal = ({
     );
   };
 
+  const modalButton = () => {
+    if (isInTeam && data?.owner !== userData.getUser.items[0].id) {
+      return (<S.SubmitButton
+        size="medium"
+        color="red"
+        onClick={onClickQuit}
+      >
+        탈퇴하기
+      </S.SubmitButton>);
+    }
+    if (data?.owner !== userData.getUser.items[0].id) {
+      if (data?.state !== '종료') {
+        return (<S.SubmitButton
+          size="medium"
+          color="yellow"
+          onClick={onClickApply}
+        >
+          지원하기
+        </S.SubmitButton>);
+      }
+      return <></>;
+    }
+    return (<>
+      <S.SubmitButton
+        size="medium"
+        color="yellow"
+        onClick={onClickUpdate}
+      >
+        업데이트
+      </S.SubmitButton>
+      <S.SpaceSpan />
+      <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+        팀 삭제하기
+      </S.SubmitButton>
+    </>);
+  };
+
   const openModal = () => {
     setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const onClickQuit = async () => {
+    const confirmQuit = async () => {
+      const userItems = userData?.getUser.items[0];
+      const teamFilter = userItems.teamList.filter((el: any) => {
+        if (el.id === data?.id) {
+          return false;
+        }
+        return true;
+      }).map((el: any) => ({
+        id: el.id,
+        name: el.name,
+      }));
+      const peopleFilter = data?.people.filter((el: any) => {
+        if (el.id === userItems.id) {
+          return false;
+        }
+        return true;
+      }).map((el: any) => ({
+        id: el.id,
+        name: el.name,
+      }));
+      await updateUserData({
+        variables: {
+          input: {
+            id: userItems.id,
+            teamList: teamFilter,
+          },
+        },
+      });
+      await updateTeamData({
+        variables: {
+          input: {
+            id: data?.id,
+            people: peopleFilter,
+          },
+        },
+      });
+      await teamRefetch();
+      await refetch();
+      onCloseModal();
+      closeModal();
+    };
+    openModal();
+    setConfirmText('확인을 누르면 팀에서 탈퇴합니다.');
+    setConfirmFunction(() => confirmQuit);
   };
 
   const onClickApply = async () => {
@@ -205,34 +304,7 @@ const TeamDetailModal = ({
           </>
         }
         modalBody={renderContents()}
-        modalButton={
-          userData
-          && (data?.owner !== userData.getUser.items[0].id ? (
-            data?.state !== '종료' && (
-              <S.SubmitButton
-                size="medium"
-                color="yellow"
-                onClick={onClickApply}
-              >
-                지원하기
-              </S.SubmitButton>
-            )
-          ) : (
-            <>
-              <S.SubmitButton
-                size="medium"
-                color="yellow"
-                onClick={onClickUpdate}
-              >
-                업데이트
-              </S.SubmitButton>
-              <S.SpaceSpan />
-              <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-                팀 삭제하기
-              </S.SubmitButton>
-            </>
-          ))
-        }
+        modalButton={modalButton()}
         onCloseModal={onCloseModal}
       />
       {modalOpen && (
