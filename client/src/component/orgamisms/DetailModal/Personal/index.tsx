@@ -344,7 +344,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   };
 
   const modalButton = () => {
-    if (isInTeam) {
+    if (isInTeam && data?.id !== userData?.getUser.items[0].id) {
       return <S.SubmitButton
         size="medium"
         color="red"

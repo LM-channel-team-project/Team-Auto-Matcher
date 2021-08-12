@@ -127,7 +127,7 @@ const TeamDetailModal = ({
   };
 
   const modalButton = () => {
-    if (isInTeam) {
+    if (isInTeam && data?.owner !== userData.getUser.items[0].id) {
       return <S.SubmitButton
         size="medium"
         color="red"
