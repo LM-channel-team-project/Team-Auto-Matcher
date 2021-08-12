@@ -1,0 +1,38 @@
+name: develop-deploy
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@master
+
+      - name: Install Dependencies
+        run: cd client && npm i
+
+      - name: Build
+        env:
+          REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID: ${{ secrets.DEV_COGNITO_IDENTITY_POOL_ID }}
+          REACT_APP_AWS_USER_POOLS_ID: ${{ secrets.DEV_USER_POOLS_ID }}
+          REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID: ${{ secrets.DEV_USER_POOLS_WEB_CLIENT_ID }}
+          REACT_APP_AWS_AUTH_DOMAIN: ${{ secrets.DEV_AUTH_DOMAIN }}
+          REACT_APP_AWS_REDIRECT_SIGNIN_URL: ${{ secrets.DEV_REDIRECT_SIGNIN_URL }}
+          REACT_APP_AWS_REDIRECT_SIGNOUT_URL: ${{ secrets.DEV_REDIRECT_SIGNOUT_URL }}
+          REACT_APP_AWS_APPSYNC_GRAPHQLENDPOINT: ${{ secrets.DEV_APPSYNC_GRAPHQLENDPOINT }}
+          REACT_APP_AWS_APIKEY: ${{ secrets.DEV_APIKEY }}
+        run: cd client && npm run build
+
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region ap-northeast-2 \
+            client/build s3://lctp-tam-develop
