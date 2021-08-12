@@ -36,8 +36,7 @@ function App() {
           <Route exact path="/contact" component={Contact} />
           <Route render={(props) => <TeamDashboard {...props} isLoggedIn={isLoggedIn}></TeamDashboard>} exact path="/dashboard/team"/>
           <Route
-            exact
-            path="/dashboard/personal"
+            exact path="/dashboard/personal"
             component={PersonalDashboard}
           />
           <Route exact path="/login" component={LoginPage} />
