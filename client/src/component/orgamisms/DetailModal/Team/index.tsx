@@ -128,27 +128,27 @@ const TeamDetailModal = ({
 
   const modalButton = () => {
     if (isInTeam && data?.owner !== userData.getUser.items[0].id) {
-      return <S.SubmitButton
+      return (<S.SubmitButton
         size="medium"
         color="red"
         onClick={onClickQuit}
       >
         탈퇴하기
-      </S.SubmitButton>;
+      </S.SubmitButton>);
     }
     if (data?.owner !== userData.getUser.items[0].id) {
       if (data?.state !== '종료') {
-        return <S.SubmitButton
+        return (<S.SubmitButton
           size="medium"
           color="yellow"
           onClick={onClickApply}
         >
           지원하기
-        </S.SubmitButton>;
+        </S.SubmitButton>);
       }
       return <></>;
     }
-    return <>
+    return (<>
       <S.SubmitButton
         size="medium"
         color="yellow"
@@ -160,7 +160,7 @@ const TeamDetailModal = ({
       <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
         팀 삭제하기
       </S.SubmitButton>
-    </>;
+    </>);
   };
 
   const openModal = () => {

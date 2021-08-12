@@ -345,29 +345,29 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   const modalButton = () => {
     if (isInTeam && data?.id !== userData?.getUser.items[0].id) {
-      return <S.SubmitButton
+      return (<S.SubmitButton
         size="medium"
         color="red"
         onClick={onClickOut}
       >
         팀 내보내기
-      </S.SubmitButton>;
+      </S.SubmitButton>);
     }
     if (data?.id !== userData?.getUser.items[0].id) {
       if (data?.personState !== '종료') {
-        return <S.SubmitButton
+        return (<S.SubmitButton
           size="medium"
           color="yellow"
           onClick={onClickInvite}
         >
           초대하기
-        </S.SubmitButton>;
+        </S.SubmitButton>);
       }
       return <></>;
     }
-    return <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+    return (<S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
       삭제하기
-    </S.SubmitButton>;
+    </S.SubmitButton>);
   };
 
   return data ? (
