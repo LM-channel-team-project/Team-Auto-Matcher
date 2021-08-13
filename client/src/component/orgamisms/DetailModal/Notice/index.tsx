@@ -8,7 +8,7 @@ import * as S from '../style';
 
 export interface NoticeModalProps {
   className?: string;
-  data: {
+  data?: {
     id: string;
     title: string;
     date: string;
@@ -18,7 +18,7 @@ export interface NoticeModalProps {
   onCloseModal: () => void;
 }
 
-const MailDetailModal = ({
+const NoticeDetailModal = ({
   className, data, isAdmin, onCloseModal,
 }: NoticeModalProps) => {
   const { data: noticeData, refetch } = useQuery(
@@ -38,13 +38,13 @@ const MailDetailModal = ({
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const modalHeader = () => (
     <>
-      <S.Title type='personal'>{data.title}</S.Title>
-      <S.Desc>{data.date}</S.Desc>
+      <S.Title type='personal'>{data?.title}</S.Title>
+      <S.Desc>{data?.date}</S.Desc>
     </>
   );
 
   const renderContents = () => (
-    <S.Paragraph>{data.contents}</S.Paragraph>
+    <S.Paragraph>{data?.contents}</S.Paragraph>
   );
 
   const openModal = () => {
@@ -108,4 +108,4 @@ const MailDetailModal = ({
   );
 };
 
-export default MailDetailModal;
+export default NoticeDetailModal;
