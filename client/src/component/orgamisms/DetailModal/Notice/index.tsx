@@ -67,13 +67,13 @@ const MailDetailModal = ({
       );
     }
     return (
-      <S.SubmitButton size="medium" color="red" onClick={() => { onCloseModal(); }}>
+      <S.SubmitButton size="medium" color="red" onClick={onCloseModal}>
         닫기
       </S.SubmitButton>
     );
   };
 
-  return data && (
+  return data ? (
     <>
       <DetailModalTemplate
         modalHeader={modalHeader()}
@@ -89,6 +89,8 @@ const MailDetailModal = ({
         />
       )}
     </>
+  ) : (
+    <div>error</div>
   );
 };
 
