@@ -49,7 +49,6 @@ const Mail = ({ className }: any) => {
     );
   });
 
-  console.log(mailList.length);
   const renderModal = () => {
     const onCloseModal = () => setModal({});
 
