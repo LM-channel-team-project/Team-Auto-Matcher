@@ -105,27 +105,24 @@ const PersonalDashboardPage = ({ className }: any) => {
             .fill('...', 3, 4)
             .map((skill: any) => (
               <S.Stacklist key={skill}>{skill}</S.Stacklist>
-            ))
-          : user.question[1].answers.map((skill: any) => (
-            <S.Stacklist key={skill}>{skill}</S.Stacklist>
-          ))}
-      </S.Stack>
-      <S.Text className="teamList">
-        {user.teamList.length > 1
-          ? user.teamList
-            .slice(0, 2)
-            .fill('...', 2, 3)
-            .map((team: any, index: number) => {
-              if (index === user.teamList.length - 1 || index === 1) {
-                return `${team.name}팀 소속`;
-              }
-              return `${team.name}팀, `;
-            })
-          : '팀 구하는 중'}
-      </S.Text>
-      <S.PersonState text={user.personState} />
-    </S.List>
-  ));
+            ))}
+        </S.Stack>
+        <S.Text className="teamList">
+          {user.teamList.length > 0
+            ? user.teamList
+              .slice(0, 2)
+              .fill('...', 2, 3)
+              .map((team: any, index: number) => {
+                if (index === user.teamList.length - 1 || index === 1) {
+                  return `${team.name}팀 소속`;
+                }
+                return `${team.name}팀, `;
+              })
+            : '소속된 팀 없음'}
+        </S.Text>
+        <S.PersonState text={user.personState} />
+      </S.List>
+    ));
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
