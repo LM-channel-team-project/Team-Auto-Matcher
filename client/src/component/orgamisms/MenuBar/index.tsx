@@ -156,9 +156,7 @@ const MenuBar = ({ className }: any) => {
           {isLoggedIn && (
             <S.MailBriefContainer>
               <BriefItems to="/mail" text="Mail" />
-              <S.MailBriefCount
-                counts={mailCounter === 0 || mailCounter === undefined}
-              >
+              <S.MailBriefCount counts={mailCounter === 0 || mailCounter === undefined}>
                 {mailCounter}
               </S.MailBriefCount>
             </S.MailBriefContainer>
