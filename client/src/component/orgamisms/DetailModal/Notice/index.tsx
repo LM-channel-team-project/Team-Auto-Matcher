@@ -55,7 +55,21 @@ const MailDetailModal = ({
   };
 
   const onClickDelete = () => {
-    console.log('sth');
+    const confirmDelete = async () => {
+      await deleteNoticeData({
+        variables: {
+          input: {
+            id: data?.id,
+          },
+        },
+      });
+      await refetch();
+      onCloseModal();
+      closeModal();
+    };
+    openModal();
+    setConfirmText('확인을 누르면 공지가 삭제됩니다.');
+    setConfirmFunction(() => confirmDelete);
   };
 
   const modalButton = () => {
