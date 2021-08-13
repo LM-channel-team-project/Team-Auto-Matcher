@@ -126,7 +126,7 @@ const PersonalDashboardPage = ({ className }: any) => {
                 }
                 return `${team.name}팀, `;
               })
-            : '팀 구하는 중'}
+            : '소속된 팀 없음'}
         </S.Text>
         <S.PersonState text={user.personState} />
       </S.List>
