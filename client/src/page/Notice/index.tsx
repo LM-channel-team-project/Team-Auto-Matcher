@@ -10,11 +10,11 @@ type ExtractType<O, K> = K extends keyof O ? O[K] : never;
 type UserData = ExtractType<NoticeModalProps, 'data'>;
 
 interface ModalState {
-  type?: 'detail';
+  type?: 'detail' | 'add';
   data?: UserData;
 }
 
-const Mail = ({ className }: any) => {
+const Notice = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
@@ -47,7 +47,7 @@ const Mail = ({ className }: any) => {
 
   const { items } = noticeData?.listNotice;
   const NoticeList = items.map((el: any) => (
-    <S.List key={el.id} onClick={() => setModal({ data: el })}>
+    <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
       <S.Title>{el.title}</S.Title>
       <S.Text>{el.date}</S.Text>
     </S.List>
@@ -56,15 +56,28 @@ const Mail = ({ className }: any) => {
   const renderModal = () => {
     const onCloseModal = () => setModal({});
 
-    return (
-      modal.data && (
-        <NoticeDetailModal isAdmin={isAdmin} data={modal.data} onCloseModal={onCloseModal} />
-      )
-    );
+    switch (modal?.type) {
+    case 'detail':
+      return (
+        <NoticeDetailModal
+          isAdmin={isAdmin}
+          data={modal.data}
+          onCloseModal={onCloseModal}
+        />
+      );
+    case 'add':
+      return (
+        <TeamAddForm
+          onCloseModal={onCloseModal}
+        />
+      );
+    default:
+      return '';
+    }
   };
 
   const makeNotice = () => {
-    console.log('make');
+    setModal({ type: 'add' });
   };
 
   return (
@@ -82,4 +95,4 @@ const Mail = ({ className }: any) => {
   );
 };
 
-export default Mail;
+export default Notice;
