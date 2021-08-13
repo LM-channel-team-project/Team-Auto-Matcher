@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
 import { createNotice } from 'graphql/mutations';
 import { getUser, listNotice } from 'graphql/queries';
@@ -30,24 +30,24 @@ const Mail = ({ className }: any) => {
     `,
   );
 
-  const admin = ['google_106151528337997471500', 'google_105106168339038633380', 'google_116436995621806622506'];
-    
-  useEffect(() => {
-    if (admin.includes(data?.getUser.items[0].owner)) {
-      setIsAdmin(true);
-      console.log(admin.includes(data.getUser.items[0].owner));
-    }
-  }, [!loading]);
-
   const { loading, data: noticeData } = useQuery(
     gql`
       ${listNotice}
     `,
   );
-
+  const CheckIsAdmin = useCallback(() => {
+    const admin = ['google_106151528337997471500', 'google_105106168339038633380', 'google_116436995621806622506'];
+    if (admin.includes(data?.getUser.items[0].owner)) {
+      setIsAdmin(true);
+    }
+  }, [data]);
+  useEffect(() => {
+    CheckIsAdmin();
+  }, [CheckIsAdmin]);
   if (loading) {
     return <></>;
   }
+
   const { items } = noticeData?.listNotice;
   const NoticeList = items.map((el: any) => (
     <S.List key={el.id} onClick={() => setModal({ data: el })}>
