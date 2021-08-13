@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { getUser, getUserById, listTeamDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import {
-  gql, useQuery, useMutation, useLazyQuery,
-} from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam } from 'graphql/mutations';
 import DetailModalTemplate, { ContentItem, teamListType } from '../template';
 import * as S from '../style';
@@ -171,58 +169,25 @@ const TeamDetailModal = ({
   };
   const onClickDelete = () => {
     const deleteConfirm = async () => {
-      if (data) {
-        data.people.forEach(async (person: any) => {
-          if (person.id === data?.owner) {
-            await updateUserData({
-              variables: {
-                input: {
-                  id: data?.owner,
-                  haveTeam: false,
-                },
-              },
-            });
-          } else {
-            const [, { data: thatUserData }] = useLazyQuery(
-              gql`
-                ${getUserById}
-              `,
-              {
-                variables: { id: person.id },
-              },
-            );
-            const filteredTeam = thatUserData.getUserById.teamList
-              .filter((el: any) => {
-                if (data.id === el.id) {
-                  return false;
-                }
-                return true;
-              }).map((el: any) => ({
-                id: el.id,
-                name: el.name,
-              }));
-            await updateUserData({
-              variables: {
-                input: {
-                  id: person.id,
-                  teamList: filteredTeam,
-                },
-              },
-            });
-          }
-        });
-        // await deleteTeamData({
-        //   variables: {
-        //     input: {
-        //       id: data?.owner,
-        //     },
-        //   },
-        // });
-        await teamRefetch();
-        await refetch();
-        onCloseModal();
-        closeModal();
-      }
+      await deleteTeamData({
+        variables: {
+          input: {
+            id: data?.owner,
+          },
+        },
+      });
+      await updateUserData({
+        variables: {
+          input: {
+            id: data?.owner,
+            haveTeam: false,
+          },
+        },
+      });
+      await teamRefetch();
+      await refetch();
+      onCloseModal();
+      closeModal();
     };
     openModal();
     setConfirmText('확인을 누르면 삭제가 완료됩니다.');
