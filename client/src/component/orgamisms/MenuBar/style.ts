@@ -14,17 +14,20 @@ export const MenuBar = styled.nav`
   padding: 1.7rem 15rem;
   border-bottom: 0.1rem solid rgb(233, 233, 233);
   z-index: 3;
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1210px) {
     padding: 1.7rem 10rem;
   }
-  @media screen and (max-width: 1000px) {
-    padding: 1.7rem 7rem;
+  @media screen and (max-width: 1065px) {
+    padding: 1.7rem 4rem;
   }
-  @media screen and (max-width: 920px) {
+  @media screen and (max-width: 990px) {
+    padding: 1.7rem 2rem;
+  }
+  @media screen and (max-width: 940px) {
+    padding: 1.7rem 0;
+  }
+  @media screen and (max-width: 713px) {
     padding: 1.7rem 3rem;
-  }
-  @media screen and (max-width: 840px) {
-    padding: 1.7rem 1rem;
   }
 `;
 
@@ -145,7 +148,7 @@ export const MenuRight = styled.ul`
   & a:hover::after {
     background-size: 100% 2rem;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 713px) {
     display: none;
   }
 `;
@@ -192,8 +195,18 @@ export const MenuCenter = styled.ul`
   & li:first-child {
     margin-left: 0;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 713px) {
     display: none;
+  }
+  @media screen and (max-width: 900px) {
+    & li {
+      margin-left: 3rem;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    & li {
+      margin-left: 1rem;
+    }
   }
 `;
 export const MailMenu = styled.div`
@@ -301,7 +314,7 @@ export const Hamburger = styled.div`
   & span:last-child {
     ${lastSpanStyle}
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 713px) {
     display: block;
   }
 `;
@@ -321,7 +334,7 @@ export const HamburgerMenus = styled.ul`
   backdrop-filter: blur(5px);
   position: absolute;
   top: 7rem;
-  left: -600px;
+  left: -713px;
   width: 100%;
   z-index: 20;
   & a:hover,

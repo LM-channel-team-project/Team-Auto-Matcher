@@ -63,7 +63,7 @@ const MenuBar = ({ className }: any) => {
   const handleSize = () => {
     const newWidth = window.innerWidth;
     setWindowWidth(newWidth);
-    if (newWidth > 600) {
+    if (newWidth > 713) {
       setIsClicked(false);
     }
   };
@@ -145,7 +145,7 @@ const MenuBar = ({ className }: any) => {
           <S.HamburgerSpan></S.HamburgerSpan>
         </S.Hamburger>
       </S.MenuBar>
-      {windowWidth < 600 && (
+      {windowWidth < 713 && (
         <S.HamburgerMenus clicked={isClicked}>
           <BriefItems to="/home" text="Home" />
           <BriefItems to="/dashboard/personal" text="Personal" />
