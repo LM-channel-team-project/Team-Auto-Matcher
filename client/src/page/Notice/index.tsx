@@ -35,15 +35,12 @@ const Mail = ({ className }: any) => {
       ${listNotice}
     `,
   );
-  const CheckIsAdmin = useCallback(() => {
+  useEffect(() => {
     const admin = ['google_106151528337997471500', 'google_105106168339038633380', 'google_116436995621806622506'];
     if (admin.includes(data?.getUser.items[0].owner)) {
       setIsAdmin(true);
     }
   }, [data]);
-  useEffect(() => {
-    CheckIsAdmin();
-  }, [CheckIsAdmin]);
   if (loading) {
     return <></>;
   }
