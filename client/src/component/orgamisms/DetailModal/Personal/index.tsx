@@ -84,7 +84,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         setIsInTeam(true);
       }
     });
-  }, []);
+  }, [userData]);
 
   const renderContents = () => {
     const skills = data.question[1].answers?.map((skill: string) => {

@@ -75,7 +75,7 @@ const TeamDetailModal = ({
         setIsInTeam(true);
       }
     });
-  }, []);
+  }, [userData]);
 
   const renderContents = () => {
     const skills = data?.skills.map((skill: string) => {
