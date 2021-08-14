@@ -280,6 +280,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
         value={inputsState.name.value}
         placeholder="팀 이름"
         autoWidth
+        minWidth={4}
         maxWidth={300}
         onChange={inputsState.name.onChange}
       />
