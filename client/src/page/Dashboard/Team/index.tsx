@@ -58,9 +58,16 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
 
   const { items } = data.listTeamDashboard;
   const teams = items.map((team: any) => {
-    const skills = team.skills.map((skill: string) => (
-      <Team.Stacklist key={skill}>{skill}</Team.Stacklist>
-    ));
+    const skills = team.skills.length > 3
+      ? team.skills
+        .slice(0, 4)
+        .fill('...', 3, 4)
+        .map((skill: string) => (
+          <Team.Stacklist key={skill}>{skill}</Team.Stacklist>
+        ))
+      : team.skills.map((skill: string) => (
+        <Team.Stacklist key={skill}>{skill}</Team.Stacklist>
+      ));
 
     const contents = team.contents.map((content: any) => (
       <Team.Text key={content.title}>
