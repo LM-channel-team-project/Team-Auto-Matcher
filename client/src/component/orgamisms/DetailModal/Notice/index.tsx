@@ -76,7 +76,7 @@ const NoticeDetailModal = ({
     if (isAdmin) {
       return (
         <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-          메시지 삭제
+          공지 삭제
         </S.SubmitButton>
       );
     }
