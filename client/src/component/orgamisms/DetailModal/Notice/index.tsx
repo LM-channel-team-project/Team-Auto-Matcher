@@ -21,7 +21,7 @@ export interface NoticeModalProps {
 const NoticeDetailModal = ({
   className, data, isAdmin, onCloseModal,
 }: NoticeModalProps) => {
-  const { data: noticeData, refetch } = useQuery(
+  const { refetch } = useQuery(
     gql`
       ${listNotice}
     `,
