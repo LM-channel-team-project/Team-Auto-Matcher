@@ -8,7 +8,13 @@ import * as S from '../style';
 interface InputState {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  reset?: () => void;
+}
+
+interface ContentsState {
+  value: string;
+  onChange: (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => void;
 }
 
 const NoticeAddForm = ({ onCloseModal }: any) => {
@@ -22,10 +28,13 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
       ${listNotice}
     `,
   );
+
+  const dateObj = new Date();
+  const today = `${dateObj.getFullYear()} - ${dateObj.getMonth() + 1} - ${dateObj.getDate()}`;
   // Data to submit when create a team
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [contents, setContents] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [date, setDate] = useState<string>(today);
+  const [contents, setContents] = useState<string>('');
 
   const inputsState: { [key: string]: InputState } = {
     title: {
@@ -40,11 +49,18 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
         setDate(event.target.value);
       },
     },
-    contents: {
-      value: contents,
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setContents(event.target.value);
-      },
+  };
+
+  const contentsState: ContentsState = {
+    value: contents,
+    onChange: (
+      event: React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
+      const { target } = event;
+      // Change height of Textarea automatically by value;
+      target.style.height = 'auto';
+      target.style.height = `${target.scrollHeight}px`;
+      setContents(event.target.value);
     },
   };
 
@@ -54,7 +70,9 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
         value={inputsState.title.value}
         placeholder="제목"
         autoWidth
-        maxWidth={300}
+        maxLength={30}
+        minWidth={4}
+        maxWidth={350}
         onChange={inputsState.title.onChange}
       />
       <S.OutlineInput
@@ -68,7 +86,7 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
     </>
   );
 
-  const blockContents = () => {
+  const bodyContents = () => {
     const ref = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
@@ -83,10 +101,11 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
       <S.ContentItem>
         <S.BlockContent className="ci-block">
           <S.Textarea
+            placeholder="내용"
             inputRef={ref}
             type="textarea"
-            value={inputsState.contents.value}
-            onChange={inputsState.contents.onChange}
+            value={contentsState.value}
+            onChange={contentsState.onChange}
           />
         </S.BlockContent>
       </S.ContentItem>
@@ -94,6 +113,9 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
   };
 
   const onMake = async () => {
+    console.log(title);
+    console.log(date);
+    console.log(contents);
     await createNoticeData({
       variables: {
         input: {
@@ -111,11 +133,11 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
     <>
       <DetailModalTemplate
         modalHeader={headerContents}
-        modalBody={<S.ContentsList>{blockContents}</S.ContentsList>}
+        modalBody={bodyContents()}
         modalButton={
           <>
             <S.SubmitButton size="medium" color="yellow" onClick={onMake}>
-              팀 생성하기
+              공지 추가하기
             </S.SubmitButton>
             <S.SpaceSpan />
             <S.SubmitButton size="medium" color="red" onClick={onCloseModal}>
