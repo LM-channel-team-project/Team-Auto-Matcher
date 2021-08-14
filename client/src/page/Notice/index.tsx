@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
-import { createNotice } from 'graphql/mutations';
 import { getUser, listNotice } from 'graphql/queries';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import NoticeDetailModal, { NoticeModalProps } from 'component/orgamisms/DetailModal/Notice';
 import NoticeAddForm from 'component/orgamisms/DetailModal/NoticeAddForm';
 import * as S from './style';
@@ -22,12 +21,6 @@ const Notice = ({ className }: any) => {
   const { data } = useQuery(
     gql`
       ${getUser}
-    `,
-  );
-
-  const [createNoticeData] = useMutation(
-    gql`
-      ${createNotice}
     `,
   );
 
