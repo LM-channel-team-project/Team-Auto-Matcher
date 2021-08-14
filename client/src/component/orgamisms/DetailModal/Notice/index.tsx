@@ -81,7 +81,7 @@ const NoticeDetailModal = ({
       );
     }
     return (
-      <S.SubmitButton size="medium" color="red" onClick={onCloseModal}>
+      <S.SubmitButton size="medium" color="yellow" onClick={onCloseModal}>
         닫기
       </S.SubmitButton>
     );
