@@ -4,6 +4,7 @@ import { createNotice } from 'graphql/mutations';
 import { getUser, listNotice } from 'graphql/queries';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import NoticeDetailModal, { NoticeModalProps } from 'component/orgamisms/DetailModal/Notice';
+import NoticeAddForm from 'component/orgamisms/DetailModal/NoticeAddForm';
 import * as S from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
@@ -67,7 +68,7 @@ const Notice = ({ className }: any) => {
       );
     case 'add':
       return (
-        <TeamAddForm
+        <NoticeAddForm
           onCloseModal={onCloseModal}
         />
       );
@@ -76,7 +77,7 @@ const Notice = ({ className }: any) => {
     }
   };
 
-  const makeNotice = () => {
+  const onClickmakeNotice = () => {
     setModal({ type: 'add' });
   };
 
@@ -88,7 +89,7 @@ const Notice = ({ className }: any) => {
         </S.Top>
         <S.NoticeList>{NoticeList}</S.NoticeList>
         {isAdmin && (
-          <S.CreateBtn onClick={makeNotice}>공지 추가하기</S.CreateBtn>
+          <S.CreateBtn onClick={onClickmakeNotice}>공지 추가하기</S.CreateBtn>
         )}
       </S.Container>
     </BaseTemplate>
