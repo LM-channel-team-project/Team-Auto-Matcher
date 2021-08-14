@@ -36,6 +36,7 @@ export const getUser = /* GraphQL */ `
         id
         haveTeam
         surveyCompleted
+        owner
         question {
           title
           answers
@@ -67,6 +68,7 @@ export const getUserById = /* GraphQL */ `
         answers
       }
       personState
+      owner
       teamList {
         id
         name
@@ -150,6 +152,20 @@ export const getTeamDashboard = /* GraphQL */ `
         title
         text
       }
+    }
+  }
+`;
+
+export const listNotice = /* GraphQL */ `
+  query ListNotice($nextToken: String) {
+    listNotice(nextToken: $nextToken) {
+      items {
+        id
+        title
+        contents
+        date
+      }
+      nextToken
     }
   }
 `;

@@ -102,3 +102,22 @@ export const deleteTeam = /* GraphQL */ `
     }
   }
 `;
+
+export const createNotice = /* GraphQL */ `
+  mutation createNotice($input: CreateNoticeInput!) {
+    createNotice(input: $input) {
+      id
+      title
+      contents
+      date
+    }
+  }
+`;
+
+export const deleteNotice = /* GraphQL */ `
+  mutation deleteNotice($input: DeleteNoticeInput!) {
+    deleteNotice(input: $input) {
+      id
+    }
+  }
+`;

@@ -32,7 +32,7 @@ const tokenAuthLink = createAuthLink({
 
 const awsLink = ApolloLink.split(
   (operation) => {
-    const publicOperations = ['ListUser', 'ListTeamDashboard'];
+    const publicOperations = ['ListUser', 'ListTeamDashboard', 'ListNotice'];
     return publicOperations.includes(operation.operationName);
   },
   apiAuthLink,

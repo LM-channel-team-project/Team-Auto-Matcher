@@ -65,7 +65,7 @@ const Mail = ({ className }: any) => {
         <S.Top>
           <S.Main>메시지 보관함</S.Main>
         </S.Top>
-        <S.MailList>{mailList}</S.MailList>
+        <S.MailList>{mailList.length === 0 ? '메일함이 비어있습니다.' : mailList}</S.MailList>
       </S.Container>
     </BaseTemplate>
   );

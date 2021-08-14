@@ -54,6 +54,7 @@ export const ContentsList = styled.ul`
 `;
 
 export const ContentItem = styled.li`
+  list-style:none;
   &:not(:last-child) .ci-block {
     margin-bottom: 2.5em;
   }

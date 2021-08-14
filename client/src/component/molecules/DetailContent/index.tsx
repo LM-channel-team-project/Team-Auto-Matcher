@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './style';
 
 interface IDetailContent {
-  title: string;
+  title?: string;
   children: any;
   className?: string;
 }

@@ -26,8 +26,8 @@ const Home = ({ className, isLoggedIn }: any) => {
       );
     }
   }
-  // 7월 13일 초대 주소 get, 30일 마다 갱신
-  const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-sqrkwn93-SsuQ0qY1xwind4cZ1xfUWw';
+  // 8월 13일 초대 주소 get, 30일 마다 갱신
+  const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-ui5ttkrl-6tbTUii60lCkQNntxHSKqg';
 
   const SettingPhase = () => {
     let phase = <></>;
