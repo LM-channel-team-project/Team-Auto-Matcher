@@ -58,7 +58,6 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
     ) => {
       const { target } = event;
       // Change height of Textarea automatically by value;
-      target.style.height = 'auto';
       target.style.height = `${target.scrollHeight}px`;
       setContents(event.target.value);
     },
