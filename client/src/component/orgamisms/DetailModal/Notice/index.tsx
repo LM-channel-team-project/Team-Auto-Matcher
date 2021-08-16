@@ -34,7 +34,7 @@ const NoticeDetailModal = ({
   );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [confirmText, setConfirmText] = useState<string>('');
+  const confirmText = '확인을 누르면 공지가 삭제됩니다.';
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const modalHeader = (
     <>
@@ -68,7 +68,6 @@ const NoticeDetailModal = ({
       closeModal();
     };
     openModal();
-    setConfirmText('확인을 누르면 공지가 삭제됩니다.');
     setConfirmFunction(() => confirmDelete);
   };
 
