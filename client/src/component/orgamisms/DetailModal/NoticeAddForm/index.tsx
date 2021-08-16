@@ -113,9 +113,6 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
   };
 
   const onMake = async () => {
-    console.log(title);
-    console.log(date);
-    console.log(contents);
     await createNoticeData({
       variables: {
         input: {
