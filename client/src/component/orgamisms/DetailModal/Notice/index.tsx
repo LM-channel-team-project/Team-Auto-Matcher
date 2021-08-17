@@ -34,16 +34,16 @@ const NoticeDetailModal = ({
   );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [confirmText, setConfirmText] = useState<string>('');
+  const confirmText = '확인을 누르면 공지가 삭제됩니다.';
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
-  const modalHeader = () => (
+  const modalHeader = (
     <>
       <S.Title type='personal'>{data?.title}</S.Title>
       <S.Desc>{data?.date}</S.Desc>
     </>
   );
 
-  const renderContents = () => (
+  const renderContents = (
     <S.Paragraph>{data?.contents}</S.Paragraph>
   );
 
@@ -68,7 +68,6 @@ const NoticeDetailModal = ({
       closeModal();
     };
     openModal();
-    setConfirmText('확인을 누르면 공지가 삭제됩니다.');
     setConfirmFunction(() => confirmDelete);
   };
 
@@ -90,8 +89,8 @@ const NoticeDetailModal = ({
   return data ? (
     <>
       <DetailModalTemplate
-        modalHeader={modalHeader()}
-        modalBody={renderContents()}
+        modalHeader={modalHeader}
+        modalBody={renderContents}
         modalButton={modalButton()}
         onCloseModal={onCloseModal}
       />
