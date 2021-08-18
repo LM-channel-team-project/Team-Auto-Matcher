@@ -380,6 +380,8 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           setConfirmFunction(() => closeModals);
           return;
         }
+        const dateObj = new Date();
+        const today = `${dateObj.getFullYear()} - ${dateObj.getMonth() + 1} - ${dateObj.getDate()}`;
         const removeType = userItems.teamList.map((el: any) => ({
           id: el.id,
           name: el.name,
@@ -407,6 +409,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
               contents,
               owner: userItems.id,
               state: '모집중',
+              createAt: today,
             },
           },
         });
