@@ -19,6 +19,7 @@ export const createUser = /* GraphQL */ `
       }
       surveyCompleted
       personState
+      createAt
       teamList {
         id
         name
@@ -39,6 +40,7 @@ export const updateUser = /* GraphQL */ `
         type
         teamName
       }
+      createAt
       question {
         title
         answers
@@ -62,6 +64,7 @@ export const createTeam = /* GraphQL */ `
         id
         name
       }
+      createAt
       skills
       outline
       owner
@@ -83,6 +86,7 @@ export const updateTeam = /* GraphQL */ `
         id
         name
       }
+      createAt
       skills
       outline
       owner
