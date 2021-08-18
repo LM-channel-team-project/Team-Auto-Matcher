@@ -60,6 +60,8 @@ function Survey() {
       if (userData.getUser && userData.getUser.items?.length !== 0) {
         // console.log('userData : ', userData);
       } else if (bUserUpdating.current === false) {
+        const dateObj = new Date();
+        const today = `${dateObj.getFullYear()} - ${dateObj.getMonth() + 1} - ${dateObj.getDate()}`;
         bUserUpdating.current = true;
         addUserData({
           variables: {
@@ -70,6 +72,7 @@ function Survey() {
               surveyCompleted: false,
               personState: '팀 구하는 중',
               teamList: [],
+              createAt: today,
             },
           },
         })
