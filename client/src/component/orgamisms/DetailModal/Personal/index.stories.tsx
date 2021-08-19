@@ -2,6 +2,7 @@ import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import PersonalDetailModal from '.';
 
+const today = new Date();
 const props = {
   data: {
     id: 'test',
@@ -28,7 +29,7 @@ const props = {
         type: 'test',
       },
     ],
-    createAt: '2021-08-18',
+    createAt: today,
   },
   onCloseModal: () => alert('close'),
 };
