@@ -125,6 +125,7 @@ export const listTeamDashboard = /* GraphQL */ `
         outline
         state
         owner
+        reponame
         contents {
           title
           text
@@ -149,6 +150,7 @@ export const getTeamDashboard = /* GraphQL */ `
       outline
       state
       owner
+      reponame
       contents {
         title
         text
