@@ -29,11 +29,9 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
     `,
   );
 
-  const dateObj = new Date();
-  const today = `${dateObj.getFullYear()} - ${dateObj.getMonth() + 1} - ${dateObj.getDate()}`;
   // Data to submit when create a team
   const [title, setTitle] = useState<string>('');
-  const [date, setDate] = useState<string>(today);
+  const [date, setDate] = useState<string>(new Date().toISOString().substring(0, 10));
   const [contents, setContents] = useState<string>('');
 
   const inputsState: { [key: string]: InputState } = {
