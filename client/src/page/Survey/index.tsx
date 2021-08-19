@@ -70,7 +70,7 @@ function Survey() {
               surveyCompleted: false,
               personState: '팀 구하는 중',
               teamList: [],
-              createAt: new Date().toISOString().substring(0, 10),
+              createAt: new Date(),
             },
           },
         })

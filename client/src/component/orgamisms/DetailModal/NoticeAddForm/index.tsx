@@ -31,7 +31,6 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
 
   // Data to submit when create a team
   const [title, setTitle] = useState<string>('');
-  const [date, setDate] = useState<string>(new Date().toISOString().substring(0, 10));
   const [contents, setContents] = useState<string>('');
 
   const inputsState: { [key: string]: InputState } = {
@@ -39,12 +38,6 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
       value: title,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
-      },
-    },
-    date: {
-      value: date,
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event.target.value);
       },
     },
   };
@@ -71,14 +64,6 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
         minWidth={4}
         maxWidth={350}
         onChange={inputsState.title.onChange}
-      />
-      <S.OutlineInput
-        value={inputsState.date.value}
-        placeholder="날짜"
-        autoWidth
-        minWidth={4}
-        maxWidth={300}
-        onChange={inputsState.date.onChange}
       />
     </>
   );
@@ -110,6 +95,7 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
   };
 
   const onMake = async () => {
+    const date: Date = new Date();
     await createNoticeData({
       variables: {
         input: {
