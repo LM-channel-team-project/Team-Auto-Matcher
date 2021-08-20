@@ -51,6 +51,7 @@ export const getUser = /* GraphQL */ `
           teamId
           type
           teamName
+          date
         }
       }
     }
@@ -78,6 +79,7 @@ export const getUserById = /* GraphQL */ `
         teamId
         type
         teamName
+        date
       }
     }
   }
@@ -104,6 +106,7 @@ export const listUser = /* GraphQL */ `
           teamId
           type
           teamName
+          date
         }
       }
       nextToken
