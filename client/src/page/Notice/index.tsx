@@ -44,12 +44,18 @@ const Notice = ({ className }: any) => {
   }
 
   const { items } = noticeData?.listNotice;
-  const NoticeList = items.map((el: any) => (
-    <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
-      <S.Title>{el.title}</S.Title>
-      <S.Text>{el.date}</S.Text>
-    </S.List>
-  ));
+  const NoticeList = items.map((el: any) => {
+    const date = new Date(el.date);
+    const utc = date.getTime();
+    const koreaTimeDiff = 9 * 60 * 60 * 1000;
+    const createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
+    return (
+      <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
+        <S.Title>{el.title}</S.Title>
+        <S.Text>{createdAt}</S.Text>
+      </S.List>
+    );
+  });
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
