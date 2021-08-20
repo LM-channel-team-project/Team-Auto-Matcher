@@ -31,6 +31,7 @@ export const Slider = styled.div`
   align-items: center;
   margin-bottom: 1.5em;
 `;
+
 export const Button = styled.div`
   cursor: pointer;
   width: 5em;
@@ -40,6 +41,7 @@ export const Button = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export const Field = styled.h1`
   padding: 0 2rem;
   max-width: 7.7em;
@@ -87,6 +89,14 @@ export const MatchPage = styled.div`
     height: 48em;
   }
 `;
+
+export const TeamState = styled.div`
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const List = styled.div`
   display: flex;
   width: 140rem;
@@ -125,9 +135,10 @@ export const List = styled.div`
   }
 `;
 
-export const Title = styled.h1`
-  font-size: 2.7em;
-  max-width: 17.5rem;
+export const Username = styled.h1`
+  font-size: 2.7rem;
+  width: 40%;
+  min-width: 10rem;
   padding-bottom: 0.1875rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -169,14 +180,17 @@ export const Text = styled.div`
     margin: 1.5em 0;
   }
 `;
+
 export const Stack = styled.div`
   display: flex;
+  width: 40%;
   @media screen and (max-width: 50rem) {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
   }
 `;
+
 export const Stacklist = styled.div`
   font-size: 2em;
   margin-right: 0.5em;
