@@ -14,6 +14,7 @@ export interface MailModalProps {
     teamName: string;
     teamId: string;
     type: string;
+    date: Date;
   };
   onCloseModal: () => void;
 }
