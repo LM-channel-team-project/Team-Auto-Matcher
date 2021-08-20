@@ -28,7 +28,12 @@ const props = {
     ],
     state: '모집중',
     owner: 'something',
-    mail: ['sth'],
+    mail: [{
+      teamId: 'test',
+      teamName: 'test',
+      from: 'test',
+      type: 'test',
+    }],
     createdAt: new Date(),
   },
   onCloseModal: () => alert('close'),
