@@ -236,8 +236,6 @@ export const Team = styled.div`
   }
 `;
 
-export const FloatingButton = styled(Floating)``;
-
 const setPersonColor = (text: string) => {
   switch (text) {
   case '팀 구하는 중':
@@ -263,11 +261,15 @@ export const PersonState = styled((props: { text: string }) => _TextLabel({
   justify-content: center;
   display: flex;
   align-items: center;
+  min-width: 11rem;
+  margin-left: 0.8rem;
   @media screen and (max-width: 50rem) {
     position: absolute;
     right: 0.5em;
     top: 0.6em;
   }
 `;
+
+export const FloatingButton = styled(Floating)``;
 
 export default {};
