@@ -54,7 +54,7 @@ export const ContentsList = styled.ul`
 `;
 
 export const ContentItem = styled.li`
-  list-style:none;
+  list-style: none;
   &:not(:last-child) .ci-block {
     margin-bottom: 2.5em;
   }
@@ -191,6 +191,19 @@ export const TitleInput = styled(InputText)`
 export const OutlineInput = styled(InputText)`
   ${inputStyle}
   text-align: center;
+`;
+export const RepoNameInput = styled(InputText)`
+  ${inputStyle}
+  text-align: center;
+  width: 90%;
+  line-height: 1.2em;
+  margin-top: 1.25em;
+  resize: none;
+  height: auto;
+  min-height: 2em;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  font-size: 2rem;
 `;
 
 export const LabelInputBox = styled(_LabelInputBox)`
