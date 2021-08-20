@@ -98,10 +98,6 @@ export const InlineContent = styled(DetailContent)`
   &.ci-skill .dc-title {
     line-height: 1.3em;
   }
-
-  .dc-body {
-    font-size: 1.5rem;
-  }
 `;
 
 export const BlockContent = styled(DetailContent)`
@@ -118,7 +114,7 @@ export const BlockContent = styled(DetailContent)`
 
 export const Text = styled.span`
   font-size: 1.3rem;
-  line-height: 1.4em;
+  line-height: 2.5em;
 
   &.team:not(:last-child):after {
     content: ', ';
