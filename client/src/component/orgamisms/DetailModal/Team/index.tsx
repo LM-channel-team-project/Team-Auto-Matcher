@@ -250,6 +250,7 @@ const TeamDetailModal = ({
         teamId: data?.id,
         type: 'apply',
         teamName: data?.name,
+        date: new Date(),
       };
       const combinedData = [...changeIntoArray, newData];
       await updateUserData({
