@@ -41,10 +41,14 @@ const Mail = ({ className }: any) => {
     } else if (el.type === 'notice') {
       type = '공지';
     }
+    const date = new Date(el.date);
+    const utc = date.getTime();
+    const koreaTimeDiff = 9 * 60 * 60 * 1000;
+    const createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
     return (
       <S.List key={el.from} onClick={() => setModal({ data: el })}>
         <S.Title>{type}</S.Title>
-        <S.Text>{el.teamName}팀</S.Text>
+        <S.Text>{createdAt}</S.Text>
       </S.List>
     );
   });
