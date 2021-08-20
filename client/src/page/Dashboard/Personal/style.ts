@@ -90,15 +90,9 @@ export const MatchPage = styled.div`
   }
 `;
 
-export const TeamState = styled.div`
-  width: 30%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 export const List = styled.div`
   display: flex;
+  position: relative;
   width: 140rem;
   cursor: pointer;
   margin-bottom: 3em;
@@ -143,6 +137,8 @@ export const Username = styled.h1`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
+
   @media screen and (max-width: 1160px) {
     font-size: 3em;
   }
@@ -177,21 +173,22 @@ export const Text = styled.div`
   }
   @media screen and (max-width: 50rem) {
     font-size: 1.5em;
-    margin: 1.5em 0;
+    margin: 1rem 0;
   }
 `;
 
-export const Stack = styled.div`
+export const StackList = styled.div`
   display: flex;
-  width: 40%;
+  width: 90%;
   @media screen and (max-width: 50rem) {
+    margin-top: 1rem;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
   }
 `;
 
-export const Stacklist = styled.div`
+export const Stack = styled.div`
   font-size: 2em;
   margin-right: 0.5em;
   background-color: #dfe6e9;
@@ -211,6 +208,16 @@ export const Stacklist = styled.div`
     font-size: 2em;
     padding: 0.4em 0.5em;
     margin: 0em 0.2em 1em;
+  }
+`;
+
+export const TeamState = styled.div`
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 50rem) {
+    justify-content: center;
   }
 `;
 
