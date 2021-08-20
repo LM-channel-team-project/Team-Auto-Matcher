@@ -26,6 +26,7 @@ const props = {
         teamName: 'test',
         from: 'test',
         type: 'test',
+        date: new Date(),
       },
     ],
   },
