@@ -41,7 +41,7 @@ export const Title = styled.h1`
 
 export const Desc = styled.p`
   font-size: 1.3rem;
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
 `;
 
 export const ContentsList = styled.ul`
@@ -71,6 +71,60 @@ export const ContentItem = styled.li`
     content: ', ';
     width: 1.5rem;
     height: 1.5rem;
+  }
+`;
+
+export const GitContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  border: 0.3rem solid #ffffff;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12),
+    0 0.1rem 0.2rem rgba(0, 0, 0, 0.24);
+  border-radius: 1.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.8rem;
+  a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .content,
+  .url {
+    font-size: 1.5rem;
+  }
+  .url {
+    text-decoration: underline;
+  }
+  .users {
+    margin-top: 1.6rem;
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+  }
+  .users_info {
+    width: 100%;
+  }
+  .user {
+    width: 8rem;
+    margin: auto;
+    text-align: center;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
   }
 `;
 
