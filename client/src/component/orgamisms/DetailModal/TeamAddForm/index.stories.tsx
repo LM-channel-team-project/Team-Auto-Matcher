@@ -29,7 +29,6 @@ const props = {
       },
     ],
     owner: 'something',
-    mail: ['sth'],
   },
   onCloseModal: () => alert('close'),
   onClickUpdate: () => alert('update'),
