@@ -301,7 +301,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
       />
       <S.RepoNameInput
         value={inputsState.reponame.value}
-        placeholder="깃헙 레퍼지토리 이름"
+        placeholder="Team Repository name"
         onChange={inputsState.reponame.onChange}
       />
     </>
