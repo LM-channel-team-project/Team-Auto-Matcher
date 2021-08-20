@@ -19,7 +19,6 @@ export const createUser = /* GraphQL */ `
       }
       surveyCompleted
       personState
-      createdAt
       teamList {
         id
         name
@@ -40,7 +39,6 @@ export const updateUser = /* GraphQL */ `
         type
         teamName
       }
-      createdAt
       question {
         title
         answers

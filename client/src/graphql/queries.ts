@@ -52,7 +52,6 @@ export const getUser = /* GraphQL */ `
           type
           teamName
         }
-        createdAt
       }
     }
   }
@@ -80,7 +79,6 @@ export const getUserById = /* GraphQL */ `
         type
         teamName
       }
-      createdAt
     }
   }
 `;
@@ -107,7 +105,6 @@ export const listUser = /* GraphQL */ `
           type
           teamName
         }
-        createdAt
       }
       nextToken
     }

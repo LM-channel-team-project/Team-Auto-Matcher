@@ -26,7 +26,6 @@ export interface PersonalModalProps {
     personState: string;
     teamList: teamListType[];
     mail: MailType[];
-    createAt: string;
   };
   onCloseModal: () => void;
 }
