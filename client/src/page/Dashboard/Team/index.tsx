@@ -53,7 +53,11 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <Team.LoadContainer>
+        <Team.LoadingComponent />
+      </Team.LoadContainer>
+    );
   }
 
   const { items } = data.listTeamDashboard;

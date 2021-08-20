@@ -36,7 +36,11 @@ const Notice = ({ className }: any) => {
     }
   }, [data]);
   if (loading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
 
   const { items } = noticeData?.listNotice;

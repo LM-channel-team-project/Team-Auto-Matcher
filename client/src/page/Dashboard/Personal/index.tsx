@@ -32,7 +32,11 @@ const PersonalDashboardPage = ({ className }: any) => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
 
   const { items } = data.listUser;

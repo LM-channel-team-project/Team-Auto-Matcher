@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Floating from 'component/atoms/FloatingButton';
 import _TextLabel from 'component/atoms/TextLabel';
+import Loading from 'component/atoms/Loading';
 
 export const Container = styled.div`
   display: flex;
@@ -248,5 +249,13 @@ export const PersonState = styled((props: { text: string }) => _TextLabel({
     top: 0.6em;
   }
 `;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20%;
+`;
+
+export const LoadingComponent = styled(Loading)``;
 
 export default {};
