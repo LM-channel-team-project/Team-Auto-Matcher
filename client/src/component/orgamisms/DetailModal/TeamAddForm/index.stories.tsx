@@ -30,7 +30,7 @@ const props = {
     ],
     owner: 'something',
     mail: ['sth'],
-    createAt: new Date(),
+    createdAt: new Date(),
   },
   onCloseModal: () => alert('close'),
   onClickUpdate: () => alert('update'),

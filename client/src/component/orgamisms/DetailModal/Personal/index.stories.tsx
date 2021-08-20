@@ -28,7 +28,7 @@ const props = {
         type: 'test',
       },
     ],
-    createAt: new Date(),
+    createdAt: new Date(),
   },
   onCloseModal: () => alert('close'),
 };
