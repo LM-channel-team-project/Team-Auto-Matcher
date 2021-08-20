@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Loading from 'component/atoms/Loading';
 
 export const SurveyPage = styled.div`
   display: flex;
@@ -15,3 +16,10 @@ export const SurveyWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const LoadingComponent = styled(Loading)``;
