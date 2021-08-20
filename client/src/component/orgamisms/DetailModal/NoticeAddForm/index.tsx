@@ -95,12 +95,11 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
   };
 
   const onMake = async () => {
-    const date: Date = new Date();
     await createNoticeData({
       variables: {
         input: {
           title,
-          date,
+          date: new Date(),
           contents,
         },
       },

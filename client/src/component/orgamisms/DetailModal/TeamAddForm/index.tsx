@@ -407,7 +407,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
               contents,
               owner: userItems.id,
               state: '모집중',
-              createAt: new Date(),
+              createdAt: new Date(),
             },
           },
         });
