@@ -25,7 +25,11 @@ const Mail = ({ className }: any) => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
   const mail = data && data.getUser.items?.length !== 0 ? data.getUser.items[0].mail : [];
   const mailList = mail.map((el: any) => {

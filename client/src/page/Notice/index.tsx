@@ -31,21 +31,31 @@ const Notice = ({ className }: any) => {
   );
   useEffect(() => {
     const admin = ['google_106151528337997471500', 'google_105106168339038633380', 'google_116436995621806622506'];
-    if (admin.includes(data?.getUser.items[0].owner)) {
+    if (admin.includes(data?.getUser.items[0]?.owner)) {
       setIsAdmin(true);
     }
   }, [data]);
   if (loading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
 
   const { items } = noticeData?.listNotice;
-  const NoticeList = items.map((el: any) => (
-    <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
-      <S.Title>{el.title}</S.Title>
-      <S.Text>{el.date}</S.Text>
-    </S.List>
-  ));
+  const NoticeList = items.map((el: any) => {
+    const date = new Date(el.date);
+    const utc = date.getTime();
+    const koreaTimeDiff = 9 * 60 * 60 * 1000;
+    const createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
+    return (
+      <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
+        <S.Title>{el.title}</S.Title>
+        <S.Text>{createdAt}</S.Text>
+      </S.List>
+    );
+  });
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
