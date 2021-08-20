@@ -17,6 +17,7 @@ export interface TeamModalProps {
     skills: string[];
     state: string;
     owner: string;
+    createdAt: Date;
   };
   onCloseModal: () => void;
   onClickUpdate: () => void;
@@ -95,8 +96,21 @@ const TeamDetailModal = ({
       <S.Text className="people">{person.name}</S.Text>
     ));
 
+    let createdAt;
+    if (data) {
+      const date = new Date(data.createdAt);
+      const utc = date.getTime();
+      const koreaTimeDiff = 9 * 60 * 60 * 1000;
+      createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
+    }
+
     const inlineContents = (
       <>
+        <S.ContentItem>
+          <S.InlineContent title="팀 생성일" className="ci-people">
+            {createdAt}
+          </S.InlineContent>
+        </S.ContentItem>
         <S.ContentItem>
           <S.InlineContent title="구성원" className="ci-people">
             {people}

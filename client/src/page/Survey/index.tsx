@@ -52,7 +52,11 @@ function Survey() {
   }
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
 
   if (!userLoading && !userError) {
@@ -85,7 +89,11 @@ function Survey() {
   }
 
   if (userLoading || bUserUpdating.current || !userData?.getUser) {
-    return <>유저로딩중</>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
 
   const listQuestionnairesData = [...data.listQuestionnaires.items];

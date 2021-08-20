@@ -29,6 +29,7 @@ const props = {
       },
     ],
     owner: 'something',
+    createdAt: new Date(),
   },
   onCloseModal: () => alert('close'),
   onClickUpdate: () => alert('update'),

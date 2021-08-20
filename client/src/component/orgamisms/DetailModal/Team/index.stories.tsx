@@ -28,6 +28,7 @@ const props = {
     ],
     state: '모집중',
     owner: 'something',
+    createdAt: new Date(),
   },
   onCloseModal: () => alert('close'),
   onClickUpdate: () => alert('update'),
