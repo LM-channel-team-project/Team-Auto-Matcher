@@ -2,7 +2,6 @@ import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import TeamDetailModal from '.';
 
-const today = new Date();
 const props = {
   data: {
     id: 'aaaaa',
@@ -30,7 +29,7 @@ const props = {
     state: '모집중',
     owner: 'something',
     mail: ['sth'],
-    createAt: today,
+    createAt: new Date(),
   },
   onCloseModal: () => alert('close'),
   onClickUpdate: () => alert('update'),
