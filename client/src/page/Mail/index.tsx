@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
+import GetKoreaTime from 'utils/date';
 import { getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import MailDetailModal, {
@@ -45,14 +46,11 @@ const Mail = ({ className }: any) => {
     } else if (el.type === 'notice') {
       type = '공지';
     }
-    const date = new Date(el.date);
-    const utc = date.getTime();
-    const koreaTimeDiff = 9 * 60 * 60 * 1000;
-    const createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
+
     return (
       <S.List key={el.from} onClick={() => setModal({ data: el })}>
         <S.Title>{type}</S.Title>
-        <S.Text>{createdAt}</S.Text>
+        <S.Text>{GetKoreaTime(el.date)}</S.Text>
       </S.List>
     );
   });
