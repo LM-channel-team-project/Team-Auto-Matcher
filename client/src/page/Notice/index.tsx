@@ -45,14 +45,12 @@ const Notice = ({ className }: any) => {
   }
 
   const { items } = noticeData?.listNotice;
-  const NoticeList = items.map((el: any) => {
-    return (
-      <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
-        <S.Title>{el.title}</S.Title>
-        <S.Text>{GetKoreaTime(el.date)}</S.Text>
-      </S.List>
-    );
-  });
+  const NoticeList = items.map((el: any) => (
+    <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
+      <S.Title>{el.title}</S.Title>
+      <S.Text>{GetKoreaTime(el.date)}</S.Text>
+    </S.List>
+  ));
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
