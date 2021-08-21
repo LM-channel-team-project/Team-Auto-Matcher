@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
 import { getUser, listNotice } from 'graphql/queries';
-import GetKoreaTime from 'utils/date';
+import getKoreaTime from 'utils/date';
 import { gql, useQuery } from '@apollo/client';
 import NoticeDetailModal, { NoticeModalProps } from 'component/orgamisms/DetailModal/Notice';
 import NoticeAddForm from 'component/orgamisms/DetailModal/NoticeAddForm';
@@ -48,7 +48,7 @@ const Notice = ({ className }: any) => {
   const NoticeList = items.map((el: any) => (
     <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
       <S.Title>{el.title}</S.Title>
-      <S.Text>{GetKoreaTime(el.date)}</S.Text>
+      <S.Text>{getKoreaTime(el.date)}</S.Text>
     </S.List>
   ));
 

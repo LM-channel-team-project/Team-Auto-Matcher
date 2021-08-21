@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { listNotice } from 'graphql/queries';
 import { deleteNotice } from 'graphql/mutations';
-import GetKoreaTime from 'utils/date';
+import getKoreaTime from 'utils/date';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
@@ -40,7 +40,7 @@ const NoticeDetailModal = ({
   const modalHeader = () => {
     let createdAt;
     if (data) {
-      createdAt = GetKoreaTime(data.date);
+      createdAt = getKoreaTime(data.date);
     }
     return (
       <>

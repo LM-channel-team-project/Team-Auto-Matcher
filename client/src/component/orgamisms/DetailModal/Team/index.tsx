@@ -4,7 +4,7 @@ import { getUser, getUserById, listTeamDashboard } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam, updateTeam } from 'graphql/mutations';
-import GetKoreaTime from 'utils/date';
+import getKoreaTime from 'utils/date';
 import DetailModalTemplate, { ContentItem, teamListType } from '../template';
 import * as S from '../style';
 
@@ -99,7 +99,7 @@ const TeamDetailModal = ({
 
     let createdAt;
     if (data) {
-      createdAt = GetKoreaTime(data.createdAt);
+      createdAt = getKoreaTime(data.createdAt);
     }
 
     const inlineContents = (
