@@ -19,6 +19,7 @@ export type MailType = {
   teamId: string;
   type: string;
   teamName: string;
+  date: Date;
 };
 interface IDetailModalTemplate {
   modalHeader: React.ReactNode;

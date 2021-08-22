@@ -225,6 +225,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           teamId: teamItems.id,
           type: 'invite',
           teamName: teamItems.name,
+          date: new Date(),
         };
         const combinedData = [...changeIntoArray, newData];
         await updateUserData({

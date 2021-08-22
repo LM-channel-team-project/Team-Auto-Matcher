@@ -12,6 +12,7 @@ export const createUser = /* GraphQL */ `
         teamId
         type
         teamName
+        date
       }
       question {
         title
@@ -38,6 +39,7 @@ export const updateUser = /* GraphQL */ `
         teamId
         type
         teamName
+        date
       }
       question {
         title

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { listNotice } from 'graphql/queries';
 import { deleteNotice } from 'graphql/mutations';
+import getKoreaTime from 'utils/date';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
@@ -39,10 +40,7 @@ const NoticeDetailModal = ({
   const modalHeader = () => {
     let createdAt;
     if (data) {
-      const date = new Date(data.date);
-      const utc = date.getTime();
-      const koreaTimeDiff = 9 * 60 * 60 * 1000;
-      createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
+      createdAt = getKoreaTime(data.date);
     }
     return (
       <>

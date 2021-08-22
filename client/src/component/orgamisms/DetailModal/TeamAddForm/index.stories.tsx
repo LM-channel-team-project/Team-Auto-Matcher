@@ -29,14 +29,6 @@ const props = {
       },
     ],
     owner: 'something',
-    mail: [
-      {
-        teamId: 'test',
-        teamName: 'test',
-        from: 'test',
-        type: 'test',
-      },
-    ],
     createdAt: new Date(),
     reponame: 'Team-Auto-Matcher',
   },
