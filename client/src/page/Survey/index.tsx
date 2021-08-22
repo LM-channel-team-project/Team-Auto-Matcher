@@ -8,8 +8,7 @@ import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
 const firstInput = Array(12).fill({ title: '', answers: [] });
-
-function Survey() {
+const Survey = ({ className, isLoggedIn }: any) => {
   const { loading, error, data } = useQuery(
     gql`
       ${listQuestionnaires}
@@ -28,6 +27,9 @@ function Survey() {
   );
 
   const history = useHistory();
+  if (!isLoggedIn) {
+    history.push('/login');
+  }
 
   const [addUserData] = useMutation(
     gql`
@@ -223,6 +225,6 @@ function Survey() {
       </S.SurveyWrapper>
     </BaseTemplate>
   );
-}
+};
 
 export default Survey;
