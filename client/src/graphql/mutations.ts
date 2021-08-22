@@ -90,6 +90,7 @@ export const updateTeam = /* GraphQL */ `
       skills
       outline
       owner
+      reponame
       contents {
         title
         text

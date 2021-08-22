@@ -32,6 +32,7 @@ export const Slider = styled.div`
   align-items: center;
   margin-bottom: 1.5em;
 `;
+
 export const Button = styled.div`
   cursor: pointer;
   width: 5em;
@@ -41,6 +42,7 @@ export const Button = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 export const Field = styled.h1`
   padding: 0 2rem;
   max-width: 7.7em;
@@ -88,8 +90,10 @@ export const MatchPage = styled.div`
     height: 48em;
   }
 `;
+
 export const List = styled.div`
   display: flex;
+  position: relative;
   width: 140rem;
   cursor: pointer;
   margin-bottom: 3em;
@@ -126,13 +130,16 @@ export const List = styled.div`
   }
 `;
 
-export const Title = styled.h1`
-  font-size: 2.7em;
-  max-width: 17.5rem;
+export const Username = styled.h1`
+  font-size: 2.7rem;
+  width: 40%;
+  min-width: 10rem;
   padding-bottom: 0.1875rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
+
   @media screen and (max-width: 1160px) {
     font-size: 3em;
   }
@@ -167,18 +174,22 @@ export const Text = styled.div`
   }
   @media screen and (max-width: 50rem) {
     font-size: 1.5em;
-    margin: 1.5em 0;
+    margin: 1rem 0;
   }
 `;
-export const Stack = styled.div`
+
+export const StackList = styled.div`
   display: flex;
+  width: 90%;
   @media screen and (max-width: 50rem) {
+    margin-top: 1rem;
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
   }
 `;
-export const Stacklist = styled.div`
+
+export const Stack = styled.div`
   font-size: 2em;
   margin-right: 0.5em;
   background-color: #dfe6e9;
@@ -201,6 +212,16 @@ export const Stacklist = styled.div`
   }
 `;
 
+export const TeamState = styled.div`
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 50rem) {
+    justify-content: center;
+  }
+`;
+
 export const Team = styled.div`
   border-radius: 2em;
   background-color: #e3faf3;
@@ -215,8 +236,6 @@ export const Team = styled.div`
     font-size: 1.6rem;
   }
 `;
-
-export const FloatingButton = styled(Floating)``;
 
 const setPersonColor = (text: string) => {
   switch (text) {
@@ -243,12 +262,16 @@ export const PersonState = styled((props: { text: string }) => _TextLabel({
   justify-content: center;
   display: flex;
   align-items: center;
+  min-width: 11rem;
+  margin-left: 0.8rem;
   @media screen and (max-width: 50rem) {
     position: absolute;
     right: 0.5em;
     top: 0.6em;
   }
 `;
+
+export const FloatingButton = styled(Floating)``;
 
 export const LoadContainer = styled.div`
   display: flex;

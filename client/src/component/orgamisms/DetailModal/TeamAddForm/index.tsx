@@ -107,6 +107,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
   // Data to submit when create a team
   const [name, setName] = useState(data?.name || '');
   const [outline, setOutline] = useState(data?.outline || '');
+  const [reponame, setReponame] = useState(data?.reponame || '');
   const [skills, setSkills] = useState(data?.skills || []);
   const [contents, setContents] = useState(data?.contents || contentsTitle);
   const [teamState, setTeamState] = useState(data?.state || '');
@@ -130,6 +131,12 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
       value: outline,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         setOutline(event.target.value);
+      },
+    },
+    reponame: {
+      value: reponame,
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+        setReponame(event.target.value);
       },
     },
     skill: {
@@ -292,6 +299,11 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
         maxWidth={300}
         onChange={inputsState.outline.onChange}
       />
+      <S.RepoNameInput
+        value={inputsState.reponame.value}
+        placeholder="Team Repository name"
+        onChange={inputsState.reponame.onChange}
+      />
     </>
   );
 
@@ -405,6 +417,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
               skills,
               outline,
               contents,
+              reponame,
               owner: userItems.id,
               state: '모집중',
               createdAt: new Date(),
@@ -427,6 +440,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
                 name,
                 skills,
                 outline,
+                reponame,
                 contents: removeType,
                 state: teamState,
               },

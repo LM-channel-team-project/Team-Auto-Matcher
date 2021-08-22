@@ -5,6 +5,7 @@ import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam, updateTeam } from 'graphql/mutations';
 import getKoreaTime from 'utils/date';
+import axios from 'axios';
 import DetailModalTemplate, { ContentItem, teamListType } from '../template';
 import * as S from '../style';
 
@@ -19,6 +20,7 @@ export interface TeamModalProps {
     state: string;
     owner: string;
     createdAt: Date;
+    reponame: string;
   };
   onCloseModal: () => void;
   onClickUpdate: () => void;
@@ -29,6 +31,43 @@ const TeamDetailModal = ({
   onCloseModal,
   onClickUpdate,
 }: TeamModalProps) => {
+  // github API
+  const api = axios.create({
+    baseURL: `https://api.github.com/repos/LM-channel-team-project/${data?.reponame}`,
+  });
+
+  type GitApiType = {
+    [key: string]: any;
+  };
+
+  // const [languages, setLanguages] = useState<GitApiType>({});
+  const [home, setHome] = useState<GitApiType>({});
+  const [contributor, setContributor] = useState([{}]);
+  const [getApi, setGetApi] = useState<boolean>(true);
+  const gitApi = {
+    homes: () => api.get(''),
+    languages: () => api.get('/languages'),
+    contributors: () => api.get('/contributors'),
+  };
+
+  useEffect(() => {
+    const gitInfo = async () => {
+      try {
+        const { data: homeData } = await gitApi.homes();
+        // const { data: langData } = await gitApi.languages();
+        const { data: contData } = await gitApi.contributors();
+        setHome(homeData);
+        // setLanguages(langData);
+        setContributor(contData);
+        setGetApi(true);
+      } catch (e) {
+        console.log(e);
+        setGetApi(false);
+      }
+    };
+    gitInfo();
+  }, []);
+
   const { data: userData, refetch } = useQuery(
     gql`
       ${getUser}
@@ -96,6 +135,23 @@ const TeamDetailModal = ({
     const people = data?.people.map((person: teamListType) => (
       <S.Text className="people">{person.name}</S.Text>
     ));
+    const GetGitApi = () => (
+      <S.GitContainer>
+        <h1 className="title">Team GitHub Info</h1>
+        <div className="content">{home.description}</div>
+        <a className="url" href={home.html_url} target="_blank">
+          Github URL
+        </a>
+        <div className="users">
+          {contributor.map((person: any) => (
+            <a className="users_info" href={person.html_url} target="_blank">
+              <img src={person.avatar_url} />
+              <div className="user">{person.login}</div>
+            </a>
+          ))}
+        </div>
+      </S.GitContainer>
+    );
 
     let createdAt;
     if (data) {
@@ -104,6 +160,7 @@ const TeamDetailModal = ({
 
     const inlineContents = (
       <>
+        <S.ContentItem>{getApi && <GetGitApi />}</S.ContentItem>
         <S.ContentItem>
           <S.InlineContent title="팀 생성일" className="ci-people">
             {createdAt}
@@ -141,37 +198,35 @@ const TeamDetailModal = ({
   const modalButton = () => {
     if (userData?.getUser.items[0]) {
       if (isInTeam && data?.owner !== userData.getUser.items[0].id) {
-        return (<S.SubmitButton
-          size="medium"
-          color="red"
-          onClick={onClickQuit}
-        >
-          탈퇴하기
-        </S.SubmitButton>);
+        return (
+          <S.SubmitButton size="medium" color="red" onClick={onClickQuit}>
+            탈퇴하기
+          </S.SubmitButton>
+        );
       }
       if (data?.owner === userData.getUser.items[0].id) {
-        return (<>
-          <S.SubmitButton
-            size="medium"
-            color="yellow"
-            onClick={onClickUpdate}
-          >
-            업데이트
-          </S.SubmitButton>
-          <S.SpaceSpan />
-          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-            팀 삭제하기
-          </S.SubmitButton>
-        </>);
+        return (
+          <>
+            <S.SubmitButton
+              size="medium"
+              color="yellow"
+              onClick={onClickUpdate}
+            >
+              업데이트
+            </S.SubmitButton>
+            <S.SpaceSpan />
+            <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+              팀 삭제하기
+            </S.SubmitButton>
+          </>
+        );
       }
       if (data?.state !== '종료') {
-        return (<S.SubmitButton
-          size="medium"
-          color="yellow"
-          onClick={onClickApply}
-        >
-          지원하기
-        </S.SubmitButton>);
+        return (
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickApply}>
+            지원하기
+          </S.SubmitButton>
+        );
       }
     }
     return <></>;
@@ -187,24 +242,28 @@ const TeamDetailModal = ({
   const onClickQuit = async () => {
     const confirmQuit = async () => {
       const userItems = userData?.getUser.items[0];
-      const teamFilter = userItems.teamList.filter((el: any) => {
-        if (el.id === data?.id) {
-          return false;
-        }
-        return true;
-      }).map((el: any) => ({
-        id: el.id,
-        name: el.name,
-      }));
-      const peopleFilter = data?.people.filter((el: any) => {
-        if (el.id === userItems.id) {
-          return false;
-        }
-        return true;
-      }).map((el: any) => ({
-        id: el.id,
-        name: el.name,
-      }));
+      const teamFilter = userItems.teamList
+        .filter((el: any) => {
+          if (el.id === data?.id) {
+            return false;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
+      const peopleFilter = data?.people
+        .filter((el: any) => {
+          if (el.id === userItems.id) {
+            return false;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
       await updateUserData({
         variables: {
           input: {
