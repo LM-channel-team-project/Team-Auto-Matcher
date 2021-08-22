@@ -21,7 +21,11 @@ const Result = ({ className, isLoggedIn }: any) => {
   }
 
   if (userLoading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
   const items = userData.getUser.items[0];
   const { question } = items;

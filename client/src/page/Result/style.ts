@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Loading from 'component/atoms/Loading';
 import QuestionResultComponent from 'component/orgamisms/QuestionResult';
 
 export const ResultPage = styled.div`
@@ -13,5 +14,13 @@ export const ResultPage = styled.div`
     margin-bottom: 1em;
   }
 `;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20%;
+`;
+
+export const LoadingComponent = styled(Loading)``;
 
 export const QuestionResult = styled(QuestionResultComponent)``;
