@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './style';
 
 interface ICheckbox {
-  checked?: boolean
+  checked?: boolean;
   className?: string;
 }
 

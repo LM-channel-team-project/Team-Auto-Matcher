@@ -18,22 +18,26 @@ const calcWidthbyLength = (str: string) => {
   const upperMatch = str.match(upperRegExp) || [];
   const korLength = Array.from(korMatch).join('').length;
   const upperLength = Array.from(upperMatch).join('').length;
-  return (str.length - korLength - upperLength) * 0.5 + upperLength * 0.7 + korLength * 0.9;
+  return (
+    (str.length - korLength - upperLength) * 0.5
+    + upperLength * 0.7
+    + korLength * 0.9
+  );
 };
 
 const getWidthByLength = (value: Value = '', min: number = 3) => {
   const width = calcWidthbyLength(String(value));
-  return (css`
+  return css`
     width: ${width > min ? width : min}em;
     box-sizing: content-box;
-  `);
+  `;
 };
 
 export const InputText = styled.input`
-  ${({ value, autoWidth, minWidth }: Props) => autoWidth && getWidthByLength(value, minWidth)}
+  ${({ value, autoWidth, minWidth }: Props) =>
+    autoWidth && getWidthByLength(value, minWidth)}
 `;
 
-export const InputTextarea = styled.textarea`
-`;
+export const InputTextarea = styled.textarea``;
 
 export default {};

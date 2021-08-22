@@ -6,9 +6,10 @@ import { gql, useQuery } from '@apollo/client';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import * as S from './style';
 
-const googleLoginOnClick = () => Auth.federatedSignIn({
-  provider: CognitoHostedUIIdentityProvider.Google,
-});
+const googleLoginOnClick = () =>
+  Auth.federatedSignIn({
+    provider: CognitoHostedUIIdentityProvider.Google,
+  });
 
 interface IBrieftItems {
   clName?: string;
@@ -43,15 +44,15 @@ const MenuBar = ({ className }: any) => {
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
-      case 'signIn':
-        history.push('/');
-        break;
-      case 'signOut':
-        history.push('/');
-        break;
-      case 'customOAuthState':
-        break;
-      default:
+        case 'signIn':
+          history.push('/');
+          break;
+        case 'signOut':
+          history.push('/');
+          break;
+        case 'customOAuthState':
+          break;
+        default:
       }
     });
 
@@ -115,27 +116,57 @@ const MenuBar = ({ className }: any) => {
           </S.MenuItems>
         </S.MenuLeft>
         <S.MenuCenter>
-          <BriefItems clName={isPath === '/' ? 'current' : ''} to="/" text="Home"/>
-          <BriefItems clName={isPath === '/dashboard/personal' ? 'current' : ''} to="/dashboard/personal" text="Personal"/>
-          <BriefItems clName={isPath === '/dashboard/team' ? 'current' : ''} to="/dashboard/team" text="Team"/>
-          <BriefItems clName={isPath === '/survey' ? 'current' : ''} to="/survey" text="Survey"/>
-          <BriefItems clName={isPath === '/contact' ? 'current' : ''} to="/contact" text="Contact"/>
-          <BriefItems clName={isPath === '/notice' ? 'current' : ''} to="/notice" text="Notice"/>
+          <BriefItems
+            clName={isPath === '/' ? 'current' : ''}
+            to="/"
+            text="Home"
+          />
+          <BriefItems
+            clName={isPath === '/dashboard/personal' ? 'current' : ''}
+            to="/dashboard/personal"
+            text="Personal"
+          />
+          <BriefItems
+            clName={isPath === '/dashboard/team' ? 'current' : ''}
+            to="/dashboard/team"
+            text="Team"
+          />
+          <BriefItems
+            clName={isPath === '/survey' ? 'current' : ''}
+            to="/survey"
+            text="Survey"
+          />
+          <BriefItems
+            clName={isPath === '/contact' ? 'current' : ''}
+            to="/contact"
+            text="Contact"
+          />
+          <BriefItems
+            clName={isPath === '/notice' ? 'current' : ''}
+            to="/notice"
+            text="Notice"
+          />
         </S.MenuCenter>
         <S.MenuRight>
           {isLoggedIn && (
             <S.MailMenu>
-              <S.MailCounter counts={mailCounter === 0 || mailCounter === undefined}>
+              <S.MailCounter
+                counts={mailCounter === 0 || mailCounter === undefined}
+              >
                 {mailCounter}
               </S.MailCounter>
-              <BriefItems clName={isPath === '/mail' ? 'current' : ''} to="/mail" text="Mail"/>
+              <BriefItems
+                clName={isPath === '/mail' ? 'current' : ''}
+                to="/mail"
+                text="Mail"
+              />
             </S.MailMenu>
           )}
           <S.MenuItems>
             {isLoggedIn ? (
-              <S.LoginBtn text="LogOut" onLoginClick={onClickSignOut}/>
+              <S.LoginBtn text="LogOut" onLoginClick={onClickSignOut} />
             ) : (
-              <S.LoginBtn text="LogIn" onLoginClick={googleLoginOnClick}/>
+              <S.LoginBtn text="LogIn" onLoginClick={googleLoginOnClick} />
             )}
           </S.MenuItems>
         </S.MenuRight>
@@ -156,7 +187,9 @@ const MenuBar = ({ className }: any) => {
           {isLoggedIn && (
             <S.MailBriefContainer>
               <BriefItems to="/mail" text="Mail" />
-              <S.MailBriefCount counts={mailCounter === 0 || mailCounter === undefined}>
+              <S.MailBriefCount
+                counts={mailCounter === 0 || mailCounter === undefined}
+              >
                 {mailCounter}
               </S.MailBriefCount>
             </S.MailBriefContainer>

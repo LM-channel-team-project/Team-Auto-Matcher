@@ -4,24 +4,25 @@ import { useHistory } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
 import * as S from './style';
 
-const googleLoginOnClick = () => Auth.federatedSignIn({
-  provider: CognitoHostedUIIdentityProvider.Google,
-});
+const googleLoginOnClick = () =>
+  Auth.federatedSignIn({
+    provider: CognitoHostedUIIdentityProvider.Google,
+  });
 
 const LoginPage = ({ className }: any) => {
   const history = useHistory();
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
-      case 'signIn':
-        history.push('/');
-        break;
-      case 'signOut':
-        history.push('/');
-        break;
-      case 'customOAuthState':
-        break;
-      default:
+        case 'signIn':
+          history.push('/');
+          break;
+        case 'signOut':
+          history.push('/');
+          break;
+        case 'customOAuthState':
+          break;
+        default:
       }
     });
 

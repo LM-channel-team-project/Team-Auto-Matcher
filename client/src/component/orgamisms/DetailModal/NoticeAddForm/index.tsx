@@ -12,9 +12,7 @@ interface InputState {
 
 interface ContentsState {
   value: string;
-  onChange: (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => void;
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const NoticeAddForm = ({ onCloseModal }: any) => {
@@ -44,9 +42,7 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
 
   const contentsState: ContentsState = {
     value: contents,
-    onChange: (
-      event: React.ChangeEvent<HTMLTextAreaElement>,
-    ) => {
+    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const { target } = event;
       // Change height of Textarea automatically by value;
       target.style.height = `${target.scrollHeight}px`;

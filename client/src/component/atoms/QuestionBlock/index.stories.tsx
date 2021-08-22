@@ -11,9 +11,7 @@ export function Default() {
   return (
     <GlobalThemeProvider>
       <QuestionBlock>
-        <span>
-          REACT
-        </span>
+        <span>REACT</span>
       </QuestionBlock>
     </GlobalThemeProvider>
   );

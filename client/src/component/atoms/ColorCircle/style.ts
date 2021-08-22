@@ -9,17 +9,17 @@ export interface StyleProps {
 function sizeStyle({ size = 'medium' }: StyleProps) {
   let sizeNum: number;
   switch (size) {
-  case 'small':
-    sizeNum = 0.8;
-    break;
-  case 'medium':
-    sizeNum = 1;
-    break;
-  case 'large':
-    sizeNum = 1.2;
-    break;
-  default:
-    throw new Error(`Enter a invalid size: ${size}`);
+    case 'small':
+      sizeNum = 0.8;
+      break;
+    case 'medium':
+      sizeNum = 1;
+      break;
+    case 'large':
+      sizeNum = 1.2;
+      break;
+    default:
+      throw new Error(`Enter a invalid size: ${size}`);
   }
   return css`
     width: ${sizeNum}rem;

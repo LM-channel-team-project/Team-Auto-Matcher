@@ -289,22 +289,48 @@ export const Textarea = styled(InputText)`
 
 const setTeamColor = (text: string) => {
   switch (text) {
-  case '모집중':
-    return 'green';
-  case '진행중':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
+    case '모집중':
+      return 'green';
+    case '진행중':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
   }
 };
 
-export const State = styled((props: { text: string }) => _TextLabel({
-  color: setTeamColor(props.text),
-  fontColor: setTeamColor(props.text),
-  ...props,
-}))`
+const setPersonColor = (text: string) => {
+  switch (text) {
+    case '팀 구하는 중':
+      return 'green';
+    case '팀장':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
+  }
+};
+
+const StateComponent = (setColor: any) => (props: { text: string }) =>
+  _TextLabel({
+    color: setColor(props.text),
+    fontColor: setColor(props.text),
+    ...props,
+  });
+
+const ClickStateComponent = (setColor: any) => (props: {
+  onClick: any;
+  text: string;
+}) =>
+  _TextLabel({
+    color: setColor(props.text),
+    fontColor: setColor(props.text),
+    ...props,
+  });
+
+export const State = styled(StateComponent(setTeamColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
@@ -312,11 +338,7 @@ export const State = styled((props: { text: string }) => _TextLabel({
   margin-bottom: 0.8em;
 `;
 
-export const ClickState = styled((props: { onClick: any; text: string }) => _TextLabel({
-  color: setTeamColor(props.text),
-  fontColor: setTeamColor(props.text),
-  ...props,
-}))`
+export const ClickState = styled(ClickStateComponent(setTeamColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
@@ -325,24 +347,7 @@ export const ClickState = styled((props: { onClick: any; text: string }) => _Tex
   cursor: pointer;
 `;
 
-const setPersonColor = (text: string) => {
-  switch (text) {
-  case '팀 구하는 중':
-    return 'green';
-  case '팀장':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
-  }
-};
-
-export const PersonState = styled((props: { text: string }) => _TextLabel({
-  color: setPersonColor(props.text),
-  fontColor: setPersonColor(props.text),
-  ...props,
-}))`
+export const PersonState = styled(StateComponent(setPersonColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
@@ -350,13 +355,7 @@ export const PersonState = styled((props: { text: string }) => _TextLabel({
   margin-bottom: 0.8em;
 `;
 
-export const ClickPersonState = styled(
-  (props: { onClick: any; text: string }) => _TextLabel({
-    color: setPersonColor(props.text),
-    fontColor: setPersonColor(props.text),
-    ...props,
-  }),
-)`
+export const ClickPersonState = styled(ClickStateComponent(setPersonColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;

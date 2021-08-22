@@ -31,17 +31,18 @@ const AutoCompleteList = ({
     }
   >
     {items?.map(
-      (item) => item && (
-        <S.Item
-          key={item.text}
-          text={item.text}
-          color={item.color}
-          size={size}
-          divider={divider}
-          dividerColor={dividerColor}
-          onClick={onClick}
-        />
-      ),
+      (item) =>
+        item && (
+          <S.Item
+            key={item.text}
+            text={item.text}
+            color={item.color}
+            size={size}
+            divider={divider}
+            dividerColor={dividerColor}
+            onClick={onClick}
+          />
+        ),
     )}
   </S.List>
 );
