@@ -11,7 +11,6 @@ import Home from 'page/Home';
 import Contact from 'page/Contact';
 import Mail from 'page/Mail';
 import Notice from 'page/Notice';
-import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
 
 function App() {
@@ -33,7 +32,7 @@ function App() {
           <Route exact path="/dashboard/personal" component={PersonalDashboard}/>
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/notice" component={Notice} />
-          <Route exact path="/mail" component={withAuthenticator(Mail, false, [<LoginPage />])}/>
+          <Route render={(props) => <Mail {...props} isLoggedIn={isLoggedIn}/>} exact path="/mail"/>
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
