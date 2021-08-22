@@ -13,7 +13,6 @@ export const DetailModal = styled.div`
 `;
 
 export const HeaderWrapper = styled.div`
-  margin-bottom: 2em;
   font-size: 1.5rem;
 `;
 
