@@ -18,8 +18,8 @@ export interface TeamModalProps {
     skills: string[];
     state: string;
     owner: string;
-    createdAt: Date;
     reponame: string;
+    createdAt: Date;
   };
   onCloseModal: () => void;
   onClickUpdate: () => void;

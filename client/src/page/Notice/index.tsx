@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
 import { getUser, listNotice } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
-import NoticeDetailModal, { NoticeModalProps } from 'component/orgamisms/DetailModal/Notice';
+import NoticeDetailModal, {
+  NoticeModalProps,
+} from 'component/orgamisms/DetailModal/Notice';
 import NoticeAddForm from 'component/orgamisms/DetailModal/NoticeAddForm';
 import * as S from './style';
 
@@ -30,7 +32,11 @@ const Notice = ({ className }: any) => {
     `,
   );
   useEffect(() => {
-    const admin = ['google_106151528337997471500', 'google_105106168339038633380', 'google_116436995621806622506'];
+    const admin = [
+      'google_106151528337997471500',
+      'google_105106168339038633380',
+      'google_116436995621806622506',
+    ];
     if (admin.includes(data?.getUser.items[0]?.owner)) {
       setIsAdmin(true);
     }
@@ -48,9 +54,14 @@ const Notice = ({ className }: any) => {
     const date = new Date(el.date);
     const utc = date.getTime();
     const koreaTimeDiff = 9 * 60 * 60 * 1000;
-    const createdAt = new Date(utc + koreaTimeDiff).toISOString().substring(0, 10);
+    const createdAt = new Date(utc + koreaTimeDiff)
+      .toISOString()
+      .substring(0, 10);
     return (
-      <S.List key={el.id} onClick={() => setModal({ type: 'detail', data: el })}>
+      <S.List
+        key={el.id}
+        onClick={() => setModal({ type: 'detail', data: el })}
+      >
         <S.Title>{el.title}</S.Title>
         <S.Text>{createdAt}</S.Text>
       </S.List>
@@ -70,11 +81,7 @@ const Notice = ({ className }: any) => {
         />
       );
     case 'add':
-      return (
-        <NoticeAddForm
-          onCloseModal={onCloseModal}
-        />
-      );
+      return <NoticeAddForm onCloseModal={onCloseModal} />;
     default:
       return '';
     }

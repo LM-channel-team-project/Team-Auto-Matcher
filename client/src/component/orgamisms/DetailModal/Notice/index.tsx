@@ -19,7 +19,10 @@ export interface NoticeModalProps {
 }
 
 const NoticeDetailModal = ({
-  className, data, isAdmin, onCloseModal,
+  className,
+  data,
+  isAdmin,
+  onCloseModal,
 }: NoticeModalProps) => {
   const { refetch } = useQuery(
     gql`
@@ -46,15 +49,13 @@ const NoticeDetailModal = ({
     }
     return (
       <>
-        <S.Title type='personal'>{data?.title}</S.Title>
+        <S.Title type="personal">{data?.title}</S.Title>
         <S.Desc>{createdAt}</S.Desc>
       </>
     );
   };
 
-  const renderContents = (
-    <S.Paragraph>{data?.contents}</S.Paragraph>
-  );
+  const renderContents = <S.Paragraph>{data?.contents}</S.Paragraph>;
 
   const openModal = () => {
     setModalOpen(true);

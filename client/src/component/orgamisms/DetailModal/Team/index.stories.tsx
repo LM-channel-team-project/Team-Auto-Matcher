@@ -28,6 +28,14 @@ const props = {
     ],
     state: '모집중',
     owner: 'something',
+    mail: [
+      {
+        teamId: 'test',
+        teamName: 'test',
+        from: 'test',
+        type: 'test',
+      },
+    ],
     createdAt: new Date(),
     reponame: 'Team-Auto-Matcher',
   },
