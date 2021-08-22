@@ -15,7 +15,8 @@ export const AutoComplete = styled.div`
   padding: 0.5em 0.8em;
   cursor: pointer;
 
-  ${({ divider }: StyleProps) => divider
+  ${({ divider }: StyleProps) =>
+    divider
     && css`
       &:not(:last-child):after {
         content: '';
@@ -24,7 +25,8 @@ export const AutoComplete = styled.div`
         bottom: 0;
         width: 100%;
         height: 1px;
-        background: ${({ theme, dividerColor = 'subMainColor' }: StyleProps) => theme.color[dividerColor]};
+        background: ${({ theme, dividerColor = 'subMainColor' }: StyleProps) =>
+    theme.color[dividerColor]};
         opacity: 0.2;
       }
     `}
@@ -38,17 +40,17 @@ export const Text = styled.span`
   font-size: ${({ size }: StyleProps) => {
     let sizeNum: number;
     switch (size) {
-    case 'small':
-      sizeNum = 1;
-      break;
-    case 'medium':
-      sizeNum = 1.2;
-      break;
-    case 'large':
-      sizeNum = 1.5;
-      break;
-    default:
-      throw new Error(`invalid size: ${size}`);
+      case 'small':
+        sizeNum = 1;
+        break;
+      case 'medium':
+        sizeNum = 1.2;
+        break;
+      case 'large':
+        sizeNum = 1.5;
+        break;
+      default:
+        throw new Error(`invalid size: ${size}`);
     }
     return sizeNum;
   }}rem;

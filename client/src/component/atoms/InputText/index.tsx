@@ -5,8 +5,8 @@ interface InputType {
   type?: 'text';
   inputRef?: React.RefObject<HTMLInputElement>;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocusOut?: (event:React.FocusEvent<HTMLInputElement>) => void;
-  onKeyPress?: (event:React.KeyboardEvent<HTMLInputElement>) => void;
+  onFocusOut?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 interface TextAreaType {
@@ -14,7 +14,7 @@ interface TextAreaType {
   inputRef?: React.RefObject<HTMLTextAreaElement>;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onFocusOut?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
-  onKeyPress?: (event:React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 type IInputText = {
@@ -29,7 +29,7 @@ type IInputText = {
   minWidth?: number;
 } & (InputType | TextAreaType);
 
-function InputText(props : IInputText) {
+function InputText(props: IInputText) {
   let inputRef;
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +49,15 @@ function InputText(props : IInputText) {
 
   if (props.type !== 'textarea') {
     inputRef = props.inputRef as React.RefObject<HTMLInputElement>;
-    return <S.InputText {...props} onChange={onInputChange} ref={inputRef} type="text" autoComplete="off" />;
+    return (
+      <S.InputText
+        {...props}
+        onChange={onInputChange}
+        ref={inputRef}
+        type="text"
+        autoComplete="off"
+      />
+    );
   }
 
   inputRef = props.inputRef as React.RefObject<HTMLTextAreaElement>;

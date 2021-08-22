@@ -2,10 +2,6 @@
   "bDuplicate": false,
   "id": "00000",
   "priority": 0,
-  "questionList": [
-    "주전공",
-    "부전공",
-    "비전공"
-  ],
+  "questionList": ["주전공", "부전공", "비전공"],
   "questionTitle": "Question Title 입력하세요"
 }

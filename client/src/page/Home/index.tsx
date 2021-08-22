@@ -7,9 +7,10 @@ import { Auth } from 'aws-amplify';
 import BaseTemplate from 'page/BaseTemplate';
 import * as S from './style';
 
-const googleLoginOnClick = () => Auth.federatedSignIn({
-  provider: CognitoHostedUIIdentityProvider.Google,
-});
+const googleLoginOnClick = () =>
+  Auth.federatedSignIn({
+    provider: CognitoHostedUIIdentityProvider.Google,
+  });
 
 const Home = ({ className, isLoggedIn }: any) => {
   const { loading, data } = useQuery(

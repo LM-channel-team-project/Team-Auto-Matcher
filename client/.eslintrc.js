@@ -5,8 +5,7 @@ module.exports = {
   },
 
   settings: {
-    'import/parsers':
-      { '@typescript-eslint/parser': ['.ts', '.tsx'] },
+    'import/parsers': { '@typescript-eslint/parser': ['.ts', '.tsx'] },
     'import/resolver': {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -15,7 +14,11 @@ module.exports = {
     typescript: {},
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react-hooks', '@typescript-eslint/eslint-plugin'],
+  plugins: [
+    '@typescript-eslint',
+    'react-hooks',
+    '@typescript-eslint/eslint-plugin',
+  ],
   extends: [
     'airbnb-base',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -26,10 +29,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    indent: [
-      'error',
-      2,
-    ],
+    indent: ['error', 2, { SwitchCase: 1 }],
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     'no-use-before-define': 0,
@@ -39,6 +39,6 @@ module.exports = {
     'import/extensions': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
+    'implicit-arrow-linebreak': 'off',
   },
-
 };

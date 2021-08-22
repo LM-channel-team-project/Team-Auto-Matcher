@@ -3,8 +3,8 @@ import { EDirection } from 'component/atoms/DirectionBtn';
 import * as S from './style';
 
 interface IDirectionNav {
-  leftOnClick: React.MouseEventHandler<HTMLDivElement>,
-  rightOnClick: React.MouseEventHandler<HTMLDivElement>,
+  leftOnClick: React.MouseEventHandler<HTMLDivElement>;
+  rightOnClick: React.MouseEventHandler<HTMLDivElement>;
   className?: string;
 }
 

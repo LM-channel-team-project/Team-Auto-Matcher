@@ -10,7 +10,11 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <ProgressBar onClickList={() => alert('items')} currentPage={3} totalPage={15}/>
+      <ProgressBar
+        onClickList={() => alert('items')}
+        currentPage={3}
+        totalPage={15}
+      />
     </GlobalThemeProvider>
   );
 }

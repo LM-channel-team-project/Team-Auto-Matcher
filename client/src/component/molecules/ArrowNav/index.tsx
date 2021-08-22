@@ -3,8 +3,8 @@ import { arrowDirection } from 'component/atoms/ArrowBtn';
 import * as S from './style';
 
 interface IArrowNav {
-  leftOnClick: React.MouseEventHandler<HTMLDivElement>,
-  rightOnClick: React.MouseEventHandler<HTMLDivElement>,
+  leftOnClick: React.MouseEventHandler<HTMLDivElement>;
+  rightOnClick: React.MouseEventHandler<HTMLDivElement>;
   className?: string;
 }
 

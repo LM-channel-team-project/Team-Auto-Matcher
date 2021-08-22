@@ -190,14 +190,14 @@ export interface stateProps {
 
 const setColor = (text: string) => {
   switch (text) {
-  case '모집중':
-    return 'green';
-  case '진행중':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
+    case '모집중':
+      return 'green';
+    case '진행중':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
   }
 };
 
@@ -256,11 +256,12 @@ export const CreateBtn = styled.button`
 
 export const FloatingButton = styled(Floating)``;
 
-export const State = styled((props: { text: string }) => TextLabel({
-  color: setColor(props.text),
-  fontColor: setColor(props.text),
-  ...props,
-}))`
+export const State = styled((props: { text: string }) =>
+  TextLabel({
+    color: setColor(props.text),
+    fontColor: setColor(props.text),
+    ...props,
+  }))`
   font-size: 1.6rem;
   font-weight: bold;
   line-height: 1em;

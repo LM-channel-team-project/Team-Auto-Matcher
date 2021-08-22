@@ -54,33 +54,34 @@ const Contact = ({ className }: any) => {
       mail: 'kjcoco13@gmail.com',
     },
   ];
-  const SetMates = (): any => data.map((datas) => (
-    <S.Mates>
-      <S.FlipWrapper>
-        <S.FlipFront>
-          <S.FlipTop>
-            <S.FlipTopSpan>{datas.name}</S.FlipTopSpan>
-            <S.FlipTopSpan>{datas.role}</S.FlipTopSpan>
-          </S.FlipTop>
-          <S.FlipBottom background={datas.backgroundUrl} />
-        </S.FlipFront>
-        <S.FlipBack>
-          <S.FlipBackP>{datas.englishName}</S.FlipBackP>
-          <S.FlipBackP>
-            <S.FlipBackA href={datas.github}>{datas.github}</S.FlipBackA>
-          </S.FlipBackP>
-          {datas.blog && (
+  const SetMates = (): any =>
+    data.map((datas) => (
+      <S.Mates>
+        <S.FlipWrapper>
+          <S.FlipFront>
+            <S.FlipTop>
+              <S.FlipTopSpan>{datas.name}</S.FlipTopSpan>
+              <S.FlipTopSpan>{datas.role}</S.FlipTopSpan>
+            </S.FlipTop>
+            <S.FlipBottom background={datas.backgroundUrl} />
+          </S.FlipFront>
+          <S.FlipBack>
+            <S.FlipBackP>{datas.englishName}</S.FlipBackP>
             <S.FlipBackP>
-              <S.FlipBackA href={datas.blog}>{datas.blog}</S.FlipBackA>
+              <S.FlipBackA href={datas.github}>{datas.github}</S.FlipBackA>
             </S.FlipBackP>
-          )}
-          <S.FlipBackP>
-            <S.FlipBackA href={datas.mailHref}>{datas.mail}</S.FlipBackA>
-          </S.FlipBackP>
-        </S.FlipBack>
-      </S.FlipWrapper>
-    </S.Mates>
-  ));
+            {datas.blog && (
+              <S.FlipBackP>
+                <S.FlipBackA href={datas.blog}>{datas.blog}</S.FlipBackA>
+              </S.FlipBackP>
+            )}
+            <S.FlipBackP>
+              <S.FlipBackA href={datas.mailHref}>{datas.mail}</S.FlipBackA>
+            </S.FlipBackP>
+          </S.FlipBack>
+        </S.FlipWrapper>
+      </S.Mates>
+    ));
   return (
     <BaseTemplate>
       <S.Contact className={className}>

@@ -10,7 +10,7 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <PageCnt currentPage={3} totalPage={15}/>
+      <PageCnt currentPage={3} totalPage={15} />
     </GlobalThemeProvider>
   );
 }

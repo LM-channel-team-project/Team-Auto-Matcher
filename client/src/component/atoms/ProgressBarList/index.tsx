@@ -3,9 +3,9 @@ import * as S from './style';
 
 interface IProgressBarLists {
   onClickList: any;
-  classProps?:string;
-  setId?:Number;
-  brief:string;
+  classProps?: string;
+  setId?: Number;
+  brief: string;
 }
 
 function ProgressBarLists({
@@ -16,7 +16,7 @@ function ProgressBarLists({
 }: IProgressBarLists) {
   return (
     <S.ProgressBarList className={`${classProps}`}>
-      <div id={`${setId}`} onClick={onClickList} ></div>
+      <div id={`${setId}`} onClick={onClickList}></div>
       <span>{brief}</span>
     </S.ProgressBarList>
   );
