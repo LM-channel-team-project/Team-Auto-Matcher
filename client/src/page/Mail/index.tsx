@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
 import getKoreaTime from 'utils/date';
@@ -26,9 +26,11 @@ const Mail = ({ className, isLoggedIn }: any) => {
     `,
   );
   const history = useHistory();
-  if (!isLoggedIn) {
-    history.push('/login');
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/login');
+    }
+  }, [isLoggedIn]);
 
   if (loading) {
     return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { getUser } from 'graphql/queries';
@@ -12,9 +12,11 @@ const Result = ({ className, isLoggedIn }: any) => {
     `,
   );
   const history = useHistory();
-  if (!isLoggedIn) {
-    history.push('/login');
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/login');
+    }
+  }, [isLoggedIn]);
 
   if (userError) {
     console.error(userError);

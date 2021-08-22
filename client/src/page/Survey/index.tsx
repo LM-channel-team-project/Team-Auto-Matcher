@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
@@ -27,9 +27,11 @@ const Survey = ({ className, isLoggedIn }: any) => {
   );
 
   const history = useHistory();
-  if (!isLoggedIn) {
-    history.push('/login');
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/login');
+    }
+  }, [isLoggedIn]);
 
   const [addUserData] = useMutation(
     gql`
