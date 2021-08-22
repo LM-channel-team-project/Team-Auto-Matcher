@@ -1,15 +1,20 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { getUser } from 'graphql/queries';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import * as S from './style';
 
-function Result() {
+const Result = ({ className, isLoggedIn }: any) => {
   const { loading: userLoading, error: userError, data: userData } = useQuery(
     gql`
       ${getUser}
     `,
   );
+  const history = useHistory();
+  if (!isLoggedIn) {
+    history.push('/login');
+  }
 
   if (userError) {
     console.error(userError);
@@ -37,6 +42,6 @@ function Result() {
       />
     </S.ResultPage>
   );
-}
+};
 
 export default Result;
