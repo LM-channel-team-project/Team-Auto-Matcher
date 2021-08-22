@@ -25,11 +25,11 @@ function App() {
     <GlobalThemeProvider>
       <Router>
         <Switch>
-          <Route exact path="/survey" component={withAuthenticator(Survey, false, [<LoginPage />])}/>
+          <Route render={(props) => <Survey {...props} isLoggedIn={isLoggedIn}/>} exact path="/survey"/>
           <Route exact path="/result" component={withAuthenticator(Result, false, [<LoginPage />])}/>
-          <Route render={(props) => <Home {...props} isLoggedIn={isLoggedIn}></Home>} exact path="/"/>
+          <Route render={(props) => <Home {...props} isLoggedIn={isLoggedIn}/>} exact path="/"/>
           <Route exact path="/contact" component={Contact} />
-          <Route render={(props) => <TeamDashboard {...props} isLoggedIn={isLoggedIn}></TeamDashboard>} exact path="/dashboard/team"/>
+          <Route render={(props) => <TeamDashboard {...props} isLoggedIn={isLoggedIn}/>} exact path="/dashboard/team"/>
           <Route exact path="/dashboard/personal" component={PersonalDashboard}/>
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/notice" component={Notice} />
