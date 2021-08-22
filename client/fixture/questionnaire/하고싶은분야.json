@@ -3,7 +3,13 @@
   "id": "00000",
   "priority": 0,
   "questionList": [
-    "프론트", "백엔드", "안드로이드", "IOS", "AI", "데이터", "Devops"
+    "프론트",
+    "백엔드",
+    "안드로이드",
+    "IOS",
+    "AI",
+    "데이터",
+    "Devops"
   ],
   "questionTitle": "하고싶은 개발 분야를 선택하세요"
 }

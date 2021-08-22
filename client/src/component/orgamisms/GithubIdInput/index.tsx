@@ -6,9 +6,7 @@ interface IGithubIdInput {
   className?: string;
 }
 
-function GithubIdInput({
-  className,
-}: IGithubIdInput) {
+function GithubIdInput({ className }: IGithubIdInput) {
   return (
     <S.GithubIdInput className={className}>
       <S.Img src={GitHubWhitePlus} />

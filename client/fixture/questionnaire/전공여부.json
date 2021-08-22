@@ -2,10 +2,6 @@
   "bDuplicate": false,
   "id": "00002",
   "priority": 2,
-  "questionList": [
-    "주전공",
-    "부전공",
-    "비전공"
-  ],
+  "questionList": ["주전공", "부전공", "비전공"],
   "questionTitle": "전공 여부를 선택하세요"
 }

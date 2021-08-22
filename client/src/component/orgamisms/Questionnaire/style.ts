@@ -21,8 +21,7 @@ export const QuestionBlock = styled(QuestionBlockComponent)`
   margin: 0.6rem 0;
 `;
 
-export const ProgressBar = styled(ProgressComponent)`
-`;
+export const ProgressBar = styled(ProgressComponent)``;
 
 export const MultiCheckbox = styled(MultiCheckboxComponent)`
   margin-bottom: 1.6rem;

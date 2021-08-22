@@ -239,22 +239,23 @@ export const Team = styled.div`
 
 const setPersonColor = (text: string) => {
   switch (text) {
-  case '팀 구하는 중':
-    return 'green';
-  case '팀장':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
+    case '팀 구하는 중':
+      return 'green';
+    case '팀장':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
   }
 };
 
-export const PersonState = styled((props: { text: string }) => _TextLabel({
-  color: setPersonColor(props.text),
-  fontColor: setPersonColor(props.text),
-  ...props,
-}))`
+export const PersonState = styled((props: { text: string }) =>
+  _TextLabel({
+    color: setPersonColor(props.text),
+    fontColor: setPersonColor(props.text),
+    ...props,
+  }))`
   font-size: 1.6rem;
   font-weight: bold;
   line-height: 1em;

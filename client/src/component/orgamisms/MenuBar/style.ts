@@ -269,21 +269,24 @@ export interface ClickedProps {
 }
 
 const firstSpanStyle = css`
-  ${({ clicked }: ClickedProps) => clicked
+  ${({ clicked }: ClickedProps) =>
+    clicked
     && css`
       transform: rotate(-45deg) translate(-7px, 6px);
     `}
 `;
 
 const secondSpanStyle = css`
-  ${({ clicked }: ClickedProps) => clicked
+  ${({ clicked }: ClickedProps) =>
+    clicked
     && css`
       opacity: 0;
     `}
 `;
 
 const lastSpanStyle = css`
-  ${({ clicked }: ClickedProps) => clicked
+  ${({ clicked }: ClickedProps) =>
+    clicked
     && css`
       transform: rotate(45deg) translate(-7px, -6px);
     `}
@@ -322,7 +325,8 @@ export const Hamburger = styled.div`
 export const HamburgerSpan = styled.span``;
 
 const menuStyle = css`
-  ${({ clicked }: ClickedProps) => clicked
+  ${({ clicked }: ClickedProps) =>
+    clicked
     && css`
       left: 0;
     `}

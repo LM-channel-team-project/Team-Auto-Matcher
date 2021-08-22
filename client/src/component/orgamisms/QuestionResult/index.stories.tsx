@@ -19,6 +19,6 @@ const test = [
 ];
 export const Default = () => (
   <GlobalThemeProvider>
-    <QuestionResult answerRespond={test}/>
+    <QuestionResult answerRespond={test} />
   </GlobalThemeProvider>
 );

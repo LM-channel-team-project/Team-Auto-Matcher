@@ -38,9 +38,11 @@ interface ContentsState {
     title: string,
   ) => void;
 }
-const isInArray = (a: string[], v: string) => a.some((e) => e.toLowerCase() === v.toLowerCase());
+const isInArray = (a: string[], v: string) =>
+  a.some((e) => e.toLowerCase() === v.toLowerCase());
 
-const findInArray = (a: string[], v: string) => a.find((e) => e.toLowerCase() === v.toLowerCase());
+const findInArray = (a: string[], v: string) =>
+  a.find((e) => e.toLowerCase() === v.toLowerCase());
 // Search for skills what included an string entered
 const searchOnSkills = (value: string) => {
   const skills = Object.keys(skillsLabel);
@@ -261,12 +263,13 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
       target.style.height = 'auto';
       target.style.height = `${target.scrollHeight}px`;
 
-      setContents((prev) => prev.map((_content) => {
-        const copied: ContentItem = { ..._content };
+      setContents((prev) =>
+        prev.map((_content) => {
+          const copied: ContentItem = { ..._content };
 
-        if (copied.title === title) copied.text = target.value;
-        return copied;
-      }));
+          if (copied.title === title) copied.text = target.value;
+          return copied;
+        }));
     },
   };
 
