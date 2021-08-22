@@ -26,7 +26,8 @@ const tokenAuthLink = createAuthLink({
   region,
   auth: {
     type: authenticationType[0] as AUTH_TYPE.AMAZON_COGNITO_USER_POOLS,
-    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
+    jwtToken: async () =>
+      (await Auth.currentSession()).getIdToken().getJwtToken(),
   },
 }) as any;
 
