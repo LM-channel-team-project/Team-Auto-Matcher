@@ -26,7 +26,7 @@ function App() {
       <Router>
         <Switch>
           <Route render={(props) => <Survey {...props} isLoggedIn={isLoggedIn}/>} exact path="/survey"/>
-          <Route exact path="/result" component={withAuthenticator(Result, false, [<LoginPage />])}/>
+          <Route render={(props) => <Result {...props} isLoggedIn={isLoggedIn}/>} exact path="/result"/>
           <Route render={(props) => <Home {...props} isLoggedIn={isLoggedIn}/>} exact path="/"/>
           <Route exact path="/contact" component={Contact} />
           <Route render={(props) => <TeamDashboard {...props} isLoggedIn={isLoggedIn}/>} exact path="/dashboard/team"/>
