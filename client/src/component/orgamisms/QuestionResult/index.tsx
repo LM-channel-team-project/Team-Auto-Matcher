@@ -67,10 +67,10 @@ function QuestionResult({
   );
 
   const QuestionRespondList = answerRespond.map((answer: IAnswers) => (
-    <S.QuestionRespond
+    answer.title.length > 0 && <S.QuestionRespond
       key={answer.title}
       title={answer.title}
-      answers={answer.answers}
+      answers={answer.answers.length > 0 ? answer.answers : ['응답 하지 않음']}
     />
   ));
 
