@@ -1,50 +1,27 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
-import { getUser } from 'graphql/queries';
+import React from 'react';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import * as S from './style';
 
-const Result = ({ className, isLoggedIn }: any) => {
-  const { loading: userLoading, error: userError, data: userData } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-  const history = useHistory();
-  useEffect(() => {
-    if (!isLoggedIn) {
-      history.push('/login');
-    }
-  }, [isLoggedIn]);
+interface IResult {
+  userId: string;
+  surveyCompleted: boolean;
+  answerStorage: IAnswers[];
+  onCloseResult: () => void;
+}
 
-  if (userError) {
-    console.error(userError);
-  }
-
-  if (userLoading) {
-    return (
-      <S.LoadContainer>
-        <S.LoadingComponent />
-      </S.LoadContainer>
-    );
-  }
-  const items = userData.getUser.items[0];
-  const { question } = items;
-  const answerRes: IAnswers[] = question
-    .filter((answer: IAnswers) => answer.title !== '')
-    .map((answer: IAnswers) => ({
-      title: answer.title,
-      answers: answer.answers,
-    }));
+const Result = ({
+  userId, surveyCompleted, answerStorage, onCloseResult,
+}: IResult) => {
+  console.log(answerStorage);
 
   return (
     <S.ResultPage>
       <S.Title>설문 결과</S.Title>
       <S.QuestionResult
-        answerRespond={answerRes}
-        id={items.id}
-        surveyCompleted={items.surveyCompleted}
+        answerRespond={answerStorage}
+        userId={userId}
+        surveyCompleted={surveyCompleted}
+        onCloseResult={onCloseResult}
       />
     </S.ResultPage>
   );
