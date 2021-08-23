@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
+import Login from 'component/orgamisms/Login';
 import { createUser, updateUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
 import Questionnaire from 'component/orgamisms/Questionnaire';
@@ -27,11 +28,6 @@ const Survey = ({ className, isLoggedIn }: any) => {
   );
 
   const history = useHistory();
-  useEffect(() => {
-    if (!isLoggedIn) {
-      history.push('/login');
-    }
-  }, [isLoggedIn]);
 
   const [addUserData] = useMutation(
     gql`
@@ -56,6 +52,9 @@ const Survey = ({ className, isLoggedIn }: any) => {
   }
 
   if (loading) {
+    if (!isLoggedIn) {
+      return <Login />;
+    }
     return (
       <S.LoadContainer>
         <S.LoadingComponent />

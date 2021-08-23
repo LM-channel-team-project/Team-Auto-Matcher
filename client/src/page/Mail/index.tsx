@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
-import { useHistory } from 'react-router-dom';
 import getKoreaTime from 'utils/date';
+import Login from 'component/orgamisms/Login';
 import { getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import MailDetailModal, {
@@ -25,14 +25,11 @@ const Mail = ({ className, isLoggedIn }: any) => {
       ${getUser}
     `,
   );
-  const history = useHistory();
-  useEffect(() => {
-    if (!isLoggedIn) {
-      history.push('/login');
-    }
-  }, [isLoggedIn]);
 
   if (loading) {
+    if (!isLoggedIn) {
+      return <Login />;
+    }
     return (
       <S.LoadContainer>
         <S.LoadingComponent />
