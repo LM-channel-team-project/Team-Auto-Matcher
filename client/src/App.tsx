@@ -24,15 +24,41 @@ function App() {
     <GlobalThemeProvider>
       <Router>
         <Switch>
-          <Route render={(props) => <Survey {...props} isLoggedIn={isLoggedIn}/>} exact path="/survey"/>
-          <Route render={(props) => <Result {...props} isLoggedIn={isLoggedIn}/>} exact path="/result"/>
-          <Route render={(props) => <Home {...props} isLoggedIn={isLoggedIn}/>} exact path="/"/>
+          <Route
+            render={(props) => <Survey {...props} isLoggedIn={isLoggedIn} />}
+            exact
+            path="/survey"
+          />
+          <Route
+            render={(props) => <Result {...props} isLoggedIn={isLoggedIn} />}
+            exact
+            path="/result"
+          />
+          <Route
+            render={(props) => <Home {...props} isLoggedIn={isLoggedIn} />}
+            exact
+            path="/"
+          />
           <Route exact path="/contact" component={Contact} />
-          <Route render={(props) => <TeamDashboard {...props} isLoggedIn={isLoggedIn}/>} exact path="/dashboard/team"/>
-          <Route exact path="/dashboard/personal" component={PersonalDashboard}/>
+          <Route
+            render={(props) => (
+              <TeamDashboard {...props} isLoggedIn={isLoggedIn} />
+            )}
+            exact
+            path="/dashboard/team"
+          />
+          <Route
+            exact
+            path="/dashboard/personal"
+            component={PersonalDashboard}
+          />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/notice" component={Notice} />
-          <Route render={(props) => <Mail {...props} isLoggedIn={isLoggedIn}/>} exact path="/mail"/>
+          <Route
+            render={(props) => <Mail {...props} isLoggedIn={isLoggedIn} />}
+            exact
+            path="/mail"
+          />
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
