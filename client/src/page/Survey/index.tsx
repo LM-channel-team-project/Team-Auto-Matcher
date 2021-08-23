@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
@@ -8,8 +8,7 @@ import Questionnaire from 'component/orgamisms/Questionnaire';
 import * as S from './style';
 
 const firstInput = Array(12).fill({ title: '', answers: [] });
-
-function Survey() {
+const Survey = ({ className, isLoggedIn }: any) => {
   const { loading, error, data } = useQuery(
     gql`
       ${listQuestionnaires}
@@ -28,6 +27,11 @@ function Survey() {
   );
 
   const history = useHistory();
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/login');
+    }
+  }, [isLoggedIn]);
 
   const [addUserData] = useMutation(
     gql`
@@ -223,6 +227,6 @@ function Survey() {
       </S.SurveyWrapper>
     </BaseTemplate>
   );
-}
+};
 
 export default Survey;

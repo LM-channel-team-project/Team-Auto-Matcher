@@ -31,8 +31,8 @@ const LoginPage = ({ className }: any) => {
     });
   }, []);
 
-  const onClickReload = () => {
-    history.go(0);
+  const onClickGoHome = () => {
+    history.push('/');
   };
 
   return (
@@ -41,8 +41,8 @@ const LoginPage = ({ className }: any) => {
         <S.Title>Team Auto Matcher</S.Title>
         <S.Explanation>로그인이 필요합니다.</S.Explanation>
         <S.Explanation>
-          로그인을 하셨다면
-          <S.Reload onClick={onClickReload}>이곳</S.Reload>을 눌러주세요.
+          홈화면으로 돌아가시려면
+          <S.Reload onClick={onClickGoHome}>이곳</S.Reload>을 눌러주세요.
         </S.Explanation>
         <S.LoginBtn text="구글로그인" onLoginClick={googleLoginOnClick} />
       </S.wrapper>

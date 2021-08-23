@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { getUser } from 'graphql/queries';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import * as S from './style';
 
-function Result() {
+const Result = ({ className, isLoggedIn }: any) => {
   const { loading: userLoading, error: userError, data: userData } = useQuery(
     gql`
       ${getUser}
     `,
   );
+  const history = useHistory();
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/login');
+    }
+  }, [isLoggedIn]);
 
   if (userError) {
     console.error(userError);
   }
 
   if (userLoading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
   const items = userData.getUser.items[0];
   const { question } = items;
@@ -37,6 +48,6 @@ function Result() {
       />
     </S.ResultPage>
   );
-}
+};
 
 export default Result;

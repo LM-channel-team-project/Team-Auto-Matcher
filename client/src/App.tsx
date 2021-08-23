@@ -11,7 +11,6 @@ import Home from 'page/Home';
 import Contact from 'page/Contact';
 import Mail from 'page/Mail';
 import Notice from 'page/Notice';
-import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
 
 function App() {
@@ -26,24 +25,24 @@ function App() {
       <Router>
         <Switch>
           <Route
+            render={(props) => <Survey {...props} isLoggedIn={isLoggedIn} />}
             exact
             path="/survey"
-            component={withAuthenticator(Survey, false, [<LoginPage />])}
           />
           <Route
+            render={(props) => <Result {...props} isLoggedIn={isLoggedIn} />}
             exact
             path="/result"
-            component={withAuthenticator(Result, false, [<LoginPage />])}
           />
           <Route
-            render={(props) => <Home {...props} isLoggedIn={isLoggedIn}></Home>}
+            render={(props) => <Home {...props} isLoggedIn={isLoggedIn} />}
             exact
             path="/"
           />
           <Route exact path="/contact" component={Contact} />
           <Route
             render={(props) => (
-              <TeamDashboard {...props} isLoggedIn={isLoggedIn}></TeamDashboard>
+              <TeamDashboard {...props} isLoggedIn={isLoggedIn} />
             )}
             exact
             path="/dashboard/team"
@@ -56,9 +55,9 @@ function App() {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/notice" component={Notice} />
           <Route
+            render={(props) => <Mail {...props} isLoggedIn={isLoggedIn} />}
             exact
             path="/mail"
-            component={withAuthenticator(Mail, false, [<LoginPage />])}
           />
           <Route path="*" component={NotFound} />
         </Switch>

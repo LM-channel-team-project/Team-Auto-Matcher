@@ -138,7 +138,6 @@ export const Username = styled.h1`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-align: center;
 
   @media screen and (max-width: 1160px) {
     font-size: 3em;
