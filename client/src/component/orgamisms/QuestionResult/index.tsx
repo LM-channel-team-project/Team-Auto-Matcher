@@ -75,14 +75,26 @@ function QuestionResult({
   ));
 
   const confirmSubmit = async () => {
-    await updateUserData({
-      variables: {
-        input: {
-          id: userId,
-          surveyCompleted: true,
+    if (!surveyCompleted) {
+      await updateUserData({
+        variables: {
+          input: {
+            id: userId,
+            surveyCompleted: true,
+          },
         },
-      },
-    });
+      });
+    } else {
+      updateUserData({
+        variables: {
+          input: {
+            id: userId,
+            question: answerRespond,
+          },
+        },
+      });
+    }
+
     await refetch();
     history.push('/dashboard/personal');
   };
