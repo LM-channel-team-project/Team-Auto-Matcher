@@ -30,6 +30,7 @@ const color = {
     gray: '#DFDDE5',
     yellow: '#F8CC6D',
     orange: '#FFB38F',
+    white: '#FFFFFF',
   },
   label: {
     gray: '#E7EAEC',
