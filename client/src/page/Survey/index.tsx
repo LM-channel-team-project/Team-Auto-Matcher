@@ -42,8 +42,9 @@ const Survey = ({ className, isLoggedIn }: any) => {
   );
 
   const bUserUpdating = useRef<boolean>(false);
-
   const [page, setPage] = useState<number>(0);
+  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData.getUser.items[0]
+    ? userData.getUser.items[0].question : firstInput);
   const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   if (userError) {
@@ -53,7 +54,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
     console.error('error : ', error);
   }
 
-  if (loading) {
+  if (userLoading || loading || bUserUpdating.current || !userData?.getUser) {
     return (
       <S.LoadContainer>
         <S.LoadingComponent />
@@ -90,22 +91,11 @@ const Survey = ({ className, isLoggedIn }: any) => {
     }
   }
 
-  if (userLoading || bUserUpdating.current || !userData?.getUser) {
-    return (
-      <S.LoadContainer>
-        <S.LoadingComponent />
-      </S.LoadContainer>
-    );
-  }
-
   const listQuestionnairesData = [...data.listQuestionnaires.items];
   listQuestionnairesData.sort(
     (el1: any, el2: any) => el1.priority - el2.priority,
   );
   const nowQuestionnaire = listQuestionnairesData[page];
-  const selectedData = userData.getUser?.items[0]?.question;
-  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData.getUser.items[0]
-    ? selectedData : firstInput);
   const nowSelectedData = answerRespond[page];
   const totalPage = listQuestionnairesData.length;
 
