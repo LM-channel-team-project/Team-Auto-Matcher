@@ -4,10 +4,12 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser, updateUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
+import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
+import ResultComponent from '../Result';
 import * as S from './style';
 
-const firstInput = Array(12).fill({ title: '', answers: [] });
+const firstInput: IAnswers[] = Array(12).fill({ title: '', answers: [] });
 const Survey = ({ className, isLoggedIn }: any) => {
   const { loading, error, data } = useQuery(
     gql`
@@ -47,6 +49,8 @@ const Survey = ({ className, isLoggedIn }: any) => {
   const bUserUpdating = useRef<boolean>(false);
 
   const [page, setPage] = useState<number>(0);
+  const [answerStorage, setAnswerStorage] = useState<IAnswers[]>(firstInput);
+  const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   if (userError) {
     console.error('userError', userError);
@@ -126,6 +130,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
       answers: [...nowQuestions],
     };
     const newData = [...frontData, nowQuestion, ...backData];
+    setAnswerStorage(newData);
     updateUserData({
       variables: {
         input: {
@@ -142,7 +147,8 @@ const Survey = ({ className, isLoggedIn }: any) => {
       if (prevPage < totalPage - 1) {
         return prevPage + 1;
       }
-      history.push('/result');
+      setResultOpen(true);
+      // history.push('/result');
       return prevPage;
     });
   };
@@ -206,10 +212,21 @@ const Survey = ({ className, isLoggedIn }: any) => {
     return nowQuestionnaire.questionList;
   };
 
+  const onCloseResult = () => {
+    setResultOpen(false);
+  };
+
   return (
     <BaseTemplate>
       <S.SurveyWrapper>
         <S.SurveyPage>
+          {resultOpen
+            && <ResultComponent
+              userId={userData?.getUser.items[0].id}
+              surveyCompleted={userData?.getUser.items[0].surveyCompleted}
+              answerStorage={answerStorage}
+              onCloseResult={onCloseResult}/>
+          }
           <Questionnaire
             key={nowQuestionnaire.id}
             question={nowQuestionnaire.questionTitle}
