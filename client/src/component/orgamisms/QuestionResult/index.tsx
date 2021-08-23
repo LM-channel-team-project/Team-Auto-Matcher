@@ -80,6 +80,7 @@ function QuestionResult({
         variables: {
           input: {
             id: userId,
+            question: answerRespond,
             surveyCompleted: true,
           },
         },
