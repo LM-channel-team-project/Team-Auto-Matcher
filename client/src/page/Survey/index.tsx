@@ -127,7 +127,6 @@ const Survey = ({ className, isLoggedIn }: any) => {
     const newData = [...frontData, nowQuestion, ...backData];
     setanswerRespond(newData);
   };
-  console.log(answerRespond);
 
   const onRightClick = (nowQuestions: string[]) => () => {
     updateNowUserQuestion(nowQuestions);
@@ -156,9 +155,9 @@ const Survey = ({ className, isLoggedIn }: any) => {
   };
 
   const setQuestionList = (): string[] => {
-    if (nowQuestionnaire.questionBrief === 'Available Stack') {
+    if (page === 1) {
       let questionList = [];
-      switch (selectedData[0].answers[0]) {
+      switch (answerRespond[0].answers[0]) {
         case '프론트엔드':
           questionList = [
             'React',
