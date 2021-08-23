@@ -40,7 +40,7 @@ const Result = ({ className, isLoggedIn }: any) => {
 
   return (
     <S.ResultPage>
-      <div className="title">설문 결과</div>
+      <S.Title>설문 결과</S.Title>
       <S.QuestionResult
         answerRespond={answerRes}
         id={items.id}

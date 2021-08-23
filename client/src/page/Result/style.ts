@@ -7,12 +7,13 @@ export const ResultPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  > .title {
+`;
+
+export const Title = styled.div`
     margin-top: 4rem;
     font-size: 5rem;
     font-weight: bold;
     margin-bottom: 1em;
-  }
 `;
 
 export const LoadContainer = styled.div`
