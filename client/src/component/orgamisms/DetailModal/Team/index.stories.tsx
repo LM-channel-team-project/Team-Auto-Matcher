@@ -31,8 +31,8 @@ const props = {
     createdAt: new Date(),
     reponame: 'Team-Auto-Matcher',
   },
-  onCloseModal: () => alert('close'),
-  onClickUpdate: () => alert('update'),
+  onCloseModal: () => console.log('close'),
+  onClickUpdate: () => console.log('update'),
 };
 
 export default {

@@ -12,7 +12,7 @@ export const GitHubLogin = () => (
   <GlobalThemeProvider>
     <OAuthLogin
       onClick={() => {
-        alert('login github');
+        console.log('login github');
       }}
       icon={GoogleLogo}
       ButtonTitle={'Login With GitHub'}

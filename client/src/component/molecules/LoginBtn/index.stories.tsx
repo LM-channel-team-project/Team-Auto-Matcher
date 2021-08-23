@@ -10,7 +10,7 @@ export default {
 export function Default() {
   return (
     <GlobalThemeProvider>
-      <LoginBtn text="구글로그인" onLoginClick={() => alert('click button')} />
+      <LoginBtn text="구글로그인" onLoginClick={() => console.log('click button')} />
     </GlobalThemeProvider>
   );
 }

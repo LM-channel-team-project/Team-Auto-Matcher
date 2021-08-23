@@ -4,7 +4,7 @@ import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import NoticeAddForm from '.';
 
 const props = {
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {

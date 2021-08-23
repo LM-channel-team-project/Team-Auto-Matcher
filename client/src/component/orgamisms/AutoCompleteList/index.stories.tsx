@@ -15,7 +15,7 @@ export default {
     divider: true,
     dividerColor: 'darkMainColor',
     onClick: (event: React.MouseEvent<HTMLDivElement>) =>
-      alert(event.currentTarget.querySelector('span')!.textContent),
+      console.log(event.currentTarget.querySelector('span')!.textContent),
   },
 };
 

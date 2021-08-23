@@ -30,7 +30,7 @@ const props = {
       },
     ],
   },
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {
