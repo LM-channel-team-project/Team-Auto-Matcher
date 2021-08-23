@@ -3,9 +3,9 @@ import styled from 'styled-components';
 export const QuestionRespond = styled.div`
   display: flex;
   flex-direction: column;
-
   border-radius: 2em;
   padding: 1.8em;
+  background-color: white;
   box-shadow: 0 0.1em 1em rgba(0, 0, 0, 0.12), 0 0.5em 0.6em rgba(0, 0, 0, 0.24);
   margin-bottom: 3em;
   width: 120em;
