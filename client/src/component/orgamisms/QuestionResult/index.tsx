@@ -32,7 +32,7 @@ function QuestionResult({
     const filterArray: number[] = [];
     answerRespond.forEach((answer: IAnswers, index: number) => {
       if (answer.answers.length < 1 || answer.answers[0].length < 1) {
-        filterArray.push(index);
+        filterArray.push(index + 1);
       }
     });
     if (filterArray.length > 0) {
