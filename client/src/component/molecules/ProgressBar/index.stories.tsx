@@ -11,7 +11,7 @@ export function Default() {
   return (
     <GlobalThemeProvider>
       <ProgressBar
-        onClickList={() => alert('items')}
+        onClickList={() => console.log('items')}
         currentPage={3}
         totalPage={15}
       />

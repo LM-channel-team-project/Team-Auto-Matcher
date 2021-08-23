@@ -10,7 +10,7 @@ const props = {
     contents: 'test contents',
   },
   isAdmin: true,
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {

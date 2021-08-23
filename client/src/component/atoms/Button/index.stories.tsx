@@ -15,7 +15,7 @@ const Template = (args: Props) => (
 
 export const Sizes = (props: Props) => {
   const args = {
-    onClick: (e: MouseEvent) => alert((e.target as HTMLElement)!.innerText),
+    onClick: (e: MouseEvent) => console.log((e.target as HTMLElement)!.innerText),
   };
 
   return (

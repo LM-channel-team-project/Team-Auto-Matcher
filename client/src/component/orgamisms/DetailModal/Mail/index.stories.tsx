@@ -10,7 +10,7 @@ const props = {
     type: 'invite',
     date: new Date(),
   },
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {
