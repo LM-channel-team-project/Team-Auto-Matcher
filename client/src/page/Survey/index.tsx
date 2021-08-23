@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
-import { createUser, updateUser } from 'graphql/mutations';
+import { createUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
@@ -40,16 +40,11 @@ const Survey = ({ className, isLoggedIn }: any) => {
       ${createUser}
     `,
   );
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
 
   const bUserUpdating = useRef<boolean>(false);
 
   const [page, setPage] = useState<number>(0);
-  const [answerStorage, setAnswerStorage] = useState<IAnswers[]>(firstInput);
+  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(firstInput);
   const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   if (userError) {
@@ -118,7 +113,6 @@ const Survey = ({ className, isLoggedIn }: any) => {
       title: el.title,
       answers: el.answers,
     }));
-
     const backData = selectedData
       .slice(page + 1, selectedData.length)
       .map((el: any) => ({
@@ -130,15 +124,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
       answers: [...nowQuestions],
     };
     const newData = [...frontData, nowQuestion, ...backData];
-    setAnswerStorage(newData);
-    updateUserData({
-      variables: {
-        input: {
-          id: userData.getUser.items[0].id,
-          question: newData,
-        },
-      },
-    });
+    setanswerRespond(newData);
   };
 
   const onRightClick = (nowQuestions: string[]) => () => {
@@ -148,7 +134,6 @@ const Survey = ({ className, isLoggedIn }: any) => {
         return prevPage + 1;
       }
       setResultOpen(true);
-      // history.push('/result');
       return prevPage;
     });
   };
@@ -218,30 +203,30 @@ const Survey = ({ className, isLoggedIn }: any) => {
 
   return (
     <BaseTemplate>
-      <S.SurveyWrapper>
-        <S.SurveyPage>
-          {resultOpen
-            && <ResultComponent
-              userId={userData?.getUser.items[0].id}
-              surveyCompleted={userData?.getUser.items[0].surveyCompleted}
-              answerStorage={answerStorage}
-              onCloseResult={onCloseResult}/>
-          }
-          <Questionnaire
-            key={nowQuestionnaire.id}
-            question={nowQuestionnaire.questionTitle}
-            questionList={setQuestionList()}
-            bDuplicateSelect={nowQuestionnaire.bDuplicate}
-            selectedData={nowSelectedData.answers}
-            leftOnClick={onLeftClick}
-            rightOnClick={onRightClick}
-            currentPage={page + 1}
-            totalPage={totalPage}
-            onClickList={onProgressBarListClick}
-            listQuestionnairesData={listQuestionnairesData}
-          />
-        </S.SurveyPage>
-      </S.SurveyWrapper>
+      {resultOpen
+        ? <ResultComponent
+          userId={userData?.getUser.items[0].id}
+          surveyCompleted={userData?.getUser.items[0].surveyCompleted}
+          answerRespond={answerRespond}
+          onCloseResult={onCloseResult}/>
+        : <S.SurveyWrapper>
+          <S.SurveyPage>
+            <Questionnaire
+              key={nowQuestionnaire.id}
+              question={nowQuestionnaire.questionTitle}
+              questionList={setQuestionList()}
+              bDuplicateSelect={nowQuestionnaire.bDuplicate}
+              selectedData={nowSelectedData.answers}
+              leftOnClick={onLeftClick}
+              rightOnClick={onRightClick}
+              currentPage={page + 1}
+              totalPage={totalPage}
+              onClickList={onProgressBarListClick}
+              listQuestionnairesData={listQuestionnairesData}
+            />
+          </S.SurveyPage>
+        </S.SurveyWrapper>
+      }
     </BaseTemplate>
   );
 };
