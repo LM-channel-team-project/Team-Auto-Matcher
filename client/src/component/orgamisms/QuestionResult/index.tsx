@@ -113,7 +113,7 @@ function QuestionResult({
         {QuestionRespondList}
       </S.QuestionResult>
       <S.Btn>
-        <Button onClick={onCloseResult} size="biglarge" color="gray">
+        <Button onClick={onCloseResult} size="biglarge" color="white">
           돌아가기
         </Button>
         <Button
