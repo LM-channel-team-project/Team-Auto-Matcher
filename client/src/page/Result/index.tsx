@@ -5,26 +5,22 @@ import * as S from './style';
 interface IResult {
   userId: string;
   surveyCompleted: boolean;
-  answerStorage: IAnswers[];
+  answerRespond: IAnswers[];
   onCloseResult: () => void;
 }
 
 const Result = ({
-  userId, surveyCompleted, answerStorage, onCloseResult,
-}: IResult) => {
-  console.log(answerStorage);
-
-  return (
-    <S.ResultPage>
-      <S.Title>설문 결과</S.Title>
-      <S.QuestionResult
-        answerRespond={answerStorage}
-        userId={userId}
-        surveyCompleted={surveyCompleted}
-        onCloseResult={onCloseResult}
-      />
-    </S.ResultPage>
-  );
-};
+  userId, surveyCompleted, answerRespond, onCloseResult,
+}: IResult) => (
+  <S.ResultPage>
+    <S.Title>설문 결과</S.Title>
+    <S.QuestionResult
+      answerRespond={answerRespond}
+      userId={userId}
+      surveyCompleted={surveyCompleted}
+      onCloseResult={onCloseResult}
+    />
+  </S.ResultPage>
+);
 
 export default Result;
