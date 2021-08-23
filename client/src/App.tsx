@@ -5,7 +5,6 @@ import Survey from 'page/Survey';
 import Result from 'page/Result';
 import PersonalDashboard from 'page/Dashboard/Personal';
 import TeamDashboard from 'page/Dashboard/Team';
-import LoginPage from 'page/Login';
 import NotFound from 'page/NotFound';
 import Home from 'page/Home';
 import Contact from 'page/Contact';
@@ -52,7 +51,6 @@ function App() {
             path="/dashboard/personal"
             component={PersonalDashboard}
           />
-          <Route exact path="/login" component={LoginPage} />
           <Route exact path="/notice" component={Notice} />
           <Route
             render={(props) => <Mail {...props} isLoggedIn={isLoggedIn} />}
