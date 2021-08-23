@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { updateUser } from 'graphql/mutations';
@@ -9,17 +9,19 @@ import Button from 'component/atoms/Button';
 import * as S from './style';
 
 interface IQuestionResult {
-  answerRespond: IAnswers[];
   className?: string;
-  id?: string;
-  surveyCompleted?: boolean;
+  answerRespond: IAnswers[];
+  userId: string;
+  surveyCompleted: boolean;
+  onCloseResult: () => void;
 }
 
 function QuestionResult({
   answerRespond,
   className,
-  id,
+  userId,
   surveyCompleted,
+  onCloseResult,
 }: IQuestionResult) {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -76,7 +78,7 @@ function QuestionResult({
     await updateUserData({
       variables: {
         input: {
-          id,
+          id: userId,
           surveyCompleted: true,
         },
       },
@@ -98,11 +100,9 @@ function QuestionResult({
         {QuestionRespondList}
       </S.QuestionResult>
       <S.Btn>
-        <Link to="/survey">
-          <Button size="biglarge" color="gray">
-            돌아가기
-          </Button>
-        </Link>
+        <Button onClick={onCloseResult} size="biglarge" color="gray">
+          돌아가기
+        </Button>
         <Button
           className="confirm"
           size="biglarge"
