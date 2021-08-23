@@ -45,10 +45,10 @@ const MenuBar = ({ className }: any) => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
-          history.push('/');
+          history.go(0);
           break;
         case 'signOut':
-          history.push('/');
+          history.go(0);
           break;
         case 'customOAuthState':
           break;
