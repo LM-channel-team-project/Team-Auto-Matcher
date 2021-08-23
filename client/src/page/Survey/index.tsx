@@ -44,7 +44,6 @@ const Survey = ({ className, isLoggedIn }: any) => {
   const bUserUpdating = useRef<boolean>(false);
 
   const [page, setPage] = useState<number>(0);
-  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(firstInput);
   const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   if (userError) {
@@ -105,16 +104,18 @@ const Survey = ({ className, isLoggedIn }: any) => {
   );
   const nowQuestionnaire = listQuestionnairesData[page];
   const selectedData = userData.getUser?.items[0]?.question;
-  const nowSelectedData = selectedData[page];
+  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData.getUser.items[0]
+    ? selectedData : firstInput);
+  const nowSelectedData = answerRespond[page];
   const totalPage = listQuestionnairesData.length;
 
   const updateNowUserQuestion = (nowQuestions: string[]) => {
-    const frontData = selectedData.slice(0, page).map((el: any) => ({
+    const frontData = answerRespond.slice(0, page).map((el: any) => ({
       title: el.title,
       answers: el.answers,
     }));
-    const backData = selectedData
-      .slice(page + 1, selectedData.length)
+    const backData = answerRespond
+      .slice(page + 1, answerRespond.length)
       .map((el: any) => ({
         title: el.title,
         answers: el.answers,
@@ -126,6 +127,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
     const newData = [...frontData, nowQuestion, ...backData];
     setanswerRespond(newData);
   };
+  console.log(answerRespond);
 
   const onRightClick = (nowQuestions: string[]) => () => {
     updateNowUserQuestion(nowQuestions);
