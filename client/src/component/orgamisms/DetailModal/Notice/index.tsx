@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { listNotice } from 'graphql/queries';
 import { deleteNotice } from 'graphql/mutations';
+import getKoreaTime from 'utils/date';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
@@ -11,7 +12,7 @@ export interface NoticeModalProps {
   data?: {
     id: string;
     title: string;
-    date: string;
+    date: Date;
     contents: string;
   };
   isAdmin: boolean;
@@ -19,7 +20,10 @@ export interface NoticeModalProps {
 }
 
 const NoticeDetailModal = ({
-  className, data, isAdmin, onCloseModal,
+  className,
+  data,
+  isAdmin,
+  onCloseModal,
 }: NoticeModalProps) => {
   const { refetch } = useQuery(
     gql`
@@ -36,16 +40,20 @@ const NoticeDetailModal = ({
   const [modalOpen, setModalOpen] = useState(false);
   const confirmText = '확인을 누르면 공지가 삭제됩니다.';
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
-  const modalHeader = (
-    <>
-      <S.Title type='personal'>{data?.title}</S.Title>
-      <S.Desc>{data?.date}</S.Desc>
-    </>
-  );
+  const modalHeader = () => {
+    let createdAt;
+    if (data) {
+      createdAt = getKoreaTime(data.date);
+    }
+    return (
+      <>
+        <S.Title type="personal">{data?.title}</S.Title>
+        <S.Desc>{createdAt}</S.Desc>
+      </>
+    );
+  };
 
-  const renderContents = (
-    <S.Paragraph>{data?.contents}</S.Paragraph>
-  );
+  const renderContents = <S.Paragraph>{data?.contents}</S.Paragraph>;
 
   const openModal = () => {
     setModalOpen(true);
@@ -89,7 +97,7 @@ const NoticeDetailModal = ({
   return data ? (
     <>
       <DetailModalTemplate
-        modalHeader={modalHeader}
+        modalHeader={modalHeader()}
         modalBody={renderContents}
         modalButton={modalButton()}
         onCloseModal={onCloseModal}

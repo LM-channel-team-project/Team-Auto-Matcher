@@ -53,7 +53,11 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <Team.LoadContainer>
+        <Team.LoadingComponent />
+      </Team.LoadContainer>
+    );
   }
 
   const { items } = data.listTeamDashboard;
@@ -103,31 +107,31 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     };
 
     switch (modal?.type) {
-    case 'detail':
-      return (
-        <TeamDetailModal
-          data={modal.data}
-          onCloseModal={onCloseModal}
-          onClickUpdate={onClickUpdate}
-        />
-      );
-    case 'add':
-      return (
-        <TeamAddForm
-          onCloseModal={onCloseModal}
-          onClickUpdate={onClickUpdate}
-        />
-      );
-    case 'update':
-      return (
-        <TeamAddForm
-          data={modal.data}
-          onCloseModal={onCloseModal}
-          onClickUpdate={onClickUpdate}
-        />
-      );
-    default:
-      return '';
+      case 'detail':
+        return (
+          <TeamDetailModal
+            data={modal.data}
+            onCloseModal={onCloseModal}
+            onClickUpdate={onClickUpdate}
+          />
+        );
+      case 'add':
+        return (
+          <TeamAddForm
+            onCloseModal={onCloseModal}
+            onClickUpdate={onClickUpdate}
+          />
+        );
+      case 'update':
+        return (
+          <TeamAddForm
+            data={modal.data}
+            onCloseModal={onCloseModal}
+            onClickUpdate={onClickUpdate}
+          />
+        );
+      default:
+        return '';
     }
   };
 
@@ -136,7 +140,8 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
       if (userData.getUser.items[0].haveTeam) {
         return (
           <Team.FloatingButton
-            onClick={() => setModal({ type: 'detail', data: teamData.getTeamDashboard })
+            onClick={() =>
+              setModal({ type: 'detail', data: teamData.getTeamDashboard })
             }
           >
             나의 팀

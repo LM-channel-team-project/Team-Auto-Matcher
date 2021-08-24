@@ -12,9 +12,7 @@ interface InputState {
 
 interface ContentsState {
   value: string;
-  onChange: (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => void;
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 const NoticeAddForm = ({ onCloseModal }: any) => {
@@ -29,11 +27,8 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
     `,
   );
 
-  const dateObj = new Date();
-  const today = `${dateObj.getFullYear()} - ${dateObj.getMonth() + 1} - ${dateObj.getDate()}`;
   // Data to submit when create a team
   const [title, setTitle] = useState<string>('');
-  const [date, setDate] = useState<string>(today);
   const [contents, setContents] = useState<string>('');
 
   const inputsState: { [key: string]: InputState } = {
@@ -43,19 +38,11 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
         setTitle(event.target.value);
       },
     },
-    date: {
-      value: date,
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event.target.value);
-      },
-    },
   };
 
   const contentsState: ContentsState = {
     value: contents,
-    onChange: (
-      event: React.ChangeEvent<HTMLTextAreaElement>,
-    ) => {
+    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const { target } = event;
       // Change height of Textarea automatically by value;
       target.style.height = `${target.scrollHeight}px`;
@@ -73,14 +60,6 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
         minWidth={4}
         maxWidth={350}
         onChange={inputsState.title.onChange}
-      />
-      <S.OutlineInput
-        value={inputsState.date.value}
-        placeholder="날짜"
-        autoWidth
-        minWidth={4}
-        maxWidth={300}
-        onChange={inputsState.date.onChange}
       />
     </>
   );
@@ -116,7 +95,7 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
       variables: {
         input: {
           title,
-          date,
+          date: new Date(),
           contents,
         },
       },

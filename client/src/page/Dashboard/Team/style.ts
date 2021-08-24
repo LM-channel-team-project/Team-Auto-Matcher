@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import globalTheme from 'style/theme';
 import TextLabel from 'component/atoms/TextLabel';
+import Loading from 'component/atoms/Loading';
 import Floating from 'component/atoms/FloatingButton';
 
 export const TeamDashboardPage = styled.div`
@@ -189,14 +190,14 @@ export interface stateProps {
 
 const setColor = (text: string) => {
   switch (text) {
-  case '모집중':
-    return 'green';
-  case '진행중':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
+    case '모집중':
+      return 'green';
+    case '진행중':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
   }
 };
 
@@ -255,11 +256,12 @@ export const CreateBtn = styled.button`
 
 export const FloatingButton = styled(Floating)``;
 
-export const State = styled((props: { text: string }) => TextLabel({
-  color: setColor(props.text),
-  fontColor: setColor(props.text),
-  ...props,
-}))`
+export const State = styled((props: { text: string }) =>
+  TextLabel({
+    color: setColor(props.text),
+    fontColor: setColor(props.text),
+    ...props,
+  }))`
   font-size: 1.6rem;
   font-weight: bold;
   line-height: 1em;
@@ -273,4 +275,13 @@ export const State = styled((props: { text: string }) => TextLabel({
     top: 0.6em;
   }
 `;
+
+export const LoadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20%;
+`;
+
+export const LoadingComponent = styled(Loading)``;
+
 export default {};

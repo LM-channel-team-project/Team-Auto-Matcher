@@ -11,8 +11,8 @@ export function Default() {
   return (
     <GlobalThemeProvider>
       <DirectionNav
-        leftOnClick={() => alert('leftonclick')}
-        rightOnClick={() => alert('rightonclick')}
+        leftOnClick={() => console.log('leftonclick')}
+        rightOnClick={() => console.log('rightonclick')}
       />
     </GlobalThemeProvider>
   );

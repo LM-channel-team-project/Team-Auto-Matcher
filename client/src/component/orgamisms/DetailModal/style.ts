@@ -41,7 +41,7 @@ export const Title = styled.h1`
 
 export const Desc = styled.p`
   font-size: 1.3rem;
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
 `;
 
 export const ContentsList = styled.ul`
@@ -54,7 +54,7 @@ export const ContentsList = styled.ul`
 `;
 
 export const ContentItem = styled.li`
-  list-style:none;
+  list-style: none;
   &:not(:last-child) .ci-block {
     margin-bottom: 2.5em;
   }
@@ -71,6 +71,60 @@ export const ContentItem = styled.li`
     content: ', ';
     width: 1.5rem;
     height: 1.5rem;
+  }
+`;
+
+export const GitContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  border: 0.3rem solid #ffffff;
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12),
+    0 0.1rem 0.2rem rgba(0, 0, 0, 0.24);
+  border-radius: 1.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.8rem;
+  a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .content,
+  .url {
+    font-size: 1.5rem;
+  }
+  .url {
+    text-decoration: underline;
+  }
+  .users {
+    margin-top: 1.6rem;
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+  }
+  .users_info {
+    width: 100%;
+  }
+  .user {
+    width: 8rem;
+    margin: auto;
+    text-align: center;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
   }
 `;
 
@@ -98,10 +152,6 @@ export const InlineContent = styled(DetailContent)`
   &.ci-skill .dc-title {
     line-height: 1.3em;
   }
-
-  .dc-body {
-    font-size: 1.5rem;
-  }
 `;
 
 export const BlockContent = styled(DetailContent)`
@@ -118,7 +168,7 @@ export const BlockContent = styled(DetailContent)`
 
 export const Text = styled.span`
   font-size: 1.3rem;
-  line-height: 1.4em;
+  line-height: 2.5em;
 
   &.team:not(:last-child):after {
     content: ', ';
@@ -192,6 +242,19 @@ export const OutlineInput = styled(InputText)`
   ${inputStyle}
   text-align: center;
 `;
+export const RepoNameInput = styled(InputText)`
+  ${inputStyle}
+  text-align: center;
+  width: 90%;
+  line-height: 1.2em;
+  margin-top: 1.25em;
+  resize: none;
+  height: auto;
+  min-height: 2em;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  font-size: 2rem;
+`;
 
 export const LabelInputBox = styled(_LabelInputBox)`
   & .lb-label {
@@ -226,22 +289,48 @@ export const Textarea = styled(InputText)`
 
 const setTeamColor = (text: string) => {
   switch (text) {
-  case '모집중':
-    return 'green';
-  case '진행중':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
+    case '모집중':
+      return 'green';
+    case '진행중':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
   }
 };
 
-export const State = styled((props: { text: string }) => _TextLabel({
-  color: setTeamColor(props.text),
-  fontColor: setTeamColor(props.text),
-  ...props,
-}))`
+const setPersonColor = (text: string) => {
+  switch (text) {
+    case '팀 구하는 중':
+      return 'green';
+    case '팀장':
+      return 'red';
+    case '종료':
+      return 'gray';
+    default:
+      return undefined;
+  }
+};
+
+const StateComponent = (setColor: any) => (props: { text: string }) =>
+  _TextLabel({
+    color: setColor(props.text),
+    fontColor: setColor(props.text),
+    ...props,
+  });
+
+const ClickStateComponent = (setColor: any) => (props: {
+  onClick: any;
+  text: string;
+}) =>
+  _TextLabel({
+    color: setColor(props.text),
+    fontColor: setColor(props.text),
+    ...props,
+  });
+
+export const State = styled(StateComponent(setTeamColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
@@ -249,11 +338,7 @@ export const State = styled((props: { text: string }) => _TextLabel({
   margin-bottom: 0.8em;
 `;
 
-export const ClickState = styled((props: { onClick: any; text: string }) => _TextLabel({
-  color: setTeamColor(props.text),
-  fontColor: setTeamColor(props.text),
-  ...props,
-}))`
+export const ClickState = styled(ClickStateComponent(setTeamColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
@@ -262,24 +347,7 @@ export const ClickState = styled((props: { onClick: any; text: string }) => _Tex
   cursor: pointer;
 `;
 
-const setPersonColor = (text: string) => {
-  switch (text) {
-  case '팀 구하는 중':
-    return 'green';
-  case '팀장':
-    return 'red';
-  case '종료':
-    return 'gray';
-  default:
-    return undefined;
-  }
-};
-
-export const PersonState = styled((props: { text: string }) => _TextLabel({
-  color: setPersonColor(props.text),
-  fontColor: setPersonColor(props.text),
-  ...props,
-}))`
+export const PersonState = styled(StateComponent(setPersonColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;
@@ -287,13 +355,7 @@ export const PersonState = styled((props: { text: string }) => _TextLabel({
   margin-bottom: 0.8em;
 `;
 
-export const ClickPersonState = styled(
-  (props: { onClick: any; text: string }) => _TextLabel({
-    color: setPersonColor(props.text),
-    fontColor: setPersonColor(props.text),
-    ...props,
-  }),
-)`
+export const ClickPersonState = styled(ClickStateComponent(setPersonColor))`
   font-size: 1.2rem;
   font-weight: bold;
   padding: 0.7em 0.8em;

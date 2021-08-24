@@ -15,14 +15,11 @@ export const Questionnaire = styled.div`
 
 export const QuestionBlock = styled(QuestionBlockComponent)`
   font-weight: 600;
-
   font-size: 2rem;
-
   margin: 0.6rem 0;
 `;
 
-export const ProgressBar = styled(ProgressComponent)`
-`;
+export const ProgressBar = styled(ProgressComponent)``;
 
 export const MultiCheckbox = styled(MultiCheckboxComponent)`
   margin-bottom: 1.6rem;

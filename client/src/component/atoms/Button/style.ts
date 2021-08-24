@@ -9,7 +9,8 @@ export interface StyleProps {
 }
 
 const colorStyles = css<StyleProps>`
-  ${({ theme, color }) => color
+  ${({ theme, color }) =>
+    color
     && css`
       background-color: ${theme.color.button[color]};
 
@@ -17,7 +18,8 @@ const colorStyles = css<StyleProps>`
       padding: 0.5em 1.2em;
       border-radius: 0.5em;
     `}
-  ${(props: StyleProps) => props.outLine
+  ${(props: StyleProps) =>
+    props.outLine
     && css`
       border: 1px solid black;
       padding: 0.5em 1.2em;
@@ -38,7 +40,8 @@ const sizes = {
 };
 
 const sizeStyles = css<StyleProps>`
-  ${({ size }) => size
+  ${({ size }) =>
+    size
     && css`
       padding: ${sizes[size].padding};
       font-size: ${sizes[size].fontSize};

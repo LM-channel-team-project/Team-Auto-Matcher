@@ -8,8 +8,9 @@ const props = {
     teamId: '13281491-12301',
     teamName: 'hello',
     type: 'invite',
+    date: new Date(),
   },
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {

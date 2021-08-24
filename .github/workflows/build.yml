@@ -1,0 +1,27 @@
+name: build test
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@master
+      - name: Install Dependencies
+        run: cd client && npm i
+
+      - name: Build
+        env:
+          REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID: ${{ secrets.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID }}
+          REACT_APP_AWS_USER_POOLS_ID: ${{ secrets.REACT_APP_AWS_USER_POOLS_ID }}
+          REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID: ${{ secrets.REACT_APP_AWS_USER_POOLS_WEB_CLIENT_ID }}
+          REACT_APP_AWS_AUTH_DOMAIN: ${{ secrets.REACT_APP_AWS_AUTH_DOMAIN }}
+          REACT_APP_AWS_REDIRECT_SIGNIN_URL: ${{ secrets.REACT_APP_AWS_REDIRECT_SIGNIN_URL }}
+          REACT_APP_AWS_REDIRECT_SIGNOUT_URL: ${{ secrets.REACT_APP_AWS_REDIRECT_SIGNOUT_URL }}
+          REACT_APP_AWS_APPSYNC_GRAPHQLENDPOINT: ${{ secrets.REACT_APP_AWS_APPSYNC_GRAPHQLENDPOINT }}
+          REACT_APP_AWS_APIKEY: ${{ secrets.REACT_APP_AWS_APIKEY }}
+        run: cd client && npm run build

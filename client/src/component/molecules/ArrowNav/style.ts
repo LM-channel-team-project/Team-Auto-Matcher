@@ -5,8 +5,7 @@ export const ArrowNav = styled.div`
   display: flex;
 `;
 
-export const ArrowBtn = styled(ArrowBtnComponent)`
-`;
+export const ArrowBtn = styled(ArrowBtnComponent)``;
 
 export const ArrowBtnWrapper = styled.div`
   display: flex;
@@ -17,14 +16,14 @@ export const ArrowBtnWrapper = styled.div`
   height: 6rem;
   padding: 1rem;
   border: 0.1rem solid black;
-  border-radius:50%; 
+  border-radius: 50%;
 
   :last-child {
     margin-left: 1rem;
   }
 
   :hover {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
 `;

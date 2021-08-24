@@ -8,16 +8,23 @@ export default {
 };
 
 export function Default() {
-  const questionList = ['React', 'Vue', 'Vanila Javascript', 'React', 'Vue', 'Vanila Javascript'];
+  const questionList = [
+    'React',
+    'Vue',
+    'Vanila Javascript',
+    'React',
+    'Vue',
+    'Vanila Javascript',
+  ];
   return (
     <GlobalThemeProvider>
       <Questionnaire
-        onClickList={() => alert('item')}
+        onClickList={() => console.log('item')}
         question={'선호하는 기술스택을 고르세요'}
         questionList={questionList}
         bDuplicateSelect={false}
-        leftOnClick={() => alert('left')}
-        rightOnClick={() => alert('right')}
+        leftOnClick={() => console.log('left')}
+        rightOnClick={() => console.log('right')}
         currentPage={3}
         totalPage={15}
       />

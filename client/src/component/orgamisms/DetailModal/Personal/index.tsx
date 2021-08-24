@@ -75,7 +75,9 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
-  const [personState, setPersonState] = useState<string>(data?.personState || '');
+  const [personState, setPersonState] = useState<string>(
+    data?.personState || '',
+  );
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
 
   useEffect(() => {
@@ -225,6 +227,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           teamId: teamItems.id,
           type: 'invite',
           teamName: teamItems.name,
+          date: new Date(),
         };
         const combinedData = [...changeIntoArray, newData];
         await updateUserData({
@@ -299,24 +302,28 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const onClickOut = () => {
     const confirmOut = async () => {
       const userItems = userData?.getUser.items[0];
-      const teamFilter = data?.teamList.filter((el: any) => {
-        if (el.id === userItems.id) {
-          return false;
-        }
-        return true;
-      }).map((el: any) => ({
-        id: el.id,
-        name: el.name,
-      }));
-      const peopleFilter = teamData.getTeamDashboard.people.filter((el: any) => {
-        if (el.id === data?.id) {
-          return false;
-        }
-        return true;
-      }).map((el: any) => ({
-        id: el.id,
-        name: el.name,
-      }));
+      const teamFilter = data?.teamList
+        .filter((el: any) => {
+          if (el.id === userItems.id) {
+            return false;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
+      const peopleFilter = teamData.getTeamDashboard.people
+        .filter((el: any) => {
+          if (el.id === data?.id) {
+            return false;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
       await updateUserData({
         variables: {
           input: {
@@ -345,29 +352,27 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   const modalButton = () => {
     if (isInTeam && data?.id !== userData?.getUser.items[0].id) {
-      return (<S.SubmitButton
-        size="medium"
-        color="red"
-        onClick={onClickOut}
-      >
-        팀 내보내기
-      </S.SubmitButton>);
+      return (
+        <S.SubmitButton size="medium" color="red" onClick={onClickOut}>
+          팀 내보내기
+        </S.SubmitButton>
+      );
     }
     if (data?.id !== userData?.getUser.items[0].id) {
       if (data?.personState !== '종료') {
-        return (<S.SubmitButton
-          size="medium"
-          color="yellow"
-          onClick={onClickInvite}
-        >
-          초대하기
-        </S.SubmitButton>);
+        return (
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
+            초대하기
+          </S.SubmitButton>
+        );
       }
       return <></>;
     }
-    return (<S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-      삭제하기
-    </S.SubmitButton>);
+    return (
+      <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+        삭제하기
+      </S.SubmitButton>
+    );
   };
 
   return data ? (

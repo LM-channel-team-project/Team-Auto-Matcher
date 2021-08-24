@@ -32,7 +32,11 @@ const PersonalDashboardPage = ({ className }: any) => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <S.LoadContainer>
+        <S.LoadingComponent />
+      </S.LoadContainer>
+    );
   }
 
   const { items } = data.listUser;
@@ -96,35 +100,33 @@ const PersonalDashboardPage = ({ className }: any) => {
 
   const UserList = users[currentFieldName]?.map((user: any) => (
     <S.List key={user.id} onClick={() => setModal({ data: user })}>
-      <S.Title>{user.question[11].answers[0]}</S.Title>
-      <S.Text>{user.question[2].answers[0]}</S.Text>
-      <S.Stack>
+      <S.Username>{user.question[11].answers[0]}</S.Username>
+      <S.StackList>
         {user.question[1].answers.length > 3
           ? user.question[1].answers
             .slice(0, 4)
             .fill('...', 3, 4)
-            .map((skill: any) => (
-              <S.Stacklist key={skill}>{skill}</S.Stacklist>
-            ))
+            .map((skill: any) => <S.Stack key={skill}>{skill}</S.Stack>)
           : user.question[1].answers.map((skill: any) => (
-            <S.Stacklist key={skill}>{skill}</S.Stacklist>
-          ))
-        }
-      </S.Stack>
-      <S.Text className="teamList">
-        {user.teamList.length > 0
-          ? user.teamList
-            .slice(0, 2)
-            .fill('...', 2, 3)
-            .map((team: any, index: number) => {
-              if (index === user.teamList.length - 1 || index === 1) {
-                return `${team.name}팀 소속`;
-              }
-              return `${team.name}팀, `;
-            })
-          : '소속된 팀 없음'}
-      </S.Text>
-      <S.PersonState text={user.personState} />
+            <S.Stack key={skill}>{skill}</S.Stack>
+          ))}
+      </S.StackList>
+      <S.TeamState>
+        <S.Text className="teamList">
+          {user.teamList.length > 0
+            ? user.teamList
+              .slice(0, 2)
+              .fill('...', 2, 3)
+              .map((team: any, index: number) => {
+                if (index === user.teamList.length - 1 || index === 1) {
+                  return `${team.name}팀 소속`;
+                }
+                return `${team.name}팀, `;
+              })
+            : '소속된 팀 없음'}
+        </S.Text>
+        <S.PersonState text={user.personState} />
+      </S.TeamState>
     </S.List>
   ));
 

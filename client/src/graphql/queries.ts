@@ -51,6 +51,7 @@ export const getUser = /* GraphQL */ `
           teamId
           type
           teamName
+          date
         }
       }
     }
@@ -78,6 +79,7 @@ export const getUserById = /* GraphQL */ `
         teamId
         type
         teamName
+        date
       }
     }
   }
@@ -104,6 +106,7 @@ export const listUser = /* GraphQL */ `
           teamId
           type
           teamName
+          date
         }
       }
       nextToken
@@ -125,10 +128,12 @@ export const listTeamDashboard = /* GraphQL */ `
         outline
         state
         owner
+        reponame
         contents {
           title
           text
         }
+        createdAt
       }
       nextToken
     }
@@ -148,10 +153,12 @@ export const getTeamDashboard = /* GraphQL */ `
       outline
       state
       owner
+      reponame
       contents {
         title
         text
       }
+      createdAt
     }
   }
 `;

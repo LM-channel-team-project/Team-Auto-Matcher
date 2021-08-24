@@ -26,10 +26,11 @@ const props = {
         teamName: 'test',
         from: 'test',
         type: 'test',
+        date: new Date(),
       },
     ],
   },
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {

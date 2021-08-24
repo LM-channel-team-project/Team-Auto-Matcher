@@ -14,6 +14,7 @@ export interface MailModalProps {
     teamName: string;
     teamId: string;
     type: string;
+    date: Date;
   };
   onCloseModal: () => void;
 }
@@ -373,12 +374,14 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         teamId: el.teamId,
         type: el.type,
         teamName: el.teamName,
+        date: el.date,
       }));
       const newMail = {
         from: userItems.id,
         teamId: data?.teamId,
         type,
         teamName: data?.teamName,
+        date: new Date(),
       };
       const combinedData = [...frontData, newMail];
 
@@ -413,6 +416,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           teamId: el.teamId,
           type: el.type,
           teamName: el.teamName,
+          date: el.date,
         }));
       await updateUserData({
         variables: {

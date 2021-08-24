@@ -12,6 +12,7 @@ export const createUser = /* GraphQL */ `
         teamId
         type
         teamName
+        date
       }
       question {
         title
@@ -38,6 +39,7 @@ export const updateUser = /* GraphQL */ `
         teamId
         type
         teamName
+        date
       }
       question {
         title
@@ -62,6 +64,7 @@ export const createTeam = /* GraphQL */ `
         id
         name
       }
+      createdAt
       skills
       outline
       owner
@@ -83,9 +86,11 @@ export const updateTeam = /* GraphQL */ `
         id
         name
       }
+      createdAt
       skills
       outline
       owner
+      reponame
       contents {
         title
         text

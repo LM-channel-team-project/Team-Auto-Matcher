@@ -5,12 +5,12 @@ import NoticeDetailModal from '.';
 const props = {
   data: {
     id: 'test',
-    date: '1995-02-13',
+    date: new Date(),
     title: 'test title',
     contents: 'test contents',
   },
   isAdmin: true,
-  onCloseModal: () => alert('close'),
+  onCloseModal: () => console.log('close'),
 };
 
 export default {
