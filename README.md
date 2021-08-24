@@ -16,7 +16,6 @@
 ## :checkered_flag:Main function
 * 설문을 통해 팀원으로 등록
 * 팀 생성을 통해 원하는 프로젝트 진행
-* Informations will be stored in `local-storage`
 
 ## 💻Project introduction
  **본 프로젝트는 윈도우 화면의 크롬 브라우저와 안드로이드를 기준으로 설계되었습니다.**
