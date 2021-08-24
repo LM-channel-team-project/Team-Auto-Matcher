@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { updateUser } from 'graphql/mutations';
@@ -9,17 +9,19 @@ import Button from 'component/atoms/Button';
 import * as S from './style';
 
 interface IQuestionResult {
-  answerRespond: IAnswers[];
   className?: string;
-  id?: string;
-  surveyCompleted?: boolean;
+  answerRespond: IAnswers[];
+  userId: string;
+  surveyCompleted: boolean;
+  onCloseResult: () => void;
 }
 
 function QuestionResult({
   answerRespond,
   className,
-  id,
+  userId,
   surveyCompleted,
+  onCloseResult,
 }: IQuestionResult) {
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,7 +32,7 @@ function QuestionResult({
     const filterArray: number[] = [];
     answerRespond.forEach((answer: IAnswers, index: number) => {
       if (answer.answers.length < 1 || answer.answers[0].length < 1) {
-        filterArray.push(index);
+        filterArray.push(index + 1);
       }
     });
     if (filterArray.length > 0) {
@@ -65,22 +67,35 @@ function QuestionResult({
   );
 
   const QuestionRespondList = answerRespond.map((answer: IAnswers) => (
-    <S.QuestionRespond
+    answer.title.length > 0 && <S.QuestionRespond
       key={answer.title}
       title={answer.title}
-      answers={answer.answers}
+      answers={answer.answers.length > 0 ? answer.answers : ['응답 하지 않음']}
     />
   ));
 
   const confirmSubmit = async () => {
-    await updateUserData({
-      variables: {
-        input: {
-          id,
-          surveyCompleted: true,
+    if (!surveyCompleted) {
+      await updateUserData({
+        variables: {
+          input: {
+            id: userId,
+            question: answerRespond,
+            surveyCompleted: true,
+          },
         },
-      },
-    });
+      });
+    } else {
+      updateUserData({
+        variables: {
+          input: {
+            id: userId,
+            question: answerRespond,
+          },
+        },
+      });
+    }
+
     await refetch();
     history.push('/dashboard/personal');
   };
@@ -98,11 +113,9 @@ function QuestionResult({
         {QuestionRespondList}
       </S.QuestionResult>
       <S.Btn>
-        <Link to="/survey">
-          <Button size="biglarge" color="gray">
-            돌아가기
-          </Button>
-        </Link>
+        <Button onClick={onCloseResult} size="biglarge" color="white">
+          돌아가기
+        </Button>
         <Button
           className="confirm"
           size="biglarge"

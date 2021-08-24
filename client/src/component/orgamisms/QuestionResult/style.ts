@@ -25,6 +25,7 @@ export const QuestionResult = styled.div`
 `;
 export const Btn = styled.div`
   display: flex;
+  padding-bottom: 3em;
   > .confirm {
     margin-left: 1em;
   }

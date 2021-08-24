@@ -15,9 +15,7 @@ export const Questionnaire = styled.div`
 
 export const QuestionBlock = styled(QuestionBlockComponent)`
   font-weight: 600;
-
   font-size: 2rem;
-
   margin: 0.6rem 0;
 `;
 

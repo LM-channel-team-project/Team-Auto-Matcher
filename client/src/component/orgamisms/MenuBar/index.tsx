@@ -110,7 +110,7 @@ const MenuBar = ({ className }: any) => {
                   <span>AUTO</span>
                   MATCHER
                 </p>
-                <p>FOR YOUNG PROGRAMMERS</p>
+                <p>FOR JUNIOR PROGRAMMERS</p>
               </S.MainText>
             </Link>
           </S.MenuItems>

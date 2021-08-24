@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
-import { createUser, updateUser } from 'graphql/mutations';
+import { createUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
+import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
+import ResultComponent from '../Result';
 import * as S from './style';
 
-const firstInput = Array(12).fill({ title: '', answers: [] });
+const firstInput: IAnswers[] = Array(12).fill({ title: '', answers: [] });
 const Survey = ({ className, isLoggedIn }: any) => {
   const { loading, error, data } = useQuery(
     gql`
@@ -38,15 +40,12 @@ const Survey = ({ className, isLoggedIn }: any) => {
       ${createUser}
     `,
   );
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
 
   const bUserUpdating = useRef<boolean>(false);
-
   const [page, setPage] = useState<number>(0);
+  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData.getUser.items[0]
+    ? userData.getUser.items[0].question : firstInput);
+  const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   if (userError) {
     console.error('userError', userError);
@@ -55,7 +54,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
     console.error('error : ', error);
   }
 
-  if (loading) {
+  if (userLoading || loading || bUserUpdating.current || !userData?.getUser) {
     return (
       <S.LoadContainer>
         <S.LoadingComponent />
@@ -92,31 +91,21 @@ const Survey = ({ className, isLoggedIn }: any) => {
     }
   }
 
-  if (userLoading || bUserUpdating.current || !userData?.getUser) {
-    return (
-      <S.LoadContainer>
-        <S.LoadingComponent />
-      </S.LoadContainer>
-    );
-  }
-
   const listQuestionnairesData = [...data.listQuestionnaires.items];
   listQuestionnairesData.sort(
     (el1: any, el2: any) => el1.priority - el2.priority,
   );
   const nowQuestionnaire = listQuestionnairesData[page];
-  const selectedData = userData.getUser?.items[0]?.question;
-  const nowSelectedData = selectedData[page];
+  const nowSelectedData = answerRespond[page];
   const totalPage = listQuestionnairesData.length;
 
   const updateNowUserQuestion = (nowQuestions: string[]) => {
-    const frontData = selectedData.slice(0, page).map((el: any) => ({
+    const frontData = answerRespond.slice(0, page).map((el: any) => ({
       title: el.title,
       answers: el.answers,
     }));
-
-    const backData = selectedData
-      .slice(page + 1, selectedData.length)
+    const backData = answerRespond
+      .slice(page + 1, answerRespond.length)
       .map((el: any) => ({
         title: el.title,
         answers: el.answers,
@@ -126,14 +115,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
       answers: [...nowQuestions],
     };
     const newData = [...frontData, nowQuestion, ...backData];
-    updateUserData({
-      variables: {
-        input: {
-          id: userData.getUser.items[0].id,
-          question: newData,
-        },
-      },
-    });
+    setanswerRespond(newData);
   };
 
   const onRightClick = (nowQuestions: string[]) => () => {
@@ -142,7 +124,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
       if (prevPage < totalPage - 1) {
         return prevPage + 1;
       }
-      history.push('/result');
+      setResultOpen(true);
       return prevPage;
     });
   };
@@ -163,9 +145,9 @@ const Survey = ({ className, isLoggedIn }: any) => {
   };
 
   const setQuestionList = (): string[] => {
-    if (nowQuestionnaire.questionBrief === 'Available Stack') {
+    if (page === 1) {
       let questionList = [];
-      switch (selectedData[0].answers[0]) {
+      switch (answerRespond[0].answers[0]) {
         case '프론트엔드':
           questionList = [
             'React',
@@ -206,25 +188,36 @@ const Survey = ({ className, isLoggedIn }: any) => {
     return nowQuestionnaire.questionList;
   };
 
+  const onCloseResult = () => {
+    setResultOpen(false);
+  };
+
   return (
     <BaseTemplate>
-      <S.SurveyWrapper>
-        <S.SurveyPage>
-          <Questionnaire
-            key={nowQuestionnaire.id}
-            question={nowQuestionnaire.questionTitle}
-            questionList={setQuestionList()}
-            bDuplicateSelect={nowQuestionnaire.bDuplicate}
-            selectedData={nowSelectedData.answers}
-            leftOnClick={onLeftClick}
-            rightOnClick={onRightClick}
-            currentPage={page + 1}
-            totalPage={totalPage}
-            onClickList={onProgressBarListClick}
-            listQuestionnairesData={listQuestionnairesData}
-          />
-        </S.SurveyPage>
-      </S.SurveyWrapper>
+      {resultOpen
+        ? <ResultComponent
+          userId={userData?.getUser.items[0].id}
+          surveyCompleted={userData?.getUser.items[0].surveyCompleted}
+          answerRespond={answerRespond}
+          onCloseResult={onCloseResult}/>
+        : <S.SurveyWrapper>
+          <S.SurveyPage>
+            <Questionnaire
+              key={nowQuestionnaire.id}
+              question={nowQuestionnaire.questionTitle}
+              questionList={setQuestionList()}
+              bDuplicateSelect={nowQuestionnaire.bDuplicate}
+              selectedData={nowSelectedData.answers}
+              leftOnClick={onLeftClick}
+              rightOnClick={onRightClick}
+              currentPage={page + 1}
+              totalPage={totalPage}
+              onClickList={onProgressBarListClick}
+              listQuestionnairesData={listQuestionnairesData}
+            />
+          </S.SurveyPage>
+        </S.SurveyWrapper>
+      }
     </BaseTemplate>
   );
 };

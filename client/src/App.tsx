@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import Survey from 'page/Survey';
-import Result from 'page/Result';
 import PersonalDashboard from 'page/Dashboard/Personal';
 import TeamDashboard from 'page/Dashboard/Team';
 import LoginPage from 'page/Login';
@@ -28,11 +27,6 @@ function App() {
             render={(props) => <Survey {...props} isLoggedIn={isLoggedIn} />}
             exact
             path="/survey"
-          />
-          <Route
-            render={(props) => <Result {...props} isLoggedIn={isLoggedIn} />}
-            exact
-            path="/result"
           />
           <Route
             render={(props) => <Home {...props} isLoggedIn={isLoggedIn} />}
