@@ -43,7 +43,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
 
   const bUserUpdating = useRef<boolean>(false);
   const [page, setPage] = useState<number>(0);
-  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData.getUser.items[0]
+  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData?.getUser.items[0]
     ? userData.getUser.items[0].question : firstInput);
   const [resultOpen, setResultOpen] = useState<boolean>(false);
 
