@@ -52,7 +52,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       ${getTeamDashboard}
     `,
     {
-      variables: { id: userData && userData.getUser.items[0].id },
+      variables: { id: userData && userData.getUser.items[0]?.id },
     },
   );
 
@@ -283,7 +283,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     }
   };
   useEffect(() => {
-    if (data?.id === userData?.getUser.items[0].id) {
+    if (data?.id === userData?.getUser.items[0]?.id) {
       const updatePersonState = async () => {
         await updateUserData({
           variables: {
@@ -358,7 +358,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         </S.SubmitButton>
       );
     }
-    if (data?.id !== userData?.getUser.items[0].id) {
+    if (data?.id !== userData?.getUser.items[0]?.id) {
       if (data?.personState !== '종료') {
         return (
           <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
@@ -381,7 +381,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         modalHeader={
           <>
             {userData
-              && (data?.id === userData.getUser.items[0].id ? (
+              && (data?.id === userData.getUser.items[0]?.id ? (
                 <S.ClickPersonState onClick={onClickState} text={personState} />
               ) : (
                 <S.PersonState text={personState} />

@@ -142,7 +142,7 @@ const PersonalDashboardPage = ({ className }: any) => {
 
   const ClickerLoad = () => {
     if (userData) {
-      if (userData.getUser.items[0].surveyCompleted) {
+      if (userData.getUser.items[0]?.surveyCompleted) {
         return (
           <S.FloatingButton
             onClick={() => setModal({ data: userData.getUser.items[0] })}
