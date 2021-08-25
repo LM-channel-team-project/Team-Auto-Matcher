@@ -79,13 +79,10 @@ const TeamDetailModal = ({
     `,
   );
 
-  const { data: userIdData } = useQuery(
+  const { refetch: userRefetch } = useQuery(
     gql`
       ${getUserById}
     `,
-    {
-      variables: { id: data?.owner },
-    },
   );
 
   const [updateUserData] = useMutation(
@@ -293,7 +290,8 @@ const TeamDetailModal = ({
   const onClickApply = async () => {
     const confirmApply = async () => {
       let isDuplicated = false;
-      const frontData = userIdData.getUserById.mail
+      const res = await userRefetch({ id: data?.owner });
+      const frontData = res.data.getUserById.mail
         .filter((el: any) => {
           if (
             el.from === userData?.getUser.items[0].id
@@ -349,13 +347,39 @@ const TeamDetailModal = ({
           },
         },
       });
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.owner,
-            haveTeam: false,
-          },
-        },
+      data?.people.forEach(async (person: teamListType, index: number) => {
+        const res = await userRefetch({ id: person.id });
+        const teamFilter = res.data.getUserById.teamList
+          .filter((el: any) => {
+            if (el.id === data?.id) {
+              return false;
+            }
+            return true;
+          })
+          .map((el: any) => ({
+            id: el.id,
+            name: el.name,
+          }));
+        if (index === 0) {
+          await updateUserData({
+            variables: {
+              input: {
+                id: data?.owner,
+                haveTeam: false,
+                teamList: teamFilter,
+              },
+            },
+          });
+        } else {
+          await updateUserData({
+            variables: {
+              input: {
+                id: person.id,
+                teamList: teamFilter,
+              },
+            },
+          });
+        }
       });
       await teamRefetch();
       await refetch();
