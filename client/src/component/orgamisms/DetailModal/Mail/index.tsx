@@ -95,9 +95,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (data?.type === 'accept') {
         return Msg('승인 메시지');
       }
-      if (data?.type === 'notice') {
-        return <S.Title type="personal">공지</S.Title>;
-      }
     }
     return <S.Title type="personal">로딩중</S.Title>;
   };
@@ -293,13 +290,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           </>
         );
       }
-      if (data?.type === 'notice') {
-        return (
-          <>
-            <S.ContentsList>{data?.teamId}</S.ContentsList>
-          </>
-        );
-      }
     }
     return (
       <S.LoadingContent>
@@ -487,7 +477,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (
         data?.type === 'accept'
         || data?.type === 'refuse'
-        || data?.type === 'notice'
       ) {
         return (
           <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>

@@ -50,8 +50,6 @@ const Mail = ({ className, isLoggedIn }: any) => {
       type = '팀 승인 메시지';
     } else if (el.type === 'refuse') {
       type = '팀 거절 메시지';
-    } else if (el.type === 'notice') {
-      type = '공지';
     }
 
     return (
