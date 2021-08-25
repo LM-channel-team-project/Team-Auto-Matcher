@@ -43,7 +43,7 @@ const TeamDetailModal = ({
   // const [languages, setLanguages] = useState<GitApiType>({});
   const [home, setHome] = useState<GitApiType>({});
   const [contributor, setContributor] = useState([{}]);
-  const [getApi, setGetApi] = useState<boolean>(true);
+  const [getApi, setGetApi] = useState<boolean>(false);
   const gitApi = {
     homes: () => api.get(''),
     languages: () => api.get('/languages'),
@@ -61,7 +61,7 @@ const TeamDetailModal = ({
         setContributor(contData);
         setGetApi(true);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
         setGetApi(false);
       }
     };
