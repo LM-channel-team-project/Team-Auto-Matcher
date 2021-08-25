@@ -219,7 +219,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         {isLoggedIn && (
           <Team.ButtonWrapper>
             <Team.Button onClick={onClickMakeTeam}>팀 생성하기</Team.Button>
-            <Team.Button onClick={onClickShowMyTeam}>{!showMyTeams ? '내 팀 보기' : '팀 전체 보기'}</Team.Button>
+            <Team.Button onClick={onClickShowMyTeam}>{!showMyTeams ? '내가 속한 팀 보기' : '모든 팀 보기'}</Team.Button>
           </Team.ButtonWrapper>
         )}
       </Personal.Container>
