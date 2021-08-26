@@ -358,7 +358,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         </S.SubmitButton>
       );
     }
-    if (data?.id !== userData?.getUser.items[0].id) {
+    if (data?.id !== userData?.getUser.items[0].id && userData?.getUser) {
       if (data?.personState !== '종료') {
         return (
           <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
