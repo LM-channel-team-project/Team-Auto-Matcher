@@ -84,7 +84,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     ))
   );
 
-  const myTeamsIds = userData?.getUser.items[0].teamList.map((el: any) => (el.id));
+  const myTeamsIds = userData?.getUser.items[0]?.teamList.map((el: any) => (el.id));
   const myTeams = myTeamsIds?.length === 0
     ? <Team.Title>참여한 팀이 없습니다.</Team.Title>
     : items
