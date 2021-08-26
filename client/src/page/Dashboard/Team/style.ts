@@ -245,7 +245,17 @@ export const TeamPage = styled.div`
   }
 `;
 
-export const CreateBtn = styled.button`
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 45rem;
+  @media screen and (max-width: 470px) {
+    width: 20rem;
+    flex-direction: column;
+  }
+`;
+
+export const Button = styled.button`
   cursor: pointer;
   margin-top: 1.5em;
   width: 20rem;
