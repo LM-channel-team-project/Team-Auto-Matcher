@@ -82,7 +82,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   useEffect(() => {
     data?.teamList.forEach((el: any) => {
-      if (el.id === userData?.getUser.items[0].id) {
+      if (el.id === userData?.getUser.items[0]?.id) {
         setIsInTeam(true);
       }
     });

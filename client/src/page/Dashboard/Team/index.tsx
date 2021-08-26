@@ -43,7 +43,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     gql`
       ${getTeamDashboard}
     `,
-    { skip: !userData?.getUser.items[0].id },
+    { skip: !userData?.getUser.items[0]?.id },
   );
 
   if (loading) {
@@ -55,8 +55,8 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   }
 
   const { items } = data.listTeamDashboard;
-  const skills = (team: any) => (
-    team.skills.length > 3
+  const skills = (team: any) =>
+    (team.skills.length > 3
       ? team.skills
         .slice(0, 4)
         .fill('...', 3, 4)
@@ -65,22 +65,23 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         ))
       : team.skills.map((skill: string) => (
         <Team.Stacklist key={skill}>{skill}</Team.Stacklist>
-      ))
-  );
+      )));
 
-  const contents = (team: any) => (
+  const contents = (team: any) =>
     team.contents.map((content: any) => (
       <Team.Text key={content.title}>
         <Team.Title>{content.title}</Team.Title>
         <Team.ContentInfo>{content.text}</Team.ContentInfo>
       </Team.Text>
-    ))
-  );
+    ));
 
-  const myTeamsIds = userData?.getUser.items[0]?.teamList.map((el: any) => (el.id));
-  const myTeams = myTeamsIds?.length === 0
-    ? <Team.Title>참여한 팀이 없습니다.</Team.Title>
-    : items
+  const myTeamsIds = userData?.getUser.items[0]?.teamList.map(
+    (el: any) => el.id,
+  );
+  const myTeams = myTeamsIds?.length === 0 ? (
+    <Team.Title>참여한 팀이 없습니다.</Team.Title>
+  ) : (
+    items
       .filter((team: any) => {
         if (myTeamsIds?.includes(team.id)) {
           return true;
@@ -99,7 +100,8 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
           </Team.Left>
           <Team.State text={team.state} />
         </Team.List>
-      ));
+      ))
+  );
 
   const teams = items.map((team: any) => (
     <Team.List
@@ -158,7 +160,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
 
   const ClickerLoad = () => {
     if (userData) {
-      if (userData.getUser.items[0].haveTeam) {
+      if (userData.getUser.items[0]?.haveTeam) {
         return (
           <Team.FloatingButton
             onClick={async () => {
@@ -182,7 +184,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   };
 
   const onClickMakeTeam = () => {
-    if (userData.getUser.items[0].surveyCompleted) {
+    if (userData.getUser.items[0]?.surveyCompleted) {
       setModal({ type: 'add' });
       return;
     }
@@ -214,7 +216,9 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         {isLoggedIn && (
           <Team.ButtonWrapper>
             <Team.Button onClick={onClickMakeTeam}>팀 생성하기</Team.Button>
-            <Team.Button onClick={onClickShowMyTeam}>{!showMyTeams ? '내가 속한 팀 보기' : '모든 팀 보기'}</Team.Button>
+            <Team.Button onClick={onClickShowMyTeam}>
+              {!showMyTeams ? '내가 속한 팀 보기' : '모든 팀 보기'}
+            </Team.Button>
           </Team.ButtonWrapper>
         )}
       </Personal.Container>
