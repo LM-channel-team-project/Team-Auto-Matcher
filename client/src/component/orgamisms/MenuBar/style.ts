@@ -69,7 +69,7 @@ export const MainText = styled.div`
     font-size: 1.5rem;
     font-weight: 800;
     color: #313131;
-    line-height: 1.2;
+    line-height: 1.3;
     transition: all 0.2s;
     & span {
       transition: all 0.2s;
@@ -82,9 +82,9 @@ export const MainText = styled.div`
   }
 
   & p:last-child {
-    font-size: 1.28rem;
+    font-size: 1.16rem;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.3;
     color: #d0d0d0;
     transition: all 0.4s;
   }
