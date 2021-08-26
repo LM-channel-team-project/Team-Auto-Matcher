@@ -112,7 +112,7 @@ const TeamDetailModal = ({
 
   useEffect(() => {
     data?.people.forEach((el: any) => {
-      if (el.id === userData?.getUser.items[0].id) {
+      if (el.id === userData?.getUser.items[0]?.id) {
         setIsInTeam(true);
       }
     });
