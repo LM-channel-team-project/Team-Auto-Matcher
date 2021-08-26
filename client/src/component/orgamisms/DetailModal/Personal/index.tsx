@@ -368,11 +368,14 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       }
       return <></>;
     }
-    return (
-      <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-        삭제하기
-      </S.SubmitButton>
-    );
+    if (data?.id === userData?.getUser.items[0]?.id) {
+      return (
+        <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+          삭제하기
+        </S.SubmitButton>
+      );
+    }
+    return <></>;
   };
 
   return data ? (
