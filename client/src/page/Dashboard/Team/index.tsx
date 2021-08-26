@@ -39,18 +39,11 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     `,
   );
 
-  const { data: teamData } = useQuery(
+  const { refetch } = useQuery(
     gql`
       ${getTeamDashboard}
     `,
-    {
-      variables: {
-        id:
-          userData && userData.getUser.items?.length !== 0
-            ? userData.getUser.items[0].id
-            : '',
-      },
-    },
+    { skip: !userData?.getUser.items[0].id },
   );
 
   if (loading) {
@@ -125,11 +118,12 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const renderModal = () => {
     const onCloseModal = () => setModal({});
 
-    const onClickUpdate = () => {
+    const onClickUpdate = async () => {
+      const res = await refetch({ id: userData.getUser.items[0].id });
       if (modal?.type === 'update') {
-        setModal({ type: 'detail', data: teamData.getTeamDashboard });
+        setModal({ type: 'detail', data: res?.data.getTeamDashboard });
       } else {
-        setModal({ type: 'update', data: teamData.getTeamDashboard });
+        setModal({ type: 'update', data: res?.data.getTeamDashboard });
       }
     };
 
@@ -163,13 +157,14 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   };
 
   const ClickerLoad = () => {
-    if (teamData && userData) {
+    if (userData) {
       if (userData.getUser.items[0].haveTeam) {
         return (
           <Team.FloatingButton
-            onClick={() =>
-              setModal({ type: 'detail', data: teamData.getTeamDashboard })
-            }
+            onClick={async () => {
+              const res = await refetch({ id: userData.getUser.items[0].id });
+              setModal({ type: 'detail', data: res?.data.getTeamDashboard });
+            }}
           >
             나의 팀
           </Team.FloatingButton>
