@@ -8,7 +8,10 @@ export const Title = styled.h2`
   font-size: 1rem;
 `;
 
-export const BodyWrapper = styled.div``;
+export const BodyWrapper = styled.div`
+  font-size: 1.3rem;
+  line-height: 3.2rem;
+`;
 
 export const Paragraph = styled.p`
   font-size: 1rem;
