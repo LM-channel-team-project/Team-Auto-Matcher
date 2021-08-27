@@ -424,6 +424,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
               owner: userItems.id,
               state: '모집중',
               createdAt: new Date(),
+              comments: [],
             },
           },
         });
