@@ -36,6 +36,7 @@ const props = {
         date: new Date(),
         owner: '123111',
         comment: 'good day',
+        name: 'test',
       },
     ],
   },

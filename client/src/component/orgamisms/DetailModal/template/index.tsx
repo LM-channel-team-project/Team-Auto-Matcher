@@ -25,6 +25,7 @@ export type CommentsType = {
   date: Date;
   owner: string;
   comment: string;
+  name: string;
 }
 interface IDetailModalTemplate {
   modalHeader: React.ReactNode;
