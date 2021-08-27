@@ -30,6 +30,13 @@ const props = {
     owner: 'something',
     createdAt: new Date(),
     reponame: 'Team-Auto-Matcher',
+    comments: [
+      {
+        date: new Date(),
+        owner: '123111',
+        comment: 'good day',
+      },
+    ],
   },
   onCloseModal: () => console.log('close'),
   onClickUpdate: () => console.log('update'),
