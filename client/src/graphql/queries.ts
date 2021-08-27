@@ -138,6 +138,7 @@ export const listTeamDashboard = /* GraphQL */ `
           date
           owner
           comment
+          name
         }
       }
       nextToken
@@ -168,6 +169,7 @@ export const getTeamDashboard = /* GraphQL */ `
         date
         owner
         comment
+        name
       }
     }
   }
