@@ -148,10 +148,6 @@ export const InlineContent = styled(DetailContent)`
     content: ':';
     margin-right: 0.8em;
   }
-
-  &.ci-skill .dc-title {
-    line-height: 1.3em;
-  }
 `;
 
 export const BlockContent = styled(DetailContent)`
