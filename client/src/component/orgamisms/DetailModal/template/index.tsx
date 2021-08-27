@@ -21,6 +21,11 @@ export type MailType = {
   teamName: string;
   date: Date;
 };
+export type CommentsType = {
+  date: Date;
+  owner: string;
+  comment: string;
+}
 interface IDetailModalTemplate {
   modalHeader: React.ReactNode;
   modalBody: React.ReactNode;
