@@ -10,7 +10,7 @@ export type QuestionItem = {
   title: string;
   answers: string[];
 };
-export type teamListType = {
+export type TeamListType = {
   id: string;
   name: string;
 };
