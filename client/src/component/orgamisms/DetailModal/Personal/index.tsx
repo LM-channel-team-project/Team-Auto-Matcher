@@ -13,7 +13,7 @@ import { updateUser, updateTeam } from 'graphql/mutations';
 import DetailModalTemplate, {
   QuestionItem,
   MailType,
-  teamListType,
+  TeamListType,
 } from '../template';
 import * as S from '../style';
 
@@ -24,7 +24,7 @@ export interface PersonalModalProps {
     surveyCompleted: boolean;
     question: QuestionItem[];
     personState: string;
-    teamList: teamListType[];
+    teamList: TeamListType[];
     mail: MailType[];
   };
   onCloseModal: () => void;
@@ -104,7 +104,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     });
 
     const team = data?.teamList.length > 0 ? (
-      data.teamList.map((aTeam: teamListType) => (
+      data.teamList.map((aTeam: TeamListType) => (
         <S.Text className="team" key={aTeam.id}>
           {aTeam.name}
         </S.Text>

@@ -4,7 +4,7 @@ import { getTeamDashboard, getUser, getUserById } from 'graphql/queries';
 import { updateUser, updateTeam } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import DetailModalTemplate, { teamListType } from '../template';
+import DetailModalTemplate, { TeamListType } from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
@@ -116,7 +116,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             />
           );
         });
-        const people = teamItems.people.map((person: teamListType) => (
+        const people = teamItems.people.map((person: TeamListType) => (
           <S.Text className="people">{person.name}</S.Text>
         ));
         const inlineContents = (
@@ -164,7 +164,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           },
         );
         const team = thatUserItems?.teamList.length > 0 ? (
-          thatUserItems.teamList.map((aTeam: teamListType) => (
+          thatUserItems.teamList.map((aTeam: TeamListType) => (
             <S.Text className="team" key={aTeam.id}>
               {aTeam.name}
             </S.Text>
