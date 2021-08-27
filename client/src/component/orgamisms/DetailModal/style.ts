@@ -168,7 +168,7 @@ export const BlockContent = styled(DetailContent)`
 
 export const Text = styled.span`
   font-size: 1.3rem;
-  line-height: 2.5em;
+  line-height: 3rem;
 
   &.team:not(:last-child):after {
     content: ', ';
