@@ -134,6 +134,7 @@ export const listTeamDashboard = /* GraphQL */ `
           text
         }
         createdAt
+        comments
       }
       nextToken
     }
@@ -159,6 +160,7 @@ export const getTeamDashboard = /* GraphQL */ `
         text
       }
       createdAt
+      comments
     }
   }
 `;

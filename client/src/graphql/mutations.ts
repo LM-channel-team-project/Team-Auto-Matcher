@@ -73,6 +73,7 @@ export const createTeam = /* GraphQL */ `
         text
       }
       state
+      comments
     }
   }
 `;
@@ -96,6 +97,7 @@ export const updateTeam = /* GraphQL */ `
         text
       }
       state
+      comments
     }
   }
 `;
