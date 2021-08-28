@@ -34,6 +34,9 @@ const TeamDetailModal = ({
   // github API
   const api = axios.create({
     baseURL: `https://api.github.com/repos/LM-channel-team-project/${data?.reponame}`,
+    headers: {
+      Authorization: process.env.REACT_APP_GIT_APIKEY,
+    },
   });
 
   type GitApiType = {
