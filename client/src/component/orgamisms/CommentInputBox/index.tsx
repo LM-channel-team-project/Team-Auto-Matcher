@@ -31,16 +31,13 @@ const CommentInputBox = ({
       <S.LabelWrapper key={`${item.date + item.owner}`}>
         <S.TextLabel
           className="lb-label"
-          text={item.name}
+          text={`작성자: ${item.name}`}
         />
         <S.TextLabel
           className="lb-label"
-          text={getKoreaTime(item.date)}
+          text={`작성일: ${getKoreaTime(item.date)}`}
         />
-        <S.TextLabel
-          className="lb-label"
-          text={item.comment}
-        />
+        <S.Paragraph>{item.comment}</S.Paragraph>
         {(item.owner === myId || teamId === myId)
           && <S.LabelRemoveBottton
             onClick={(event) => removeLabel && removeLabel(event, `${item.date + item.owner}`)}
@@ -51,7 +48,7 @@ const CommentInputBox = ({
       </S.LabelWrapper>
     ))}
     <S.InputContainer>
-      <S.Input className="lb-input" autoWidth {...inputProps} />
+      <S.Input className="lb-input" type='textarea' autoWidth {...inputProps} />
     </S.InputContainer>
   </S.Container>
 );
