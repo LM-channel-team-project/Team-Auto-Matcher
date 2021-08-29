@@ -1,6 +1,6 @@
 import React from 'react';
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
-import CommentInputBox, { Props } from '.';
+import CommentInputBox, { ICommentInputBox } from '.';
 
 const props = {
   list: [{
@@ -18,10 +18,10 @@ export default {
   args: props,
 };
 
-const Templete = (args: Props) => (
+const Templete = (args: ICommentInputBox) => (
   <GlobalThemeProvider>
     <CommentInputBox {...args} />
   </GlobalThemeProvider>
 );
 
-export const Default = (args: Props) => Templete(args);
+export const Default = (args: ICommentInputBox) => Templete(args);

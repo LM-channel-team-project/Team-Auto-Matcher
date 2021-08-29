@@ -3,7 +3,7 @@ import getKoreaTime from 'utils/date';
 import { CommentsType } from '../DetailModal/template';
 import * as S from './style';
 
-export interface Props {
+export interface ICommentInputBox {
   list: CommentsType[];
   teamId?: string;
   myId?: string;
@@ -25,7 +25,7 @@ const CommentInputBox = ({
   removeLabel,
   className,
   ...inputProps
-}: Props) => (
+}: ICommentInputBox) => (
   <S.Container className={className}>
     {list.map((item: CommentsType) => (
       <S.LabelWrapper key={`${item.date + item.owner}`}>
