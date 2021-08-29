@@ -47,9 +47,11 @@ const CommentInputBox = ({
         }
       </S.LabelWrapper>
     ))}
-    <S.InputContainer>
-      <S.Input className="lb-input" type='textarea' autoWidth {...inputProps} />
-    </S.InputContainer>
+    <S.BlockContent title='새 댓글' className="ci-block">
+      <S.InputContainer>
+        <S.Input className="lb-input" type='textarea' autoWidth {...inputProps} />
+      </S.InputContainer>
+    </S.BlockContent>
   </S.Container>
 );
 

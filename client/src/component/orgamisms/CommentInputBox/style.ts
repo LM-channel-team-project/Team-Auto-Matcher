@@ -1,4 +1,5 @@
 import InputText from 'component/atoms/InputText';
+import DetailContent from 'component/molecules/DetailContent';
 import _TextLabel from 'component/atoms/TextLabel';
 import styled from 'styled-components';
 
@@ -64,5 +65,17 @@ export const Input = styled(InputText)`
 
   &:hover {
     border-color: #bcabef;
+  }
+`;
+
+export const BlockContent = styled(DetailContent)`
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  .dc-title {
+    font-size: 1.6rem;
+    margin-bottom: 0.8em;
   }
 `;
