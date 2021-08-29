@@ -272,7 +272,7 @@ const TeamDetailModal = ({
       );
 
       return (
-        <S.BlockContent title='댓글' className="ci-block">
+        <S.BlockContent title={`댓글 ${comments.length}개`} className="ci-block">
           {commentContents}
         </S.BlockContent>
       );
