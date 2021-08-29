@@ -198,62 +198,63 @@ const TeamDetailModal = ({
       </S.ContentItem>
     ));
 
-    const commentData = () => {
-      const commentState: CommentState = {
-        value: comment,
-        onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-          const { value } = event.target;
-          setComment(value);
-        },
-        onKeyPress: async (event: React.KeyboardEvent<HTMLInputElement>) => {
-          const { value } = commentState;
-          if (value.length < 1 || event.key !== 'Enter') return;
-          const removeType: CommentsType[] = comments.map((el: any) => ({
+    const commentState: CommentState = {
+      value: comment,
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setComment(value);
+      },
+      onKeyPress: async (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const { value } = commentState;
+        if (value.length < 1 || event.key !== 'Enter') return;
+        const removeType: CommentsType[] = comments.map((el: any) => ({
+          date: el.date,
+          owner: el.owner,
+          comment: el.comment,
+          name: el.name,
+        }));
+        const newComment = {
+          date: new Date(),
+          owner: userData?.getUser.items[0]?.id,
+          comment: value,
+          name: userData?.getUser.items[0]?.question[11].answers[0],
+        };
+        await updateTeamData({
+          variables: {
+            input: {
+              id: data?.id,
+              comments: [...removeType, newComment],
+            },
+          },
+        });
+        await teamRefetch();
+        setComments([...removeType, newComment]);
+        commentState.reset!();
+      },
+      reset: () => setComment(''),
+      removeLabel: async (_, labelName) => {
+        const filteredData: CommentsType[] = comments
+          .filter((el: any) => `${el.date + el.owner}` !== labelName)
+          .map((el: any) => ({
             date: el.date,
             owner: el.owner,
             comment: el.comment,
             name: el.name,
           }));
-          const newComment = {
-            date: new Date(),
-            owner: userData?.getUser.items[0]?.id,
-            comment: value,
-            name: userData?.getUser.items[0]?.question[11].answers[0],
-          };
-          await updateTeamData({
-            variables: {
-              input: {
-                id: data?.id,
-                comments: [...removeType, newComment],
-              },
+        await updateTeamData({
+          variables: {
+            input: {
+              id: data?.id,
+              comments: filteredData,
             },
-          });
-          await teamRefetch();
-          setComments([...removeType, newComment]);
-          commentState.reset!();
-        },
-        reset: () => setComment(''),
-        removeLabel: async (_, labelName) => {
-          const filteredData: CommentsType[] = comments
-            .filter((el: any) => `${el.date + el.owner}` !== labelName)
-            .map((el: any) => ({
-              date: el.date,
-              owner: el.owner,
-              comment: el.comment,
-              name: el.name,
-            }));
-          await updateTeamData({
-            variables: {
-              input: {
-                id: data?.id,
-                comments: filteredData,
-              },
-            },
-          });
-          await teamRefetch();
-          setComments(filteredData);
-        },
-      };
+          },
+        });
+        await teamRefetch();
+        setComments(filteredData);
+      },
+    };
+
+    const commentData = () => {
       const commentContents = (
         <>
           <S.ContentItem>
