@@ -1,47 +1,48 @@
 import InputText from 'component/atoms/InputText';
 import _TextLabel from 'component/atoms/TextLabel';
-import AutoCompleteList, {
-  Props as CompletorProps,
-} from 'component/orgamisms/AutoCompleteList';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.div``;
 
 export const LabelWrapper = styled.div`
-  position: relative;
-  display: inline-block;
   font-size: 1rem;
-
-  &:hover > button {
-    visibility: visible;
-    opacity: 0.8;
-  }
+  position: relative;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export const LabelRemoveBottton = styled.button`
   position: absolute;
-  right: -0.1em;
-  top: -0.2em;
+  right: .5rem;
+  top: .5rem;
   width: 1em;
-  font-size: 1.2em; // ralative sizing to LabelWrapper
+  font-size: 1.2em;
   line-height: 1em;
   border-radius: 50%;
   border: 1px solid black;
   background-color: white;
   box-sizing: content-box;
   z-index: 1;
-  visibility: hidden;
-  opacity: 0;
+  visibility: visible;
   cursor: pointer;
   transition: opacity 150ms ease-in;
 `;
 
 export const TextLabel = styled(_TextLabel)`
   margin-bottom: 0.4em;
+  margin: 0 0.5rem;
 
   &:not(:last-child) {
     margin-right: 0.4em;
   }
+`;
+
+export const Paragraph = styled.p`
+  font-size: 1.2rem;
+  line-height: 1.2em;
+  padding: 0.5rem .5rem;
+  white-space: pre-line;
+  word-break: break-all;
 `;
 
 export const InputContainer = styled.div`
@@ -64,39 +65,4 @@ export const Input = styled(InputText)`
   &:hover {
     border-color: #bcabef;
   }
-
-  &.alert {
-    animation-name: shake, red;
-    animation-duration: 100ms, 200ms;
-    animation-iteration-count: 5, 2;
-  }
-
-  @keyframes shake {
-    from {
-      transform: translateX(-1px);
-    }
-    to {
-      transform: translateX(1px);
-    }
-  }
-
-  ${({ theme }) => css`
-    background-color: ${theme.color.white};
-    color: ${theme.color.black};
-
-    @keyframes red {
-      from {
-        border-color: ${theme.color.red};
-      }
-      to {
-        border-color: ${theme.color.yellow};
-      }
-    }
-  `}
-`;
-
-export const AutoCompletor = styled(AutoCompleteList)<CompletorProps>`
-  margin-top: 0.2em;
-  left: 50%;
-  transform: translateX(-50%);
 `;
