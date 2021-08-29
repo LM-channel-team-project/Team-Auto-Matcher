@@ -235,7 +235,13 @@ const TeamDetailModal = ({
         reset: () => setComment(''),
         removeLabel: async (_, labelName) => {
           const filteredData: CommentsType[] = comments
-            .filter((el: any) => `${el.date + el.owner}` !== labelName);
+            .filter((el: any) => `${el.date + el.owner}` !== labelName)
+            .map((el: any) => ({
+              date: el.date,
+              owner: el.owner,
+              comment: el.comment,
+              name: el.name,
+            }));
           await updateTeamData({
             variables: {
               input: {
@@ -254,10 +260,12 @@ const TeamDetailModal = ({
             <S.CommentInputBox
               list={comments}
               value={commentState.value}
-              maxWidth={150}
+              maxWidth={500}
               onKeyPress={commentState.onKeyPress}
               onChange={commentState.onChange}
               removeLabel={commentState.removeLabel}
+              teamId={data?.id}
+              myId={userData?.getUser.items[0]?.id}
             />
           </S.ContentItem>
         </>
