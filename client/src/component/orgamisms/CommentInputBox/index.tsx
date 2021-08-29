@@ -1,17 +1,16 @@
 import React from 'react';
+import getKoreaTime from 'utils/date';
 import { CommentsType } from '../DetailModal/template';
 import * as S from './style';
 
 export interface Props {
-  list?: CommentsType[];
-  value?: string;
+  list: CommentsType[];
+  value: string;
   className?: string;
-  maxWidth?: number;
-  minWidth?: number;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  removeLabel?: (
+  maxWidth: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  removeLabel: (
     event: React.MouseEvent<HTMLButtonElement>,
     itemName: string,
   ) => void;
@@ -28,7 +27,15 @@ const CommentInputBox = ({
       <S.LabelWrapper key={`${item.date + item.owner}`}>
         <S.TextLabel
           className="lb-label"
-          text={item.owner}
+          text={item.name}
+        />
+        <S.TextLabel
+          className="lb-label"
+          text={getKoreaTime(item.date)}
+        />
+        <S.TextLabel
+          className="lb-label"
+          text={item.comment}
         />
         <S.LabelRemoveBottton
           onClick={(event) => removeLabel && removeLabel(event, `${item.date + item.owner}`)}
@@ -39,7 +46,6 @@ const CommentInputBox = ({
     ))}
     <S.InputContainer>
       <S.Input className="lb-input" autoWidth {...inputProps} />
-
     </S.InputContainer>
   </S.Container>
 );
