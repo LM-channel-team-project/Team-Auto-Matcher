@@ -5,6 +5,8 @@ import * as S from './style';
 
 export interface Props {
   list: CommentsType[];
+  teamId?: string;
+  myId?: string;
   value: string;
   className?: string;
   maxWidth: number;
@@ -18,6 +20,8 @@ export interface Props {
 
 const CommentInputBox = ({
   list = [],
+  teamId,
+  myId,
   removeLabel,
   className,
   ...inputProps
@@ -37,11 +41,13 @@ const CommentInputBox = ({
           className="lb-label"
           text={item.comment}
         />
-        <S.LabelRemoveBottton
-          onClick={(event) => removeLabel && removeLabel(event, `${item.date + item.owner}`)}
-        >
-          &times;
-        </S.LabelRemoveBottton>
+        {(item.owner === myId || teamId === myId)
+          && <S.LabelRemoveBottton
+            onClick={(event) => removeLabel && removeLabel(event, `${item.date + item.owner}`)}
+          >
+            &times;
+          </S.LabelRemoveBottton>
+        }
       </S.LabelWrapper>
     ))}
     <S.InputContainer>
