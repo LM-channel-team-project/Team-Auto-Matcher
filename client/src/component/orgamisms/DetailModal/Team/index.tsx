@@ -6,14 +6,14 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam, updateTeam } from 'graphql/mutations';
 import getKoreaTime from 'utils/date';
 import axios from 'axios';
-import DetailModalTemplate, { ContentItem, teamListType } from '../template';
+import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
 import * as S from '../style';
 
 export interface TeamModalProps {
   data?: {
     id: string;
     name: string;
-    people: teamListType[];
+    people: TeamListType[];
     outline: string;
     contents: ContentItem[];
     skills: string[];
@@ -21,9 +21,21 @@ export interface TeamModalProps {
     owner: string;
     createdAt: Date;
     reponame: string;
+    comments: CommentsType[];
   };
   onCloseModal: () => void;
   onClickUpdate: () => void;
+}
+
+interface CommentState {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  reset?: () => void;
+  removeLabel: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    name: string,
+  ) => void;
 }
 
 const TeamDetailModal = ({
@@ -106,6 +118,8 @@ const TeamDetailModal = ({
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState(data?.comments || []);
 
   useEffect(() => {
     data?.people.forEach((el: any) => {
@@ -129,7 +143,7 @@ const TeamDetailModal = ({
       );
     });
 
-    const people = data?.people.map((person: teamListType) => (
+    const people = data?.people.map((person: TeamListType) => (
       <S.Text className="people">{person.name}</S.Text>
     ));
     const GetGitApi = () => (
@@ -184,10 +198,83 @@ const TeamDetailModal = ({
       </S.ContentItem>
     ));
 
+    const commentData = () => {
+      const commentState: CommentState = {
+        value: comment,
+        onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+          const { value } = event.target;
+          setComment(value);
+        },
+        onKeyPress: async (event: React.KeyboardEvent<HTMLInputElement>) => {
+          const { value } = commentState;
+          if (value.length < 1 || event.key !== 'Enter') return;
+          const removeType: CommentsType[] = comments.map((el: any) => ({
+            date: el.date,
+            owner: el.owner,
+            comment: el.comment,
+            name: el.name,
+          }));
+          const newComment = {
+            date: new Date(),
+            owner: userData?.getUser.items[0]?.id,
+            comment: value,
+            name: userData?.getUser.items[0]?.question[11].answers[0],
+          };
+          await updateTeamData({
+            variables: {
+              input: {
+                id: data?.id,
+                comments: [...removeType, newComment],
+              },
+            },
+          });
+          await teamRefetch();
+          setComments([...removeType, newComment]);
+          commentState.reset!();
+        },
+        reset: () => setComment(''),
+        removeLabel: async (_, labelName) => {
+          const filteredData: CommentsType[] = comments
+            .filter((el: any) => `${el.date + el.owner}` !== labelName);
+          await updateTeamData({
+            variables: {
+              input: {
+                id: data?.id,
+                comments: filteredData,
+              },
+            },
+          });
+          await teamRefetch();
+          setComments(filteredData);
+        },
+      };
+      const commentContents = (
+        <>
+          <S.ContentItem>
+            <S.CommentInputBox
+              list={comments}
+              value={commentState.value}
+              maxWidth={150}
+              onKeyPress={commentState.onKeyPress}
+              onChange={commentState.onChange}
+              removeLabel={commentState.removeLabel}
+            />
+          </S.ContentItem>
+        </>
+      );
+
+      return (
+        <S.BlockContent title='댓글' className="ci-block">
+          {commentContents}
+        </S.BlockContent>
+      );
+    };
+
     return (
       <>
         <S.ContentsList>{inlineContents}</S.ContentsList>
         <S.ContentsList>{blockContents}</S.ContentsList>
+        <S.CommentsWrapper>{commentData()}</S.CommentsWrapper>
       </>
     );
   };
@@ -347,7 +434,7 @@ const TeamDetailModal = ({
           },
         },
       });
-      data?.people.forEach(async (person: teamListType, index: number) => {
+      data?.people.forEach(async (person: TeamListType, index: number) => {
         const res = await userRefetch({ id: person.id });
         const teamFilter = res.data.getUserById.teamList
           .filter((el: any) => {
