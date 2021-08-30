@@ -399,16 +399,6 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           id: el.id,
           name: el.name,
         }));
-        await updateUserData({
-          variables: {
-            input: {
-              id: userItems.id,
-              haveTeam: true,
-              teamList: [...removeType, { id: userItems.id, name }],
-            },
-          },
-        });
-        await refetch();
         await createTeamData({
           variables: {
             input: {
@@ -424,10 +414,21 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
               owner: userItems.id,
               state: '모집중',
               createdAt: new Date(),
+              comments: [],
             },
           },
         });
         await teamRefetch();
+        await updateUserData({
+          variables: {
+            input: {
+              id: userItems.id,
+              haveTeam: true,
+              teamList: [...removeType, { id: userItems.id, name }],
+            },
+          },
+        });
+        await refetch();
         onCloseModal();
       } else {
         const updateConfirm = async () => {

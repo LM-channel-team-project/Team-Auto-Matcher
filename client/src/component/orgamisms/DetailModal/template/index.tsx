@@ -10,7 +10,7 @@ export type QuestionItem = {
   title: string;
   answers: string[];
 };
-export type teamListType = {
+export type TeamListType = {
   id: string;
   name: string;
 };
@@ -21,6 +21,12 @@ export type MailType = {
   teamName: string;
   date: Date;
 };
+export type CommentsType = {
+  date: Date;
+  owner: string;
+  comment: string;
+  name: string;
+}
 interface IDetailModalTemplate {
   modalHeader: React.ReactNode;
   modalBody: React.ReactNode;
