@@ -442,7 +442,7 @@ const TeamDetailModal = ({
       await deleteTeamData({
         variables: {
           input: {
-            id: data?.owner,
+            id: data?.id,
           },
         },
       });
