@@ -450,7 +450,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
             },
           });
           await teamRefetch();
-          onCloseModal();
+          onClickUpdate();
         };
         openModal();
         setConfirmText('확인을 누르면 업데이트가 완료됩니다.');
