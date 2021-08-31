@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { Item } from 'component/orgamisms/AutoCompleteList';
+import makeTeamIdByUserId from 'utils/setTeamId';
 import { getUser, listTeamDashboard } from 'graphql/queries';
 import { createTeam, updateUser, updateTeam } from 'graphql/mutations';
 import { gql, useMutation, useQuery } from '@apollo/client';
@@ -402,7 +403,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
         await createTeamData({
           variables: {
             input: {
-              id: userItems.id,
+              id: makeTeamIdByUserId(userItems.id),
               name,
               people: [
                 { id: userItems.id, name: userItems.question[11].answers[0] },
@@ -424,7 +425,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
             input: {
               id: userItems.id,
               haveTeam: true,
-              teamList: [...removeType, { id: userItems.id, name }],
+              teamList: [...removeType, { id: makeTeamIdByUserId(userItems.id), name }],
             },
           },
         });
