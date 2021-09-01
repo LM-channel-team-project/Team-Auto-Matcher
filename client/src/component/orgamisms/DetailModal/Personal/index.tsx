@@ -6,6 +6,7 @@ import {
   getTeamDashboard,
   listUser,
 } from 'graphql/queries';
+import makeTeamIdByUserId from 'utils/setTeamId';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
@@ -52,10 +53,9 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       ${getTeamDashboard}
     `,
     {
-      variables: { id: userData && userData.getUser.items[0]?.id },
+      variables: { id: userData && makeTeamIdByUserId(userData.getUser.items[0]?.id) },
     },
   );
-
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
@@ -82,7 +82,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   useEffect(() => {
     data?.teamList.forEach((el: any) => {
-      if (el.id === userData?.getUser.items[0]?.id) {
+      if (el.id === makeTeamIdByUserId(userData.getUser.items[0]?.id)) {
         setIsInTeam(true);
       }
     });
@@ -304,7 +304,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = data?.teamList
         .filter((el: any) => {
-          if (el.id === userItems.id) {
+          if (el.id === makeTeamIdByUserId(userItems.id)) {
             return false;
           }
           return true;
@@ -335,7 +335,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       await updateTeamData({
         variables: {
           input: {
-            id: userItems.id,
+            id: makeTeamIdByUserId(userItems.id),
             people: peopleFilter,
           },
         },

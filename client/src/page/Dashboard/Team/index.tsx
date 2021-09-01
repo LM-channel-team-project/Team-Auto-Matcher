@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
+import makeTeamIdByUserId from 'utils/setTeamId';
 import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
@@ -121,7 +122,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     const onCloseModal = () => setModal({});
 
     const onClickUpdate = async () => {
-      const res = await refetch({ id: userData.getUser.items[0].id });
+      const res = await refetch({ id: makeTeamIdByUserId(userData.getUser.items[0].id) });
       if (modal?.type === 'update') {
         setModal({ type: 'detail', data: res?.data.getTeamDashboard });
       } else {
@@ -164,7 +165,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         return (
           <Team.FloatingButton
             onClick={async () => {
-              const res = await refetch({ id: userData.getUser.items[0].id });
+              const res = await refetch({ id: makeTeamIdByUserId(userData.getUser.items[0].id) });
               setModal({ type: 'detail', data: res?.data.getTeamDashboard });
             }}
           >
