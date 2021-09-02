@@ -7,6 +7,7 @@ import NoticeDetailModal, {
   NoticeModalProps,
 } from 'component/orgamisms/DetailModal/Notice';
 import NoticeAddForm from 'component/orgamisms/DetailModal/NoticeAddForm';
+import LoadComponent from 'page/Loading';
 import * as S from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
@@ -43,11 +44,7 @@ const Notice = ({ className }: any) => {
     }
   }, [data]);
   if (loading) {
-    return (
-      <S.LoadContainer>
-        <S.LoadingComponent />
-      </S.LoadContainer>
-    );
+    return <LoadComponent />;
   }
 
   const { items } = noticeData?.listNotice;

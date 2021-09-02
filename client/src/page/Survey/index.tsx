@@ -4,6 +4,7 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
+import LoadComponent from 'page/Loading';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import ResultComponent from '../Result';
@@ -43,8 +44,11 @@ const Survey = ({ className, isLoggedIn }: any) => {
 
   const bUserUpdating = useRef<boolean>(false);
   const [page, setPage] = useState<number>(0);
-  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(userData?.getUser.items[0]
-    ? userData.getUser.items[0].question : firstInput);
+  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(
+    userData?.getUser.items[0]
+      ? userData.getUser.items[0].question
+      : firstInput,
+  );
   const [resultOpen, setResultOpen] = useState<boolean>(false);
 
   if (userError) {
@@ -55,11 +59,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
   }
 
   if (userLoading || loading || bUserUpdating.current || !userData?.getUser) {
-    return (
-      <S.LoadContainer>
-        <S.LoadingComponent />
-      </S.LoadContainer>
-    );
+    return <LoadComponent />;
   }
 
   if (!userLoading && !userError) {
@@ -194,13 +194,15 @@ const Survey = ({ className, isLoggedIn }: any) => {
 
   return (
     <BaseTemplate>
-      {resultOpen
-        ? <ResultComponent
+      {resultOpen ? (
+        <ResultComponent
           userId={userData?.getUser.items[0].id}
           surveyCompleted={userData?.getUser.items[0].surveyCompleted}
           answerRespond={answerRespond}
-          onCloseResult={onCloseResult}/>
-        : <S.SurveyWrapper>
+          onCloseResult={onCloseResult}
+        />
+      ) : (
+        <S.SurveyWrapper>
           <S.SurveyPage>
             <Questionnaire
               key={nowQuestionnaire.id}
@@ -217,7 +219,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
             />
           </S.SurveyPage>
         </S.SurveyWrapper>
-      }
+      )}
     </BaseTemplate>
   );
 };

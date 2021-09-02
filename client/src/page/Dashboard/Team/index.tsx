@@ -6,6 +6,7 @@ import makeTeamIdByUserId from 'utils/setTeamId';
 import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import LoadComponent from 'page/Loading';
 import TeamDetailModal, {
   TeamModalProps,
 } from 'component/orgamisms/DetailModal/Team';
@@ -47,13 +48,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     { skip: !userData?.getUser.items[0]?.id },
   );
 
-  if (loading) {
-    return (
-      <Team.LoadContainer>
-        <Team.LoadingComponent />
-      </Team.LoadContainer>
-    );
-  }
+  if (loading) return <LoadComponent />;
 
   const { items } = data.listTeamDashboard;
   const skills = (team: any) =>
@@ -122,7 +117,9 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     const onCloseModal = () => setModal({});
 
     const onClickUpdate = async () => {
-      const res = await refetch({ id: makeTeamIdByUserId(userData.getUser.items[0].id) });
+      const res = await refetch({
+        id: makeTeamIdByUserId(userData.getUser.items[0].id),
+      });
       if (modal?.type === 'update') {
         setModal({ type: 'detail', data: res?.data.getTeamDashboard });
       } else {
@@ -165,7 +162,9 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         return (
           <Team.FloatingButton
             onClick={async () => {
-              const res = await refetch({ id: makeTeamIdByUserId(userData.getUser.items[0].id) });
+              const res = await refetch({
+                id: makeTeamIdByUserId(userData.getUser.items[0].id),
+              });
               setModal({ type: 'detail', data: res?.data.getTeamDashboard });
             }}
           >
