@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Loading from 'component/atoms/Loading';
 
 export const Home = styled.div`
   position: relative;
@@ -106,11 +105,3 @@ export const WhiteButton = styled.button`
     margin-left: 1rem;
   }
 `;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20%;
-`;
-
-export const LoadingComponent = styled(Loading)``;
