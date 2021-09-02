@@ -28,6 +28,7 @@ export const CreateBtn = styled.button`
   cursor: pointer;
   width: 20rem;
   height: 6rem;
+  margin-top: 2rem;
   font-size: 2rem;
   border-radius: 0.5rem;
 `;
