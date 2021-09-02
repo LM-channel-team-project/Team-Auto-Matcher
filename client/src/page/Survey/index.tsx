@@ -4,7 +4,7 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
-import LoadComponent from 'page/Loading';
+import LoadingPage from 'page/Loading';
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import ResultComponent from '../Result';
@@ -59,7 +59,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
   }
 
   if (userLoading || loading || bUserUpdating.current || !userData?.getUser) {
-    return <LoadComponent />;
+    return <LoadingPage />;
   }
 
   if (!userLoading && !userError) {

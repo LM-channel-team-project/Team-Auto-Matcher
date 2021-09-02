@@ -5,7 +5,7 @@ import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, {
   PersonalModalProps,
 } from 'component/orgamisms/DetailModal/Personal';
-import LoadComponent from 'page/Loading';
+import LoadingPage from 'page/Loading';
 import * as S from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
@@ -31,7 +31,7 @@ const PersonalDashboardPage = ({ className }: any) => {
       ${listUser}
     `,
   );
-  if (loading) return <LoadComponent />;
+  if (loading) return <LoadingPage />;
 
   const { items } = data.listUser;
   const users = items.reduce((obj: any, user: any) => {

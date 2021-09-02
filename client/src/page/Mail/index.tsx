@@ -7,7 +7,7 @@ import { gql, useQuery } from '@apollo/client';
 import MailDetailModal, {
   MailModalProps,
 } from 'component/orgamisms/DetailModal/Mail';
-import LoadComponent from 'page/Loading';
+import LoadingPage from 'page/Loading';
 import * as S from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
@@ -34,7 +34,7 @@ const Mail = ({ className, isLoggedIn }: any) => {
   }, [isLoggedIn]);
 
   if (loading) {
-    return <LoadComponent />;
+    return <LoadingPage />;
   }
   const mail = data && data.getUser.items?.length !== 0 ? data.getUser.items[0].mail : [];
   const mailList = mail.map((el: any) => {

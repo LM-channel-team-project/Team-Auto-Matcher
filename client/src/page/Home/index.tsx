@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Auth } from 'aws-amplify';
 import BaseTemplate from 'page/BaseTemplate';
-import LoadComponent from 'page/Loading';
+import LoadingPage from 'page/Loading';
 import * as S from './style';
 
 const googleLoginOnClick = () =>
@@ -21,7 +21,7 @@ const Home = ({ className, isLoggedIn }: any) => {
   );
   if (isLoggedIn) {
     if (loading) {
-      return <LoadComponent />;
+      return <LoadingPage />;
     }
   }
   // 8월 13일 초대 주소 get, 30일 마다 갱신

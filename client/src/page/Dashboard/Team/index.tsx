@@ -6,7 +6,7 @@ import makeTeamIdByUserId from 'utils/setTeamId';
 import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import LoadComponent from 'page/Loading';
+import LoadingPage from 'page/Loading';
 import TeamDetailModal, {
   TeamModalProps,
 } from 'component/orgamisms/DetailModal/Team';
@@ -48,7 +48,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     { skip: !userData?.getUser.items[0]?.id },
   );
 
-  if (loading) return <LoadComponent />;
+  if (loading) return <LoadingPage />;
 
   const { items } = data.listTeamDashboard;
   const skills = (team: any) =>
