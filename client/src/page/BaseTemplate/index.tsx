@@ -18,9 +18,7 @@ const BaseTemplate = ({ children, Modal, closeModal }: TemplateProps) => {
 
   return (
     <S.Template>
-      <S.Nav>
-        <MenuBar />
-      </S.Nav>
+      <MenuBar />
       <S.Body>{children}</S.Body>
       {Modal && ModalSection}
     </S.Template>
