@@ -135,8 +135,8 @@ export const MenuRight = styled.ul`
     background-repeat: repeat-y;
     left: -10%;
     top: 50%;
-    height: 0.4rem;
-    margin-top: 0.7rem;
+    height: 0.2rem;
+    margin-top: 0.9rem;
     content: '';
     transform: translateY(24px);
     transition: all 0.4s ease;
@@ -166,8 +166,8 @@ export const MenuCenter = styled.ul`
     background-repeat: repeat-y;
     left: -10%;
     top: 53%;
-    height: 0.4rem;
-    margin-top: 0.7rem;
+    height: 0.2rem;
+    margin-top: 0.9rem;
     content: '';
     transform: translateY(24px);
     transition: all 0.4s ease;
