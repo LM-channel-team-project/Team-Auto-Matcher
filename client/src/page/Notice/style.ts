@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Loading from 'component/atoms/Loading';
 
 export const Container = styled.div`
   display: flex;
@@ -29,6 +28,7 @@ export const CreateBtn = styled.button`
   cursor: pointer;
   width: 20rem;
   height: 6rem;
+  margin-top: 2rem;
   font-size: 2rem;
   border-radius: 0.5rem;
 `;
@@ -51,7 +51,7 @@ export const NoticeList = styled.div`
   }
   padding-top: 1em;
   width: 124rem;
-  height: 68rem;
+  height: 66vh;
   @media screen and (max-width: 1290px) {
     width: 108rem;
   }
@@ -163,11 +163,3 @@ export const Name = styled.h1`
 export const Content = styled.div`
   display: flex;
 `;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20%;
-`;
-
-export const LoadingComponent = styled(Loading)``;
