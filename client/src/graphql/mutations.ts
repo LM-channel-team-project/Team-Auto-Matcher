@@ -73,6 +73,12 @@ export const createTeam = /* GraphQL */ `
         text
       }
       state
+      comments {
+        date
+        owner
+        comment
+        name
+      }
     }
   }
 `;
@@ -96,6 +102,12 @@ export const updateTeam = /* GraphQL */ `
         text
       }
       state
+      comments {
+        date
+        owner
+        comment
+        name
+      }
     }
   }
 `;

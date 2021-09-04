@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import globalTheme from 'style/theme';
 import TextLabel from 'component/atoms/TextLabel';
-import Loading from 'component/atoms/Loading';
 import Floating from 'component/atoms/FloatingButton';
 
 export const TeamDashboardPage = styled.div`
@@ -245,7 +244,17 @@ export const TeamPage = styled.div`
   }
 `;
 
-export const CreateBtn = styled.button`
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 45rem;
+  @media screen and (max-width: 470px) {
+    width: 20rem;
+    flex-direction: column;
+  }
+`;
+
+export const Button = styled.button`
   cursor: pointer;
   margin-top: 1.5em;
   width: 20rem;
@@ -275,13 +284,5 @@ export const State = styled((props: { text: string }) =>
     top: 0.6em;
   }
 `;
-
-export const LoadContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20%;
-`;
-
-export const LoadingComponent = styled(Loading)``;
 
 export default {};

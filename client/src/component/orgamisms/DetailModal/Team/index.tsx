@@ -6,14 +6,14 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import { updateUser, deleteTeam, updateTeam } from 'graphql/mutations';
 import getKoreaTime from 'utils/date';
 import axios from 'axios';
-import DetailModalTemplate, { ContentItem, teamListType } from '../template';
+import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
 import * as S from '../style';
 
 export interface TeamModalProps {
   data?: {
     id: string;
     name: string;
-    people: teamListType[];
+    people: TeamListType[];
     outline: string;
     contents: ContentItem[];
     skills: string[];
@@ -21,9 +21,21 @@ export interface TeamModalProps {
     owner: string;
     createdAt: Date;
     reponame: string;
+    comments: CommentsType[];
   };
   onCloseModal: () => void;
   onClickUpdate: () => void;
+}
+
+interface CommentState {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  reset?: () => void;
+  removeLabel: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    name: string,
+  ) => void;
 }
 
 const TeamDetailModal = ({
@@ -34,6 +46,9 @@ const TeamDetailModal = ({
   // github API
   const api = axios.create({
     baseURL: `https://api.github.com/repos/LM-channel-team-project/${data?.reponame}`,
+    headers: {
+      Authorization: process.env.REACT_APP_GIT_APIKEY,
+    },
   });
 
   type GitApiType = {
@@ -43,7 +58,7 @@ const TeamDetailModal = ({
   // const [languages, setLanguages] = useState<GitApiType>({});
   const [home, setHome] = useState<GitApiType>({});
   const [contributor, setContributor] = useState([{}]);
-  const [getApi, setGetApi] = useState<boolean>(true);
+  const [getApi, setGetApi] = useState<boolean>(false);
   const gitApi = {
     homes: () => api.get(''),
     languages: () => api.get('/languages'),
@@ -61,7 +76,7 @@ const TeamDetailModal = ({
         setContributor(contData);
         setGetApi(true);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
         setGetApi(false);
       }
     };
@@ -79,13 +94,10 @@ const TeamDetailModal = ({
     `,
   );
 
-  const { data: userIdData } = useQuery(
+  const { refetch: userRefetch } = useQuery(
     gql`
       ${getUserById}
     `,
-    {
-      variables: { id: data?.owner },
-    },
   );
 
   const [updateUserData] = useMutation(
@@ -109,10 +121,12 @@ const TeamDetailModal = ({
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState(data?.comments || []);
 
   useEffect(() => {
     data?.people.forEach((el: any) => {
-      if (el.id === userData?.getUser.items[0].id) {
+      if (el.id === userData?.getUser.items[0]?.id) {
         setIsInTeam(true);
       }
     });
@@ -132,7 +146,7 @@ const TeamDetailModal = ({
       );
     });
 
-    const people = data?.people.map((person: teamListType) => (
+    const people = data?.people.map((person: TeamListType) => (
       <S.Text className="people">{person.name}</S.Text>
     ));
     const GetGitApi = () => (
@@ -187,10 +201,92 @@ const TeamDetailModal = ({
       </S.ContentItem>
     ));
 
+    const commentState: CommentState = {
+      value: comment,
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setComment(value);
+      },
+      onKeyPress: async (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const { value } = commentState;
+        if (value.length < 1 || event.key !== 'Enter') return;
+        const removeType: CommentsType[] = comments.map((el: any) => ({
+          date: el.date,
+          owner: el.owner,
+          comment: el.comment,
+          name: el.name,
+        }));
+        const newComment = {
+          date: new Date(),
+          owner: userData?.getUser.items[0]?.id,
+          comment: value,
+          name: userData?.getUser.items[0]?.question[11].answers[0],
+        };
+        await updateTeamData({
+          variables: {
+            input: {
+              id: data?.id,
+              comments: [...removeType, newComment],
+            },
+          },
+        });
+        await teamRefetch();
+        setComments([...removeType, newComment]);
+        commentState.reset!();
+      },
+      reset: () => setComment(''),
+      removeLabel: async (_, labelName) => {
+        const filteredData: CommentsType[] = comments
+          .filter((el: any) => `${el.date + el.owner}` !== labelName)
+          .map((el: any) => ({
+            date: el.date,
+            owner: el.owner,
+            comment: el.comment,
+            name: el.name,
+          }));
+        await updateTeamData({
+          variables: {
+            input: {
+              id: data?.id,
+              comments: filteredData,
+            },
+          },
+        });
+        await teamRefetch();
+        setComments(filteredData);
+      },
+    };
+
+    const commentData = () => {
+      const commentContents = (
+        <>
+          <S.ContentItem>
+            <S.CommentInputBox
+              list={comments}
+              value={commentState.value}
+              maxWidth={500}
+              onKeyPress={commentState.onKeyPress}
+              onChange={commentState.onChange}
+              removeLabel={commentState.removeLabel}
+              teamId={data?.id}
+              myId={userData?.getUser.items[0]?.id}
+            />
+          </S.ContentItem>
+        </>
+      );
+
+      return (
+        <S.BlockContent title={`댓글 ${comments.length}개`} className="ci-block">
+          {commentContents}
+        </S.BlockContent>
+      );
+    };
+
     return (
       <>
         <S.ContentsList>{inlineContents}</S.ContentsList>
         <S.ContentsList>{blockContents}</S.ContentsList>
+        <S.CommentsWrapper>{commentData()}</S.CommentsWrapper>
       </>
     );
   };
@@ -293,7 +389,8 @@ const TeamDetailModal = ({
   const onClickApply = async () => {
     const confirmApply = async () => {
       let isDuplicated = false;
-      const frontData = userIdData.getUserById.mail
+      const res = await userRefetch({ id: data?.owner });
+      const frontData = res.data.getUserById.mail
         .filter((el: any) => {
           if (
             el.from === userData?.getUser.items[0].id
@@ -345,17 +442,43 @@ const TeamDetailModal = ({
       await deleteTeamData({
         variables: {
           input: {
-            id: data?.owner,
+            id: data?.id,
           },
         },
       });
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.owner,
-            haveTeam: false,
-          },
-        },
+      data?.people.forEach(async (person: TeamListType, index: number) => {
+        const res = await userRefetch({ id: person.id });
+        const teamFilter = res.data.getUserById.teamList
+          .filter((el: any) => {
+            if (el.id === data?.id) {
+              return false;
+            }
+            return true;
+          })
+          .map((el: any) => ({
+            id: el.id,
+            name: el.name,
+          }));
+        if (index === 0) {
+          await updateUserData({
+            variables: {
+              input: {
+                id: data?.owner,
+                haveTeam: false,
+                teamList: teamFilter,
+              },
+            },
+          });
+        } else {
+          await updateUserData({
+            variables: {
+              input: {
+                id: person.id,
+                teamList: teamFilter,
+              },
+            },
+          });
+        }
       });
       await teamRefetch();
       await refetch();

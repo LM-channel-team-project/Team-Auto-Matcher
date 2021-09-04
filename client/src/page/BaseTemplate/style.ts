@@ -6,8 +6,6 @@ export const Template = styled.section`
   width: 100%;
 `;
 
-export const Nav = styled.nav``;
-
 export const Body = styled.section``;
 
 export const ModalContainer = styled.div`

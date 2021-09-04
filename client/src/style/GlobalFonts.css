@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 's-core-dream-regular';
+    src: url('./font/S-CoreDream-4Regular.woff2') format('woff2'),
+            url('./font/S-CoreDream-4Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }

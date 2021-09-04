@@ -7,6 +7,7 @@ import { gql, useQuery } from '@apollo/client';
 import MailDetailModal, {
   MailModalProps,
 } from 'component/orgamisms/DetailModal/Mail';
+import LoadingPage from 'page/Loading';
 import * as S from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;
@@ -33,11 +34,7 @@ const Mail = ({ className, isLoggedIn }: any) => {
   }, [isLoggedIn]);
 
   if (loading) {
-    return (
-      <S.LoadContainer>
-        <S.LoadingComponent />
-      </S.LoadContainer>
-    );
+    return <LoadingPage />;
   }
   const mail = data && data.getUser.items?.length !== 0 ? data.getUser.items[0].mail : [];
   const mailList = mail.map((el: any) => {
@@ -50,8 +47,6 @@ const Mail = ({ className, isLoggedIn }: any) => {
       type = '팀 승인 메시지';
     } else if (el.type === 'refuse') {
       type = '팀 거절 메시지';
-    } else if (el.type === 'notice') {
-      type = '공지';
     }
 
     return (

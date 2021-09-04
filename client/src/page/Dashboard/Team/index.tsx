@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
 import { gql, useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
+import makeTeamIdByUserId from 'utils/setTeamId';
 import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import LoadingPage from 'page/Loading';
 import TeamDetailModal, {
   TeamModalProps,
 } from 'component/orgamisms/DetailModal/Team';
@@ -25,6 +27,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [showMyTeams, setShowMyTeams] = useState<boolean>(false);
 
   const { data: userData } = useQuery(
     gql`
@@ -38,31 +41,18 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     `,
   );
 
-  const { data: teamData } = useQuery(
+  const { refetch } = useQuery(
     gql`
       ${getTeamDashboard}
     `,
-    {
-      variables: {
-        id:
-          userData && userData.getUser.items?.length !== 0
-            ? userData.getUser.items[0].id
-            : '',
-      },
-    },
+    { skip: !userData?.getUser.items[0]?.id },
   );
 
-  if (loading) {
-    return (
-      <Team.LoadContainer>
-        <Team.LoadingComponent />
-      </Team.LoadContainer>
-    );
-  }
+  if (loading) return <LoadingPage />;
 
   const { items } = data.listTeamDashboard;
-  const teams = items.map((team: any) => {
-    const skills = team.skills.length > 3
+  const skills = (team: any) =>
+    (team.skills.length > 3
       ? team.skills
         .slice(0, 4)
         .fill('...', 3, 4)
@@ -71,38 +61,69 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         ))
       : team.skills.map((skill: string) => (
         <Team.Stacklist key={skill}>{skill}</Team.Stacklist>
-      ));
+      )));
 
-    const contents = team.contents.map((content: any) => (
+  const contents = (team: any) =>
+    team.contents.map((content: any) => (
       <Team.Text key={content.title}>
         <Team.Title>{content.title}</Team.Title>
         <Team.ContentInfo>{content.text}</Team.ContentInfo>
       </Team.Text>
     ));
 
-    return (
-      <Team.List
-        key={team.name}
-        onClick={() => setModal({ type: 'detail', data: team })}
-      >
-        <Team.Left>
-          <Team.Name>{team.name}</Team.Name>
-          <Team.Stack>{skills}</Team.Stack>
-          <Team.Content>{contents}</Team.Content>
-        </Team.Left>
-        <Team.State text={team.state} />
-      </Team.List>
-    );
-  });
+  const myTeamsIds = userData?.getUser.items[0]?.teamList.map(
+    (el: any) => el.id,
+  );
+  const myTeams = myTeamsIds?.length === 0 ? (
+    <Team.Title>참여한 팀이 없습니다.</Team.Title>
+  ) : (
+    items
+      .filter((team: any) => {
+        if (myTeamsIds?.includes(team.id)) {
+          return true;
+        }
+        return false;
+      })
+      .map((team: any) => (
+        <Team.List
+          key={team.name}
+          onClick={() => setModal({ type: 'detail', data: team })}
+        >
+          <Team.Left>
+            <Team.Name>{team.name}</Team.Name>
+            <Team.Stack>{skills(team)}</Team.Stack>
+            <Team.Content>{contents(team)}</Team.Content>
+          </Team.Left>
+          <Team.State text={team.state} />
+        </Team.List>
+      ))
+  );
+
+  const teams = items.map((team: any) => (
+    <Team.List
+      key={team.name}
+      onClick={() => setModal({ type: 'detail', data: team })}
+    >
+      <Team.Left>
+        <Team.Name>{team.name}</Team.Name>
+        <Team.Stack>{skills(team)}</Team.Stack>
+        <Team.Content>{contents(team)}</Team.Content>
+      </Team.Left>
+      <Team.State text={team.state} />
+    </Team.List>
+  ));
 
   const renderModal = () => {
     const onCloseModal = () => setModal({});
 
-    const onClickUpdate = () => {
+    const onClickUpdate = async () => {
+      const res = await refetch({
+        id: makeTeamIdByUserId(userData.getUser.items[0].id),
+      });
       if (modal?.type === 'update') {
-        setModal({ type: 'detail', data: teamData.getTeamDashboard });
+        setModal({ type: 'detail', data: res?.data.getTeamDashboard });
       } else {
-        setModal({ type: 'update', data: teamData.getTeamDashboard });
+        setModal({ type: 'update', data: res?.data.getTeamDashboard });
       }
     };
 
@@ -136,13 +157,16 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   };
 
   const ClickerLoad = () => {
-    if (teamData && userData) {
-      if (userData.getUser.items[0].haveTeam) {
+    if (userData) {
+      if (userData.getUser.items[0]?.haveTeam) {
         return (
           <Team.FloatingButton
-            onClick={() =>
-              setModal({ type: 'detail', data: teamData.getTeamDashboard })
-            }
+            onClick={async () => {
+              const res = await refetch({
+                id: makeTeamIdByUserId(userData.getUser.items[0].id),
+              });
+              setModal({ type: 'detail', data: res?.data.getTeamDashboard });
+            }}
           >
             나의 팀
           </Team.FloatingButton>
@@ -160,7 +184,7 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   };
 
   const onClickMakeTeam = () => {
-    if (userData.getUser.items[0].surveyCompleted) {
+    if (userData.getUser.items[0]?.surveyCompleted) {
       setModal({ type: 'add' });
       return;
     }
@@ -173,6 +197,14 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
     });
   };
 
+  const onClickShowMyTeam = () => {
+    if (!showMyTeams) {
+      setShowMyTeams(true);
+    } else {
+      setShowMyTeams(false);
+    }
+  };
+
   return (
     <BaseTemplate Modal={renderModal()} closeModal={() => setModal({})}>
       <ClickerLoad />
@@ -180,9 +212,14 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
         <Personal.Top>
           <Team.Main>팀 현황판</Team.Main>
         </Personal.Top>
-        <Team.TeamPage>{teams}</Team.TeamPage>
+        <Team.TeamPage>{!showMyTeams ? teams : myTeams}</Team.TeamPage>
         {isLoggedIn && (
-          <Team.CreateBtn onClick={onClickMakeTeam}>팀 생성하기</Team.CreateBtn>
+          <Team.ButtonWrapper>
+            <Team.Button onClick={onClickMakeTeam}>팀 생성하기</Team.Button>
+            <Team.Button onClick={onClickShowMyTeam}>
+              {!showMyTeams ? '내가 속한 팀 보기' : '모든 팀 보기'}
+            </Team.Button>
+          </Team.ButtonWrapper>
         )}
       </Personal.Container>
       {modalOpen && (

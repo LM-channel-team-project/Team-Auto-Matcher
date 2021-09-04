@@ -6,6 +6,7 @@ import {
   getTeamDashboard,
   listUser,
 } from 'graphql/queries';
+import makeTeamIdByUserId from 'utils/setTeamId';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { gql, useQuery, useMutation } from '@apollo/client';
@@ -13,7 +14,7 @@ import { updateUser, updateTeam } from 'graphql/mutations';
 import DetailModalTemplate, {
   QuestionItem,
   MailType,
-  teamListType,
+  TeamListType,
 } from '../template';
 import * as S from '../style';
 
@@ -24,7 +25,7 @@ export interface PersonalModalProps {
     surveyCompleted: boolean;
     question: QuestionItem[];
     personState: string;
-    teamList: teamListType[];
+    teamList: TeamListType[];
     mail: MailType[];
   };
   onCloseModal: () => void;
@@ -52,10 +53,9 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       ${getTeamDashboard}
     `,
     {
-      variables: { id: userData && userData.getUser.items[0].id },
+      variables: { id: userData && makeTeamIdByUserId(userData.getUser.items[0]?.id) },
     },
   );
-
   const [updateUserData] = useMutation(
     gql`
       ${updateUser}
@@ -82,7 +82,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   useEffect(() => {
     data?.teamList.forEach((el: any) => {
-      if (el.id === userData?.getUser.items[0].id) {
+      if (el.id === makeTeamIdByUserId(userData?.getUser.items[0]?.id)) {
         setIsInTeam(true);
       }
     });
@@ -104,7 +104,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     });
 
     const team = data?.teamList.length > 0 ? (
-      data.teamList.map((aTeam: teamListType) => (
+      data.teamList.map((aTeam: TeamListType) => (
         <S.Text className="team" key={aTeam.id}>
           {aTeam.name}
         </S.Text>
@@ -283,7 +283,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     }
   };
   useEffect(() => {
-    if (data?.id === userData?.getUser.items[0].id) {
+    if (data?.id === userData?.getUser.items[0]?.id) {
       const updatePersonState = async () => {
         await updateUserData({
           variables: {
@@ -304,7 +304,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = data?.teamList
         .filter((el: any) => {
-          if (el.id === userItems.id) {
+          if (el.id === makeTeamIdByUserId(userItems.id)) {
             return false;
           }
           return true;
@@ -335,7 +335,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       await updateTeamData({
         variables: {
           input: {
-            id: userItems.id,
+            id: makeTeamIdByUserId(userItems.id),
             people: peopleFilter,
           },
         },
@@ -358,7 +358,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         </S.SubmitButton>
       );
     }
-    if (data?.id !== userData?.getUser.items[0].id) {
+    if (data?.id !== userData?.getUser.items[0]?.id && userData?.getUser) {
       if (data?.personState !== '종료') {
         return (
           <S.SubmitButton size="medium" color="yellow" onClick={onClickInvite}>
@@ -368,11 +368,14 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
       }
       return <></>;
     }
-    return (
-      <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
-        삭제하기
-      </S.SubmitButton>
-    );
+    if (data?.id === userData?.getUser.items[0]?.id) {
+      return (
+        <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+          삭제하기
+        </S.SubmitButton>
+      );
+    }
+    return <></>;
   };
 
   return data ? (
@@ -381,7 +384,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         modalHeader={
           <>
             {userData
-              && (data?.id === userData.getUser.items[0].id ? (
+              && (data?.id === userData.getUser.items[0]?.id ? (
                 <S.ClickPersonState onClick={onClickState} text={personState} />
               ) : (
                 <S.PersonState text={personState} />

@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import DetailContent from 'component/molecules/DetailContent';
 import _LabelInputBox from 'component/orgamisms/LabelInputBox';
+import _CommentInputBox from 'component/orgamisms/CommentInputBox';
 import _TextLabel from 'component/atoms/TextLabel';
 import InputText from 'component/atoms/InputText';
 import Button from 'component/atoms/Button';
@@ -148,10 +149,6 @@ export const InlineContent = styled(DetailContent)`
     content: ':';
     margin-right: 0.8em;
   }
-
-  &.ci-skill .dc-title {
-    line-height: 1.3em;
-  }
 `;
 
 export const BlockContent = styled(DetailContent)`
@@ -168,7 +165,7 @@ export const BlockContent = styled(DetailContent)`
 
 export const Text = styled.span`
   font-size: 1.3rem;
-  line-height: 2.5em;
+  line-height: 3rem;
 
   &.team:not(:last-child):after {
     content: ', ';
@@ -363,3 +360,18 @@ export const ClickPersonState = styled(ClickStateComponent(setPersonColor))`
   margin-bottom: 0.8em;
   cursor: pointer;
 `;
+
+export const CommentInputBox = styled(_CommentInputBox)`
+  & .lb-label {
+    font-size: 1.1rem;
+  }
+
+  & .lb-input {
+    font-size: 1.2rem;
+    vertical-align: top;
+    text-align: center;
+    padding: 0.2em 0.4em;
+  }
+`;
+
+export const CommentsWrapper = styled.div``;

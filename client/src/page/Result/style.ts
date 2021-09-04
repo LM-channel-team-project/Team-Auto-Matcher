@@ -11,7 +11,7 @@ export const ResultPage = styled.div`
   align-items: center;
   background-color: #e9e9e9;
   border-radius: 1em;
-  z-index:100;
+  z-index: 100;
   width: 130rem;
   height: 70rem;
   @media screen and (max-width: 85rem) {

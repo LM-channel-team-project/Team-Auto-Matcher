@@ -4,7 +4,7 @@ import { getTeamDashboard, getUser, getUserById } from 'graphql/queries';
 import { updateUser, updateTeam } from 'graphql/mutations';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import DetailModalTemplate, { teamListType } from '../template';
+import DetailModalTemplate, { TeamListType } from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
@@ -95,9 +95,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (data?.type === 'accept') {
         return Msg('승인 메시지');
       }
-      if (data?.type === 'notice') {
-        return <S.Title type="personal">공지</S.Title>;
-      }
     }
     return <S.Title type="personal">로딩중</S.Title>;
   };
@@ -119,7 +116,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             />
           );
         });
-        const people = teamItems.people.map((person: teamListType) => (
+        const people = teamItems.people.map((person: TeamListType) => (
           <S.Text className="people">{person.name}</S.Text>
         ));
         const inlineContents = (
@@ -167,7 +164,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           },
         );
         const team = thatUserItems?.teamList.length > 0 ? (
-          thatUserItems.teamList.map((aTeam: teamListType) => (
+          thatUserItems.teamList.map((aTeam: TeamListType) => (
             <S.Text className="team" key={aTeam.id}>
               {aTeam.name}
             </S.Text>
@@ -290,13 +287,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
               <br />
               Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
             </S.ContentsList>
-          </>
-        );
-      }
-      if (data?.type === 'notice') {
-        return (
-          <>
-            <S.ContentsList>{data?.teamId}</S.ContentsList>
           </>
         );
       }
@@ -487,7 +477,6 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       if (
         data?.type === 'accept'
         || data?.type === 'refuse'
-        || data?.type === 'notice'
       ) {
         return (
           <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
