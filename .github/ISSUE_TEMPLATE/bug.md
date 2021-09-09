@@ -1,6 +1,6 @@
 ---
 name: 버그 리포트
-about: ''
+about: '버그 '
 title: ''
 labels: ''
 assignees: ''
