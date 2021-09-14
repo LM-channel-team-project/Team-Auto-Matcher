@@ -1,6 +1,13 @@
 import React from 'react';
-import { ResultProps } from 'types/type';
+import { Answers } from 'types/type';
 import * as S from './style';
+
+export interface ResultProps {
+  userId: string;
+  surveyCompleted: boolean;
+  answerRespond: Answers[];
+  onCloseResult: () => void;
+}
 
 const Result = ({
   userId,

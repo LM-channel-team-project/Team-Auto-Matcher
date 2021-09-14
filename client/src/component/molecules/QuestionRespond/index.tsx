@@ -1,6 +1,10 @@
 import React from 'react';
-import { QuestionRespondProps } from 'types/type';
+import { Answers } from 'types/type';
 import * as S from './style';
+
+export interface QuestionRespondProps extends Answers {
+  className?: string;
+}
 
 function QuestionRespond({ title, answers, className }: QuestionRespondProps) {
   const QuestionRespondComponents = answers.map((questionRespond: string) => (
