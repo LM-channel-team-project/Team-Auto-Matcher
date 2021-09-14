@@ -5,12 +5,12 @@ import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
-import { IAnswers } from 'component/molecules/QuestionRespond';
+import { Answers } from 'types/type';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import ResultComponent from '../Result';
 import * as S from './style';
 
-const firstInput: IAnswers[] = Array(12).fill({ title: '', answers: [] });
+const firstInput: Answers[] = Array(12).fill({ title: '', answers: [] });
 const Survey = ({ className, isLoggedIn }: any) => {
   const { loading, error, data } = useQuery(
     gql`
@@ -44,7 +44,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
 
   const bUserUpdating = useRef<boolean>(false);
   const [page, setPage] = useState<number>(0);
-  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(
+  const [answerRespond, setanswerRespond] = useState<Answers[]>(
     userData?.getUser.items[0]
       ? userData.getUser.items[0].question
       : firstInput,
