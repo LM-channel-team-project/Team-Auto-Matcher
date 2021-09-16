@@ -5,7 +5,7 @@ import { listQuestionnaires, getUser } from 'graphql/queries';
 import { createUser } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
-import { Answers } from 'types/type';
+import { Answers } from 'types';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import ResultComponent from '../Result';
 import * as S from './style';

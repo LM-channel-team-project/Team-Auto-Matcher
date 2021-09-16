@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Answers } from 'types/type';
+import { Answers } from 'types';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { updateUser } from 'graphql/mutations';
 import { getUser } from 'graphql/queries';
