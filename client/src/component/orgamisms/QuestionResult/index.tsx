@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { IAnswers } from 'component/molecules/QuestionRespond';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { updateUser } from 'graphql/mutations';
-import { getUser } from 'graphql/queries';
+import { useMutation, useQuery } from '@apollo/client';
+import { UPDATE_USER } from 'graphql/mutations';
+import { GET_USER } from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import Button from 'component/atoms/Button';
 import * as S from './style';
@@ -54,17 +54,9 @@ function QuestionResult({
     setModalOpen(false);
   };
 
-  const { refetch } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
+  const { refetch } = useQuery(GET_USER);
 
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
+  const [updateUserData] = useMutation(UPDATE_USER);
 
   const QuestionRespondList = answerRespond.map((answer: IAnswers) => (
     answer.title.length > 0 && <S.QuestionRespond
