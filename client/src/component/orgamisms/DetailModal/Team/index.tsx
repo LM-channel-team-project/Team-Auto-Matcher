@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import { getUser, getUserById, listTeamDashboard } from 'graphql/queries';
+import {
+  GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD,
+} from 'graphql/queries';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, deleteTeam, updateTeam } from 'graphql/mutations';
+import { useQuery, useMutation } from '@apollo/client';
+import { UPDATE_USER, UPDATE_TEAM, DELETE_TEAM } from 'graphql/mutations';
 import getKoreaTime from 'utils/date';
 import axios from 'axios';
 import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
@@ -83,40 +85,14 @@ const TeamDetailModal = ({
     gitInfo();
   }, []);
 
-  const { data: userData, refetch } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-  const { refetch: teamRefetch } = useQuery(
-    gql`
-      ${listTeamDashboard}
-    `,
-  );
+  const { data: userData, refetch } = useQuery(GET_USER);
+  const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
+  const { refetch: userRefetch } = useQuery(GET_USER_BY_ID);
 
-  const { refetch: userRefetch } = useQuery(
-    gql`
-      ${getUserById}
-    `,
-  );
+  const [updateUserData] = useMutation(UPDATE_USER);
+  const [updateTeamData] = useMutation(UPDATE_TEAM);
+  const [deleteTeamData] = useMutation(DELETE_TEAM);
 
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
-
-  const [updateTeamData] = useMutation(
-    gql`
-      ${updateTeam}
-    `,
-  );
-
-  const [deleteTeamData] = useMutation(
-    gql`
-      ${deleteTeam}
-    `,
-  );
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
