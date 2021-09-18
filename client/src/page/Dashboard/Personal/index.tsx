@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getUser, listUser } from 'graphql/queries';
-import { gql, useQuery } from '@apollo/client';
+import { GET_USER, LIST_USER } from 'graphql/queries';
+import { useQuery } from '@apollo/client';
 import BaseTemplate from 'page/BaseTemplate';
 import PersonalDetailModal, {
   PersonalModalProps,
@@ -20,17 +20,8 @@ const PersonalDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [current, setCurrent] = useState<number>(0);
 
-  const { data: userData } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-
-  const { loading, data } = useQuery(
-    gql`
-      ${listUser}
-    `,
-  );
+  const { data: userData } = useQuery(GET_USER);
+  const { loading, data } = useQuery(LIST_USER);
   if (loading) return <LoadingPage />;
 
   const { items } = data.listUser;
