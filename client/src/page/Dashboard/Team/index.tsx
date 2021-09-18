@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getTeamDashboard, listTeamDashboard, getUser } from 'graphql/queries';
-import { gql, useQuery } from '@apollo/client';
+import { GET_USER, LIST_TEAM_DASHBOARD, GET_TEAM_DASHBOARD } from 'graphql/queries';
+import { useQuery } from '@apollo/client';
 import * as Personal from 'page/Dashboard/Personal/style';
 import makeTeamIdByUserId from 'utils/setTeamId';
 import BaseTemplate from 'page/BaseTemplate';
@@ -29,24 +29,10 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const [showMyTeams, setShowMyTeams] = useState<boolean>(false);
 
-  const { data: userData } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-
-  const { loading, data } = useQuery(
-    gql`
-      ${listTeamDashboard}
-    `,
-  );
-
-  const { refetch } = useQuery(
-    gql`
-      ${getTeamDashboard}
-    `,
-    { skip: !userData?.getUser.items[0]?.id },
-  );
+  const { data: userData } = useQuery(GET_USER);
+  const { loading, data } = useQuery(LIST_TEAM_DASHBOARD);
+  const { refetch } = useQuery(GET_TEAM_DASHBOARD,
+    { skip: !userData?.getUser.items[0]?.id });
 
   if (loading) return <LoadingPage />;
 
