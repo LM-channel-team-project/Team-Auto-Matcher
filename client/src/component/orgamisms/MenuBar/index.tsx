@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
-import { getUser } from 'graphql/queries';
-import { gql, useQuery } from '@apollo/client';
+import { GET_USER } from 'graphql/queries';
+import { useQuery } from '@apollo/client';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import * as S from './style';
 
@@ -23,11 +23,7 @@ const MenuBar = ({ className }: any) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isPath, setIsPath] = useState<string>('');
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
-  const { loading, data: userdata } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
+  const { loading, data: userdata } = useQuery(GET_USER);
   const mailCounter: number | undefined = userdata?.getUser.items[0]?.mail.length;
 
   useEffect(() => {
