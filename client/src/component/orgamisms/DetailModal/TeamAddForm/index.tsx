@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { skillsLabel } from 'style/preset';
 import { Item } from 'component/orgamisms/AutoCompleteList';
 import makeTeamIdByUserId from 'utils/setTeamId';
-import { getUser, listTeamDashboard } from 'graphql/queries';
-import { createTeam, updateUser, updateTeam } from 'graphql/mutations';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { GET_USER, LIST_TEAM_DASHBOARD } from 'graphql/queries';
+import { CREATE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
+import { useMutation, useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate, { ContentItem } from '../template';
@@ -77,31 +77,12 @@ const contentsTitle = [
 
 const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
   const history = useHistory();
-  const { data: userData, refetch } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-  const { refetch: teamRefetch } = useQuery(
-    gql`
-      ${listTeamDashboard}
-    `,
-  );
-  const [createTeamData] = useMutation(
-    gql`
-      ${createTeam}
-    `,
-  );
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
-  const [updateTeamData] = useMutation(
-    gql`
-      ${updateTeam}
-    `,
-  );
+  const { data: userData, refetch } = useQuery(GET_USER);
+  const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
+
+  const [createTeamData] = useMutation(CREATE_TEAM);
+  const [updateUserData] = useMutation(UPDATE_USER);
+  const [updateTeamData] = useMutation(UPDATE_TEAM);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
