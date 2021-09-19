@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { skillsLabel } from 'style/preset';
 import {
-  getUser,
-  getUserById,
-  getTeamDashboard,
-  listUser,
+  GET_USER,
+  GET_USER_BY_ID,
+  GET_TEAM_DASHBOARD,
+  LIST_USER,
 } from 'graphql/queries';
 import makeTeamIdByUserId from 'utils/setTeamId';
 import { useHistory } from 'react-router-dom';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import { updateUser, updateTeam } from 'graphql/mutations';
+import { useQuery, useMutation } from '@apollo/client';
+import { UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
 import DetailModalTemplate, {
   QuestionItem,
   MailType,
@@ -33,45 +33,20 @@ export interface PersonalModalProps {
 
 const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const history = useHistory();
-  const { data: userData, refetch } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-
-  const { data: userIdData } = useQuery(
-    gql`
-      ${getUserById}
-    `,
+  const { data: userData, refetch } = useQuery(GET_USER);
+  const { refetch: listUserRefetch } = useQuery(LIST_USER);
+  const { data: userIdData } = useQuery(GET_USER_BY_ID,
     {
       variables: { id: data?.id },
-    },
-  );
+    });
 
-  const { data: teamData, refetch: teamRefetch } = useQuery(
-    gql`
-      ${getTeamDashboard}
-    `,
+  const { data: teamData, refetch: teamRefetch } = useQuery(GET_TEAM_DASHBOARD,
     {
       variables: { id: userData && makeTeamIdByUserId(userData.getUser.items[0]?.id) },
-    },
-  );
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
-  const [updateTeamData] = useMutation(
-    gql`
-      ${updateTeam}
-    `,
-  );
+    });
+  const [updateUserData] = useMutation(UPDATE_USER);
+  const [updateTeamData] = useMutation(UPDATE_TEAM);
 
-  const { refetch: listUserRefetch } = useQuery(
-    gql`
-      ${listUser}
-    `,
-  );
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});

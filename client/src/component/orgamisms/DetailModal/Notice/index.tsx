@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { listNotice } from 'graphql/queries';
-import { deleteNotice } from 'graphql/mutations';
+import { LIST_NOTICE } from 'graphql/queries';
+import { DELETE_NOTICE } from 'graphql/mutations';
 import getKoreaTime from 'utils/date';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
 import * as S from '../style';
@@ -25,17 +25,8 @@ const NoticeDetailModal = ({
   isAdmin,
   onCloseModal,
 }: NoticeModalProps) => {
-  const { refetch } = useQuery(
-    gql`
-      ${listNotice}
-    `,
-  );
-
-  const [deleteNoticeData] = useMutation(
-    gql`
-      ${deleteNotice}
-    `,
-  );
+  const { refetch } = useQuery(LIST_NOTICE);
+  const [deleteNoticeData] = useMutation(DELETE_NOTICE);
 
   const [modalOpen, setModalOpen] = useState(false);
   const confirmText = '확인을 누르면 공지가 삭제됩니다.';

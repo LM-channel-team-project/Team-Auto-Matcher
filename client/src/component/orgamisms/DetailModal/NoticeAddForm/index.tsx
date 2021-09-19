@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { listNotice } from 'graphql/queries';
-import { createNotice } from 'graphql/mutations';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { LIST_NOTICE } from 'graphql/queries';
+import { CREATE_NOTICE } from 'graphql/mutations';
+import { useMutation, useQuery } from '@apollo/client';
 import DetailModalTemplate from '../template';
 import * as S from '../style';
 
@@ -16,16 +16,8 @@ interface ContentsState {
 }
 
 const NoticeAddForm = ({ onCloseModal }: any) => {
-  const [createNoticeData] = useMutation(
-    gql`
-      ${createNotice}
-    `,
-  );
-  const { refetch } = useQuery(
-    gql`
-      ${listNotice}
-    `,
-  );
+  const [createNoticeData] = useMutation(CREATE_NOTICE);
+  const { refetch } = useQuery(LIST_NOTICE);
 
   // Data to submit when create a team
   const [title, setTitle] = useState<string>('');

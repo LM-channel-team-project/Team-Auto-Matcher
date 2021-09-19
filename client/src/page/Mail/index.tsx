@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
 import getKoreaTime from 'utils/date';
-import { getUser } from 'graphql/queries';
-import { gql, useQuery } from '@apollo/client';
+import { GET_USER } from 'graphql/queries';
+import { useQuery } from '@apollo/client';
 import MailDetailModal, {
   MailModalProps,
 } from 'component/orgamisms/DetailModal/Mail';
@@ -21,11 +21,7 @@ interface ModalState {
 const Mail = ({ className, isLoggedIn }: any) => {
   const [modal, setModal] = useState<ModalState>({});
 
-  const { loading, data } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
+  const { loading, data } = useQuery(GET_USER);
   const history = useHistory();
   useEffect(() => {
     if (!isLoggedIn) {
