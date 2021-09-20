@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import BaseTemplate from 'page/BaseTemplate';
-import { getUser, listNotice } from 'graphql/queries';
+import { GET_USER, LIST_NOTICE } from 'graphql/queries';
 import getKoreaTime from 'utils/date';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import NoticeDetailModal, {
   NoticeModalProps,
 } from 'component/orgamisms/DetailModal/Notice';
@@ -22,17 +22,8 @@ const Notice = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  const { data } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-
-  const { loading, data: noticeData } = useQuery(
-    gql`
-      ${listNotice}
-    `,
-  );
+  const { data } = useQuery(GET_USER);
+  const { loading, data: noticeData } = useQuery(LIST_NOTICE);
   useEffect(() => {
     const admin = [
       'google_106151528337997471500',

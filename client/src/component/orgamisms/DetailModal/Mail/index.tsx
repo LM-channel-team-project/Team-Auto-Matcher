@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { skillsLabel } from 'style/preset';
-import { getTeamDashboard, getUser, getUserById } from 'graphql/queries';
-import { updateUser, updateTeam } from 'graphql/mutations';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { GET_TEAM_DASHBOARD, GET_USER, GET_USER_BY_ID } from 'graphql/queries';
+import { UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
+import { useQuery, useMutation } from '@apollo/client';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate, { TeamListType } from '../template';
 import * as S from '../style';
@@ -20,40 +20,18 @@ export interface MailModalProps {
 }
 
 const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
-  const { data: userData, refetch } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
-
-  const { data: teamData } = useQuery(
-    gql`
-      ${getTeamDashboard}
-    `,
+  const { data: userData, refetch } = useQuery(GET_USER);
+  const { data: teamData } = useQuery(GET_TEAM_DASHBOARD,
     {
       variables: { id: data?.teamId },
-    },
-  );
-  const { data: userDataById } = useQuery(
-    gql`
-      ${getUserById}
-    `,
+    });
+  const { data: userDataById } = useQuery(GET_USER_BY_ID,
     {
       variables: { id: data?.from },
-    },
-  );
+    });
+  const [updateUserData] = useMutation(UPDATE_USER);
+  const [updateTeamData] = useMutation(UPDATE_TEAM);
 
-  const [updateUserData] = useMutation(
-    gql`
-      ${updateUser}
-    `,
-  );
-
-  const [updateTeamData] = useMutation(
-    gql`
-      ${updateTeam}
-    `,
-  );
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});

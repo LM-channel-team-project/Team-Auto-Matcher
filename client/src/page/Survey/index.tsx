@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import { listQuestionnaires, getUser } from 'graphql/queries';
-import { createUser } from 'graphql/mutations';
+import { useQuery, useMutation } from '@apollo/client';
+import { LIST_QUESTIONNAIRES, GET_USER } from 'graphql/queries';
+import { CREATE_USER } from 'graphql/mutations';
 import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
 import { Answers } from 'types';
@@ -12,22 +12,14 @@ import * as S from './style';
 
 const firstInput: Answers[] = Array(12).fill({ title: '', answers: [] });
 const Survey = ({ className, isLoggedIn }: any) => {
-  const { loading, error, data } = useQuery(
-    gql`
-      ${listQuestionnaires}
-    `,
-  );
-
+  const { loading, error, data } = useQuery(LIST_QUESTIONNAIRES);
   const {
     loading: userLoading,
     error: userError,
     data: userData,
     refetch: userRefetch,
-  } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
+  } = useQuery(GET_USER);
+  const [addUserData] = useMutation(CREATE_USER);
 
   const history = useHistory();
   useEffect(() => {
@@ -35,12 +27,6 @@ const Survey = ({ className, isLoggedIn }: any) => {
       history.push('/login');
     }
   }, [isLoggedIn]);
-
-  const [addUserData] = useMutation(
-    gql`
-      ${createUser}
-    `,
-  );
 
   const bUserUpdating = useRef<boolean>(false);
   const [page, setPage] = useState<number>(0);

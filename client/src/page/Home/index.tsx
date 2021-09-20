@@ -1,8 +1,8 @@
 import React from 'react';
-import { getUser } from 'graphql/queries';
+import { GET_USER } from 'graphql/queries';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { Link } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Auth } from 'aws-amplify';
 import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
@@ -14,11 +14,7 @@ const googleLoginOnClick = () =>
   });
 
 const Home = ({ className, isLoggedIn }: any) => {
-  const { loading, data } = useQuery(
-    gql`
-      ${getUser}
-    `,
-  );
+  const { loading, data } = useQuery(GET_USER);
   if (isLoggedIn) {
     if (loading) {
       return <LoadingPage />;
