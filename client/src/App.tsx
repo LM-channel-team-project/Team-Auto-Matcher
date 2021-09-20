@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import GlobalThemeProvider from 'style/GlobalThemeProvider';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Auth } from 'aws-amplify';
+
 import Survey from 'page/Survey';
 import PersonalDashboard from 'page/Dashboard/Personal';
 import TeamDashboard from 'page/Dashboard/Team';
@@ -10,7 +11,7 @@ import Home from 'page/Home';
 import Contact from 'page/Contact';
 import Mail from 'page/Mail';
 import Notice from 'page/Notice';
-import { Auth } from 'aws-amplify';
+import GlobalThemeProvider from 'style/GlobalThemeProvider';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

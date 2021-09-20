@@ -1,10 +1,11 @@
 import { ApolloLink } from 'apollo-link';
-import { createAuthLink } from 'aws-appsync-auth-link';
 import { createHttpLink } from 'apollo-link-http';
-import { AUTH_TYPE } from 'aws-appsync';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import appSyncConfig, { apiKey } from 'aws-exports';
 import Amplify, { Auth } from 'aws-amplify';
+import { AUTH_TYPE } from 'aws-appsync';
+import { createAuthLink } from 'aws-appsync-auth-link';
+import appSyncConfig, { apiKey } from 'aws-exports';
+
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 Amplify.configure(appSyncConfig);
 
