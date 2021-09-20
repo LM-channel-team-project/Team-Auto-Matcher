@@ -1,6 +1,7 @@
 import React from 'react';
-import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import { Story, Meta } from '@storybook/react';
+
+import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import ArrowBtn, { arrowDirection, IArrowBtn } from '.';
 
 export default {

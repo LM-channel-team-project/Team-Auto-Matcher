@@ -1,5 +1,6 @@
-import globalTheme from 'style/theme';
 import styled, { css } from 'styled-components';
+
+import globalTheme from 'style/theme';
 
 export interface StyleProps {
   color?: keyof typeof globalTheme.color.label;

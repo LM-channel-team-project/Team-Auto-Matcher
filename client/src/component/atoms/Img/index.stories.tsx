@@ -1,4 +1,5 @@
 import React from 'react';
+
 import GoogleLogo from 'image/googlelogo.png';
 import Img from './index';
 
