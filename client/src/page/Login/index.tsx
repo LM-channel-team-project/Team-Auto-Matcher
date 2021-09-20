@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { useHistory } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+
 import * as S from './style';
 
 const googleLoginOnClick = () =>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import BaseTemplate from 'page/BaseTemplate';
+import { useQuery } from '@apollo/client';
+
 import { GET_USER, LIST_NOTICE } from 'graphql/queries';
 import getKoreaTime from 'utils/date';
-import { useQuery } from '@apollo/client';
-import NoticeDetailModal, {
-  NoticeModalProps,
-} from 'component/orgamisms/DetailModal/Notice';
+
+import NoticeDetailModal, { NoticeModalProps } from 'component/orgamisms/DetailModal/Notice';
 import NoticeAddForm from 'component/orgamisms/DetailModal/NoticeAddForm';
+import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
 import * as S from './style';
 

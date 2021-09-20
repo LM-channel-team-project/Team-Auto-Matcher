@@ -1,9 +1,11 @@
 import React from 'react';
-import { GET_USER } from 'graphql/queries';
-import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Auth } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+
+import { GET_USER } from 'graphql/queries';
+
 import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
 import * as S from './style';

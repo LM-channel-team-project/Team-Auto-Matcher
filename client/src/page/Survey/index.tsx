@@ -1,13 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
-import { LIST_QUESTIONNAIRES, GET_USER } from 'graphql/queries';
+import { useMutation, useQuery } from '@apollo/client';
+
 import { CREATE_USER } from 'graphql/mutations';
-import BaseTemplate from 'page/BaseTemplate';
-import LoadingPage from 'page/Loading';
+import { GET_USER, LIST_QUESTIONNAIRES } from 'graphql/queries';
+
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
-import ResultComponent from '../Result';
+import ResultComponent from 'component/orgamisms/Result';
+import BaseTemplate from 'page/BaseTemplate';
+import LoadingPage from 'page/Loading';
 import * as S from './style';
 
 const firstInput: IAnswers[] = Array(12).fill({ title: '', answers: [] });

@@ -1,5 +1,6 @@
-import MenuBar from 'component/orgamisms/MenuBar';
 import React from 'react';
+
+import MenuBar from 'component/orgamisms/MenuBar';
 import * as S from './style';
 
 interface TemplateProps {
