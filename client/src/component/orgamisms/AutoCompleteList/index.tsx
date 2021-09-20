@@ -1,4 +1,5 @@
 import React from 'react';
+
 import * as S from './style';
 
 type ExtractKey<O, K extends keyof O> = O[K];

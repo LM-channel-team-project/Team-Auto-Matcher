@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Auth, Hub } from 'aws-amplify';
-import { GET_USER } from 'graphql/queries';
-import { useQuery } from '@apollo/client';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { useQuery } from '@apollo/client';
+
+import { GET_USER } from 'graphql/queries';
+
 import * as S from './style';
 
 const googleLoginOnClick = () =>

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import { skillsLabel } from 'style/preset';
 import LabelInputBox, { Props } from '.';

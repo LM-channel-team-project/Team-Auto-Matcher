@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { skillsLabel } from 'style/preset';
+import { useMutation, useQuery } from '@apollo/client';
+
+import { UPDATE_TEAM, UPDATE_USER } from 'graphql/mutations';
 import { GET_TEAM_DASHBOARD, GET_USER, GET_USER_BY_ID } from 'graphql/queries';
-import { UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
-import { useQuery, useMutation } from '@apollo/client';
+
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { TeamListType } from '../template';
 import * as S from '../style';
 

@@ -1,7 +1,8 @@
-import InputText from 'component/atoms/InputText';
-import DetailContent from 'component/molecules/DetailContent';
-import _TextLabel from 'component/atoms/TextLabel';
 import styled from 'styled-components';
+
+import InputText from 'component/atoms/InputText';
+import _TextLabel from 'component/atoms/TextLabel';
+import DetailContent from 'component/molecules/DetailContent';
 
 export const Container = styled.div``;
 

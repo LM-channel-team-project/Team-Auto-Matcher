@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LIST_NOTICE } from 'graphql/queries';
-import { CREATE_NOTICE } from 'graphql/mutations';
 import { useMutation, useQuery } from '@apollo/client';
+
+import { CREATE_NOTICE } from 'graphql/mutations';
+import { LIST_NOTICE } from 'graphql/queries';
+
 import DetailModalTemplate from '../template';
 import * as S from '../style';
 

@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { skillsLabel } from 'style/preset';
+import { useHistory } from 'react-router-dom';
+import { useQuery, useMutation } from '@apollo/client';
+
+import { UPDATE_TEAM, UPDATE_USER } from 'graphql/mutations';
 import {
+  GET_TEAM_DASHBOARD,
   GET_USER,
   GET_USER_BY_ID,
-  GET_TEAM_DASHBOARD,
   LIST_USER,
 } from 'graphql/queries';
 import makeTeamIdByUserId from 'utils/setTeamId';
-import { useHistory } from 'react-router-dom';
+
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import { useQuery, useMutation } from '@apollo/client';
-import { UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
-import DetailModalTemplate, {
-  QuestionItem,
-  MailType,
-  TeamListType,
-} from '../template';
+import { skillsLabel } from 'style/preset';
+import DetailModalTemplate, { MailType, QuestionItem, TeamListType } from '../template';
 import * as S from '../style';
 
 export interface PersonalModalProps {

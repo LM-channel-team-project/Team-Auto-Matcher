@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { skillsLabel } from 'style/preset';
-import {
-  GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD,
-} from 'graphql/queries';
-import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import { useQuery, useMutation } from '@apollo/client';
-import { UPDATE_USER, UPDATE_TEAM, DELETE_TEAM } from 'graphql/mutations';
-import getKoreaTime from 'utils/date';
 import axios from 'axios';
+import { useMutation, useQuery } from '@apollo/client';
+
+import { DELETE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
+import { GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD } from 'graphql/queries';
+import getKoreaTime from 'utils/date';
+
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
 import * as S from '../style';
 

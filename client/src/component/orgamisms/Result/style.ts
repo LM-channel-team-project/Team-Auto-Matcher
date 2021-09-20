@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import QuestionResultComponent from 'component/orgamisms/QuestionResult';
 
 export const ResultPage = styled.div`

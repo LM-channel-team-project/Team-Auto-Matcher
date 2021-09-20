@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+
 import QuestionBlockComponent from 'component/atoms/QuestionBlock';
+import DirectionNavComponent from 'component/molecules/DirectionNav';
 import MultiCheckboxComponent from 'component/molecules/MultiCheckbox';
 import ProgressComponent from 'component/molecules/ProgressBar';
-import DirectionNavComponent from 'component/molecules/DirectionNav';
 
 export const Questionnaire = styled.div`
   display: flex;

@@ -1,9 +1,8 @@
+import styled, { css } from 'styled-components';
+
 import InputText from 'component/atoms/InputText';
 import _TextLabel from 'component/atoms/TextLabel';
-import AutoCompleteList, {
-  Props as CompletorProps,
-} from 'component/orgamisms/AutoCompleteList';
-import styled, { css } from 'styled-components';
+import AutoCompleteList, { Props as CompletorProps } from 'component/orgamisms/AutoCompleteList';
 
 export const Container = styled.div``;
 

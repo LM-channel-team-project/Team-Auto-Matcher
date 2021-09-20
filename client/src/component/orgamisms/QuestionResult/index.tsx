@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { IAnswers } from 'component/molecules/QuestionRespond';
 import { useMutation, useQuery } from '@apollo/client';
+
 import { UPDATE_USER } from 'graphql/mutations';
 import { GET_USER } from 'graphql/queries';
-import ConfirmModal from 'component/orgamisms/ConfirmModal';
+
 import Button from 'component/atoms/Button';
+import { IAnswers } from 'component/molecules/QuestionRespond';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import * as S from './style';
 
 interface IQuestionResult {

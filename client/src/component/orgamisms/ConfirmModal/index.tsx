@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Button from 'component/atoms/Button';
 import CloseBtn from 'component/atoms/CloseBtn';
 import * as S from './style';

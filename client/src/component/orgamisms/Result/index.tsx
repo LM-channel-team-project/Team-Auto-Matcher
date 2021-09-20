@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { IAnswers } from 'component/molecules/QuestionRespond';
 import * as S from './style';
 
