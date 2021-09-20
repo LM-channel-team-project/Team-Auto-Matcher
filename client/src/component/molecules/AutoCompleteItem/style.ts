@@ -1,8 +1,9 @@
-import globalTheme from 'style/theme';
 import styled, { css } from 'styled-components';
+
 import _ColorCircle, {
   Props as ColorCircleProps,
 } from 'component/atoms/ColorCircle';
+import globalTheme from 'style/theme';
 
 export interface StyleProps extends ColorCircleProps {
   theme: typeof globalTheme;

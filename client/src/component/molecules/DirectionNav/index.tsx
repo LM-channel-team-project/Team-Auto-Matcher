@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { EDirection } from 'component/atoms/DirectionBtn';
 import * as S from './style';
 

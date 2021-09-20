@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+
 import * as S from './style';
 
 interface IMultiCheckbox {

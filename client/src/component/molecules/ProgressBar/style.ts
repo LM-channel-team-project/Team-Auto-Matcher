@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import ProgressBarListComponent from 'component/atoms/ProgressBarList';
 
 export const ProgressBar = styled.ol`

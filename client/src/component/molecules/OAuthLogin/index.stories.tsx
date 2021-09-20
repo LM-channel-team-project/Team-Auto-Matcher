@@ -1,6 +1,7 @@
 import React from 'react';
-import GlobalThemeProvider from 'style/GlobalThemeProvider';
+
 import GoogleLogo from 'image/googlelogo.png';
+import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import OAuthLogin from '.';
 
 export default {

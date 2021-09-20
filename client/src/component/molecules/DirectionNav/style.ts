@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import DirectionBtnComponent from 'component/atoms/DirectionBtn';
 
 export const DirectionNav = styled.div`
