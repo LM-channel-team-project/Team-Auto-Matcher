@@ -1,17 +1,20 @@
 import React from 'react';
-import { IAnswers } from 'component/molecules/QuestionRespond';
+import { Answers } from 'types';
 import * as S from './style';
 
-interface IResult {
+export interface ResultProps {
   userId: string;
   surveyCompleted: boolean;
-  answerRespond: IAnswers[];
+  answerRespond: Answers[];
   onCloseResult: () => void;
 }
 
 const Result = ({
-  userId, surveyCompleted, answerRespond, onCloseResult,
-}: IResult) => (
+  userId,
+  surveyCompleted,
+  answerRespond,
+  onCloseResult,
+}: ResultProps) => (
   <S.ResultPage>
     <S.Title>설문 결과</S.Title>
     <S.QuestionResult
