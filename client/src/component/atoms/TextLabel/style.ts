@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+
 import globalTheme from 'style/theme';
 
 export interface StyleProps {

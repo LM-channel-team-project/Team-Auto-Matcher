@@ -1,4 +1,5 @@
 import React from 'react';
+
 import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import Loading from '.';
 

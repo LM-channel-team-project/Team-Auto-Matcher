@@ -1,6 +1,7 @@
 import React from 'react';
-import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import { Story, Meta } from '@storybook/react';
+
+import GlobalThemeProvider from 'style/GlobalThemeProvider';
 import DirectionBtn, { EDirection, IDirectionBtn } from '.';
 
 export default {

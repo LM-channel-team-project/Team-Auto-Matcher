@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import Button from 'component/atoms/Button';
 
 export const DetailModal = styled.div`

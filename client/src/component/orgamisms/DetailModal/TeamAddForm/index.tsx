@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { skillsLabel } from 'style/preset';
-import { Item } from 'component/orgamisms/AutoCompleteList';
-import makeTeamIdByUserId from 'utils/setTeamId';
-import { GET_USER, LIST_TEAM_DASHBOARD } from 'graphql/queries';
-import { CREATE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
-import { useMutation, useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { useMutation, useQuery } from '@apollo/client';
+
+import { CREATE_TEAM, UPDATE_TEAM, UPDATE_USER } from 'graphql/mutations';
+import { GET_USER, LIST_TEAM_DASHBOARD } from 'graphql/queries';
+import makeTeamIdByUserId from 'utils/setTeamId';
+
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import DetailModalTemplate, { ContentItem } from '../template';
+import { Item } from 'component/orgamisms/AutoCompleteList';
+import { skillsLabel } from 'style/preset';
 import { TeamModalProps } from '../Team';
+import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
 
 interface InputState {

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { LIST_NOTICE } from 'graphql/queries';
-import { DELETE_NOTICE } from 'graphql/mutations';
-import getKoreaTime from 'utils/date';
 import { useQuery, useMutation } from '@apollo/client';
+
+import { DELETE_NOTICE } from 'graphql/mutations';
+import { LIST_NOTICE } from 'graphql/queries';
+import getKoreaTime from 'utils/date';
+
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
 import * as S from '../style';

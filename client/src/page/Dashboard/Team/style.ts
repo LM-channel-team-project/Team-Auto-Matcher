@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import globalTheme from 'style/theme';
-import TextLabel from 'component/atoms/TextLabel';
+
 import Floating from 'component/atoms/FloatingButton';
+import TextLabel from 'component/atoms/TextLabel';
+import globalTheme from 'style/theme';
 
 export const TeamDashboardPage = styled.div`
   height: 100%;

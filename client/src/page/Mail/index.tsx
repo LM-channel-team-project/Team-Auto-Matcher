@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import BaseTemplate from 'page/BaseTemplate';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import getKoreaTime from 'utils/date';
-import { GET_USER } from 'graphql/queries';
 import { useQuery } from '@apollo/client';
-import MailDetailModal, {
-  MailModalProps,
-} from 'component/orgamisms/DetailModal/Mail';
+
+import { GET_USER } from 'graphql/queries';
+import getKoreaTime from 'utils/date';
+
+import MailDetailModal, { MailModalProps } from 'component/orgamisms/DetailModal/Mail';
+import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
 import * as S from './style';
 

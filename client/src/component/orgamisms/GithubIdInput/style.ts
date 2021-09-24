@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import InputTextComponent from 'component/atoms/InputText';
+
 import ImgComponent from 'component/atoms/Img';
+import InputTextComponent from 'component/atoms/InputText';
 
 export const GithubIdInput = styled.div`
   display: flex;

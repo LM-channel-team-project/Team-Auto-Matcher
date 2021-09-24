@@ -1,5 +1,6 @@
-import BaseTemplate from 'page/BaseTemplate';
 import React from 'react';
+
+import BaseTemplate from 'page/BaseTemplate';
 import * as S from './style';
 
 interface IContact {

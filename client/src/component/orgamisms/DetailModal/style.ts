@@ -1,11 +1,13 @@
 import styled, { css } from 'styled-components';
-import DetailContent from 'component/molecules/DetailContent';
-import _LabelInputBox from 'component/orgamisms/LabelInputBox';
-import _CommentInputBox from 'component/orgamisms/CommentInputBox';
-import _TextLabel from 'component/atoms/TextLabel';
-import InputText from 'component/atoms/InputText';
+
 import Button from 'component/atoms/Button';
 import Loading from 'component/atoms/Loading';
+import InputText from 'component/atoms/InputText';
+import _TextLabel from 'component/atoms/TextLabel';
+import DetailContent from 'component/molecules/DetailContent';
+import _CommentInputBox from 'component/orgamisms/CommentInputBox';
+import _LabelInputBox from 'component/orgamisms/LabelInputBox';
+
 import globalTheme from 'style/theme';
 
 interface TitleProps {

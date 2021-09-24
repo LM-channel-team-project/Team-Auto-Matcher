@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import QuestionBlockComponent from 'component/atoms/QuestionBlock';
+
 import CheckboxComponent from 'component/atoms/Checkbox';
+import QuestionBlockComponent from 'component/atoms/QuestionBlock';
 
 export const MultiCheckbox = styled.div`
   display: flex;

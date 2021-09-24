@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { GET_USER, LIST_USER } from 'graphql/queries';
 import { useQuery } from '@apollo/client';
+
+import { GET_USER, LIST_USER } from 'graphql/queries';
+
+import PersonalDetailModal, { PersonalModalProps } from 'component/orgamisms/DetailModal/Personal';
 import BaseTemplate from 'page/BaseTemplate';
-import PersonalDetailModal, {
-  PersonalModalProps,
-} from 'component/orgamisms/DetailModal/Personal';
 import LoadingPage from 'page/Loading';
 import * as S from './style';
 

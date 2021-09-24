@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import QuestionRespondComponent from 'component/molecules/QuestionRespond';
 
 export const QuestionResult = styled.div`

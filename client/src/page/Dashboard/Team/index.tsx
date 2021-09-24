@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { GET_USER, LIST_TEAM_DASHBOARD, GET_TEAM_DASHBOARD } from 'graphql/queries';
-import { useQuery } from '@apollo/client';
-import * as Personal from 'page/Dashboard/Personal/style';
-import makeTeamIdByUserId from 'utils/setTeamId';
-import BaseTemplate from 'page/BaseTemplate';
 import { useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+
+import { GET_TEAM_DASHBOARD, GET_USER, LIST_TEAM_DASHBOARD } from 'graphql/queries';
+import makeTeamIdByUserId from 'utils/setTeamId';
+
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import LoadingPage from 'page/Loading';
-import TeamDetailModal, {
-  TeamModalProps,
-} from 'component/orgamisms/DetailModal/Team';
+import TeamDetailModal, { TeamModalProps } from 'component/orgamisms/DetailModal/Team';
 import TeamAddForm from 'component/orgamisms/DetailModal/TeamAddForm';
+import BaseTemplate from 'page/BaseTemplate';
+import LoadingPage from 'page/Loading';
+import * as Personal from 'page/Dashboard/Personal/style';
 import * as Team from './style';
 
 type ExtractType<O, K> = K extends keyof O ? O[K] : never;

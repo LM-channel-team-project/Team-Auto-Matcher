@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import Loading from 'component/atoms/Loading';
 
 export const LoadContainer = styled.div`
