@@ -1,16 +1,13 @@
 import React from 'react';
 
+import { Answers } from 'types';
 import * as S from './style';
 
-export interface IAnswers {
-  title: string;
-  answers: string[];
-}
-export interface IQuestionRespond extends IAnswers {
+export interface QuestionRespondProps extends Answers {
   className?: string;
 }
 
-function QuestionRespond({ title, answers, className }: IQuestionRespond) {
+function QuestionRespond({ title, answers, className }: QuestionRespondProps) {
   const QuestionRespondComponents = answers.map((questionRespond: string) => (
     <span className="questionRespond">{questionRespond}</span>
   ));

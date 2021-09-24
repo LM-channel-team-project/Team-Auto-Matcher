@@ -6,13 +6,13 @@ import { UPDATE_USER } from 'graphql/mutations';
 import { GET_USER } from 'graphql/queries';
 
 import Button from 'component/atoms/Button';
-import { IAnswers } from 'component/molecules/QuestionRespond';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { Answers } from 'types';
 import * as S from './style';
 
 interface IQuestionResult {
   className?: string;
-  answerRespond: IAnswers[];
+  answerRespond: Answers[];
   userId: string;
   surveyCompleted: boolean;
   onCloseResult: () => void;
@@ -32,7 +32,7 @@ function QuestionResult({
 
   const openModal = () => {
     const filterArray: number[] = [];
-    answerRespond.forEach((answer: IAnswers, index: number) => {
+    answerRespond.forEach((answer: Answers, index: number) => {
       if (answer.answers.length < 1 || answer.answers[0].length < 1) {
         filterArray.push(index + 1);
       }
@@ -60,13 +60,18 @@ function QuestionResult({
 
   const [updateUserData] = useMutation(UPDATE_USER);
 
-  const QuestionRespondList = answerRespond.map((answer: IAnswers) => (
-    answer.title.length > 0 && <S.QuestionRespond
-      key={answer.title}
-      title={answer.title}
-      answers={answer.answers.length > 0 ? answer.answers : ['응답 하지 않음']}
-    />
-  ));
+  const QuestionRespondList = answerRespond.map(
+    (answer: Answers) =>
+      answer.title.length > 0 && (
+        <S.QuestionRespond
+          key={answer.title}
+          title={answer.title}
+          answers={
+            answer.answers.length > 0 ? answer.answers : ['응답 하지 않음']
+          }
+        />
+      ),
+  );
 
   const confirmSubmit = async () => {
     if (!surveyCompleted) {

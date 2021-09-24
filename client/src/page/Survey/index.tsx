@@ -5,14 +5,14 @@ import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_USER } from 'graphql/mutations';
 import { GET_USER, LIST_QUESTIONNAIRES } from 'graphql/queries';
 
-import { IAnswers } from 'component/molecules/QuestionRespond';
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import ResultComponent from 'component/orgamisms/Result';
 import BaseTemplate from 'page/BaseTemplate';
 import LoadingPage from 'page/Loading';
+import { Answers } from 'types';
 import * as S from './style';
 
-const firstInput: IAnswers[] = Array(12).fill({ title: '', answers: [] });
+const firstInput: Answers[] = Array(12).fill({ title: '', answers: [] });
 const Survey = ({ className, isLoggedIn }: any) => {
   const { loading, error, data } = useQuery(LIST_QUESTIONNAIRES);
   const {
@@ -32,7 +32,7 @@ const Survey = ({ className, isLoggedIn }: any) => {
 
   const bUserUpdating = useRef<boolean>(false);
   const [page, setPage] = useState<number>(0);
-  const [answerRespond, setanswerRespond] = useState<IAnswers[]>(
+  const [answerRespond, setanswerRespond] = useState<Answers[]>(
     userData?.getUser.items[0]
       ? userData.getUser.items[0].question
       : firstInput,
