@@ -310,23 +310,13 @@ const TeamDetailModal = ({
     const confirmQuit = async () => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = userItems.teamList
-        .filter((el: any) => {
-          if (el.id === data?.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== data?.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
       const peopleFilter = data?.people
-        .filter((el: any) => {
-          if (el.id === userItems.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== userItems.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
@@ -407,12 +397,7 @@ const TeamDetailModal = ({
       data?.people.forEach(async (person: TeamListType, index: number) => {
         const res = await userRefetch({ id: person.id });
         const teamFilter = res.data.getUserById.teamList
-          .filter((el: any) => {
-            if (el.id === data?.id) {
-              return false;
-            }
-            return true;
-          })
+          .filter((el: any) => el.id !== data?.id)
           .map((el: any) => ({
             id: el.id,
             name: el.name,

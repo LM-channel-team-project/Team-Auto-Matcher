@@ -267,23 +267,13 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     const confirmOut = async () => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = data?.teamList
-        .filter((el: any) => {
-          if (el.id === makeTeamIdByUserId(userItems.id)) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== makeTeamIdByUserId(userItems.id))
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
       const peopleFilter = teamData.getTeamDashboard.people
-        .filter((el: any) => {
-          if (el.id === data?.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== data?.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,

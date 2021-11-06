@@ -361,17 +361,10 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     if (userData) {
       const userItems = userData.getUser.items[0];
       const filteredMail = userItems.mail
-        .filter((el: any) => {
-          if (
-            el.from === data?.from
-            && el.type === data?.type
-            && el.teamId === data?.teamId
-            && el.teamName === data?.teamName
-          ) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => (el.from !== data?.from
+          || el.type !== data?.type
+          || el.teamId !== data?.teamId
+          || el.teamName !== data?.teamName))
         .map((el: any) => ({
           from: el.from,
           teamId: el.teamId,
