@@ -353,24 +353,23 @@ const TeamDetailModal = ({
 
   const onClickApply = async () => {
     const confirmApply = async () => {
-      let isDuplicated = false;
       const res = await userRefetch({ id: data?.owner });
+      let isDuplicated = false;
       const frontData = res.data.getUserById.mail
-        .filter((el: any) => {
+        .map((el: any) => {
           if (
             el.from === userData?.getUser.items[0].id
             && el.type === 'apply'
           ) {
             isDuplicated = true;
           }
-          return true;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
+          return ({
+            from: el.from,
+            teamId: el.teamId,
+            type: el.type,
+            teamName: el.teamName,
+          });
+        });
       if (isDuplicated) {
         setConfirmText('이미 동일한 팀에 지원하였습니다.');
         setConfirmFunction(() => closeModal);

@@ -174,21 +174,20 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         }
         let isDuplicate = false;
         const frontData = userIdData.getUserById.mail
-          .filter((el: any) => {
+          .map((el: any) => {
             if (
               el.from === userData?.getUser.items[0].id
               && el.type === 'invite'
             ) {
               isDuplicate = true;
             }
-            return true;
-          })
-          .map((el: any) => ({
-            from: el.from,
-            teamId: el.teamId,
-            type: el.type,
-            teamName: el.teamName,
-          }));
+            return ({
+              from: el.from,
+              teamId: el.teamId,
+              type: el.type,
+              teamName: el.teamName,
+            });
+          });
         if (isDuplicate) {
           setConfirmText('이미 초대한 사용자입니다.');
           setConfirmFunction(() => closeModal);
