@@ -8,6 +8,7 @@ import getKoreaTime from 'utils/date';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { skillsLabel } from 'style/preset';
+import makeObjectShorten from 'utils/makeObjectShorten';
 import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
 import * as S from '../style';
 
@@ -95,7 +96,7 @@ const TeamDetailModal = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(data?.comments || []);
@@ -198,14 +199,11 @@ const TeamDetailModal = ({
           comment: value,
           name: userData?.getUser.items[0]?.question[11].answers[0],
         };
-        await updateTeamData({
-          variables: {
-            input: {
-              id: data?.id,
-              comments: [...removeType, newComment],
-            },
-          },
-        });
+        const teamObject = {
+          id: data?.id,
+          comments: [...removeType, newComment],
+        };
+        await updateTeamData(makeObjectShorten(teamObject));
         await teamRefetch();
         setComments([...removeType, newComment]);
         commentState.reset!();
@@ -220,14 +218,11 @@ const TeamDetailModal = ({
             comment: el.comment,
             name: el.name,
           }));
-        await updateTeamData({
-          variables: {
-            input: {
-              id: data?.id,
-              comments: filteredData,
-            },
-          },
-        });
+        const teamObject = {
+          id: data?.id,
+          comments: filteredData,
+        };
+        await updateTeamData(makeObjectShorten(teamObject));
         await teamRefetch();
         setComments(filteredData);
       },
@@ -336,22 +331,16 @@ const TeamDetailModal = ({
           id: el.id,
           name: el.name,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: userItems.id,
-            teamList: teamFilter,
-          },
-        },
-      });
-      await updateTeamData({
-        variables: {
-          input: {
-            id: data?.id,
-            people: peopleFilter,
-          },
-        },
-      });
+      const userObject = {
+        id: userItems.id,
+        teamList: teamFilter,
+      };
+      const teamObject = {
+        id: data?.id,
+        people: peopleFilter,
+      };
+      await updateUserData(makeObjectShorten(userObject));
+      await updateTeamData(makeObjectShorten(teamObject));
       await teamRefetch();
       await refetch();
       onCloseModal();
@@ -397,14 +386,11 @@ const TeamDetailModal = ({
         date: new Date(),
       };
       const combinedData = [...changeIntoArray, newData];
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.owner,
-            mail: combinedData,
-          },
-        },
-      });
+      const userObject = {
+        id: data?.owner,
+        mail: combinedData,
+      };
+      await updateUserData(makeObjectShorten(userObject));
       await refetch();
       onCloseModal();
       closeModal();
@@ -415,13 +401,10 @@ const TeamDetailModal = ({
   };
   const onClickDelete = () => {
     const deleteConfirm = async () => {
-      await deleteTeamData({
-        variables: {
-          input: {
-            id: data?.id,
-          },
-        },
-      });
+      const teamObject = {
+        id: data?.id,
+      };
+      await deleteTeamData(makeObjectShorten(teamObject));
       data?.people.forEach(async (person: TeamListType, index: number) => {
         const res = await userRefetch({ id: person.id });
         const teamFilter = res.data.getUserById.teamList
@@ -436,24 +419,18 @@ const TeamDetailModal = ({
             name: el.name,
           }));
         if (index === 0) {
-          await updateUserData({
-            variables: {
-              input: {
-                id: data?.owner,
-                haveTeam: false,
-                teamList: teamFilter,
-              },
-            },
-          });
+          const userObject = {
+            id: data?.owner,
+            haveTeam: false,
+            teamList: teamFilter,
+          };
+          await updateUserData(makeObjectShorten(userObject));
         } else {
-          await updateUserData({
-            variables: {
-              input: {
-                id: person.id,
-                teamList: teamFilter,
-              },
-            },
-          });
+          const userObject = {
+            id: person.id,
+            teamList: teamFilter,
+          };
+          await updateUserData(makeObjectShorten(userObject));
         }
       });
       await teamRefetch();

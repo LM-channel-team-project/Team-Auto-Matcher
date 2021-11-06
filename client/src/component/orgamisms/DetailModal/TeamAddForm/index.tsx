@@ -9,6 +9,7 @@ import makeTeamIdByUserId from 'utils/setTeamId';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { Item } from 'component/orgamisms/AutoCompleteList';
 import { skillsLabel } from 'style/preset';
+import makeObjectShorten from 'utils/makeObjectShorten';
 import { TeamModalProps } from '../Team';
 import DetailModalTemplate, { ContentItem } from '../template';
 import * as S from '../style';
@@ -88,7 +89,7 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
 
   // Data to submit when create a team
   const [name, setName] = useState(data?.name || '');
@@ -383,35 +384,29 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
           id: el.id,
           name: el.name,
         }));
-        await createTeamData({
-          variables: {
-            input: {
-              id: makeTeamIdByUserId(userItems.id),
-              name,
-              people: [
-                { id: userItems.id, name: userItems.question[11].answers[0] },
-              ],
-              skills,
-              outline,
-              contents,
-              reponame,
-              owner: userItems.id,
-              state: '모집중',
-              createdAt: new Date(),
-              comments: [],
-            },
-          },
-        });
+        const teamObject = {
+          id: makeTeamIdByUserId(userItems.id),
+          name,
+          people: [
+            { id: userItems.id, name: userItems.question[11].answers[0] },
+          ],
+          skills,
+          outline,
+          contents,
+          reponame,
+          owner: userItems.id,
+          state: '모집중',
+          createdAt: new Date(),
+          comments: [],
+        };
+        const userObject = {
+          id: userItems.id,
+          haveTeam: true,
+          teamList: [...removeType, { id: makeTeamIdByUserId(userItems.id), name }],
+        };
+        await createTeamData(makeObjectShorten(teamObject));
+        await updateUserData(makeObjectShorten(userObject));
         await teamRefetch();
-        await updateUserData({
-          variables: {
-            input: {
-              id: userItems.id,
-              haveTeam: true,
-              teamList: [...removeType, { id: makeTeamIdByUserId(userItems.id), name }],
-            },
-          },
-        });
         await refetch();
         onCloseModal();
       } else {
@@ -420,19 +415,17 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
             title: el.title,
             text: el.text,
           }));
-          await updateTeamData({
-            variables: {
-              input: {
-                id: data?.id,
-                name,
-                skills,
-                outline,
-                reponame,
-                contents: removeType,
-                state: teamState,
-              },
-            },
-          });
+          const teamObject = {
+            id: data?.id,
+            name,
+            skills,
+            outline,
+            reponame,
+            contents: removeType,
+            state: teamState,
+
+          };
+          await updateTeamData(makeObjectShorten(teamObject));
           await teamRefetch();
           onClickUpdate();
         };

@@ -10,6 +10,7 @@ import {
   LIST_USER,
 } from 'graphql/queries';
 import makeTeamIdByUserId from 'utils/setTeamId';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { skillsLabel } from 'style/preset';
@@ -47,7 +48,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const [personState, setPersonState] = useState<string>(
     data?.personState || '',
   );
@@ -203,14 +204,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           date: new Date(),
         };
         const combinedData = [...changeIntoArray, newData];
-        await updateUserData({
-          variables: {
-            input: {
-              id: data?.id,
-              mail: combinedData,
-            },
-          },
-        });
+        const userObject = {
+          id: data?.id,
+          mail: combinedData,
+        };
+        await updateUserData(makeObjectShorten(userObject));
         await refetch();
         onCloseModal();
         closeModal();
@@ -224,15 +222,12 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const onClickDelete = () => {
     if (userData) {
       const deleteConfirm = async () => {
-        await updateUserData({
-          variables: {
-            input: {
-              id: userData.getUser.items[0].id,
-              surveyCompleted: false,
-              personState: '팀 구하는 중',
-            },
-          },
-        });
+        const userObject = {
+          id: userData.getUser.items[0].id,
+          surveyCompleted: false,
+          personState: '팀 구하는 중',
+        };
+        await updateUserData(makeObjectShorten(userObject));
         await refetch();
         await listUserRefetch();
         onCloseModal();
@@ -258,14 +253,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   useEffect(() => {
     if (data?.id === userData?.getUser.items[0]?.id) {
       const updatePersonState = async () => {
-        await updateUserData({
-          variables: {
-            input: {
-              id: userData?.getUser.items[0].id,
-              personState,
-            },
-          },
-        });
+        const userObject = {
+          id: userData?.getUser.items[0].id,
+          personState,
+        };
+        await updateUserData(makeObjectShorten(userObject));
         await refetch();
       };
       updatePersonState();
@@ -297,22 +289,16 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           id: el.id,
           name: el.name,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.id,
-            teamList: teamFilter,
-          },
-        },
-      });
-      await updateTeamData({
-        variables: {
-          input: {
-            id: makeTeamIdByUserId(userItems.id),
-            people: peopleFilter,
-          },
-        },
-      });
+      const userObject = {
+        id: data?.id,
+        teamList: teamFilter,
+      };
+      const teamObject = {
+        id: makeTeamIdByUserId(userItems.id),
+        people: peopleFilter,
+      };
+      await updateUserData(makeObjectShorten(userObject));
+      await updateTeamData(makeObjectShorten(teamObject));
       await listUserRefetch();
       await teamRefetch();
       onCloseModal();

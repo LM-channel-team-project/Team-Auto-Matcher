@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { DELETE_NOTICE } from 'graphql/mutations';
 import { LIST_NOTICE } from 'graphql/queries';
 import getKoreaTime from 'utils/date';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import DetailModalTemplate from '../template';
@@ -32,7 +33,7 @@ const NoticeDetailModal = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const confirmText = '확인을 누르면 공지가 삭제됩니다.';
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const modalHeader = () => {
     let createdAt;
     if (data) {
@@ -57,13 +58,10 @@ const NoticeDetailModal = ({
 
   const onClickDelete = () => {
     const confirmDelete = async () => {
-      await deleteNoticeData({
-        variables: {
-          input: {
-            id: data?.id,
-          },
-        },
-      });
+      const noticeObject = {
+        id: data?.id,
+      };
+      await deleteNoticeData(makeObjectShorten(noticeObject));
       await refetch();
       onCloseModal();
       closeModal();
