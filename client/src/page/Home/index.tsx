@@ -22,8 +22,8 @@ const Home = ({ className, isLoggedIn }: any) => {
       return <LoadingPage />;
     }
   }
-  // 8월 13일 초대 주소 get, 30일 마다 갱신
-  const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-ui5ttkrl-6tbTUii60lCkQNntxHSKqg';
+  // 11월 6일 초대 주소 get, 30일 마다 갱신
+  const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-xq3195eb-zDcvMoKBSg~w8qOtFIAkHQ';
 
   const SettingPhase = () => {
     let phase = <></>;
@@ -46,7 +46,7 @@ const Home = ({ className, isLoggedIn }: any) => {
                     <S.BlackButton>Github</S.BlackButton>
                   </a>
                   <a href={slackInvite}>
-                    <S.WhiteButton onClick={() => {}}>Slack</S.WhiteButton>
+                    <S.WhiteButton onClick={() => { }}>Slack</S.WhiteButton>
                   </a>
                 </S.Right>
               </>
