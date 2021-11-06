@@ -6,8 +6,9 @@ import { GET_TEAM_DASHBOARD, GET_USER, GET_USER_BY_ID } from 'graphql/queries';
 import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { TeamListType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { TeamListType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
@@ -67,7 +68,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           || teamItems?.name == null
           ? '삭제 메시지'
           : message
-          }`}</S.Title>
+        }`}</S.Title>
       );
       if (data?.type === 'refuse') {
         return Msg('거절 메시지');

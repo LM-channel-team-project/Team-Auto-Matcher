@@ -3,8 +3,8 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { CREATE_NOTICE } from 'graphql/mutations';
 import { LIST_NOTICE } from 'graphql/queries';
-
 import makeObjectShorten from 'utils/makeObjectShorten';
+
 import DetailModalTemplate from '../template';
 import * as S from '../style';
 

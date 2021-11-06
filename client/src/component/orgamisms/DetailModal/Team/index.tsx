@@ -5,11 +5,12 @@ import { useMutation, useQuery } from '@apollo/client';
 import { DELETE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
 import { GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD } from 'graphql/queries';
 import getKoreaTime from 'utils/date';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { ContentItem, TeamListType, CommentsType } from 'types';
 import { skillsLabel } from 'style/preset';
-import makeObjectShorten from 'utils/makeObjectShorten';
-import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface TeamModalProps {

@@ -13,8 +13,9 @@ import makeTeamIdByUserId from 'utils/setTeamId';
 import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { MailType, QuestionItem, TeamListType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { MailType, QuestionItem, TeamListType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface PersonalModalProps {
