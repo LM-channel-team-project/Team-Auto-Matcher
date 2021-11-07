@@ -7,6 +7,7 @@ import { GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD } from 'graphql/queries';
 import getKoreaTime from 'utils/date';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import LoadingPage from 'page/Loading';
 import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
 import * as S from '../style';
@@ -85,7 +86,7 @@ const TeamDetailModal = ({
     gitInfo();
   }, []);
 
-  const { data: userData, refetch } = useQuery(GET_USER);
+  const { data: userData, refetch, loading } = useQuery(GET_USER);
   const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
   const { refetch: userRefetch } = useQuery(GET_USER_BY_ID);
 
@@ -99,6 +100,9 @@ const TeamDetailModal = ({
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(data?.comments || []);
+  if (loading) {
+    return <LoadingPage/>;
+  }
 
   useEffect(() => {
     data?.people.forEach((el: any) => {
