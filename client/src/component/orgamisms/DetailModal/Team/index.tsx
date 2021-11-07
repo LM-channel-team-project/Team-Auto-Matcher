@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { DELETE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
 import { GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD } from 'graphql/queries';
+import addGitRepo from 'utils/addGitRepo';
 import getKoreaTime from 'utils/date';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
@@ -45,45 +45,7 @@ const TeamDetailModal = ({
   onCloseModal,
   onClickUpdate,
 }: TeamModalProps) => {
-  // github API
-  const api = axios.create({
-    baseURL: `https://api.github.com/repos/LM-channel-team-project/${data?.reponame}`,
-    headers: {
-      Authorization: process.env.REACT_APP_GIT_APIKEY,
-    },
-  });
-
-  type GitApiType = {
-    [key: string]: any;
-  };
-
-  // const [languages, setLanguages] = useState<GitApiType>({});
-  const [home, setHome] = useState<GitApiType>({});
-  const [contributor, setContributor] = useState([{}]);
-  const [getApi, setGetApi] = useState<boolean>(false);
-  const gitApi = {
-    homes: () => api.get(''),
-    languages: () => api.get('/languages'),
-    contributors: () => api.get('/contributors'),
-  };
-
-  useEffect(() => {
-    const gitInfo = async () => {
-      try {
-        const { data: homeData } = await gitApi.homes();
-        // const { data: langData } = await gitApi.languages();
-        const { data: contData } = await gitApi.contributors();
-        setHome(homeData);
-        // setLanguages(langData);
-        setContributor(contData);
-        setGetApi(true);
-      } catch (e) {
-        // console.log(e);
-        setGetApi(false);
-      }
-    };
-    gitInfo();
-  }, []);
+  const { options } = addGitRepo(data);
 
   const { data: userData, refetch } = useQuery(GET_USER);
   const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
@@ -128,12 +90,12 @@ const TeamDetailModal = ({
     const GetGitApi = () => (
       <S.GitContainer>
         <h1 className="title">Team GitHub Info</h1>
-        <div className="content">{home.description}</div>
-        <a className="url" href={home.html_url} target="_blank">
+        <div className="content">{options.home.description}</div>
+        <a className="url" href={options.home.html_url} target="_blank">
           Github URL
         </a>
         <div className="users">
-          {contributor.map((person: any) => (
+          {options.contributor.map((person: any) => (
             <a className="users_info" href={person.html_url} target="_blank">
               <img src={person.avatar_url} />
               <div className="user">{person.login}</div>
@@ -147,7 +109,7 @@ const TeamDetailModal = ({
 
     const inlineContents = (
       <>
-        <S.ContentItem>{getApi && <GetGitApi />}</S.ContentItem>
+        <S.ContentItem>{options.getApi && <GetGitApi />}</S.ContentItem>
         <S.ContentItem>
           <S.InlineContent title="팀 생성일" className="ci-people">
             {createdAt}
