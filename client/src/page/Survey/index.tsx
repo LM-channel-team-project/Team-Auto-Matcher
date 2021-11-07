@@ -51,31 +51,29 @@ const Survey = ({ className, isLoggedIn }: any) => {
   }
 
   if (!userLoading && !userError) {
-    if (userData) {
-      if (userData.getUser && userData.getUser.items?.length !== 0) {
-        // console.log('userData : ', userData);
-      } else if (bUserUpdating.current === false) {
-        bUserUpdating.current = true;
-        addUserData({
-          variables: {
-            input: {
-              question: firstInput,
-              mail: [],
-              haveTeam: false,
-              surveyCompleted: false,
-              personState: '팀 구하는 중',
-              teamList: [],
-            },
+    if (userData.getUser && userData.getUser.items?.length !== 0) {
+      // console.log('userData : ', userData);
+    } else if (bUserUpdating.current === false) {
+      bUserUpdating.current = true;
+      addUserData({
+        variables: {
+          input: {
+            question: firstInput,
+            mail: [],
+            haveTeam: false,
+            surveyCompleted: false,
+            personState: '팀 구하는 중',
+            teamList: [],
           },
+        },
+      })
+        .then(() => {
+          bUserUpdating.current = false;
+          userRefetch();
         })
-          .then(() => {
-            bUserUpdating.current = false;
-            userRefetch();
-          })
-          .catch((err: any) => {
-            console.error(err);
-          });
-      }
+        .catch((err: any) => {
+          console.error(err);
+        });
     }
   }
 
