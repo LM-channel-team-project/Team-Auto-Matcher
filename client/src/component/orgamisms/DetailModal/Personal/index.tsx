@@ -12,6 +12,7 @@ import {
 import makeTeamIdByUserId from 'utils/setTeamId';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import LoadingPage from 'page/Loading';
 import { skillsLabel } from 'style/preset';
 import DetailModalTemplate, { MailType, QuestionItem, TeamListType } from '../template';
 import * as S from '../style';
@@ -31,14 +32,18 @@ export interface PersonalModalProps {
 
 const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const history = useHistory();
-  const { data: userData, refetch } = useQuery(GET_USER);
+  const { data: userData, refetch, loading: userLoading } = useQuery(GET_USER);
   const { refetch: listUserRefetch } = useQuery(LIST_USER);
-  const { data: userIdData } = useQuery(GET_USER_BY_ID,
+  const { data: userIdData, loading: personLoading } = useQuery(GET_USER_BY_ID,
     {
       variables: { id: data?.id },
     });
 
-  const { data: teamData, refetch: teamRefetch } = useQuery(GET_TEAM_DASHBOARD,
+  const {
+    data: teamData,
+    refetch: teamRefetch,
+    loading: teamLoading,
+  } = useQuery(GET_TEAM_DASHBOARD,
     {
       variables: { id: userData && makeTeamIdByUserId(userData.getUser.items[0]?.id) },
     });
@@ -52,6 +57,10 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     data?.personState || '',
   );
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
+
+  if (userLoading || teamLoading || personLoading) {
+    return <LoadingPage/>;
+  }
 
   useEffect(() => {
     data?.teamList.forEach((el: any) => {
@@ -158,92 +167,88 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   };
 
   const onClickInvite = async () => {
-    if (userData && userIdData && teamData) {
-      const confirmInvite = async () => {
-        const userItems = userData.getUser.items[0];
-        const teamItems = teamData.getTeamDashboard;
-        if (!userItems.haveTeam) {
-          setConfirmText(
-            '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
-          );
-          setConfirmFunction(() => () => {
-            history.push('/dashboard/team');
-          });
-          return;
-        }
-        let isDuplicate = false;
-        const frontData = userIdData.getUserById.mail
-          .filter((el: any) => {
-            if (
-              el.from === userData?.getUser.items[0].id
-              && el.type === 'invite'
-            ) {
-              isDuplicate = true;
-            }
-            return true;
-          })
-          .map((el: any) => ({
-            from: el.from,
-            teamId: el.teamId,
-            type: el.type,
-            teamName: el.teamName,
-          }));
-        if (isDuplicate) {
-          setConfirmText('이미 초대한 사용자입니다.');
-          setConfirmFunction(() => closeModal);
-          return;
-        }
-        const changeIntoSet = new Set(frontData);
-        const changeIntoArray = Array.from(changeIntoSet);
-        const newData = {
-          from: userItems.id,
-          teamId: teamItems.id,
-          type: 'invite',
-          teamName: teamItems.name,
-          date: new Date(),
-        };
-        const combinedData = [...changeIntoArray, newData];
-        await updateUserData({
-          variables: {
-            input: {
-              id: data?.id,
-              mail: combinedData,
-            },
-          },
+    const confirmInvite = async () => {
+      const userItems = userData.getUser.items[0];
+      const teamItems = teamData.getTeamDashboard;
+      if (!userItems.haveTeam) {
+        setConfirmText(
+          '당신이 팀장으로 있는 팀이 없습니다. 확인을 누르면 팀 생성을 위한 페이지로 이동됩니다.',
+        );
+        setConfirmFunction(() => () => {
+          history.push('/dashboard/team');
         });
-        await refetch();
-        onCloseModal();
-        closeModal();
+        return;
+      }
+      let isDuplicate = false;
+      const frontData = userIdData.getUserById.mail
+        .filter((el: any) => {
+          if (
+            el.from === userData?.getUser.items[0].id
+              && el.type === 'invite'
+          ) {
+            isDuplicate = true;
+          }
+          return true;
+        })
+        .map((el: any) => ({
+          from: el.from,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
+        }));
+      if (isDuplicate) {
+        setConfirmText('이미 초대한 사용자입니다.');
+        setConfirmFunction(() => closeModal);
+        return;
+      }
+      const changeIntoSet = new Set(frontData);
+      const changeIntoArray = Array.from(changeIntoSet);
+      const newData = {
+        from: userItems.id,
+        teamId: teamItems.id,
+        type: 'invite',
+        teamName: teamItems.name,
+        date: new Date(),
       };
-      openModal();
-      setConfirmText('확인을 누르면 초대가 완료됩니다.');
-      setConfirmFunction(() => confirmInvite);
-    }
+      const combinedData = [...changeIntoArray, newData];
+      await updateUserData({
+        variables: {
+          input: {
+            id: data?.id,
+            mail: combinedData,
+          },
+        },
+      });
+      await refetch();
+      onCloseModal();
+      closeModal();
+    };
+    openModal();
+    setConfirmText('확인을 누르면 초대가 완료됩니다.');
+    setConfirmFunction(() => confirmInvite);
   };
 
   const onClickDelete = () => {
-    if (userData) {
-      const deleteConfirm = async () => {
-        await updateUserData({
-          variables: {
-            input: {
-              id: userData.getUser.items[0].id,
-              surveyCompleted: false,
-              personState: '팀 구하는 중',
-            },
+    const deleteConfirm = async () => {
+      await updateUserData({
+        variables: {
+          input: {
+            id: userData.getUser.items[0].id,
+            surveyCompleted: false,
+            personState: '팀 구하는 중',
           },
-        });
-        await refetch();
-        await listUserRefetch();
-        onCloseModal();
-        closeModal();
-      };
-      openModal();
-      setConfirmText(
-        '확인을 누르면 삭제가 완료됩니다. 삭제 완료 후, 다시 등록하려면 설문을 다시 진행해주세요.',
-      );
-      setConfirmFunction(() => deleteConfirm);
-    }
+        },
+      });
+      await refetch();
+      await listUserRefetch();
+      onCloseModal();
+      closeModal();
+    };
+    openModal();
+    setConfirmText(
+      '확인을 누르면 삭제가 완료됩니다. 삭제 완료 후, 다시 등록하려면 설문을 다시 진행해주세요.',
+    );
+    setConfirmFunction(() => deleteConfirm);
   };
 
   const onClickState = () => {
