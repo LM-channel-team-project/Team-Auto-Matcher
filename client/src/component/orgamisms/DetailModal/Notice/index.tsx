@@ -32,12 +32,10 @@ const NoticeDetailModal = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const confirmText = '확인을 누르면 공지가 삭제됩니다.';
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const modalHeader = () => {
-    let createdAt;
-    if (data) {
-      createdAt = getKoreaTime(data.date);
-    }
+    const createdAt = data && getKoreaTime(data.date);
+
     return (
       <>
         <S.Title type="personal">{data?.title}</S.Title>

@@ -95,7 +95,7 @@ const TeamDetailModal = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(data?.comments || []);
@@ -143,10 +143,7 @@ const TeamDetailModal = ({
       </S.GitContainer>
     );
 
-    let createdAt;
-    if (data) {
-      createdAt = getKoreaTime(data.createdAt);
-    }
+    const createdAt = data && getKoreaTime(data.createdAt);
 
     const inlineContents = (
       <>
