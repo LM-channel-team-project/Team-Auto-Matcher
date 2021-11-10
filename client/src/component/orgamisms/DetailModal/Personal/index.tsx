@@ -10,10 +10,12 @@ import {
   LIST_USER,
 } from 'graphql/queries';
 import makeTeamIdByUserId from 'utils/setTeamId';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { MailType, QuestionItem, TeamListType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { MailType, QuestionItem, TeamListType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface PersonalModalProps {
@@ -47,7 +49,7 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const [personState, setPersonState] = useState<string>(
     data?.personState || '',
   );
@@ -173,21 +175,20 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
         }
         let isDuplicate = false;
         const frontData = userIdData.getUserById.mail
-          .filter((el: any) => {
+          .map((el: any) => {
             if (
               el.from === userData?.getUser.items[0].id
               && el.type === 'invite'
             ) {
               isDuplicate = true;
             }
-            return true;
-          })
-          .map((el: any) => ({
-            from: el.from,
-            teamId: el.teamId,
-            type: el.type,
-            teamName: el.teamName,
-          }));
+            return ({
+              from: el.from,
+              teamId: el.teamId,
+              type: el.type,
+              teamName: el.teamName,
+            });
+          });
         if (isDuplicate) {
           setConfirmText('이미 초대한 사용자입니다.');
           setConfirmFunction(() => closeModal);
@@ -203,14 +204,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
           date: new Date(),
         };
         const combinedData = [...changeIntoArray, newData];
-        await updateUserData({
-          variables: {
-            input: {
-              id: data?.id,
-              mail: combinedData,
-            },
-          },
-        });
+        const userObject = {
+          id: data?.id,
+          mail: combinedData,
+        };
+        await updateUserData(makeObjectShorten(userObject));
         await refetch();
         onCloseModal();
         closeModal();
@@ -224,15 +222,12 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   const onClickDelete = () => {
     if (userData) {
       const deleteConfirm = async () => {
-        await updateUserData({
-          variables: {
-            input: {
-              id: userData.getUser.items[0].id,
-              surveyCompleted: false,
-              personState: '팀 구하는 중',
-            },
-          },
-        });
+        const userObject = {
+          id: userData.getUser.items[0].id,
+          surveyCompleted: false,
+          personState: '팀 구하는 중',
+        };
+        await updateUserData(makeObjectShorten(userObject));
         await refetch();
         await listUserRefetch();
         onCloseModal();
@@ -258,14 +253,11 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
   useEffect(() => {
     if (data?.id === userData?.getUser.items[0]?.id) {
       const updatePersonState = async () => {
-        await updateUserData({
-          variables: {
-            input: {
-              id: userData?.getUser.items[0].id,
-              personState,
-            },
-          },
-        });
+        const userObject = {
+          id: userData?.getUser.items[0].id,
+          personState,
+        };
+        await updateUserData(makeObjectShorten(userObject));
         await refetch();
       };
       updatePersonState();
@@ -276,43 +268,27 @@ const PersonalDetailModal = ({ data, onCloseModal }: PersonalModalProps) => {
     const confirmOut = async () => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = data?.teamList
-        .filter((el: any) => {
-          if (el.id === makeTeamIdByUserId(userItems.id)) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== makeTeamIdByUserId(userItems.id))
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
       const peopleFilter = teamData.getTeamDashboard.people
-        .filter((el: any) => {
-          if (el.id === data?.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== data?.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.id,
-            teamList: teamFilter,
-          },
-        },
-      });
-      await updateTeamData({
-        variables: {
-          input: {
-            id: makeTeamIdByUserId(userItems.id),
-            people: peopleFilter,
-          },
-        },
-      });
+      const userObject = {
+        id: data?.id,
+        teamList: teamFilter,
+      };
+      const teamObject = {
+        id: makeTeamIdByUserId(userItems.id),
+        people: peopleFilter,
+      };
+      await updateUserData(makeObjectShorten(userObject));
+      await updateTeamData(makeObjectShorten(teamObject));
       await listUserRefetch();
       await teamRefetch();
       onCloseModal();

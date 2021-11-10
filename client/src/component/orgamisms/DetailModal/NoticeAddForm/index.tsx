@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { CREATE_NOTICE } from 'graphql/mutations';
 import { LIST_NOTICE } from 'graphql/queries';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import DetailModalTemplate from '../template';
 import * as S from '../style';
@@ -85,15 +86,12 @@ const NoticeAddForm = ({ onCloseModal }: any) => {
   };
 
   const onMake = async () => {
-    await createNoticeData({
-      variables: {
-        input: {
-          title,
-          date: new Date(),
-          contents,
-        },
-      },
-    });
+    const noticeObject = {
+      title,
+      date: new Date(),
+      contents,
+    };
+    await createNoticeData(makeObjectShorten(noticeObject));
     await refetch();
     onCloseModal();
   };

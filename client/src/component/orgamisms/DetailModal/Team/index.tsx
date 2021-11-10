@@ -5,10 +5,12 @@ import { useMutation, useQuery } from '@apollo/client';
 import { DELETE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
 import { GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD } from 'graphql/queries';
 import getKoreaTime from 'utils/date';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { ContentItem, TeamListType, CommentsType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface TeamModalProps {
@@ -95,7 +97,7 @@ const TeamDetailModal = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(data?.comments || []);
@@ -198,14 +200,11 @@ const TeamDetailModal = ({
           comment: value,
           name: userData?.getUser.items[0]?.question[11].answers[0],
         };
-        await updateTeamData({
-          variables: {
-            input: {
-              id: data?.id,
-              comments: [...removeType, newComment],
-            },
-          },
-        });
+        const teamObject = {
+          id: data?.id,
+          comments: [...removeType, newComment],
+        };
+        await updateTeamData(makeObjectShorten(teamObject));
         await teamRefetch();
         setComments([...removeType, newComment]);
         commentState.reset!();
@@ -220,14 +219,11 @@ const TeamDetailModal = ({
             comment: el.comment,
             name: el.name,
           }));
-        await updateTeamData({
-          variables: {
-            input: {
-              id: data?.id,
-              comments: filteredData,
-            },
-          },
-        });
+        const teamObject = {
+          id: data?.id,
+          comments: filteredData,
+        };
+        await updateTeamData(makeObjectShorten(teamObject));
         await teamRefetch();
         setComments(filteredData);
       },
@@ -315,43 +311,27 @@ const TeamDetailModal = ({
     const confirmQuit = async () => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = userItems.teamList
-        .filter((el: any) => {
-          if (el.id === data?.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== data?.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
       const peopleFilter = data?.people
-        .filter((el: any) => {
-          if (el.id === userItems.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== userItems.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: userItems.id,
-            teamList: teamFilter,
-          },
-        },
-      });
-      await updateTeamData({
-        variables: {
-          input: {
-            id: data?.id,
-            people: peopleFilter,
-          },
-        },
-      });
+      const userObject = {
+        id: userItems.id,
+        teamList: teamFilter,
+      };
+      const teamObject = {
+        id: data?.id,
+        people: peopleFilter,
+      };
+      await updateUserData(makeObjectShorten(userObject));
+      await updateTeamData(makeObjectShorten(teamObject));
       await teamRefetch();
       await refetch();
       onCloseModal();
@@ -364,24 +344,23 @@ const TeamDetailModal = ({
 
   const onClickApply = async () => {
     const confirmApply = async () => {
-      let isDuplicated = false;
       const res = await userRefetch({ id: data?.owner });
+      let isDuplicated = false;
       const frontData = res.data.getUserById.mail
-        .filter((el: any) => {
+        .map((el: any) => {
           if (
             el.from === userData?.getUser.items[0].id
             && el.type === 'apply'
           ) {
             isDuplicated = true;
           }
-          return true;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
+          return ({
+            from: el.from,
+            teamId: el.teamId,
+            type: el.type,
+            teamName: el.teamName,
+          });
+        });
       if (isDuplicated) {
         setConfirmText('이미 동일한 팀에 지원하였습니다.');
         setConfirmFunction(() => closeModal);
@@ -397,14 +376,11 @@ const TeamDetailModal = ({
         date: new Date(),
       };
       const combinedData = [...changeIntoArray, newData];
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.owner,
-            mail: combinedData,
-          },
-        },
-      });
+      const userObject = {
+        id: data?.owner,
+        mail: combinedData,
+      };
+      await updateUserData(makeObjectShorten(userObject));
       await refetch();
       onCloseModal();
       closeModal();
@@ -415,45 +391,31 @@ const TeamDetailModal = ({
   };
   const onClickDelete = () => {
     const deleteConfirm = async () => {
-      await deleteTeamData({
-        variables: {
-          input: {
-            id: data?.id,
-          },
-        },
-      });
+      const teamObject = {
+        id: data?.id,
+      };
+      await deleteTeamData(makeObjectShorten(teamObject));
       data?.people.forEach(async (person: TeamListType, index: number) => {
         const res = await userRefetch({ id: person.id });
         const teamFilter = res.data.getUserById.teamList
-          .filter((el: any) => {
-            if (el.id === data?.id) {
-              return false;
-            }
-            return true;
-          })
+          .filter((el: any) => el.id !== data?.id)
           .map((el: any) => ({
             id: el.id,
             name: el.name,
           }));
         if (index === 0) {
-          await updateUserData({
-            variables: {
-              input: {
-                id: data?.owner,
-                haveTeam: false,
-                teamList: teamFilter,
-              },
-            },
-          });
+          const userObject = {
+            id: data?.owner,
+            haveTeam: false,
+            teamList: teamFilter,
+          };
+          await updateUserData(makeObjectShorten(userObject));
         } else {
-          await updateUserData({
-            variables: {
-              input: {
-                id: person.id,
-                teamList: teamFilter,
-              },
-            },
-          });
+          const userObject = {
+            id: person.id,
+            teamList: teamFilter,
+          };
+          await updateUserData(makeObjectShorten(userObject));
         }
       });
       await teamRefetch();

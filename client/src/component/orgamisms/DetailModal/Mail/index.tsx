@@ -3,10 +3,12 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { UPDATE_TEAM, UPDATE_USER } from 'graphql/mutations';
 import { GET_TEAM_DASHBOARD, GET_USER, GET_USER_BY_ID } from 'graphql/queries';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { TeamListType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { TeamListType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
@@ -36,7 +38,7 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const modalHeader = () => {
     if (userDataById && teamData) {
       const thatUserItems = userDataById.getUserById;
@@ -62,11 +64,10 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         );
       }
       const Msg = (message: string) => (
-        <S.Title type="personal">{`${
-          thatUserItems.question[11].answers[0] == null
+        <S.Title type="personal">{`${thatUserItems.question[11].answers[0] == null
           || teamItems?.name == null
-            ? '삭제 메시지'
-            : message
+          ? '삭제 메시지'
+          : message
         }`}</S.Title>
       );
       if (data?.type === 'refuse') {
@@ -290,29 +291,25 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         id: el.id,
         name: el.name,
       }));
-      await updateTeamData({
-        variables: {
-          input: {
-            id: data?.teamId,
-            people:
-              data?.type === 'invite'
-                ? [
-                  ...removeTypeFromPeople,
-                  {
-                    id: userItems.id,
-                    name: userItems.question[11].answers[0],
-                  },
-                ]
-                : [
-                  ...removeTypeFromPeople,
-                  {
-                    id: thatUserItems.id,
-                    name: thatUserItems.question[11].answers[0],
-                  },
-                ],
-          },
-        },
-      });
+      const teamObject = {
+        id: data?.teamId,
+        people:
+          data?.type === 'invite'
+            ? [
+              ...removeTypeFromPeople,
+              {
+                id: userItems.id,
+                name: userItems.question[11].answers[0],
+              },
+            ]
+            : [
+              ...removeTypeFromPeople,
+              {
+                id: thatUserItems.id,
+                name: thatUserItems.question[11].answers[0],
+              },
+            ],
+      };
       const removeType = data?.type === 'invite'
         ? userItems.teamList.map((el: any) => ({
           id: el.id,
@@ -322,17 +319,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           id: el.id,
           name: el.name,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.type === 'invite' ? userItems.id : data?.from,
-            teamList: [
-              ...removeType,
-              { id: teamItems.id, name: data?.teamName },
-            ],
-          },
-        },
-      });
+      const userObject = {
+        id: data?.type === 'invite' ? userItems.id : data?.from,
+        teamList: [
+          ...removeType,
+          { id: teamItems.id, name: data?.teamName },
+        ],
+      };
+      await updateTeamData(makeObjectShorten(teamObject));
+      await updateUserData(makeObjectShorten(userObject));
     }
   };
 
@@ -354,15 +349,12 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         date: new Date(),
       };
       const combinedData = [...frontData, newMail];
+      const userObject = {
+        id: data?.from,
+        mail: combinedData,
+      };
 
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.from,
-            mail: combinedData,
-          },
-        },
-      });
+      await updateUserData(makeObjectShorten(userObject));
     }
   };
 
@@ -370,17 +362,10 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     if (userData) {
       const userItems = userData.getUser.items[0];
       const filteredMail = userItems.mail
-        .filter((el: any) => {
-          if (
-            el.from === data?.from
-            && el.type === data?.type
-            && el.teamId === data?.teamId
-            && el.teamName === data?.teamName
-          ) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => (el.from !== data?.from
+          || el.type !== data?.type
+          || el.teamId !== data?.teamId
+          || el.teamName !== data?.teamName))
         .map((el: any) => ({
           from: el.from,
           teamId: el.teamId,
@@ -388,14 +373,11 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
           teamName: el.teamName,
           date: el.date,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: userItems.id,
-            mail: filteredMail,
-          },
-        },
-      });
+      const userObject = {
+        id: userItems.id,
+        mail: filteredMail,
+      };
+      await updateUserData(makeObjectShorten(userObject));
       await refetch();
     }
   };
