@@ -22,8 +22,8 @@ const Home = ({ className, isLoggedIn }: any) => {
       return <LoadingPage />;
     }
   }
-  // 8월 13일 초대 주소 get, 30일 마다 갱신
-  const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-ui5ttkrl-6tbTUii60lCkQNntxHSKqg';
+  // 11월 6일 초대 주소 get, 30일 마다 갱신
+  const slackInvite = 'https://join.slack.com/t/w1616672168-iqi184162/shared_invite/zt-zxffo6lg-I288mKcR1z98HMGa3bdpfQ';
 
   const SettingPhase = () => {
     let phase = <></>;
@@ -37,15 +37,15 @@ const Home = ({ className, isLoggedIn }: any) => {
               <S.Right>
                 <S.Title>팀 생성이 완료되었습니다.</S.Title>
                 <S.Description>
-                    당신은 팀장으로서 활동을 할 수 있습니다. Team Auto Matcher
-                    Github에 접속해서 Repository를 만들고, 팀원을 초대해
-                    활동해주세요. Slack에서 팀원들과 소통할 수 있습니다.
+                  당신은 팀장으로서 활동을 할 수 있습니다. Team Auto Matcher
+                  Github에 접속해서 Repository를 만들고, 팀원을 초대해
+                  활동해주세요. Slack에서 팀원들과 소통할 수 있습니다.
                 </S.Description>
                 <a href="https://github.com/LM-channel-team-project">
                   <S.BlackButton>Github</S.BlackButton>
                 </a>
                 <a href={slackInvite}>
-                  <S.WhiteButton onClick={() => {}}>Slack</S.WhiteButton>
+                  <S.WhiteButton onClick={() => { }}>Slack</S.WhiteButton>
                 </a>
               </S.Right>
             </>
@@ -57,9 +57,9 @@ const Home = ({ className, isLoggedIn }: any) => {
               <S.Right>
                 <S.Title>설문이 완료되었습니다.</S.Title>
                 <S.Description>
-                    Team 페이지로 이동해, 등록할 팀을 찾아보거나 팀을 생성하여
-                    팀장으로 활동하세요. 저희 Slack에 접속하시면 당신의 팀과
-                    소통하며, 더 많은 정보를 얻으실 수 있습니다.
+                  Team 페이지로 이동해, 등록할 팀을 찾아보거나 팀을 생성하여
+                  팀장으로 활동하세요. 저희 Slack에 접속하시면 당신의 팀과
+                  소통하며, 더 많은 정보를 얻으실 수 있습니다.
                 </S.Description>
                 <Link to="/dashboard/team">
                   <S.BlackButton>Teams</S.BlackButton>
@@ -77,8 +77,8 @@ const Home = ({ className, isLoggedIn }: any) => {
               <S.Right>
                 <S.Title>로그인이 완료되었습니다.</S.Title>
                 <S.Description>
-                    Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
-                    활동해보세요.
+                  Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
+                  활동해보세요.
                 </S.Description>
                 <Link to="/survey">
                   <S.BlackButton>Survey</S.BlackButton>
@@ -97,8 +97,8 @@ const Home = ({ className, isLoggedIn }: any) => {
             <S.Right>
               <S.Title>로그인이 완료되었습니다.</S.Title>
               <S.Description>
-                  Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
-                  활동해보세요.
+                Survey 페이지로 이동해, 몇 개의 질문들에 답을 달고 팀원으로
+                활동해보세요.
               </S.Description>
               <Link to="/survey">
                 <S.BlackButton>Survey</S.BlackButton>

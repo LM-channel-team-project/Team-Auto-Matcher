@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { UPDATE_USER } from 'graphql/mutations';
 import { GET_USER } from 'graphql/queries';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import Button from 'component/atoms/Button';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
@@ -28,7 +29,7 @@ function QuestionResult({
   const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
 
   const openModal = () => {
     const filterArray: number[] = [];
@@ -75,24 +76,18 @@ function QuestionResult({
 
   const confirmSubmit = async () => {
     if (!surveyCompleted) {
-      await updateUserData({
-        variables: {
-          input: {
-            id: userId,
-            question: answerRespond,
-            surveyCompleted: true,
-          },
-        },
-      });
+      const userObject = {
+        id: userId,
+        question: answerRespond,
+        surveyCompleted: true,
+      };
+      await updateUserData(makeObjectShorten(userObject));
     } else {
-      updateUserData({
-        variables: {
-          input: {
-            id: userId,
-            question: answerRespond,
-          },
-        },
-      });
+      const userObject = {
+        id: userId,
+        question: answerRespond,
+      };
+      updateUserData(makeObjectShorten(userObject));
     }
 
     await refetch();

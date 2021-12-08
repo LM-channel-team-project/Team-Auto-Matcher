@@ -2,7 +2,7 @@ import React from 'react';
 
 import getKoreaTime from 'utils/date';
 
-import { CommentsType } from '../DetailModal/template';
+import { CommentsType } from 'types';
 import * as S from './style';
 
 export interface ICommentInputBox {
@@ -50,11 +50,11 @@ const CommentInputBox = ({
       </S.LabelWrapper>
     ))}
     {myId
-    && <S.BlockContent title='새 댓글' className="ci-block">
-      <S.InputContainer>
-        <S.Input className="lb-input" type='textarea' autoWidth {...inputProps} />
-      </S.InputContainer>
-    </S.BlockContent>
+      && <S.BlockContent title='새 댓글' className="ci-block">
+        <S.InputContainer>
+          <S.Input className="lb-input" type='textarea' autoWidth {...inputProps} />
+        </S.InputContainer>
+      </S.BlockContent>
     }
   </S.Container>
 );

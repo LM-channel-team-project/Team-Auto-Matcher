@@ -3,11 +3,13 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { UPDATE_TEAM, UPDATE_USER } from 'graphql/mutations';
 import { GET_TEAM_DASHBOARD, GET_USER, GET_USER_BY_ID } from 'graphql/queries';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
-import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import LoadingPage from 'page/Loading';
+import ConfirmModal from 'component/orgamisms/ConfirmModal';
+import { TeamListType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { TeamListType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface MailModalProps {
@@ -37,10 +39,12 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
+
   if (userLoading || teamLoading || personLoading) {
-    return <LoadingPage/>;
+    return <LoadingPage />;
   }
+
   const modalHeader = () => {
     const thatUserItems = userDataById.getUserById;
     const teamItems = teamData.getTeamDashboard;
@@ -64,19 +68,30 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         </>
       );
     }
-    const Msg = (message: string) => (
-      <S.Title type="personal">{`${
-        thatUserItems.question[11].answers[0] == null
-          || teamItems?.name == null
-          ? '삭제 메시지'
-          : message
-      }`}</S.Title>
+    const msg = (message: string) => (
+      <S.Title type="personal">{`${thatUserItems.question[11].answers[0] == null
+        || teamItems?.name == null
+        ? '삭제 메시지'
+        : message
+        }`}</S.Title>
     );
+    if (data?.type === 'apply') {
+      return (
+        <>
+          <S.Domain>{thatUserItems.question[0].answers[0]}</S.Domain>
+          <S.Title type="personal">
+            {thatUserItems.question[11].answers[0]}
+          </S.Title>
+          <S.Desc>{thatUserItems.question[10].answers[0]}</S.Desc>
+        </>
+      );
+    }
+
     if (data?.type === 'refuse') {
-      return Msg('거절 메시지');
+      return msg('거절 메시지');
     }
     if (data?.type === 'accept') {
-      return Msg('승인 메시지');
+      return msg('승인 메시지');
     }
     return <S.Title type="personal">로딩중</S.Title>;
   };
@@ -223,13 +238,13 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     if (data?.type === 'refuse') {
       if (
         thatUserItems.question[11].answers[0] == null
-          || teamItems?.name == null
+        || teamItems?.name == null
       ) {
         return (
           <>
             <S.ContentsList>
-                사용자나 팀이 삭제 되었습니다. <br />
-                메시지를 삭제해 주세요.
+              사용자나 팀이 삭제 되었습니다. <br />
+              메시지를 삭제해 주세요.
             </S.ContentsList>
           </>
         );
@@ -247,13 +262,13 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
     if (data?.type === 'accept') {
       if (
         thatUserItems.question[11].answers[0] == null
-          || teamItems?.name == null
+        || teamItems?.name == null
       ) {
         return (
           <>
             <S.ContentsList>
-                사용자나 팀이 삭제 되었습니다. <br />
-                메시지를 삭제해 주세요.
+              사용자나 팀이 삭제 되었습니다. <br />
+              메시지를 삭제해 주세요.
             </S.ContentsList>
           </>
         );
@@ -264,9 +279,9 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
             {thatUserItems.question[11].answers[0]} 님께서 <br />
             {teamItems.name}팀의 지원 / 초대를 승인하였습니다.
             <br />
-              github 닉네임 {thatUserItems.question[11].answers[0]} 님을
+            github 닉네임 {thatUserItems.question[11].answers[0]} 님을
             <br />
-              Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
+            Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
           </S.ContentsList>
         </>
       );
@@ -289,29 +304,25 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       id: el.id,
       name: el.name,
     }));
-    await updateTeamData({
-      variables: {
-        input: {
-          id: data?.teamId,
-          people:
-              data?.type === 'invite'
-                ? [
-                  ...removeTypeFromPeople,
-                  {
-                    id: userItems.id,
-                    name: userItems.question[11].answers[0],
-                  },
-                ]
-                : [
-                  ...removeTypeFromPeople,
-                  {
-                    id: thatUserItems.id,
-                    name: thatUserItems.question[11].answers[0],
-                  },
-                ],
-        },
-      },
-    });
+    const teamObject = {
+      id: data?.teamId,
+      people:
+        data?.type === 'invite'
+          ? [
+            ...removeTypeFromPeople,
+            {
+              id: userItems.id,
+              name: userItems.question[11].answers[0],
+            },
+          ]
+          : [
+            ...removeTypeFromPeople,
+            {
+              id: thatUserItems.id,
+              name: thatUserItems.question[11].answers[0],
+            },
+          ],
+    };
     const removeType = data?.type === 'invite'
       ? userItems.teamList.map((el: any) => ({
         id: el.id,
@@ -321,17 +332,15 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         id: el.id,
         name: el.name,
       }));
-    await updateUserData({
-      variables: {
-        input: {
-          id: data?.type === 'invite' ? userItems.id : data?.from,
-          teamList: [
-            ...removeType,
-            { id: teamItems.id, name: data?.teamName },
-          ],
-        },
-      },
-    });
+    const userObject = {
+      id: data?.type === 'invite' ? userItems.id : data?.from,
+      teamList: [
+        ...removeType,
+        { id: teamItems.id, name: data?.teamName },
+      ],
+    };
+    await updateTeamData(makeObjectShorten(teamObject));
+    await updateUserData(makeObjectShorten(userObject));
   };
 
   const sendMessage = async (type: string) => {
@@ -351,31 +360,21 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
       date: new Date(),
     };
     const combinedData = [...frontData, newMail];
+    const userObject = {
+      id: data?.from,
+      mail: combinedData,
+    };
 
-    await updateUserData({
-      variables: {
-        input: {
-          id: data?.from,
-          mail: combinedData,
-        },
-      },
-    });
+    await updateUserData(makeObjectShorten(userObject));
   };
 
   const delMessage = async () => {
     const userItems = userData.getUser.items[0];
     const filteredMail = userItems.mail
-      .filter((el: any) => {
-        if (
-          el.from === data?.from
-            && el.type === data?.type
-            && el.teamId === data?.teamId
-            && el.teamName === data?.teamName
-        ) {
-          return false;
-        }
-        return true;
-      })
+      .filter((el: any) => (el.from !== data?.from
+        || el.type !== data?.type
+        || el.teamId !== data?.teamId
+        || el.teamName !== data?.teamName))
       .map((el: any) => ({
         from: el.from,
         teamId: el.teamId,
@@ -383,14 +382,11 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
         teamName: el.teamName,
         date: el.date,
       }));
-    await updateUserData({
-      variables: {
-        input: {
-          id: userItems.id,
-          mail: filteredMail,
-        },
-      },
-    });
+    const userObject = {
+      id: userItems.id,
+      mail: filteredMail,
+    };
+    await updateUserData(makeObjectShorten(userObject));
     await refetch();
   };
 
@@ -447,27 +443,29 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const modalButton = () => {
-    if (
-      data?.type === 'accept'
+    if (userDataById && teamData) {
+      if (
+        data?.type === 'accept'
         || data?.type === 'refuse'
-    ) {
-      return (
-        <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
+      ) {
+        return (
+          <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
             메시지 삭제
-        </S.SubmitButton>
+          </S.SubmitButton>
+        );
+      }
+      return (
+        <>
+          <S.SubmitButton size="medium" color="yellow" onClick={onClickAccept}>
+            수락하기
+          </S.SubmitButton>
+          <span style={{ marginRight: '2rem' }}></span>
+          <S.SubmitButton size="medium" color="gray" onClick={onClickRefuse}>
+            거절하기
+          </S.SubmitButton>
+        </>
       );
     }
-    return (
-      <>
-        <S.SubmitButton size="medium" color="yellow" onClick={onClickAccept}>
-            수락하기
-        </S.SubmitButton>
-        <span style={{ marginRight: '2rem' }}></span>
-        <S.SubmitButton size="medium" color="gray" onClick={onClickRefuse}>
-            거절하기
-        </S.SubmitButton>
-      </>
-    );
     return (
       <S.SubmitButton size="medium" color="red" onClick={onClickDelete}>
         메시지 삭제

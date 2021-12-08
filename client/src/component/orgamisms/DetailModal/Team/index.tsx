@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useMutation, useQuery } from '@apollo/client';
 
 import { DELETE_TEAM, UPDATE_USER, UPDATE_TEAM } from 'graphql/mutations';
 import { GET_USER, GET_USER_BY_ID, LIST_TEAM_DASHBOARD } from 'graphql/queries';
+import addGitRepo from 'utils/addGitRepo';
 import getKoreaTime from 'utils/date';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import LoadingPage from 'page/Loading';
+import { ContentItem, TeamListType, CommentsType } from 'types';
 import { skillsLabel } from 'style/preset';
-import DetailModalTemplate, { ContentItem, TeamListType, CommentsType } from '../template';
+import DetailModalTemplate from '../template';
 import * as S from '../style';
 
 export interface TeamModalProps {
@@ -46,45 +48,7 @@ const TeamDetailModal = ({
   onCloseModal,
   onClickUpdate,
 }: TeamModalProps) => {
-  // github API
-  const api = axios.create({
-    baseURL: `https://api.github.com/repos/LM-channel-team-project/${data?.reponame}`,
-    headers: {
-      Authorization: process.env.REACT_APP_GIT_APIKEY,
-    },
-  });
-
-  type GitApiType = {
-    [key: string]: any;
-  };
-
-  // const [languages, setLanguages] = useState<GitApiType>({});
-  const [home, setHome] = useState<GitApiType>({});
-  const [contributor, setContributor] = useState([{}]);
-  const [getApi, setGetApi] = useState<boolean>(false);
-  const gitApi = {
-    homes: () => api.get(''),
-    languages: () => api.get('/languages'),
-    contributors: () => api.get('/contributors'),
-  };
-
-  useEffect(() => {
-    const gitInfo = async () => {
-      try {
-        const { data: homeData } = await gitApi.homes();
-        // const { data: langData } = await gitApi.languages();
-        const { data: contData } = await gitApi.contributors();
-        setHome(homeData);
-        // setLanguages(langData);
-        setContributor(contData);
-        setGetApi(true);
-      } catch (e) {
-        // console.log(e);
-        setGetApi(false);
-      }
-    };
-    gitInfo();
-  }, []);
+  const { options } = addGitRepo(data);
 
   const { data: userData, refetch, loading } = useQuery(GET_USER);
   const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
@@ -96,12 +60,12 @@ const TeamDetailModal = ({
 
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
-  const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
+  const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(data?.comments || []);
   if (loading) {
-    return <LoadingPage/>;
+    return <LoadingPage />;
   }
 
   useEffect(() => {
@@ -132,12 +96,12 @@ const TeamDetailModal = ({
     const GetGitApi = () => (
       <S.GitContainer>
         <h1 className="title">Team GitHub Info</h1>
-        <div className="content">{home.description}</div>
-        <a className="url" href={home.html_url} target="_blank">
+        <div className="content">{options.home.description}</div>
+        <a className="url" href={options.home.html_url} target="_blank">
           Github URL
         </a>
         <div className="users">
-          {contributor.map((person: any) => (
+          {options.contributor.map((person: any) => (
             <a className="users_info" href={person.html_url} target="_blank">
               <img src={person.avatar_url} />
               <div className="user">{person.login}</div>
@@ -147,14 +111,11 @@ const TeamDetailModal = ({
       </S.GitContainer>
     );
 
-    let createdAt;
-    if (data) {
-      createdAt = getKoreaTime(data.createdAt);
-    }
+    const createdAt = data && getKoreaTime(data.createdAt);
 
     const inlineContents = (
       <>
-        <S.ContentItem>{getApi && <GetGitApi />}</S.ContentItem>
+        <S.ContentItem>{options.getApi && <GetGitApi />}</S.ContentItem>
         <S.ContentItem>
           <S.InlineContent title="팀 생성일" className="ci-people">
             {createdAt}
@@ -202,14 +163,11 @@ const TeamDetailModal = ({
           comment: value,
           name: userData?.getUser.items[0]?.question[11].answers[0],
         };
-        await updateTeamData({
-          variables: {
-            input: {
-              id: data?.id,
-              comments: [...removeType, newComment],
-            },
-          },
-        });
+        const teamObject = {
+          id: data?.id,
+          comments: [...removeType, newComment],
+        };
+        await updateTeamData(makeObjectShorten(teamObject));
         await teamRefetch();
         setComments([...removeType, newComment]);
         commentState.reset!();
@@ -224,14 +182,11 @@ const TeamDetailModal = ({
             comment: el.comment,
             name: el.name,
           }));
-        await updateTeamData({
-          variables: {
-            input: {
-              id: data?.id,
-              comments: filteredData,
-            },
-          },
-        });
+        const teamObject = {
+          id: data?.id,
+          comments: filteredData,
+        };
+        await updateTeamData(makeObjectShorten(teamObject));
         await teamRefetch();
         setComments(filteredData);
       },
@@ -319,43 +274,27 @@ const TeamDetailModal = ({
     const confirmQuit = async () => {
       const userItems = userData?.getUser.items[0];
       const teamFilter = userItems.teamList
-        .filter((el: any) => {
-          if (el.id === data?.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== data?.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
       const peopleFilter = data?.people
-        .filter((el: any) => {
-          if (el.id === userItems.id) {
-            return false;
-          }
-          return true;
-        })
+        .filter((el: any) => el.id !== userItems.id)
         .map((el: any) => ({
           id: el.id,
           name: el.name,
         }));
-      await updateUserData({
-        variables: {
-          input: {
-            id: userItems.id,
-            teamList: teamFilter,
-          },
-        },
-      });
-      await updateTeamData({
-        variables: {
-          input: {
-            id: data?.id,
-            people: peopleFilter,
-          },
-        },
-      });
+      const userObject = {
+        id: userItems.id,
+        teamList: teamFilter,
+      };
+      const teamObject = {
+        id: data?.id,
+        people: peopleFilter,
+      };
+      await updateUserData(makeObjectShorten(userObject));
+      await updateTeamData(makeObjectShorten(teamObject));
       await teamRefetch();
       await refetch();
       onCloseModal();
@@ -368,24 +307,23 @@ const TeamDetailModal = ({
 
   const onClickApply = async () => {
     const confirmApply = async () => {
-      let isDuplicated = false;
       const res = await userRefetch({ id: data?.owner });
+      let isDuplicated = false;
       const frontData = res.data.getUserById.mail
-        .filter((el: any) => {
+        .map((el: any) => {
           if (
             el.from === userData?.getUser.items[0].id
             && el.type === 'apply'
           ) {
             isDuplicated = true;
           }
-          return true;
-        })
-        .map((el: any) => ({
-          from: el.from,
-          teamId: el.teamId,
-          type: el.type,
-          teamName: el.teamName,
-        }));
+          return ({
+            from: el.from,
+            teamId: el.teamId,
+            type: el.type,
+            teamName: el.teamName,
+          });
+        });
       if (isDuplicated) {
         setConfirmText('이미 동일한 팀에 지원하였습니다.');
         setConfirmFunction(() => closeModal);
@@ -401,14 +339,11 @@ const TeamDetailModal = ({
         date: new Date(),
       };
       const combinedData = [...changeIntoArray, newData];
-      await updateUserData({
-        variables: {
-          input: {
-            id: data?.owner,
-            mail: combinedData,
-          },
-        },
-      });
+      const userObject = {
+        id: data?.owner,
+        mail: combinedData,
+      };
+      await updateUserData(makeObjectShorten(userObject));
       await refetch();
       onCloseModal();
       closeModal();
@@ -419,45 +354,31 @@ const TeamDetailModal = ({
   };
   const onClickDelete = () => {
     const deleteConfirm = async () => {
-      await deleteTeamData({
-        variables: {
-          input: {
-            id: data?.id,
-          },
-        },
-      });
+      const teamObject = {
+        id: data?.id,
+      };
+      await deleteTeamData(makeObjectShorten(teamObject));
       data?.people.forEach(async (person: TeamListType, index: number) => {
         const res = await userRefetch({ id: person.id });
         const teamFilter = res.data.getUserById.teamList
-          .filter((el: any) => {
-            if (el.id === data?.id) {
-              return false;
-            }
-            return true;
-          })
+          .filter((el: any) => el.id !== data?.id)
           .map((el: any) => ({
             id: el.id,
             name: el.name,
           }));
         if (index === 0) {
-          await updateUserData({
-            variables: {
-              input: {
-                id: data?.owner,
-                haveTeam: false,
-                teamList: teamFilter,
-              },
-            },
-          });
+          const userObject = {
+            id: data?.owner,
+            haveTeam: false,
+            teamList: teamFilter,
+          };
+          await updateUserData(makeObjectShorten(userObject));
         } else {
-          await updateUserData({
-            variables: {
-              input: {
-                id: person.id,
-                teamList: teamFilter,
-              },
-            },
-          });
+          const userObject = {
+            id: person.id,
+            teamList: teamFilter,
+          };
+          await updateUserData(makeObjectShorten(userObject));
         }
       });
       await teamRefetch();

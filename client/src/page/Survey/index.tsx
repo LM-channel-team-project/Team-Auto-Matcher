@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { CREATE_USER } from 'graphql/mutations';
 import { GET_USER, LIST_QUESTIONNAIRES } from 'graphql/queries';
+import makeObjectShorten from 'utils/makeObjectShorten';
 
 import Questionnaire from 'component/orgamisms/Questionnaire';
 import ResultComponent from 'component/orgamisms/Result';
@@ -55,18 +56,15 @@ const Survey = ({ className, isLoggedIn }: any) => {
       // console.log('userData : ', userData);
     } else if (bUserUpdating.current === false) {
       bUserUpdating.current = true;
-      addUserData({
-        variables: {
-          input: {
-            question: firstInput,
-            mail: [],
-            haveTeam: false,
-            surveyCompleted: false,
-            personState: '팀 구하는 중',
-            teamList: [],
-          },
-        },
-      })
+      const userObject = {
+        question: firstInput,
+        mail: [],
+        haveTeam: false,
+        surveyCompleted: false,
+        personState: '팀 구하는 중',
+        teamList: [],
+      };
+      addUserData(makeObjectShorten(userObject))
         .then(() => {
           bUserUpdating.current = false;
           userRefetch();
