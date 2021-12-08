@@ -9,6 +9,7 @@ import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { Item } from 'component/orgamisms/AutoCompleteList';
+import LoadingPage from 'page/Loading';
 import { ContentItem } from 'types';
 import { skillsLabel } from 'style/preset';
 import { TeamModalProps } from '../Team';
@@ -81,7 +82,7 @@ const contentsTitle = [
 
 const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
   const history = useHistory();
-  const { data: userData, refetch } = useQuery(GET_USER);
+  const { data: userData, refetch, loading } = useQuery(GET_USER);
   const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
 
   const [createTeamData] = useMutation(CREATE_TEAM);
@@ -107,6 +108,10 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
   const completorRef = useRef<HTMLDivElement>();
   const [completor, setCompletor] = useState<Item[]>([]);
   const [focus, setFocus] = useState<number | null>(null);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   const inputsState: InputsState = {
     name: {
@@ -358,82 +363,80 @@ const TeamAddForm = ({ data, onCloseModal, onClickUpdate }: TeamModalProps) => {
 
   const onMake = async () => {
     if (name.length < 2) return;
-    if (userData) {
-      if (!data) {
-        const userItems = userData.getUser.items[0];
-        if (!userItems.surveyCompleted) {
-          openModal();
-          setConfirmText(
-            '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
-          );
-          setConfirmFunction(() => () => {
-            history.push('/survey');
-          });
-          return;
-        }
-        if (userItems.haveTeam) {
-          openModal();
-          setConfirmText('최대 한 개의 팀만 생성할 수 있습니다.');
-          const closeModals = () => {
-            onCloseModal();
-            closeModal();
-          };
-          setConfirmFunction(() => closeModals);
-          return;
-        }
-        const removeType = userItems.teamList.map((el: any) => ({
-          id: el.id,
-          name: el.name,
+    if (!data) {
+      const userItems = userData.getUser.items[0];
+      if (!userItems.surveyCompleted) {
+        openModal();
+        setConfirmText(
+          '설문을 완료 후 팀을 만들어주세요. 확인을 누르면 설문 페이지로 넘어갑니다.',
+        );
+        setConfirmFunction(() => () => {
+          history.push('/survey');
+        });
+        return;
+      }
+      if (userItems.haveTeam) {
+        openModal();
+        setConfirmText('최대 한 개의 팀만 생성할 수 있습니다.');
+        const closeModals = () => {
+          onCloseModal();
+          closeModal();
+        };
+        setConfirmFunction(() => closeModals);
+        return;
+      }
+      const removeType = contents.map((el: any) => ({
+        title: el.title,
+        text: el.text,
+      }));
+      const teamObject = {
+        id: makeTeamIdByUserId(userItems.id),
+        name,
+        people: [
+          { id: userItems.id, name: userItems.question[11].answers[0] },
+        ],
+        skills,
+        outline,
+        contents,
+        reponame,
+        owner: userItems.id,
+        state: '모집중',
+        createdAt: new Date(),
+        comments: [],
+      };
+      const userObject = {
+        id: userItems.id,
+        haveTeam: true,
+        teamList: [...removeType, { id: makeTeamIdByUserId(userItems.id), name }],
+      };
+      await createTeamData(makeObjectShorten(teamObject));
+      await updateUserData(makeObjectShorten(userObject));
+      await teamRefetch();
+      await refetch();
+      onCloseModal();
+    } else {
+      const updateConfirm = async () => {
+        const removeType = contents.map((el: any) => ({
+          title: el.title,
+          text: el.text,
         }));
         const teamObject = {
-          id: makeTeamIdByUserId(userItems.id),
+          id: data?.id,
           name,
-          people: [
-            { id: userItems.id, name: userItems.question[11].answers[0] },
-          ],
           skills,
           outline,
-          contents,
           reponame,
-          owner: userItems.id,
-          state: '모집중',
-          createdAt: new Date(),
-          comments: [],
-        };
-        const userObject = {
-          id: userItems.id,
-          haveTeam: true,
-          teamList: [...removeType, { id: makeTeamIdByUserId(userItems.id), name }],
-        };
-        await createTeamData(makeObjectShorten(teamObject));
-        await updateUserData(makeObjectShorten(userObject));
-        await teamRefetch();
-        await refetch();
-        onCloseModal();
-      } else {
-        const updateConfirm = async () => {
-          const removeType = contents.map((el: any) => ({
-            title: el.title,
-            text: el.text,
-          }));
-          const teamObject = {
-            id: data?.id,
-            name,
-            skills,
-            outline,
-            reponame,
-            contents: removeType,
-            state: teamState,
+          contents: removeType,
+          state: teamState,
 
-          };
-          await updateTeamData(makeObjectShorten(teamObject));
-          await teamRefetch();
-          onClickUpdate();
         };
-        openModal();
-        setConfirmText('확인을 누르면 업데이트가 완료됩니다.');
-        setConfirmFunction(() => updateConfirm);
-      }
+        await updateTeamData(makeObjectShorten(teamObject));
+        await teamRefetch();
+        onClickUpdate();
+      };
+      openModal();
+      setConfirmText('확인을 누르면 업데이트가 완료됩니다.');
+      setConfirmFunction(() => updateConfirm);
     }
   };
 

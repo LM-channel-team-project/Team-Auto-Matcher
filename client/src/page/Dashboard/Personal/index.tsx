@@ -20,9 +20,9 @@ const PersonalDashboardPage = ({ className }: any) => {
   const [modal, setModal] = useState<ModalState>({});
   const [current, setCurrent] = useState<number>(0);
 
-  const { data: userData } = useQuery(GET_USER);
+  const { data: userData, loading: userLoading } = useQuery(GET_USER);
   const { loading, data } = useQuery(LIST_USER);
-  if (loading) return <LoadingPage />;
+  if (loading || userLoading) return <LoadingPage />;
 
   const { items } = data.listUser;
   const users = items.reduce((obj: any, user: any) => {
@@ -126,16 +126,14 @@ const PersonalDashboardPage = ({ className }: any) => {
   };
 
   const ClickerLoad = () => {
-    if (userData) {
-      if (userData.getUser.items[0]?.surveyCompleted) {
-        return (
-          <S.FloatingButton
-            onClick={() => setModal({ data: userData.getUser.items[0] })}
-          >
+    if (userData.getUser.items[0]?.surveyCompleted) {
+      return (
+        <S.FloatingButton
+          onClick={() => setModal({ data: userData.getUser.items[0] })}
+        >
             내 정보
-          </S.FloatingButton>
-        );
-      }
+        </S.FloatingButton>
+      );
     }
     return <></>;
   };
