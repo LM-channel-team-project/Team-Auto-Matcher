@@ -5,7 +5,6 @@ import { UPDATE_TEAM, UPDATE_USER } from 'graphql/mutations';
 import { GET_TEAM_DASHBOARD, GET_USER, GET_USER_BY_ID } from 'graphql/queries';
 import makeObjectShorten from 'utils/makeObjectShorten';
 
-import LoadingPage from 'page/Loading';
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
 import { TeamListType } from 'types';
 import { skillsLabel } from 'style/preset';
@@ -25,12 +24,12 @@ export interface MailModalProps {
 }
 
 const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
-  const { data: userData, refetch, loading: userLoading } = useQuery(GET_USER);
-  const { data: teamData, loading: teamLoading } = useQuery(GET_TEAM_DASHBOARD,
+  const { data: userData, refetch } = useQuery(GET_USER);
+  const { data: teamData } = useQuery(GET_TEAM_DASHBOARD,
     {
       variables: { id: data?.teamId },
     });
-  const { data: userDataById, loading: personLoading } = useQuery(GET_USER_BY_ID,
+  const { data: userDataById } = useQuery(GET_USER_BY_ID,
     {
       variables: { id: data?.from },
     });
@@ -40,251 +39,238 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmText, setConfirmText] = useState<string>('');
   const [confirmFunction, setConfirmFunction] = useState<any>(() => { });
-
-  if (userLoading || teamLoading || personLoading) {
-    return <LoadingPage />;
-  }
-
   const modalHeader = () => {
-    const thatUserItems = userDataById.getUserById;
-    const teamItems = teamData.getTeamDashboard;
-    if (data?.type === 'invite') {
-      return (
-        <>
-          <S.State text={teamItems.state || ''} />
-          <S.Title type="team">{teamItems.name}</S.Title>
-          <S.Desc>{teamItems.outline}</S.Desc>
-        </>
-      );
-    }
-    if (data?.type === 'apply') {
-      return (
-        <>
-          <S.Domain>{thatUserItems.question[0].answers[0]}</S.Domain>
-          <S.Title type="personal">
-            {thatUserItems.question[11].answers[0]}
-          </S.Title>
-          <S.Desc>{thatUserItems.question[10].answers[0]}</S.Desc>
-        </>
-      );
-    }
-    const msg = (message: string) => (
-      <S.Title type="personal">{`${thatUserItems.question[11].answers[0] == null
-        || teamItems?.name == null
-        ? '삭제 메시지'
-        : message
+    if (userDataById && teamData) {
+      const thatUserItems = userDataById.getUserById;
+      const teamItems = teamData.getTeamDashboard;
+      if (data?.type === 'invite') {
+        return (
+          <>
+            <S.State text={teamItems.state || ''} />
+            <S.Title type="team">{teamItems.name}</S.Title>
+            <S.Desc>{teamItems.outline}</S.Desc>
+          </>
+        );
+      }
+      if (data?.type === 'apply') {
+        return (
+          <>
+            <S.Domain>{thatUserItems.question[0].answers[0]}</S.Domain>
+            <S.Title type="personal">
+              {thatUserItems.question[11].answers[0]}
+            </S.Title>
+            <S.Desc>{thatUserItems.question[10].answers[0]}</S.Desc>
+          </>
+        );
+      }
+      const Msg = (message: string) => (
+        <S.Title type="personal">{`${thatUserItems.question[11].answers[0] == null
+          || teamItems?.name == null
+          ? '삭제 메시지'
+          : message
         }`}</S.Title>
-    );
-    if (data?.type === 'apply') {
-      return (
-        <>
-          <S.Domain>{thatUserItems.question[0].answers[0]}</S.Domain>
-          <S.Title type="personal">
-            {thatUserItems.question[11].answers[0]}
-          </S.Title>
-          <S.Desc>{thatUserItems.question[10].answers[0]}</S.Desc>
-        </>
       );
-    }
-
-    if (data?.type === 'refuse') {
-      return msg('거절 메시지');
-    }
-    if (data?.type === 'accept') {
-      return msg('승인 메시지');
+      if (data?.type === 'refuse') {
+        return Msg('거절 메시지');
+      }
+      if (data?.type === 'accept') {
+        return Msg('승인 메시지');
+      }
     }
     return <S.Title type="personal">로딩중</S.Title>;
   };
 
   const renderContents = () => {
-    const teamItems = teamData.getTeamDashboard;
-    const thatUserItems = userDataById.getUserById;
-    if (data?.type === 'invite') {
-      const skills = teamItems.skills.map((skill: string) => {
-        const skillName = Object.keys(skillsLabel).find(
-          (name) => name.toLowerCase() === skill.toLowerCase(),
-        );
-        return (
-          <S.TextLabel
-            className="dc-label"
-            text={skill}
-            color={skillsLabel[String(skillName)]}
-          />
-        );
-      });
-      const people = teamItems.people.map((person: TeamListType) => (
-        <S.Text className="people">{person.name}</S.Text>
-      ));
-      const inlineContents = (
-        <>
-          <S.ContentItem>
-            <S.InlineContent title="구성원" className="ci-people">
-              {people}
-            </S.InlineContent>
-          </S.ContentItem>
-          <S.ContentItem>
-            <S.InlineContent title="기술 스택" className="ci-skill">
-              {skills}
-            </S.InlineContent>
-          </S.ContentItem>
-        </>
-      );
-      const blockContents = teamItems.contents.map((content: any) => (
-        <S.ContentItem>
-          <S.BlockContent title={content.title} className="ci-block">
-            <S.Paragraph>{content.text}</S.Paragraph>
-          </S.BlockContent>
-        </S.ContentItem>
-      ));
-      return (
-        <>
-          <S.ContentsList>{inlineContents}</S.ContentsList>
-          <S.ContentsList>{blockContents}</S.ContentsList>
-        </>
-      );
-    }
-    if (data?.type === 'apply') {
-      const skills = thatUserItems.question[1].answers?.map(
-        (skill: string) => {
+    if (userDataById && teamData) {
+      const teamItems = teamData.getTeamDashboard;
+      const thatUserItems = userDataById.getUserById;
+      if (data?.type === 'invite') {
+        const skills = teamItems.skills.map((skill: string) => {
           const skillName = Object.keys(skillsLabel).find(
             (name) => name.toLowerCase() === skill.toLowerCase(),
           );
           return (
             <S.TextLabel
-              key={skill}
               className="dc-label"
               text={skill}
               color={skillsLabel[String(skillName)]}
             />
           );
-        },
-      );
-      const team = thatUserItems?.teamList.length > 0 ? (
-        thatUserItems.teamList.map((aTeam: TeamListType) => (
-          <S.Text className="team" key={aTeam.id}>
-            {aTeam.name}
-          </S.Text>
-        ))
-      ) : (
-        <S.Text>팀 구하는 중</S.Text>
-      );
-      const inlineContents = (
-        <>
+        });
+        const people = teamItems.people.map((person: TeamListType) => (
+          <S.Text className="people">{person.name}</S.Text>
+        ));
+        const inlineContents = (
+          <>
+            <S.ContentItem>
+              <S.InlineContent title="구성원" className="ci-people">
+                {people}
+              </S.InlineContent>
+            </S.ContentItem>
+            <S.ContentItem>
+              <S.InlineContent title="기술 스택" className="ci-skill">
+                {skills}
+              </S.InlineContent>
+            </S.ContentItem>
+          </>
+        );
+        const blockContents = teamItems.contents.map((content: any) => (
           <S.ContentItem>
-            <S.InlineContent title="소속한 팀" className="ci-people">
-              {team}
-            </S.InlineContent>
+            <S.BlockContent title={content.title} className="ci-block">
+              <S.Paragraph>{content.text}</S.Paragraph>
+            </S.BlockContent>
           </S.ContentItem>
-          <S.ContentItem>
-            <S.InlineContent title="기술 스택" className="ci-skill">
-              {skills}
-            </S.InlineContent>
-            <S.InlineContent title="공부 기간">
-              {thatUserItems.question[2].answers[0]}
-            </S.InlineContent>
-            <S.InlineContent title="활동 가능 기간">
-              {thatUserItems.question[3].answers[0]}
-            </S.InlineContent>
-            {
-              <S.InlineContent title="협업 가능 시간대">
-                {thatUserItems.question[4].answers?.map((time: any) => (
-                  <S.Text key={time} className="ic-text">
-                    {time}
+        ));
+        return (
+          <>
+            <S.ContentsList>{inlineContents}</S.ContentsList>
+            <S.ContentsList>{blockContents}</S.ContentsList>
+          </>
+        );
+      }
+      if (data?.type === 'apply') {
+        const skills = thatUserItems.question[1].answers?.map(
+          (skill: string) => {
+            const skillName = Object.keys(skillsLabel).find(
+              (name) => name.toLowerCase() === skill.toLowerCase(),
+            );
+            return (
+              <S.TextLabel
+                key={skill}
+                className="dc-label"
+                text={skill}
+                color={skillsLabel[String(skillName)]}
+              />
+            );
+          },
+        );
+        const team = thatUserItems?.teamList.length > 0 ? (
+          thatUserItems.teamList.map((aTeam: TeamListType) => (
+            <S.Text className="team" key={aTeam.id}>
+              {aTeam.name}
+            </S.Text>
+          ))
+        ) : (
+          <S.Text>팀 구하는 중</S.Text>
+        );
+        const inlineContents = (
+          <>
+            <S.ContentItem>
+              <S.InlineContent title="소속한 팀" className="ci-people">
+                {team}
+              </S.InlineContent>
+            </S.ContentItem>
+            <S.ContentItem>
+              <S.InlineContent title="기술 스택" className="ci-skill">
+                {skills}
+              </S.InlineContent>
+              <S.InlineContent title="공부 기간">
+                {thatUserItems.question[2].answers[0]}
+              </S.InlineContent>
+              <S.InlineContent title="활동 가능 기간">
+                {thatUserItems.question[3].answers[0]}
+              </S.InlineContent>
+              {
+                <S.InlineContent title="협업 가능 시간대">
+                  {thatUserItems.question[4].answers?.map((time: any) => (
+                    <S.Text key={time} className="ic-text">
+                      {time}
+                    </S.Text>
+                  ))}
+                </S.InlineContent>
+              }
+              <S.InlineContent title="진행 방식">
+                {thatUserItems.question[5].answers[0]}
+              </S.InlineContent>
+              <S.InlineContent title="협업 경험">
+                {thatUserItems.question[6].answers[0] ? '있음' : '없음'}
+              </S.InlineContent>
+              <S.InlineContent title="협업 시 중요하게 생각하는 것">
+                {thatUserItems.question[7].answers?.map((item: any) => (
+                  <S.Text key={item} className="ic-text">
+                    {item}
                   </S.Text>
                 ))}
               </S.InlineContent>
-            }
-            <S.InlineContent title="진행 방식">
-              {thatUserItems.question[5].answers[0]}
-            </S.InlineContent>
-            <S.InlineContent title="협업 경험">
-              {thatUserItems.question[6].answers[0] ? '있음' : '없음'}
-            </S.InlineContent>
-            <S.InlineContent title="협업 시 중요하게 생각하는 것">
-              {thatUserItems.question[7].answers?.map((item: any) => (
-                <S.Text key={item} className="ic-text">
-                  {item}
-                </S.Text>
-              ))}
-            </S.InlineContent>
-            <S.BlockContent
-              title="계획하고 있는 프로젝트"
-              className="ci-block"
-            >
-              <S.Paragraph>{thatUserItems.question[9].answers}</S.Paragraph>
-            </S.BlockContent>
-          </S.ContentItem>
-        </>
-      );
-      const blockContents = (
-        <>
-          <S.ContentItem key={thatUserItems.question[8].title}>
-            <S.BlockContent
-              title={thatUserItems.question[8].title}
-              className="ci-block"
-            >
-              <S.Paragraph>{thatUserItems.question[8].answers}</S.Paragraph>
-            </S.BlockContent>
-          </S.ContentItem>
-        </>
-      );
-      return (
-        <>
-          <S.ContentsList>{inlineContents}</S.ContentsList>
-          <S.ContentsList>{blockContents}</S.ContentsList>
-        </>
-      );
-    }
-    if (data?.type === 'refuse') {
-      if (
-        thatUserItems.question[11].answers[0] == null
-        || teamItems?.name == null
-      ) {
+              <S.BlockContent
+                title="계획하고 있는 프로젝트"
+                className="ci-block"
+              >
+                <S.Paragraph>{thatUserItems.question[9].answers}</S.Paragraph>
+              </S.BlockContent>
+            </S.ContentItem>
+          </>
+        );
+        const blockContents = (
+          <>
+            <S.ContentItem key={thatUserItems.question[8].title}>
+              <S.BlockContent
+                title={thatUserItems.question[8].title}
+                className="ci-block"
+              >
+                <S.Paragraph>{thatUserItems.question[8].answers}</S.Paragraph>
+              </S.BlockContent>
+            </S.ContentItem>
+          </>
+        );
+        return (
+          <>
+            <S.ContentsList>{inlineContents}</S.ContentsList>
+            <S.ContentsList>{blockContents}</S.ContentsList>
+          </>
+        );
+      }
+      if (data?.type === 'refuse') {
+        if (
+          thatUserItems.question[11].answers[0] == null
+          || teamItems?.name == null
+        ) {
+          return (
+            <>
+              <S.ContentsList>
+                사용자나 팀이 삭제 되었습니다. <br />
+                메시지를 삭제해 주세요.
+              </S.ContentsList>
+            </>
+          );
+        }
         return (
           <>
             <S.ContentsList>
-              사용자나 팀이 삭제 되었습니다. <br />
-              메시지를 삭제해 주세요.
+              {thatUserItems.question[11].answers[0]}님께서
+              <br />
+              {teamItems.name}팀의 지원 / 초대를 거절하였습니다.
             </S.ContentsList>
           </>
         );
       }
-      return (
-        <>
-          <S.ContentsList>
-            {thatUserItems.question[11].answers[0]}님께서
-            <br />
-            {teamItems.name}팀의 지원 / 초대를 거절하였습니다.
-          </S.ContentsList>
-        </>
-      );
-    }
-    if (data?.type === 'accept') {
-      if (
-        thatUserItems.question[11].answers[0] == null
-        || teamItems?.name == null
-      ) {
+      if (data?.type === 'accept') {
+        if (
+          thatUserItems.question[11].answers[0] == null
+          || teamItems?.name == null
+        ) {
+          return (
+            <>
+              <S.ContentsList>
+                사용자나 팀이 삭제 되었습니다. <br />
+                메시지를 삭제해 주세요.
+              </S.ContentsList>
+            </>
+          );
+        }
         return (
           <>
             <S.ContentsList>
-              사용자나 팀이 삭제 되었습니다. <br />
-              메시지를 삭제해 주세요.
+              {thatUserItems.question[11].answers[0]} 님께서 <br />
+              {teamItems.name}팀의 지원 / 초대를 승인하였습니다.
+              <br />
+              github 닉네임 {thatUserItems.question[11].answers[0]} 님을
+              <br />
+              Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
             </S.ContentsList>
           </>
         );
       }
-      return (
-        <>
-          <S.ContentsList>
-            {thatUserItems.question[11].answers[0]} 님께서 <br />
-            {teamItems.name}팀의 지원 / 초대를 승인하였습니다.
-            <br />
-            github 닉네임 {thatUserItems.question[11].answers[0]} 님을
-            <br />
-            Team Auto Matcher github 혹은 slack에서 찾아 소통해주세요.
-          </S.ContentsList>
-        </>
-      );
     }
     return (
       <S.LoadingContent>
@@ -297,97 +283,103 @@ const MailDetailModal = ({ className, data, onCloseModal }: MailModalProps) => {
   };
 
   const beTeamMember = async () => {
-    const teamItems = teamData.getTeamDashboard;
-    const thatUserItems = userDataById.getUserById;
-    const userItems = userData.getUser.items[0];
-    const removeTypeFromPeople = teamItems.people.map((el: any) => ({
-      id: el.id,
-      name: el.name,
-    }));
-    const teamObject = {
-      id: data?.teamId,
-      people:
-        data?.type === 'invite'
-          ? [
-            ...removeTypeFromPeople,
-            {
-              id: userItems.id,
-              name: userItems.question[11].answers[0],
-            },
-          ]
-          : [
-            ...removeTypeFromPeople,
-            {
-              id: thatUserItems.id,
-              name: thatUserItems.question[11].answers[0],
-            },
-          ],
-    };
-    const removeType = data?.type === 'invite'
-      ? userItems.teamList.map((el: any) => ({
-        id: el.id,
-        name: el.name,
-      }))
-      : thatUserItems.teamList.map((el: any) => ({
+    if (teamData && userDataById && userData && userData) {
+      const teamItems = teamData.getTeamDashboard;
+      const thatUserItems = userDataById.getUserById;
+      const userItems = userData.getUser.items[0];
+      const removeTypeFromPeople = teamItems.people.map((el: any) => ({
         id: el.id,
         name: el.name,
       }));
-    const userObject = {
-      id: data?.type === 'invite' ? userItems.id : data?.from,
-      teamList: [
-        ...removeType,
-        { id: teamItems.id, name: data?.teamName },
-      ],
-    };
-    await updateTeamData(makeObjectShorten(teamObject));
-    await updateUserData(makeObjectShorten(userObject));
+      const teamObject = {
+        id: data?.teamId,
+        people:
+          data?.type === 'invite'
+            ? [
+              ...removeTypeFromPeople,
+              {
+                id: userItems.id,
+                name: userItems.question[11].answers[0],
+              },
+            ]
+            : [
+              ...removeTypeFromPeople,
+              {
+                id: thatUserItems.id,
+                name: thatUserItems.question[11].answers[0],
+              },
+            ],
+      };
+      const removeType = data?.type === 'invite'
+        ? userItems.teamList.map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }))
+        : thatUserItems.teamList.map((el: any) => ({
+          id: el.id,
+          name: el.name,
+        }));
+      const userObject = {
+        id: data?.type === 'invite' ? userItems.id : data?.from,
+        teamList: [
+          ...removeType,
+          { id: teamItems.id, name: data?.teamName },
+        ],
+      };
+      await updateTeamData(makeObjectShorten(teamObject));
+      await updateUserData(makeObjectShorten(userObject));
+    }
   };
 
   const sendMessage = async (type: string) => {
-    const userItems = userData.getUser.items[0];
-    const frontData = userDataById.getUserById.mail?.map((el: any) => ({
-      from: el.from,
-      teamId: el.teamId,
-      type: el.type,
-      teamName: el.teamName,
-      date: el.date,
-    }));
-    const newMail = {
-      from: userItems.id,
-      teamId: data?.teamId,
-      type,
-      teamName: data?.teamName,
-      date: new Date(),
-    };
-    const combinedData = [...frontData, newMail];
-    const userObject = {
-      id: data?.from,
-      mail: combinedData,
-    };
-
-    await updateUserData(makeObjectShorten(userObject));
-  };
-
-  const delMessage = async () => {
-    const userItems = userData.getUser.items[0];
-    const filteredMail = userItems.mail
-      .filter((el: any) => (el.from !== data?.from
-        || el.type !== data?.type
-        || el.teamId !== data?.teamId
-        || el.teamName !== data?.teamName))
-      .map((el: any) => ({
+    if (userDataById && userData) {
+      const userItems = userData.getUser.items[0];
+      const frontData = userDataById.getUserById.mail?.map((el: any) => ({
         from: el.from,
         teamId: el.teamId,
         type: el.type,
         teamName: el.teamName,
         date: el.date,
       }));
-    const userObject = {
-      id: userItems.id,
-      mail: filteredMail,
-    };
-    await updateUserData(makeObjectShorten(userObject));
-    await refetch();
+      const newMail = {
+        from: userItems.id,
+        teamId: data?.teamId,
+        type,
+        teamName: data?.teamName,
+        date: new Date(),
+      };
+      const combinedData = [...frontData, newMail];
+      const userObject = {
+        id: data?.from,
+        mail: combinedData,
+      };
+
+      await updateUserData(makeObjectShorten(userObject));
+    }
+  };
+
+  const delMessage = async () => {
+    if (userData) {
+      const userItems = userData.getUser.items[0];
+      const filteredMail = userItems.mail
+        .filter((el: any) => (el.from !== data?.from
+          || el.type !== data?.type
+          || el.teamId !== data?.teamId
+          || el.teamName !== data?.teamName))
+        .map((el: any) => ({
+          from: el.from,
+          teamId: el.teamId,
+          type: el.type,
+          teamName: el.teamName,
+          date: el.date,
+        }));
+      const userObject = {
+        id: userItems.id,
+        mail: filteredMail,
+      };
+      await updateUserData(makeObjectShorten(userObject));
+      await refetch();
+    }
   };
 
   const openModal = () => {
