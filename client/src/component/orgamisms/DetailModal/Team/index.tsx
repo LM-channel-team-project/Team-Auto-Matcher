@@ -8,7 +8,6 @@ import getKoreaTime from 'utils/date';
 import makeObjectShorten from 'utils/makeObjectShorten';
 
 import ConfirmModal from 'component/orgamisms/ConfirmModal';
-import LoadingPage from 'page/Loading';
 import { ContentItem, TeamListType, CommentsType } from 'types';
 import { skillsLabel } from 'style/preset';
 import DetailModalTemplate from '../template';
@@ -50,7 +49,7 @@ const TeamDetailModal = ({
 }: TeamModalProps) => {
   const { options } = addGitRepo(data);
 
-  const { data: userData, refetch, loading } = useQuery(GET_USER);
+  const { data: userData, refetch } = useQuery(GET_USER);
   const { refetch: teamRefetch } = useQuery(LIST_TEAM_DASHBOARD);
   const { refetch: userRefetch } = useQuery(GET_USER_BY_ID);
 
@@ -64,9 +63,6 @@ const TeamDetailModal = ({
   const [isInTeam, setIsInTeam] = useState<boolean>(false);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(data?.comments || []);
-  if (loading) {
-    return <LoadingPage />;
-  }
 
   useEffect(() => {
     data?.people.forEach((el: any) => {

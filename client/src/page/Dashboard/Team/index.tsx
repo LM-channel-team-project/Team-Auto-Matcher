@@ -29,12 +29,12 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   const [confirmFunction, setConfirmFunction] = useState<any>(() => {});
   const [showMyTeams, setShowMyTeams] = useState<boolean>(false);
 
-  const { data: userData, loading: userLoading } = useQuery(GET_USER);
+  const { data: userData } = useQuery(GET_USER);
   const { loading, data } = useQuery(LIST_TEAM_DASHBOARD);
   const { refetch } = useQuery(GET_TEAM_DASHBOARD,
     { skip: !userData?.getUser.items[0]?.id });
 
-  if (loading || userLoading) return <LoadingPage />;
+  if (loading) return <LoadingPage />;
 
   const { items } = data.listTeamDashboard;
   const skills = (team: any) =>
@@ -143,19 +143,21 @@ const TeamDashboardPage = ({ className, isLoggedIn }: any) => {
   };
 
   const ClickerLoad = () => {
-    if (userData.getUser.items[0]?.haveTeam) {
-      return (
-        <Team.FloatingButton
-          onClick={async () => {
-            const res = await refetch({
-              id: makeTeamIdByUserId(userData.getUser.items[0].id),
-            });
-            setModal({ type: 'detail', data: res?.data.getTeamDashboard });
-          }}
-        >
+    if (userData) {
+      if (userData.getUser.items[0]?.haveTeam) {
+        return (
+          <Team.FloatingButton
+            onClick={async () => {
+              const res = await refetch({
+                id: makeTeamIdByUserId(userData.getUser.items[0].id),
+              });
+              setModal({ type: 'detail', data: res?.data.getTeamDashboard });
+            }}
+          >
             나의 팀
-        </Team.FloatingButton>
-      );
+          </Team.FloatingButton>
+        );
+      }
     }
     return <></>;
   };
